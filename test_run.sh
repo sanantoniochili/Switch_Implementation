@@ -2,8 +2,9 @@
 
 # Catch user input with files list
 read -p "Enter file with list of inputs: " ifiles
-if [[ ! -f $ifiles ]]; then
-	echo "File not found"	# check if file exists
+ifiles="input/${ifiles}"
+if [[ ! -f  $ifiles ]]; then
+	echo "File not found."	# check if file exists
 	exit 127
 fi
 readarray -t filesList < $ifiles
@@ -11,13 +12,14 @@ readarray -t filesList < $ifiles
 # Script to execute
 read -p "Enter script file: " pyfile
 if [[ ! -f $pyfile ]]; then
-	echo "File not found"	# check if file exists
+	echo "File not found."	# check if file exists
 	exit 127
 fi
 
 counter=1
-# Pass files as input to program
-# Redirect error messages
+# Read every input file in files list
+# Run python script and get .gin
+# Run GULP and save output
 for file in "${filesList[@]}"; do
     printf "\n File : %s\n" "$file" >> output/stoplog.txt
     python $pyfile $file || {

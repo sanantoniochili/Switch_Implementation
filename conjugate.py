@@ -40,16 +40,3 @@ atoms.set_calculator(calc)
 E = atoms.get_potential_energy()
 print(E)
 
-
-''' Perturb atoms '''
-# atoms.rattle(stdev=0.1)
-# view(atoms)
-
-''' Optimisation with CG internal '''
-# calc.set(keywords='conp opti')
-# opt = SciPyFminCG(atoms, logfile='-', trajectory=traj,
-#                   callback_always=False, alpha=70.0, master=None,
-#                   force_consistent=None)
-# opt.run()
-# E = atoms.get_potential_energy()
-# print(E)
