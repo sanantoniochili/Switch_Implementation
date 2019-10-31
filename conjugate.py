@@ -33,7 +33,7 @@ since this atom is not usually allowed to move
 during relaxations in GULP '''
 calc = GULP(keywords='opti conj conp full nosymm',
             library='buck.lib')
-            # trajectory=traj)
+# trajectory=traj)
 atoms.set_calculator(calc)
 
 
