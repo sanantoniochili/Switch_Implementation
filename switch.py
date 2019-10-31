@@ -32,6 +32,7 @@ of the first atom in the list to zero,
 since this atom is not usually allowed to move 
 during relaxations in GULP '''
 calc = GULP(keywords='opti conj conp full nosymm',
+			options=['switch_minimiser bfgs gnorm 0.1'],
             library='buck.lib')
 atoms.set_calculator(calc)
 calc.set()
