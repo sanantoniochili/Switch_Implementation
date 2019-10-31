@@ -31,13 +31,14 @@ by default GULP will set the first derivative
 of the first atom in the list to zero,
 since this atom is not usually allowed to move 
 during relaxations in GULP '''
-calc = GULP(keywords='opti conj conp full nosymm',
+calc = GULP(keywords='opti bfgs conp full nosymm',
             library='buck.lib')
-atoms.calc = calc
+atoms.set_calculator(calc)
+
 
 ''' Calculate energy '''
 E = atoms.get_potential_energy()
-# print(E)
+print(E)
 
 
 ''' Perturb atoms '''
