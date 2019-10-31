@@ -17,6 +17,8 @@ if [[ ! -f $pyfile ]]; then
 fi
 
 counter=1
+
+# Try random init
 # Read every input file in files list
 # Run python script and get .gin
 # Run GULP and save output
@@ -31,3 +33,13 @@ for file in "${filesList[@]}"; do
     }
     ((counter++))
 done
+
+# # Name of rattled output
+# read -p "Enter method name: " name
+
+# # Try from ready structure init
+# python rattled.py
+# cp "gulp.gin" "input/r${name}.gin"
+# gulp < "input/r${name}.gin" > "output/r${name}.got" || {
+#     echo "Failed to execute GULP properly"
+# }
