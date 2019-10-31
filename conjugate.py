@@ -20,7 +20,6 @@ print("Input file:" + str(args.ifilename))
 ''' Set names '''
 str = args.ifilename.split("/")
 test_no = str[-1].split(".")[0]  # get number of .cif input file
-# traj = "CG"+test_no+".traj"
 label = "structure"+test_no  # set structure label
 
 ''' Read atoms from file '''
