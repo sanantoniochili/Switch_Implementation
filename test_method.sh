@@ -24,7 +24,7 @@ fi
 readarray -t filesList < $ifiles
 
 # Script to execute
-read -p "Choose method (conjugate or switch): " method
+read -p "Choose method (conjugate or switch or BFGS): " method
 pyfile="${method}.py"
 if [[ ! -f $pyfile ]]; then
 	echo "File not found."	# check if file exists
@@ -54,11 +54,11 @@ for file in "${filesList[@]}"; do
     printf "\n`date`\n File : %s\n" "$file" >> $OUTPUT_DIR/$LOG
 
     # Make GULP input file
-    echo "Running CD.."
-    python $pyfile $file || { # continue on failure
+    echo "Running Python script for gulp.gin.."
+    python $pyfile $file || {
         printf "\n`date` Python script failed with file \"%s\".\n" "$file" >> $OUTPUT_DIR/$LOG
-        ((counter++))
-        continue
+        # ((counter++))
+        # continue
     }
 
     # GULP input filename
@@ -66,7 +66,7 @@ for file in "${filesList[@]}"; do
     GOT="${OUTPUT_DIR}/${method}/structure${counter}.got"
 
     # GULP relaxation
-    echo "Running GULP with ${GIN}"
+    echo "Running GULP relaxation with ${GIN}.."
     cp "gulp.gin" "${GIN}"
     gulp < "${GIN}" > "${GOT}" || {
     	echo "Failed to execute GULP properly"
