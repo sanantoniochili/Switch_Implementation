@@ -1,8 +1,17 @@
 from ase import *
-rom ase.io import read, write
+import sys
+import argparse
+from ase.io import read, write
 from ase.visualize import view
 from ase.calculators.gulp import GULP
 
+''' Get stdev from user '''
+parser = argparse.ArgumentParser(
+    description='Define input.')
+parser.add_argument(
+    'stdev', metavar='--input', type=float,
+    help='Name of input file')
+args = parser.parse_args()
 
 atoms = Atoms("SrTiO3",
 
@@ -19,6 +28,8 @@ atoms = Atoms("SrTiO3",
 
 
 ''' Perturb atoms '''
-atoms.rattle(stdev=0.1)
+atoms.rattle(stdev=args.stdev)
 
- ase.io.write(filename, images, format=None, parallel=True, append=False, **kwargs)[source]
+''' Wriet to .cif files '''
+filename = "input/rattled/dev"+str(args.stdev)+".cif"
+write(filename, atoms, format='cif')
