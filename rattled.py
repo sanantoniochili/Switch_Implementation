@@ -1,6 +1,8 @@
 from ase import *
+rom ase.io import read, write
 from ase.visualize import view
 from ase.calculators.gulp import GULP
+
 
 atoms = Atoms("SrTiO3",
 
@@ -14,21 +16,9 @@ atoms = Atoms("SrTiO3",
                          [2, 0, 2],
                          [2, 2, 0]],
               pbc=True)
-# view(atoms)
 
-# perturb atoms
+
+''' Perturb atoms '''
 atoms.rattle(stdev=0.1)
 
-''' Set calculator. unfix keyword is important; 
-by default GULP will set the first derivative 
-of the first atom in the list to zero,
-since this atom is not usually allowed to move 
-during relaxations in GULP '''
-calc = GULP(keywords='opti conj conp full nosymm',
-            library='buck.lib')
-atoms.set_calculator(calc)
-
-
-''' Calculate energy '''
-E = atoms.get_potential_energy()
-print(E)
+ ase.io.write(filename, images, format=None, parallel=True, append=False, **kwargs)[source]
