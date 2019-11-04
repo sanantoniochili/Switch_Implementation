@@ -33,7 +33,7 @@ during relaxations in GULP '''
 calc = GULP(keywords='opti bfgs conp full nosymm',
             library='buck.lib')
 atoms.set_calculator(calc)
-calc.set()
+# calc.set()
 
 ''' Calculate energy '''
 E = atoms.get_potential_energy()

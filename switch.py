@@ -35,7 +35,7 @@ calc = GULP(keywords='opti conj conp full nosymm',
 			options=['switch_minimiser bfgs gnorm 0.1'],
             library='buck.lib')
 atoms.set_calculator(calc)
-calc.set()
+# calc.set()
 
 ''' Calculate energy '''
 E = atoms.get_potential_energy()

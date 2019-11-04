@@ -14,14 +14,23 @@ if [ ! -d "$OUTPUT_DIR" ]; then
     mkdir output
 fi
 
-# Catch user input with files list
-read -p "Enter file with list of inputs: " ifiles
+# Catch user input with files list (random initialisation)
+read -p "Enter file with list of inputs [random init] : " ifiles
 ifiles="${INPUT_DIR}/${ifiles}"
 if [[ ! -f  $ifiles ]]; then
 	echo "File not found."	# check if file exists
 	exit 127
 fi
-readarray -t filesList < $ifiles
+readarray -t random_filesList < $ifiles
+
+# Catch user input with files list (rattled initialisation)
+read -p "Enter file with list of inputs [rattled init]: " r_ifiles
+r_ifiles="${INPUT_DIR}/${r_ifiles}"
+if [[ ! -f  $r_ifiles ]]; then
+    echo "File not found."  # check if file exists
+    exit 127
+fi
+readarray -t rattled_filesList < $r_ifiles
 
 # Script to execute
 read -p "Choose method (conjugate or switch or BFGS): " method
@@ -47,7 +56,7 @@ counter=1
 # Read every input file in files list
 # Run python script and get .gin
 # Run GULP and save output
-for file in "${filesList[@]}"; do
+for file in "${random_filesList[@]}"; do
 
     # Log file
     LOG="${method}_stoplog.txt"
@@ -70,6 +79,34 @@ for file in "${filesList[@]}"; do
     cp "gulp.gin" "${GIN}"
     gulp < "${GIN}" > "${GOT}" || {
     	echo "Failed to execute GULP properly"
+        exit 1
+    }
+    ((counter++))
+done
+
+for file in "${rattled_filesList[@]}"; do
+
+    # Log file
+    LOG="${method}_stoplog.txt"
+    printf "\n`date`\n File : %s\n" "$file" >> $OUTPUT_DIR/$LOG
+
+    # Make GULP input file
+    echo "Running Python script for gulp.gin.."
+    python $pyfile $file || {
+        printf "\n`date` Python script failed with file \"%s\".\n" "$file" >> $OUTPUT_DIR/$LOG
+        # ((counter++))
+        # continue
+    }
+
+    # GULP input filename
+    GIN="${INPUT_DIR}/${method}/rat_structure${counter}.gin"
+    GOT="${OUTPUT_DIR}/${method}/rat_structure${counter}.got"
+
+    # GULP relaxation
+    echo "Running GULP relaxation with ${GIN}.."
+    cp "gulp.gin" "${GIN}"
+    gulp < "${GIN}" > "${GOT}" || {
+        echo "Failed to execute GULP properly"
         exit 1
     }
     ((counter++))
