@@ -20,13 +20,45 @@ DIR="${OUTPUT_DIR}/${method}"
 FILE="${OUTPUT_DIR}/${method}_results.txt"
 > $FILE
 
+total=0			# random init
+rat_total=0		# rattled init
+
+counter=0		# random init
+rat_counter=0	# rattled init
+
 for file in ${DIR}/*.got; do
+
+	# Check for optimisation
+	flag=false
 	if grep -q "Optimisation achieved" $file; then
-		out="${file}: \t Optimisation ${GREEN}achieved${NC}"
+		out="${file}:\tOptimisation ${GREEN}Achieved${NC}"
+		flag=true
 	elif grep -q "Too many failed attempts to optimise" $file; then
-		out="${file}: \t Optimisation ${RED}failed${NC}"
+		out="${file}:\t${RED}Too many attempts${NC}"
+	elif grep -q "Conditions for a minimum have not been satisfied" $file; then
+		out="${file}:\t${RED}No lower point found${NC}"
 	else
-		out="${file}: \t Undefined"
+		out="${file}:\tUndefined"
 	fi
+
+	# Count success
+	if [[ $file == *rat_* ]]; then	# rattled
+		((rat_total++))
+		if $flag; then				# success
+			((rat_counter++))
+		fi
+	else							# random
+		((total++))
+		if $flag; then				# success
+			((counter++))
+		fi
+	fi
+
+	# Print file result
 	printf "$out\n" >> $FILE
 done
+
+# Print percentages
+printf "\n***** Optimised *****\n" >> $FILE
+printf "Random: ${counter}/${total}\n" >> $FILE
+printf "Rattled: ${rat_counter}/${rat_total}\n" >> $FILE
