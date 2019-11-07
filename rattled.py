@@ -1,6 +1,7 @@
 from ase import *
 import sys
 import argparse
+import numpy as np
 from ase.io import read, write
 from ase.visualize import view
 from ase.calculators.gulp import GULP
@@ -11,6 +12,9 @@ parser = argparse.ArgumentParser(
 parser.add_argument(
     'stdev', metavar='--input', type=float,
     help='Name of input file')
+parser.add_argument(
+    'draw', metavar='--draw', type=float,
+    help='Number of same derivation trial')
 args = parser.parse_args()
 
 atoms = Atoms("SrTiO3",
@@ -28,8 +32,8 @@ atoms = Atoms("SrTiO3",
 
 
 ''' Perturb atoms '''
-atoms.rattle(stdev=args.stdev)
+atoms.rattle(stdev=args.stdev, rng=np.random.RandomState(np.random.seed()))
 
-''' Wriet to .cif files '''
-filename = "input/rattled/dev"+str(args.stdev)+".cif"
+''' Write to .cif files '''
+filename = "../../Data/rattled/dev"+str(args.stdev)+"/dev"+str(args.stdev)+"draw"+draw+".cif"
 write(filename, atoms, format='cif')
