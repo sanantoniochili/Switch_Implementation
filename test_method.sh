@@ -1,19 +1,5 @@
 #!/bin/bash
 
-# IO DIRS
-INPUT_DIR="input"
-OUTPUT_DIR="output"
-
-# Check existence
-if [ ! -d "$INPUT_DIR" ]; then
-    echo "Creating input directory.."
-    mkdir input
-fi
-if [ ! -d "$OUTPUT_DIR" ]; then
-    echo "Creating output directory.."
-    mkdir output
-fi
-
 while getopts ":s:" opt; do
   case $opt in
     s)
@@ -41,100 +27,109 @@ then
     METHOD_NM="${method}"
 fi
 
-# Catch user input with files list (random initialisation)
-read -p "Enter file with list of inputs [random init] : " ifiles
-ifiles="${INPUT_DIR}/${ifiles}"
-if [[ ! -f  $ifiles ]]; then
-	echo "File not found."	# check if file exists
-	exit 127
-fi
-readarray -t random_filesList < $ifiles
+# # Catch user input with files list (random initialisation)
+# read -p "Enter file with list of inputs [random init] : " ifiles
+# ifiles="${INPUT_DIR}/${ifiles}"
+# if [[ ! -f  $ifiles ]]; then
+# 	echo "File not found."	# check if file exists
+# 	exit 127
+# fi
+# readarray -t random_filesList < $ifiles
 
-# Catch user input with files list (rattled initialisation)
-read -p "Enter file with list of inputs [rattled init]: " r_ifiles
-r_ifiles="${INPUT_DIR}/${r_ifiles}"
-if [[ ! -f  $r_ifiles ]]; then
-    echo "File not found."  # check if file exists
-    exit 127
-fi
-readarray -t rattled_filesList < $r_ifiles
+# # Catch user input with files list (rattled initialisation)
+# read -p "Enter file with list of inputs [rattled init]: " r_ifiles
+# r_ifiles="${INPUT_DIR}/${r_ifiles}"
+# if [[ ! -f  $r_ifiles ]]; then
+#     echo "File not found."  # check if file exists
+#     exit 127
+# fi
+# readarray -t rattled_filesList < $r_ifiles
 
+# IO DIRS
+INPUT_DIR="input"
+OUTPUT_DIR="output"
+
+# Check existence of method DIR
+if [ ! -d "$METHOD_NM" ]; then
+    echo "Creating method directory.."
+    mkdir $METHOD_NM
+fi
 
 # Check existence of IO method dirs
-if [ ! -d "${INPUT_DIR}/${METHOD_NM}" ]; then
-    echo "Creating directory inside input.."
-    mkdir input/$METHOD_NM
+if [ ! -d "${METHOD_NM}/${INPUT_DIR}" ]; then
+    echo "Creating input directory.."
+    mkdir $METHOD_NM/input
 fi
-if [ ! -d "${OUTPUT_DIR}/${METHOD_NM}" ]; then
-    echo "Creating directory inside output.."
-    mkdir output/$METHOD_NM
+if [ ! -d "${METHOD_NM}/${OUTPUT_DIR}" ]; then
+    echo "Creating output directory.."
+    mkdir $METHOD_NM/output
 fi
 
 counter=1
 
-# Try random init
-# Read every input file in files list
-# Run python script and get .gin
-# Run GULP and save output
-for file in "${random_filesList[@]}"; do
+# # Try random init
+# # Read every input file in files list
+# # Run python script and get .gin
+# # Run GULP and save output
+# for file in "${random_filesList[@]}"; do
 
-    # Log file
-    LOG="${METHOD_NM}_stoplog.txt"
-    printf "\n`date`\n File : %s\n" "$file" >> $OUTPUT_DIR/$LOG
+#     # Log file
+#     LOG="${METHOD_NM}_stoplog.txt"
+#     printf "\n`date`\n File : %s\n" "$file" >> $OUTPUT_DIR/$LOG
 
-    # Make GULP input file
-    echo "Running Python script for gulp.gin.."
-    python method.py $method $file $flag || {
-        printf "\n`date` Python script failed with file \"%s\".\n" "$file" >> $OUTPUT_DIR/$LOG
-        # ((counter++))
-        # continue
-    }
+#     # Make GULP input file
+#     echo "Running Python script for gulp.gin.."
+#     python method.py $method $file $flag || {
+#         printf "\n`date` Python script failed with file \"%s\".\n" "$file" >> $OUTPUT_DIR/$LOG
+#         # ((counter++))
+#         # continue
+#     }
 
-    # GULP input filename
-    GIN="${INPUT_DIR}/${METHOD_NM}/structure${counter}.gin"
-    GOT="${OUTPUT_DIR}/${METHOD_NM}/structure${counter}.got"
+#     # GULP input filename
+#     GIN="${INPUT_DIR}/${METHOD_NM}/structure${counter}.gin"
+#     GOT="${OUTPUT_DIR}/${METHOD_NM}/structure${counter}.got"
 
-    # GULP relaxation
-    echo "Running GULP relaxation with ${GIN}.."
-    cp "gulp.gin" "${GIN}"
-    gulp < "${GIN}" > "${GOT}" || {
-    	echo "Failed to execute GULP properly"
-        exit 1
-    }
-    ((counter++))
-done
+#     # GULP relaxation
+#     echo "Running GULP relaxation with ${GIN}.."
+#     cp "gulp.gin" "${GIN}"
+#     gulp < "${GIN}" > "${GOT}" || {
+#     	echo "Failed to execute GULP properly"
+#         exit 1
+#     }
+#     ((counter++))
+# done
 
-# Try rattled init
-# Read every input file in files list
-# Run python script and get .gin
-# Run GULP and save output
-# for file in "${rattled_filesList[@]}"; do
+# # Try rattled init
+# # Read every input file in files list
+# # Run python script and get .gin
+# # Run GULP and save output
+# # for file in "${rattled_filesList[@]}"; do
 
-    # Log file
-    LOG="${METHOD_NM}_stoplog.txt"
-    printf "\n`date`\n File : %s\n" "$file" >> $OUTPUT_DIR/$LOG
+#     # Log file
+#     LOG="${METHOD_NM}_stoplog.txt"
+#     printf "\n`date`\n File : %s\n" "$file" >> $OUTPUT_DIR/$LOG
 
-    # Make GULP input file
-    echo "Running Python script for gulp.gin.."
-    python method.py $method $file $flag || {
-        printf "\n`date` Python script failed with file \"%s\".\n" "$file" >> $OUTPUT_DIR/$LOG
-        # ((counter++))
-        # continue
-    }
+#     # Make GULP input file
+#     echo "Running Python script for gulp.gin.."
+#     python method.py $method $file $flag || {
+#         printf "\n`date` Python script failed with file \"%s\".\n" "$file" >> $OUTPUT_DIR/$LOG
+#         # ((counter++))
+#         # continue
+#     }
 
-    # GULP input filename
-    GIN="${INPUT_DIR}/${METHOD_NM}/rat_structure${counter}.gin"
-    GOT="${OUTPUT_DIR}/${METHOD_NM}/rat_structure${counter}.got"
+#     # GULP input filename
+#     GIN="${INPUT_DIR}/${METHOD_NM}/rat_structure${counter}.gin"
+#     GOT="${OUTPUT_DIR}/${METHOD_NM}/rat_structure${counter}.got"
 
-    # GULP relaxation
-    echo "Running GULP relaxation with ${GIN}.."
-    cp "gulp.gin" "${GIN}"
-    gulp < "${GIN}" > "${GOT}" || {
-        echo "Failed to execute GULP properly"
-        exit 1
-    }
-    ((counter++))
-done
+#     # GULP relaxation
+#     echo "Running GULP relaxation with ${GIN}.."
+#     cp "gulp.gin" "${GIN}"
+#     gulp < "${GIN}" > "${GOT}" || {
+#         echo "Failed to execute GULP properly"
+#         exit 1
+#     }
+#     ((counter++))
+# done
 
-rm gulp.gin
-rm gulp.got
+# rm gulp.gin
+# rm gulp.got
