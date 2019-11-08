@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# val=0.001
-# for x in {1..10}; do
-# 	python rattled.py $val
-# 	val=$(awk "BEGIN {print $val+0.0001; exit}")
-# done
+val=0.0015
+for x in {2..40}; do
+	python rattled.py $val $x
+	# val=$(awk "BEGIN {print $val+0.0001; exit}")
+done
 
 # for x in {1..5}; do
 # 		python rattled.py $val

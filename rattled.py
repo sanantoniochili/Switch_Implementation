@@ -11,11 +11,14 @@ parser = argparse.ArgumentParser(
     description='Define input.')
 parser.add_argument(
     'stdev', metavar='--input', type=float,
-    help='Name of input file')
+    help='Standard deviation')
 parser.add_argument(
-    'draw', metavar='--draw', type=float,
+    'draw', metavar='--draw',
     help='Number of same derivation trial')
 args = parser.parse_args()
+
+print("stdev: "+str(args.stdev))
+print("draw: "+str(args.draw))
 
 atoms = Atoms("SrTiO3",
 
@@ -35,5 +38,5 @@ atoms = Atoms("SrTiO3",
 atoms.rattle(stdev=args.stdev, rng=np.random.RandomState(np.random.seed()))
 
 ''' Write to .cif files '''
-filename = "../../Data/rattled/dev"+str(args.stdev)+"/dev"+str(args.stdev)+"draw"+draw+".cif"
+filename = "../../Data/rattled/dev"+str(args.stdev)+"/dev"+str(args.stdev)+"draw"+args.draw+".cif"
 write(filename, atoms, format='cif')
