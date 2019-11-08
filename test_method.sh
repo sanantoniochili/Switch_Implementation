@@ -110,31 +110,31 @@ done
 # Run GULP and save output
 # for file in "${rattled_filesList[@]}"; do
 
-#     # Log file
-#     LOG="${METHOD_NM}_stoplog.txt"
-#     printf "\n`date`\n File : %s\n" "$file" >> $OUTPUT_DIR/$LOG
+    # Log file
+    LOG="${METHOD_NM}_stoplog.txt"
+    printf "\n`date`\n File : %s\n" "$file" >> $OUTPUT_DIR/$LOG
 
-#     # Make GULP input file
-#     echo "Running Python script for gulp.gin.."
-#     python method.py $method $file $flag || {
-#         printf "\n`date` Python script failed with file \"%s\".\n" "$file" >> $OUTPUT_DIR/$LOG
-#         # ((counter++))
-#         # continue
-#     }
+    # Make GULP input file
+    echo "Running Python script for gulp.gin.."
+    python method.py $method $file $flag || {
+        printf "\n`date` Python script failed with file \"%s\".\n" "$file" >> $OUTPUT_DIR/$LOG
+        # ((counter++))
+        # continue
+    }
 
-#     # GULP input filename
-#     GIN="${INPUT_DIR}/${METHOD_NM}/rat_structure${counter}.gin"
-#     GOT="${OUTPUT_DIR}/${METHOD_NM}/rat_structure${counter}.got"
+    # GULP input filename
+    GIN="${INPUT_DIR}/${METHOD_NM}/rat_structure${counter}.gin"
+    GOT="${OUTPUT_DIR}/${METHOD_NM}/rat_structure${counter}.got"
 
-#     # GULP relaxation
-#     echo "Running GULP relaxation with ${GIN}.."
-#     cp "gulp.gin" "${GIN}"
-#     gulp < "${GIN}" > "${GOT}" || {
-#         echo "Failed to execute GULP properly"
-#         exit 1
-#     }
-#     ((counter++))
-# done
+    # GULP relaxation
+    echo "Running GULP relaxation with ${GIN}.."
+    cp "gulp.gin" "${GIN}"
+    gulp < "${GIN}" > "${GOT}" || {
+        echo "Failed to execute GULP properly"
+        exit 1
+    }
+    ((counter++))
+done
 
-# rm gulp.gin
-# rm gulp.got
+rm gulp.gin
+rm gulp.got
