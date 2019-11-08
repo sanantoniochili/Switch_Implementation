@@ -70,10 +70,10 @@ if __name__ == "__main__":
     options = []
     if args.switch:
         print("-----Switching methods.")
-        inuser = input("-----Options: ")  # get options from user
+        # inuser = input("-----Options: ")  # get options from user
         options = ['switch_minimiser bfgs gnorm 0.1']
-        if inuser:
-            options = [inuser]
+        # if inuser:
+            # options = [inuser]
         print("-----Using options: "+options[0])
 
     ''' Set GULP parameters and calculate energy '''
