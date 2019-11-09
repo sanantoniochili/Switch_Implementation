@@ -27,6 +27,8 @@ then
     METHOD_NM="${method}"
 fi
 
+cp method.py $method/method.py
+
 # # Catch user input with files list (random initialisation)
 # read -p "Enter file with list of inputs [random init] : " ifiles
 # ifiles="${INPUT_DIR}/${ifiles}"
@@ -133,3 +135,5 @@ counter=1
 
 # rm gulp.gin
 # rm gulp.got
+
+rm $method/method.py
