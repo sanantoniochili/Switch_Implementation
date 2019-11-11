@@ -49,7 +49,7 @@ class Method:
 if __name__ == "__main__":
     ''' Get input file and method to use from user '''
     parser = argparse.ArgumentParser(
-        description='Define input.')
+        description='Define input')
     parser.add_argument(
         'method', metavar='--method', type=str,
         help='Algorithm to use')
