@@ -11,9 +11,9 @@ from ase.optimize.sciopt import SciPyFminBFGS, SciPyFminCG
 class Method:
     '''
             Initialisation
-            name: 		Name of method
-            keywords: 	Keywords for GULP calculator
-            library:	Library of potential
+            name:       Name of method
+            keywords:   Keywords for GULP calculator
+            library:    Library of potential
     '''
 
     def __init__(self, name, keywords=[], options=[], library=None):
@@ -73,7 +73,7 @@ if __name__ == "__main__":
         # inuser = input("-----Options: ")  # get options from user
         options = ['switch_minimiser bfgs gnorm 0.1']
         # if inuser:
-            # options = [inuser]
+        # options = [inuser]
         print("-----Using options: "+options[0])
 
     ''' Set GULP parameters and calculate energy '''
