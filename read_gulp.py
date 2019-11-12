@@ -39,7 +39,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
     try:
         with open(args.ifilename, 'r') as file:
-            info = Info(file,{})
+            info = Info(file, {})
 
             c_cnt = 0
             H_cnt = 0
@@ -50,24 +50,22 @@ if __name__ == "__main__":
                     H_cnt += 1
                 elif "Final energy" in line:
                     info.catg['fenergy'] = float(line.split(" ")[-2])
-                #     info.get_fenergy(e)
                 elif "Final Gnorm" in line:
-                    info.catg['gnorm'] = float(line.split(" ")[-1].rstrip('\n')) 
-                #     info.get_fgnorm(gnorm)
-                # elif "Time to end of optimisation" in line:
-                #     time = float(line.split(" ")[-2])
-                #     info.get_opti_time(time)
-                # elif "Peak dynamic memory used" in line:
-                #     mem = float(line.split(" ")[-3])
-                #     info.get_mem(mem)
-                # elif "Total CPU time" in line:
-                #     cpu_time = float(line.split(" ")[-1].rstrip('\n'))
-                #     info.get_cpu_time(cpu_time)
-                # elif "Job Finished at" in line:
-                #       info.get_jfinish(line.rstrip('\n'))
-                # elif "Minimiser to switch" in line:
-                #     line = line + file.readline()
-                #     info.get_sw_criterion(line)
+                    info.catg['gnorm'] = float(
+                        line.split(" ")[-1].rstrip('\n'))
+                elif "Time to end of optimisation" in line:
+                    info.catg['opt_time'] = float(line.split(" ")[-2])
+                elif "Peak dynamic memory used" in line:
+                    info.catg['peak_mem'] = float(line.split(" ")[-3])
+                elif "Total CPU time" in line:
+                    info.catg['cpu_time'] = float(line.split(" ")[-1].rstrip('\n'))
+                elif "Job Finished at" in line:
+                      info.catg['jfinish'] = (line.rstrip('\n'))
+                elif "Minimiser to switch" in line:
+                    line = line + file.readline()
+                    info.catg['sw_criterion'] = line
+
+            print(info.catg)
 
     finally:
         file.close()
