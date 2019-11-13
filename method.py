@@ -63,7 +63,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     ''' File with structure '''
-    print("-----Running "+args.method +
+    print("-----About to use "+args.method +
           " with input file:" + str(args.ifilename))
 
     ''' Set switch '''
@@ -81,4 +81,3 @@ if __name__ == "__main__":
     m.set_atoms(read(args.ifilename))
     m.set_calc()  # set GULP
     e = m.calc()  # structure energy
-    print(e)

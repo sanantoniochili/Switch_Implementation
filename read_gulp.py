@@ -1,71 +1,103 @@
 import sys
+import mmap
 import argparse
+import collections
+import pandas as pd
 
 
 class Info:
-    def __init__(self, file, catg):
-        self.file = file
-        self.catg = catg
-
-    # def get_jfinish(self, str):
-    #     self.jfinish = str
-
-    # def get_sw_criterion(self, str):
-    #     self.sw_criterion = str
-
-    # def get_fenergy(self, energy):
-    #     self.energy = energy
-
-    # def get_fgnorm(self, gnorm):
-    #     self.gnorm = gnorm
-
-    # def get_opti_time(self, time):
-    # 	self.opti_time = time
-
-    # def get_mem(self, mem):
-    # 	self.mem = mem
-
-    # def get_cpu_time(self, time):
-    # 	self.cpu_time = time
+	def __init__(self, file, catg):  # create dict
+		self.file = file
+		self.catg = catg
 
 
 if __name__ == "__main__":
-    ''' Get input file and method to use from user '''
-    parser = argparse.ArgumentParser(
-        description='Define input')
-    parser.add_argument(
-        'ifilename', metavar='--input', type=str,
-        help='.got file to read')
-    args = parser.parse_args()
-    try:
-        with open(args.ifilename, 'r') as file:
-            info = Info(file, {})
+	''' Get input file and method to use from user '''
+	parser = argparse.ArgumentParser(
+		description='Define input')
+	parser.add_argument(
+		'ifilename', metavar='--input', type=str,
+		help='.got file to read')
+	parser.add_argument(
+	    'ofilename', metavar='--output', type=str,
+	    help='.csv file to produce')
+	parser.add_argument(
+		'method', metavar='--method', type=str,
+		help='Method used')
+	parser.add_argument(
+		'-c', '--categories',
+		action='store_true',
+		help='Add columns to file')
+	args = parser.parse_args()
 
-            c_cnt = 0
-            H_cnt = 0
-            for line in file:
-                if "Cycle" in line:
-                    c_cnt += 1  # Counts also Cycle 0
-                elif "Hessian calculated" in line:
-                    H_cnt += 1
-                elif "Final energy" in line:
-                    info.catg['fenergy'] = float(line.split(" ")[-2])
-                elif "Final Gnorm" in line:
-                    info.catg['gnorm'] = float(
-                        line.split(" ")[-1].rstrip('\n'))
-                elif "Time to end of optimisation" in line:
-                    info.catg['opt_time'] = float(line.split(" ")[-2])
-                elif "Peak dynamic memory used" in line:
-                    info.catg['peak_mem'] = float(line.split(" ")[-3])
-                elif "Total CPU time" in line:
-                    info.catg['cpu_time'] = float(line.split(" ")[-1].rstrip('\n'))
-                elif "Job Finished at" in line:
-                      info.catg['jfinish'] = (line.rstrip('\n'))
-                elif "Minimiser to switch" in line:
-                    line = line + file.readline()
-                    info.catg['sw_criterion'] = line
+	switch = ""  # criterion in case there is method switch
+	fail = ""  # reason of failure
 
-            print(info.catg)
+	with open(args.ifilename, 'r') as file:
+		info = Info(file, {})
+		info.catg['structure'] = [
+			args.ifilename.split('/')[-1].split('.')[0]]
+		info.catg['method'] = args.method
 
-    finally:
-        file.close()
+		c_cnt = 0
+		H_cnt = 0
+		for line in file:
+			if "Cycle" in line:
+				# no. of iterations without cycle 0
+				c_cnt += 1
+			elif "Hessian calculated" in line:
+				# no. of Hessian calculations
+				H_cnt += 1
+			elif " **** " in line:
+				if "Optimisation achieved" in line:
+				# Check if optimisation succeeded
+					info.catg['opt_succ'] = [True]
+				else:
+					# Check reason of failure
+					info.catg['opt_succ'] = [False]
+					fail = line
+					line = file.readline()
+					while " **** " in line:
+						fail += line
+						line = file.readline()
+			elif "Final energy" in line:  # Optimised energy
+				info.catg['energy'] = [float(line.split(" ")[-2])]
+			elif "Final Gnorm" in line:  # Final gradient norm
+				info.catg['gnorm'] = [float(
+					line.split(" ")[-1].rstrip('\n'))]
+			elif "Time to end of optimisation" in line:
+									# Optimisation duration
+				info.catg['opt_time'] = [float(line.split(" ")[-2])]
+			elif "Peak dynamic memory used" in line:  # Most memory used
+				info.catg['peak_mem'] = [float(line.split(" ")[-3])]
+			elif "Total CPU time" in line:  # Total CPU time
+				info.catg['cpu_time'] = [float(
+					line.split(" ")[-1].rstrip('\n'))]
+			# elif "Job Finished at" in line:
+			#                 # Date and time of termination
+			#     info.catg['jfinish'] = [(line.rstrip('\n'))]
+			elif "Minimiser to switch" in line:
+									# Switch of minimisers criterion
+				switch += line.rstrip('\n') + file.readline().rstrip('\n')
+
+		info.catg['cycles'] = [c_cnt-1]  # Remove Cycle 0
+		info.catg['hessian'] = [H_cnt]
+		info.catg['sw_criterion'] = [switch]
+		info.catg['failure'] = [fail]
+
+		df = pd.DataFrame.from_dict(info.catg, orient='columns')
+		df.set_index('structure')
+		print(info.catg)
+
+	if args.categories:
+	    try:
+	        with open(args.ofilename, 'w') as f:
+	            df.to_csv(f, header=True)
+	    finally:
+	        f.close()
+	else:
+	    try:
+	        with open(args.ofilename, 'a') as f:
+	            df.to_csv(f, header=False)
+	    finally:
+	        f.close()
