@@ -1,4 +1,5 @@
 import sys
+import math
 import mmap
 import argparse
 import collections
@@ -30,8 +31,12 @@ if __name__ == "__main__":
 		help='Add columns to file')
 	args = parser.parse_args()
 
+	# Initialisation
 	switch = ""  # criterion in case there is method switch
 	fail = ""  # reason of failure
+	c_cnt = 0  # count iterations
+	H_cnt = 0  # count Hessian calculations
+
 
 	with open(args.ifilename, 'r') as file:
 		info = Info(file, {})
@@ -39,8 +44,13 @@ if __name__ == "__main__":
 			args.ifilename.split('/')[-1].split('.')[0]]
 		info.catg['method'] = args.method
 
-		c_cnt = 0
-		H_cnt = 0
+		# Initialisation
+		info.catg['energy'] = [math.inf]
+		info.catg['gnorm'] = [0]
+		info.catg['opt_time'] = [0]
+		info.catg['peak_mem'] = [0]
+		info.catg['cpu_time'] = [0]
+	
 		for line in file:
 			if "Cycle" in line:
 				# no. of iterations without cycle 0
@@ -73,9 +83,6 @@ if __name__ == "__main__":
 			elif "Total CPU time" in line:  # Total CPU time
 				info.catg['cpu_time'] = [float(
 					line.split(" ")[-1].rstrip('\n'))]
-			# elif "Job Finished at" in line:
-			#                 # Date and time of termination
-			#     info.catg['jfinish'] = [(line.rstrip('\n'))]
 			elif "Minimiser to switch" in line:
 									# Switch of minimisers criterion
 				switch += line.rstrip('\n') + file.readline().rstrip('\n')
@@ -84,20 +91,20 @@ if __name__ == "__main__":
 		info.catg['hessian'] = [H_cnt]
 		info.catg['sw_criterion'] = [switch]
 		info.catg['failure'] = [fail]
-
-		df = pd.DataFrame.from_dict(info.catg, orient='columns')
-		df.set_index('structure')
 		print(info.catg)
 
-	if args.categories:
-	    try:
-	        with open(args.ofilename, 'w') as f:
-	            df.to_csv(f, header=True)
-	    finally:
-	        f.close()
-	else:
-	    try:
-	        with open(args.ofilename, 'a') as f:
-	            df.to_csv(f, header=False)
-	    finally:
-	        f.close()
+	# 	df = pd.DataFrame.from_dict(info.catg, orient='columns')
+	# 	df.set_index('structure')
+
+	# if args.categories:
+	#     try:
+	#         with open(args.ofilename, 'w') as f:
+	#             df.to_csv(f, header=True)
+	#     finally:
+	#         f.close()
+	# else:
+	#     try:
+	#         with open(args.ofilename, 'a') as f:
+	#             df.to_csv(f, header=False)
+	#     finally:
+	#         f.close()

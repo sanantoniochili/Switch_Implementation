@@ -117,7 +117,7 @@ for file in "${random_filesList[@]}"; do
     fi
 
     # Add results to csv
-    python read_gulp.py $GOT $DATA_DIR/results.csv $METHOD_NM $FLAG
+    python read_gulp.py $GOT results.csv $METHOD_NM $FLAG
 
     # Count total
     ((counter++))
@@ -164,7 +164,7 @@ for file in "${rattled_filesList[@]}"; do
     fi
 
     # Add results to csv
-    python read_gulp.py $GOT $DATA_DIR/results.csv $METHOD_NM $FLAG
+    python read_gulp.py $GOT results.csv $METHOD_NM $FLAG
 
     # Count total
     ((counter++))
