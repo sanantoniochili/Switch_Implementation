@@ -17,7 +17,7 @@ parser.add_argument(
     help='Number of same derivation trial')
 args = parser.parse_args()
 
-print("stdev: "+str(args.stdev))
+# print("stdev: "+str(args.stdev))
 print("draw: "+str(args.draw))
 
 atoms = Atoms("SrTiO3",
@@ -32,7 +32,7 @@ atoms = Atoms("SrTiO3",
                          [2, 0, 2],
                          [2, 2, 0]],
               pbc=True)
-
+atoms = atoms.repeat((3, 1, 1))
 
 ''' Perturb atoms '''
 atoms.rattle(stdev=args.stdev, rng=np.random.RandomState(np.random.seed()))
