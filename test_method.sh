@@ -1,12 +1,20 @@
 #!/bin/bash
 
-while getopts ":s:" opt; do
+usage() { echo "Usage: $0 [-s <method>] [-t <time_out>]" 1>&2; exit 1; }
+
+# Get flags and arguments
+while getopts ":s:t:" opt; do
   case $opt in
     s)
       echo "-s was triggered, Parameter: $OPTARG" >&2
-      flag="--switch"
-      method=$2
+      SFLAG="--switch"
+      method=${OPTARG}
       METHOD_NM="switch"
+      ;;
+    t)
+      echo "-t was triggered, Parameter: $OPTARG" >&2
+      TFLAG="-t"
+      TIMEOUT=${OPTARG}
       ;;
     \?)
       echo "Invalid option: -$OPTARG" >&2
@@ -94,7 +102,7 @@ for file in "${random_filesList[@]}"; do
 
     # Make GULP input file
     echo "Running Python script for gulp.gin.."
-    python method.py $method $file $flag || {
+    python method.py $method $file $SFLAG $TFLAG $TIMEOUT || {
         printf "\n`date` Python script failed with file \"%s\".\n" "$file" >> $LOG
     }
 
@@ -111,13 +119,13 @@ for file in "${random_filesList[@]}"; do
     }
 
     # Add headers to csv file
-    FLAG=""
+    HFLAG=""
     if [[ counter -eq 1 ]]; then
-      FLAG="-c"
+      HFLAG="-c"
     fi
 
     # Add results to csv
-    python read_gulp.py $GOT results.csv $METHOD_NM $FLAG
+    python read_gulp.py $GOT results.csv $METHOD_NM $HFLAG
 
     # Count total
     ((counter++))
@@ -127,48 +135,48 @@ done
 # Read every input file in files list
 # Run python script and get .gin
 # Run GULP and save output
-for file in "${rattled_filesList[@]}"; do
+# for file in "${rattled_filesList[@]}"; do
 
-    # Check if file exists
-    if [ ! -f $file ]; then
-      echo "File not found"
-      continue
-    fi
+#     # Check if file exists
+#     if [ ! -f $file ]; then
+#       echo "File not found"
+#       continue
+#     fi
 
-    # Log file
-    LOG="${METHOD_NM}_stoplog.txt"
-    printf "\n`date`\n File : %s\n" "$file" >> $LOG
+#     # Log file
+#     LOG="${METHOD_NM}_stoplog.txt"
+#     printf "\n`date`\n File : %s\n" "$file" >> $LOG
 
-    # Make GULP input file
-    echo "Running Python script for gulp.gin.."
-    python method.py $method $file $flag || {
-        printf "\n`date` Python script failed with file \"%s\".\n" "$file" >> $LOG
-    }
+#     # Make GULP input file
+#     echo "Running Python script for gulp.gin.."
+#     python method.py $method $file $SFLAG $TFLAG $TIMEOUT || {
+#         printf "\n`date` Python script failed with file \"%s\".\n" "$file" >> $LOG
+#     }
 
-    # GULP input filename
-    GIN="${INPUT_DIR}/rat_structure${counter}.gin"
-    GOT="${OUTPUT_DIR}/rat_structure${counter}.got"
+#     # GULP input filename
+#     GIN="${INPUT_DIR}/rat_structure${counter}.gin"
+#     GOT="${OUTPUT_DIR}/rat_structure${counter}.got"
 
-    # GULP relaxation
-    echo "Running GULP relaxation with ${GIN}.."
-    cp "gulp.gin" "${GIN}"
-    gulp < "${GIN}" > "${GOT}" || {
-        echo "Failed to execute GULP properly"
-        exit 1
-    }
+#     # GULP relaxation
+#     echo "Running GULP relaxation with ${GIN}.."
+#     cp "gulp.gin" "${GIN}"
+#     gulp < "${GIN}" > "${GOT}" || {
+#         echo "Failed to execute GULP properly"
+#         exit 1
+#     }
 
-    # Add headers to csv file
-    FLAG=""
-    if [[ counter -eq 1 ]]; then
-      FLAG="-c"
-    fi
+#     # Add headers to csv file
+#     HFLAG=""
+#     if [[ counter -eq 1 ]]; then
+#       HFLAG="-c"
+#     fi
 
-    # Add results to csv
-    python read_gulp.py $GOT results.csv $METHOD_NM $FLAG
+#     # Add results to csv
+#     python read_gulp.py $GOT results.csv $METHOD_NM $HFLAG
 
-    # Count total
-    ((counter++))
-done
+#     # Count total
+#     ((counter++))
+# done
 
 rm gulp.gin
 rm gulp.got

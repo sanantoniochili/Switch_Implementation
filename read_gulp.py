@@ -36,7 +36,10 @@ if __name__ == "__main__":
 	fail = ""  # reason of failure
 	c_cnt = 0  # count iterations
 	H_cnt = 0  # count Hessian calculations
-
+	options = ""  # add options used
+	with open('temp.txt', 'r') as temp:
+		for line in temp:
+			options += line
 
 	with open(args.ifilename, 'r') as file:
 		info = Info(file, {})
@@ -83,28 +86,27 @@ if __name__ == "__main__":
 			elif "Total CPU time" in line:  # Total CPU time
 				info.catg['cpu_time'] = [float(
 					line.split(" ")[-1].rstrip('\n'))]
-			elif "Minimiser to switch" in line:
-									# Switch of minimisers criterion
-				switch += line.rstrip('\n') + file.readline().rstrip('\n')
+			# elif "Minimiser to switch" in line:
+			# 						# Switch of minimisers criterion
+			# 	switch += line.rstrip('\n') + file.readline().rstrip('\n')
 
 		info.catg['cycles'] = [c_cnt-1]  # Remove Cycle 0
 		info.catg['hessian'] = [H_cnt]
-		info.catg['sw_criterion'] = [switch]
 		info.catg['failure'] = [fail]
-		print(info.catg)
+		info.catg['options'] = [options]
 
-	# 	df = pd.DataFrame.from_dict(info.catg, orient='columns')
-	# 	df.set_index('structure')
+		df = pd.DataFrame.from_dict(info.catg, orient='columns')
+		df = df.set_index(['structure','method'])
 
-	# if args.categories:
-	#     try:
-	#         with open(args.ofilename, 'w') as f:
-	#             df.to_csv(f, header=True)
-	#     finally:
-	#         f.close()
-	# else:
-	#     try:
-	#         with open(args.ofilename, 'a') as f:
-	#             df.to_csv(f, header=False)
-	#     finally:
-	#         f.close()
+	if args.categories:
+	    try:
+	        with open(args.ofilename, 'w') as f:
+	            df.to_csv(f, header=True)
+	    finally:
+	        f.close()
+	else:
+	    try:
+	        with open(args.ofilename, 'a') as f:
+	            df.to_csv(f, header=False)
+	    finally:
+	        f.close()
