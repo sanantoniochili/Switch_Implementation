@@ -32,19 +32,24 @@ if __name__ == "__main__":
 	args = parser.parse_args()
 
 	# Initialisation
-	switch = ""  # criterion in case there is method switch
-	fail = ""  # reason of failure
-	error = ""  # look for errors
-	c_cnt = 0  # count iterations
-	H_cnt = 0  # count Hessian calculations
-	options = ""  # add options used
+	switch_flag = False  	# check if method switches
+	gnorm_flag  = False  	# check if gnorm value is the criterion
+	switch      = ""  		# criterion in case there is method switch
+	fail 		= ""  		# reason of failure
+	error 		= ""  		# look for errors
+	c_cnt 		= 0  		# count iterations
+	H_cnt 		= 0  		# count Hessian calculations
+	switch 		= -1  		# count iterations until switching method
+	options 	= ""  		# add options used
+
 	with open('temp.txt', 'r') as temp:
 		for line in temp:
 			options += line
 			if "switch_minimiser" in line:
-				mod,value = line.split(' ')[-2],float(line.split(' ')[-1])
-				print(mod)
-				print(value)
+				switch_flag = True  # will switch method
+				mod, value = line.split(' ')[-2], float(line.split(' ')[-1])
+				if mod == "gnorm":  # switch based on gnorm
+					gnorm_flag = True
 
 	with open(args.ifilename, 'r') as file:
 		info = Info(file, {})
@@ -53,16 +58,22 @@ if __name__ == "__main__":
 		info.catg['method'] = args.method
 
 		# Initialisation
-		info.catg['energy'] = [math.inf]
-		info.catg['gnorm'] = [0]
-		info.catg['opt_time'] = [0]
-		info.catg['peak_mem'] = [0]
-		info.catg['cpu_time'] = [0]
+		info.catg['energy'] 	= [math.inf]
+		info.catg['gnorm'] 		= [0]
+		info.catg['opt_time'] 	= [0]
+		info.catg['peak_mem'] 	= [0]
+		info.catg['cpu_time'] 	= [0]
 
 		for line in file:
 			if "Cycle" in line:
 				# no. of iterations without cycle 0
 				c_cnt += 1
+				if switch_flag and gnorm_flag:  # check if method switched
+					str = line.split(' ')[-7]  # with gnorm value
+					if "**" not in str and float(str) < value:
+						# check if has been error and if method switched
+						switch = c_cnt-2  # remove cycle 0 and current
+						gnorm_flag = False # count only first time
 			elif "Hessian calculated" in line:
 				# no. of Hessian calculations
 				H_cnt += 1
@@ -99,14 +110,12 @@ if __name__ == "__main__":
 				if "**" not in line:
 					info.catg['cpu_time'] = [float(
 						line.split(" ")[-1].rstrip('\n'))]
-			# elif "Minimiser to switch" in line:
-			# 						# Switch of minimisers criterion
-			# 	switch += line.rstrip('\n') + file.readline().rstrip('\n')
 
-		info.catg['cycles'] = [c_cnt-1]  # Remove Cycle 0
-		info.catg['hessian'] = [H_cnt]
-		info.catg['failure'] = [fail]
-		info.catg['options'] = [options]
+		info.catg['cycles'] 	= [c_cnt-1]  # Remove Cycle 0
+		info.catg['hessian'] 	= [H_cnt]
+		info.catg['failure'] 	= [fail]
+		info.catg['options'] 	= [options]
+		info.catg['switch'] 	= [switch]
 
 		df = pd.DataFrame.from_dict(info.catg, orient='columns')
 		df = df.set_index(['structure', 'method'])
