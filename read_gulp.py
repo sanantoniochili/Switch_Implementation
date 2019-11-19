@@ -41,6 +41,10 @@ if __name__ == "__main__":
 	with open('temp.txt', 'r') as temp:
 		for line in temp:
 			options += line
+			if "switch_minimiser" in line:
+				mod,value = line.split(' ')[-2],float(line.split(' ')[-1])
+				print(mod)
+				print(value)
 
 	with open(args.ifilename, 'r') as file:
 		info = Info(file, {})

@@ -135,48 +135,48 @@ done
 # Read every input file in files list
 # Run python script and get .gin
 # Run GULP and save output
-# for file in "${rattled_filesList[@]}"; do
+for file in "${rattled_filesList[@]}"; do
 
-#     # Check if file exists
-#     if [ ! -f $file ]; then
-#       echo "File not found"
-#       continue
-#     fi
+    # Check if file exists
+    if [ ! -f $file ]; then
+      echo "File not found"
+      continue
+    fi
 
-#     # Log file
-#     LOG="${METHOD_NM}_stoplog.txt"
-#     printf "\n`date`\n File : %s\n" "$file" >> $LOG
+    # Log file
+    LOG="${METHOD_NM}_stoplog.txt"
+    printf "\n`date`\n File : %s\n" "$file" >> $LOG
 
-#     # Make GULP input file
-#     echo "Running Python script for gulp.gin.."
-#     python method.py $method $file $SFLAG $TFLAG $TIMEOUT || {
-#         printf "\n`date` Python script failed with file \"%s\".\n" "$file" >> $LOG
-#     }
+    # Make GULP input file
+    echo "Running Python script for gulp.gin.."
+    python method.py $method $file $SFLAG $TFLAG $TIMEOUT || {
+        printf "\n`date` Python script failed with file \"%s\".\n" "$file" >> $LOG
+    }
 
-#     # GULP input filename
-#     GIN="${INPUT_DIR}/rat_structure${counter}.gin"
-#     GOT="${OUTPUT_DIR}/rat_structure${counter}.got"
+    # GULP input filename
+    GIN="${INPUT_DIR}/rat_structure${counter}.gin"
+    GOT="${OUTPUT_DIR}/rat_structure${counter}.got"
 
-#     # GULP relaxation
-#     echo "Running GULP relaxation with ${GIN}.."
-#     cp "gulp.gin" "${GIN}"
-#     gulp < "${GIN}" > "${GOT}" || {
-#         echo "Failed to execute GULP properly"
-#         exit 1
-#     }
+    # GULP relaxation
+    echo "Running GULP relaxation with ${GIN}.."
+    cp "gulp.gin" "${GIN}"
+    gulp < "${GIN}" > "${GOT}" || {
+        echo "Failed to execute GULP properly"
+        exit 1
+    }
 
-#     # Add headers to csv file
-#     HFLAG=""
-#     if [[ counter -eq 1 ]]; then
-#       HFLAG="-c"
-#     fi
+    # Add headers to csv file
+    HFLAG=""
+    if [[ counter -eq 1 ]]; then
+      HFLAG="-c"
+    fi
 
-#     # Add results to csv
-#     python read_gulp.py $GOT results.csv $METHOD_NM $HFLAG
+    # Add results to csv
+    python read_gulp.py $GOT results.csv $METHOD_NM $HFLAG
 
-#     # Count total
-#     ((counter++))
-# done
+    # Count total
+    ((counter++))
+done
 
 rm gulp.gin
 rm gulp.got
