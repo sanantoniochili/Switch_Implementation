@@ -20,8 +20,8 @@ if __name__ == "__main__":
 		'ifilename', metavar='--input', type=str,
 		help='.got file to read')
 	parser.add_argument(
-	    'ofilename', metavar='--output', type=str,
-	    help='.csv file to produce')
+		'ofilename', metavar='--output', type=str,
+		help='.csv file to produce')
 	parser.add_argument(
 		'method', metavar='--method', type=str,
 		help='Method used')
@@ -34,6 +34,7 @@ if __name__ == "__main__":
 	# Initialisation
 	switch = ""  # criterion in case there is method switch
 	fail = ""  # reason of failure
+	error = ""  # look for errors
 	c_cnt = 0  # count iterations
 	H_cnt = 0  # count Hessian calculations
 	options = ""  # add options used
@@ -53,7 +54,7 @@ if __name__ == "__main__":
 		info.catg['opt_time'] = [0]
 		info.catg['peak_mem'] = [0]
 		info.catg['cpu_time'] = [0]
-	
+
 		for line in file:
 			if "Cycle" in line:
 				# no. of iterations without cycle 0
@@ -63,7 +64,7 @@ if __name__ == "__main__":
 				H_cnt += 1
 			elif " **** " in line:
 				if "Optimisation achieved" in line:
-				# Check if optimisation succeeded
+					# Check if optimisation succeeded
 					info.catg['opt_succ'] = [True]
 				else:
 					# Check reason of failure
@@ -73,19 +74,27 @@ if __name__ == "__main__":
 					while " **** " in line:
 						fail += line
 						line = file.readline()
+			elif "ERROR" in line:
+				# Look for errors
+				error += line
 			elif "Final energy" in line:  # Optimised energy
-				info.catg['energy'] = [float(line.split(" ")[-2])]
+				if "**" not in line:
+					info.catg['energy'] = [float(line.split(" ")[-2])]
 			elif "Final Gnorm" in line:  # Final gradient norm
-				info.catg['gnorm'] = [float(
-					line.split(" ")[-1].rstrip('\n'))]
+				if "**" not in line:
+					info.catg['gnorm'] = [float(
+						line.split(" ")[-1].rstrip('\n'))]
 			elif "Time to end of optimisation" in line:
-									# Optimisation duration
-				info.catg['opt_time'] = [float(line.split(" ")[-2])]
+				# Optimisation duration
+				if "**" not in line:
+					info.catg['opt_time'] = [float(line.split(" ")[-2])]
 			elif "Peak dynamic memory used" in line:  # Most memory used
-				info.catg['peak_mem'] = [float(line.split(" ")[-3])]
+				if "**" not in line:
+					info.catg['peak_mem'] = [float(line.split(" ")[-3])]
 			elif "Total CPU time" in line:  # Total CPU time
-				info.catg['cpu_time'] = [float(
-					line.split(" ")[-1].rstrip('\n'))]
+				if "**" not in line:
+					info.catg['cpu_time'] = [float(
+						line.split(" ")[-1].rstrip('\n'))]
 			# elif "Minimiser to switch" in line:
 			# 						# Switch of minimisers criterion
 			# 	switch += line.rstrip('\n') + file.readline().rstrip('\n')
@@ -96,17 +105,17 @@ if __name__ == "__main__":
 		info.catg['options'] = [options]
 
 		df = pd.DataFrame.from_dict(info.catg, orient='columns')
-		df = df.set_index(['structure','method'])
+		df = df.set_index(['structure', 'method'])
 
 	if args.categories:
-	    try:
-	        with open(args.ofilename, 'w') as f:
-	            df.to_csv(f, header=True)
-	    finally:
-	        f.close()
+		try:
+			with open(args.ofilename, 'w') as f:
+				df.to_csv(f, header=True)
+		finally:
+			f.close()
 	else:
-	    try:
-	        with open(args.ofilename, 'a') as f:
-	            df.to_csv(f, header=False)
-	    finally:
-	        f.close()
+		try:
+			with open(args.ofilename, 'a') as f:
+				df.to_csv(f, header=False)
+		finally:
+			f.close()
