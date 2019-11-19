@@ -69,7 +69,7 @@ if __name__ == "__main__":
 				# no. of iterations without cycle 0
 				c_cnt += 1
 				if switch_flag and gnorm_flag:  # check if method switched
-					str = line.split(' ')[-7]  # with gnorm value
+					str = line.split(' ')[-7].split(":")[-1]  # with gnorm value
 					if "**" not in str and float(str) < value:
 						# check if has been error and if method switched
 						switch = c_cnt-2  # remove cycle 0 and current
@@ -94,11 +94,11 @@ if __name__ == "__main__":
 				error += line
 			elif "Final energy" in line:  # Optimised energy
 				if "**" not in line:
-					info.catg['energy'] = [float(line.split(" ")[-2])]
+					info.catg['energy'] = [float(line.split(" ")[-2].split(":")[-1])]
 			elif "Final Gnorm" in line:  # Final gradient norm
 				if "**" not in line:
 					info.catg['gnorm'] = [float(
-						line.split(" ")[-1].rstrip('\n'))]
+						line.split(" ")[-1].split(":")[-1].rstrip('\n'))]
 			elif "Time to end of optimisation" in line:
 				# Optimisation duration
 				if "**" not in line:

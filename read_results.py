@@ -30,8 +30,9 @@ import pandas as pd
 ''' Process results '''
 fields = ['structure', 'method', 'opt_time']
 
-df = pd.read_csv('test0/results.csv', skipinitialspace=True, usecols=fields)
-
+df = pd.read_csv('switch/results.csv', skipinitialspace=True, usecols=fields)
+avg = sum(df['opt_time']) / len(df['opt_time'])
+print(sum(df['opt_time']))
 
 # for method in list(df['method'].unique()):
 # 	rows = df.loc[df['method'] == method]['opt_time']
