@@ -30,7 +30,8 @@ class Method:
 	''' Set GULP calculator '''
 
 	def set_calc(self):
-		keywords_ = ['opti', 'c6']
+		# keywords_ = ['opti', 'c6']
+		keywords_ = ['opti']
 		keywords_.append(self.name)
 		if len(self.keywords):
 			self.keywords = keywords_ + self.keywords

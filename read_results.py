@@ -41,3 +41,6 @@ print(sum(df['opt_time']))
 # 	print(avg)
 
 # fout.close()
+
+# fig = plt.figure()  # an empty figure with no axes
+# fig.suptitle('No axes on this figure')  # Add a title so we know which it is
