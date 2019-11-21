@@ -13,13 +13,13 @@ import matplotlib.pyplot as plt
 
 
 def autolabel(rects):
-    for rect in rects:
-        height = rect.get_height()
-        ax.annotate('{}'.format(height),
-                    xy=(rect.get_x() + rect.get_width() / 2, height),
-                    xytext=(0, 3),  # 3 points vertical offset
-                    textcoords="offset points",
-                    ha='center', va='bottom')
+	for rect in rects:
+		height = rect.get_height()
+		ax.annotate('{}'.format(height),
+					xy=(rect.get_x() + rect.get_width() / 2, height),
+					xytext=(0, 3),  # 3 points vertical offset
+					textcoords="offset points",
+					ha='center', va='bottom')
 
 
 ''' Merge csv files '''
@@ -43,7 +43,7 @@ def autolabel(rects):
 #     f.__next__() # skip the header
 #     for line in f:
 #          fout.write(line)
-    # f.close() # not really needed
+	# f.close() # not really needed
 
 
 ''' Process results '''
@@ -98,24 +98,25 @@ def autolabel(rects):
 
 ran_succ_list = []
 rat_succ_list = []
+totals = {}
 
 df = pd.read_csv('results_test.csv', skipinitialspace=True)
 labels = list(df['method'].unique())
 dicts = {}
 
 for method in labels:
-    random = df[df['structure'].str.contains(
-        "rat") == False].loc[df['method'] == method]
-    rattled = df[df['structure'].str.contains(
-        "rat")].loc[df['method'] == method]
+	random = df[df['structure'].str.contains(
+		"rat") == False].loc[df['method'] == method]
+	rattled = df[df['structure'].str.contains(
+		"rat")].loc[df['method'] == method]
 
-    ran_succ = len([b for b in random['opt_succ'] if b])
-    rat_succ = len([b for b in rattled['opt_succ'] if b])
+	ran_succ = len([b for b in random['opt_succ'] if b])
+	rat_succ = len([b for b in rattled['opt_succ'] if b])
 
-    ran_succ_list.append(ran_succ)
-    rat_succ_list.append(rat_succ)
+	ran_succ_list.append(ran_succ)
+	rat_succ_list.append(rat_succ)
 
-total = len(df.loc[df['method'] == method]) / 2
+	totals[method] = [len(random), len(rattled)]
 
 y = np.arange(1)  # the label locations
 width = 0.35  # the width of the bars
@@ -125,12 +126,20 @@ fig.suptitle('Successfully optimised structures')
 
 count = 0
 for ax in axs:
-	# ax.set_ylim(0,total+10) # set total samples as y limit (add space for view)
-	rects1 = ax.barh(y - width/2, ran_succ_list[count], width, label='Random')
-	rects2 = ax.barh(y + width/2, rat_succ_list[count], width, label='Rattled')
+	totals_ = totals[labels[count]]
+	ran_perc = 0
+	rat_perc = 0
+
+	if totals_[0]:
+		ran_perc = ran_succ_list[count]*100/totals_[0]
+	if totals_[1]:
+		rat_perc = rat_succ_list[count]*100/totals_[1]
+
+	rects1 = ax.barh(y - width/2, ran_perc, width, label='Random') # x% per init category
+	rects2 = ax.barh(y + width/2, rat_perc, width, label='Rattled')
 
 	# Add some text for labels, title and custom x-axis tick labels, etc.
-	# ax.set_xlabel(labels[count])
+	ax.set_xlim(0,110)
 	ax.set_yticks(y)
 	ax.set_yticklabels([labels[count]])
 	ax.invert_yaxis()  # labels read top-to-bottom
