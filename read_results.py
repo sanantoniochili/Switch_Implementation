@@ -28,22 +28,19 @@ def autolabel(rects):
 # dirs = [d for d in os.listdir('.') if os.path.isdir(os.path.join('.',d))]
 # for d in dirs:
 # 	list += [os.path.join(d,file) for file in os.listdir(d) if file.endswith(".csv")]
-
-# temp_list = [list[2], list[3]]
-
+# print(list)
 # fout=open("results.csv","a")
-# fout=open("results_test.csv","a")
 
 # # first file:
-# for line in open(temp_list[0]):
-#     fout.write(line)
+# for line in open(list[0]):
+# 	fout.write(line)
 # # now the rest:
 # for num in range(1,len(list)):
-#     f = open(list[num])
-#     f.__next__() # skip the header
-#     for line in f:
-#          fout.write(line)
-	# f.close() # not really needed
+# 	f = open(list[num])
+# 	f.__next__() # skip the header
+# 	for line in f:
+# 		fout.write(line)
+# 	f.close() # not really needed
 
 
 ''' Process results '''
@@ -101,7 +98,7 @@ ran_succ_list = []
 rat_succ_list = []
 totals = {}
 
-df = pd.read_csv('results_test.csv', skipinitialspace=True)
+df = pd.read_csv('results.csv', skipinitialspace=True)
 labels = list(df['method'].unique())
 dicts = {}
 
