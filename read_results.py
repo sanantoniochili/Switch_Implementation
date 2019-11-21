@@ -114,43 +114,35 @@ for method in labels:
 	ran_succ = len([b for b in random['opt_succ'] if b])
 	rat_succ = len([b for b in rattled['opt_succ'] if b])
 
-	ran_succ_list.append(ran_succ)
-	rat_succ_list.append(rat_succ)
+	ran_perc = 0
+	if len(random):
+		ran_perc = ran_succ*100/len(random)
+	rat_perc = 0
+	if len(rattled):
+		rat_perc = rat_succ*100/len(rattled)
 
-	totals[method] = [len(random), len(rattled)]
+	ran_succ_list.append(ran_perc)
+	rat_succ_list.append(rat_perc)
 
-y = np.arange(1)  # the label locations
+y = np.arange(len(labels))  # the label locations
 width = 0.35  # the width of the bars
 
-fig, axs = plt.subplots(len(labels))
+fig, ax = plt.subplots()
 fig.suptitle('Successfully optimised structures')
 
-count = 0
-for ax in axs:
-	totals_ = totals[labels[count]]
-	ran_perc = 0
-	rat_perc = 0
+rects1 = ax.barh(y - width/2, ran_succ_list, width, label='Random') # x% per init category
+rects2 = ax.barh(y + width/2, rat_succ_list, width, label='Rattled')
 
-	if totals_[0]:
-		ran_perc = ran_succ_list[count]*100/totals_[0]
-	if totals_[1]:
-		rat_perc = rat_succ_list[count]*100/totals_[1]
+# Add some text for labels, title and custom x-axis tick labels, etc.
+ax.set_xlim(0,110)
+ax.set_yticks(y)
+ax.set_yticklabels(labels)
+ax.invert_yaxis()  # labels read top-to-bottom
+ax.legend()
 
-	rects1 = ax.barh(y - width/2, ran_perc, width, label='Random') # x% per init category
-	rects2 = ax.barh(y + width/2, rat_perc, width, label='Rattled')
-
-	# Add some text for labels, title and custom x-axis tick labels, etc.
-	ax.set_xlim(0,110)
-	ax.set_yticks(y)
-	ax.set_yticklabels([labels[count]])
-	ax.invert_yaxis()  # labels read top-to-bottom
-	ax.legend()
-
-	# autolabel(rects1)
-	# autolabel(rects2)
-
-	count += 1
+# autolabel(rects1)
+# autolabel(rects2)
 
 # fig.tight_layout()
 
-# plt.show()
+plt.show()
