@@ -95,6 +95,7 @@ def autolabel(rects):
 
 
 ''' No. of optimised structures per method (diff no. of total structures) '''
+''' Normalised to per cent '''
 
 ran_succ_list = []
 rat_succ_list = []
@@ -152,4 +153,4 @@ for ax in axs:
 
 # fig.tight_layout()
 
-plt.show()
+# plt.show()
