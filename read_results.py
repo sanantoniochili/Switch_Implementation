@@ -140,9 +140,4 @@ ax.set_yticklabels(labels)
 ax.invert_yaxis()  # labels read top-to-bottom
 ax.legend()
 
-# autolabel(rects1)
-# autolabel(rects2)
-
-# fig.tight_layout()
-
 plt.show()
