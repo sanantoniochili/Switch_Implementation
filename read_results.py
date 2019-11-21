@@ -97,47 +97,67 @@ def autolabel(rects):
 ''' No. of optimised structures per method (diff no. of total structures) '''
 ''' Normalised to per cent '''
 
-ran_succ_list = []
-rat_succ_list = []
-totals = {}
+# ran_succ_list = []
+# rat_succ_list = []
+# totals = {}
+
+# df = pd.read_csv('results_test.csv', skipinitialspace=True)
+# labels = list(df['method'].unique())
+# dicts = {}
+
+# for method in labels:
+# 	random = df[df['structure'].str.contains(
+# 		"rat") == False].loc[df['method'] == method]
+# 	rattled = df[df['structure'].str.contains(
+# 		"rat")].loc[df['method'] == method]
+
+# 	ran_succ = len([b for b in random['opt_succ'] if b])
+# 	rat_succ = len([b for b in rattled['opt_succ'] if b])
+
+# 	ran_perc = 0
+# 	if len(random):
+# 		ran_perc = ran_succ*100/len(random)
+# 	rat_perc = 0
+# 	if len(rattled):
+# 		rat_perc = rat_succ*100/len(rattled)
+
+# 	ran_succ_list.append(ran_perc)
+# 	rat_succ_list.append(rat_perc)
+
+# y = np.arange(len(labels))  # the label locations
+# width = 0.35  # the width of the bars
+
+# fig, ax = plt.subplots()
+# fig.suptitle('Successfully optimised structures')
+
+# rects1 = ax.barh(y - width/2, ran_succ_list, width, label='Random') # x% per init category
+# rects2 = ax.barh(y + width/2, rat_succ_list, width, label='Rattled')
+
+# # Add some text for labels, title and custom x-axis tick labels, etc.
+# ax.set_xlim(0,110)
+# ax.set_yticks(y)
+# ax.set_yticklabels(labels)
+# ax.invert_yaxis()  # labels read top-to-bottom
+# ax.legend()
+
+# plt.show()
+
+
+''' Optimisation time per method (diff no. of total structures) '''
 
 df = pd.read_csv('results_test.csv', skipinitialspace=True)
 labels = list(df['method'].unique())
-dicts = {}
+maps = list(df['method'])
+succ = df.loc[df['opt_succ'] == True]
 
-for method in labels:
-	random = df[df['structure'].str.contains(
-		"rat") == False].loc[df['method'] == method]
-	rattled = df[df['structure'].str.contains(
-		"rat")].loc[df['method'] == method]
-
-	ran_succ = len([b for b in random['opt_succ'] if b])
-	rat_succ = len([b for b in rattled['opt_succ'] if b])
-
-	ran_perc = 0
-	if len(random):
-		ran_perc = ran_succ*100/len(random)
-	rat_perc = 0
-	if len(rattled):
-		rat_perc = rat_succ*100/len(rattled)
-
-	ran_succ_list.append(ran_perc)
-	rat_succ_list.append(rat_perc)
-
-y = np.arange(len(labels))  # the label locations
-width = 0.35  # the width of the bars
+# carat = [5, 10, 20, 30, 5, 10, 20, 30, 5, 10, 20, 30]
+# price = [100, 100, 200, 200, 300, 300, 400, 400, 500, 500, 600, 600]
+# color =['D', 'D', 'D', 'E', 'E', 'E', 'F', 'F', 'F', 'G', 'G', 'G',]
 
 fig, ax = plt.subplots()
-fig.suptitle('Successfully optimised structures')
 
-rects1 = ax.barh(y - width/2, ran_succ_list, width, label='Random') # x% per init category
-rects2 = ax.barh(y + width/2, rat_succ_list, width, label='Rattled')
+colors = {labels[0]:'red', labels[1]:'blue', labels[2]:'green'}
 
-# Add some text for labels, title and custom x-axis tick labels, etc.
-ax.set_xlim(0,110)
-ax.set_yticks(y)
-ax.set_yticklabels(labels)
-ax.invert_yaxis()  # labels read top-to-bottom
-ax.legend()
+ax.scatter(succ['structure'], succ['opt_time'], c=succ['method'].apply(lambda x: colors[x]))
 
 plt.show()
