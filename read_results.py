@@ -99,7 +99,7 @@ def autolabel(rects):
 # totals = {}
 
 
-# df = pd.read_csv('results_test.csv', skipinitialspace=True)
+# df = pd.read_csv('results.csv', skipinitialspace=True)
 # labels = list(df['method'].unique())
 # dicts = {}
 
@@ -143,19 +143,38 @@ def autolabel(rects):
 
 ''' Optimisation time per method (diff no. of total structures) '''
 
-df = pd.read_csv('results_test.csv', skipinitialspace=True)
-labels = list(df['method'].unique())
+FONTSIZE = 10
+
+df = pd.read_csv('results.csv', skipinitialspace=True)
+methods = list(df['method'].unique())
 maps = list(df['method'])
-succ = df.loc[df['opt_succ'] == True]
+ran_succ = df[df['structure'].str.contains(
+		"rat") == False].loc[df['opt_succ'] == True] # find successful optimisations
+rat_succ = df[df['structure'].str.contains(
+		"rat") == True].loc[df['opt_succ'] == True] 
 
-# carat = [5, 10, 20, 30, 5, 10, 20, 30, 5, 10, 20, 30]
-# price = [100, 100, 200, 200, 300, 300, 400, 400, 500, 500, 600, 600]
-# color =['D', 'D', 'D', 'E', 'E', 'E', 'F', 'F', 'F', 'G', 'G', 'G',]
+fig, axs = plt.subplots(2,figsize=(15,15))
+colors = {'blue' : methods[0], 'orange' : methods[1], 'green' : methods[2]}
 
-fig, ax = plt.subplots()
+for color in ['blue', 'orange', 'green']:
+    x = ran_succ.loc[df['method'] == colors[color]]['structure']
+    y = ran_succ.loc[df['method'] == colors[color]]['opt_time']
+    axs[0].scatter(x, y, c='tab:'+color, label=colors[color],
+               alpha=0.5, edgecolors='none')
+axs[0].legend()
+axs[0].set_xticks([])
+axs[0].set_title('Random Initialisation', fontsize=FONTSIZE)
 
-colors = {labels[0]:'red', labels[1]:'blue', labels[2]:'green'}
 
-ax.scatter(succ['structure'], succ['opt_time'], c=succ['method'].apply(lambda x: colors[x]))
+for color in ['blue', 'orange', 'green']:
+    x = rat_succ.loc[df['method'] == colors[color]]['structure']
+    y = rat_succ.loc[df['method'] == colors[color]]['opt_time']
+    axs[1].scatter(x, y, c='tab:'+color, label=colors[color],
+               alpha=0.5, edgecolors='none')
+axs[1].legend()
+axs[1].set_xticks([])
+axs[1].set_title('Rattled Initialisation', fontsize=FONTSIZE)
 
+
+fig.tight_layout()
 plt.show()
