@@ -67,7 +67,7 @@ if [ ! -d "$METHOD_NM" ]; then
 fi
 
 # Copy script to method directory 
-# to produce .gin, .got inside it and locate inside
+# to produce .gin, .got inside it
 cp method.py $METHOD_NM/method.py
 cp read_gulp.py $METHOD_NM/read_gulp.py
 cd $METHOD_NM
@@ -109,6 +109,9 @@ for file in "${random_filesList[@]}"; do
     # GULP input filename
     GIN="${INPUT_DIR}/structure${counter}.gin"
     GOT="${OUTPUT_DIR}/structure${counter}.got"
+
+    # Map structure to initial file
+    printf "${file} : rat_structure${counter}"
 
     # GULP relaxation
     echo "Running GULP relaxation with ${GIN}.."
@@ -156,6 +159,9 @@ for file in "${rattled_filesList[@]}"; do
     # GULP input filename
     GIN="${INPUT_DIR}/rat_structure${counter}.gin"
     GOT="${OUTPUT_DIR}/rat_structure${counter}.got"
+
+    # Map structure to initial file
+    printf "${file} : rat_structure${counter}"
 
     # GULP relaxation
     echo "Running GULP relaxation with ${GIN}.."
