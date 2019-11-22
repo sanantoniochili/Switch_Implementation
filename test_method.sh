@@ -68,8 +68,8 @@ fi
 
 # Copy list of input files
 # in folder 
-cp ifiles random.txt
-cp r_ifiles rattled.txt
+cp ifiles $METHOD_NM/random.txt
+cp r_ifiles $METHOD_NM/rattled.txt
 
 # Copy script to method directory 
 # to produce .gin, .got inside it and locate inside
