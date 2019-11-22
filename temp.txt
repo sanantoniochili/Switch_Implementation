@@ -1,1 +1,0 @@
-switch_minimiser bfgs gnorm 0.1
