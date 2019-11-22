@@ -1,9 +1,9 @@
 #!/bin/bash
 
-usage() { echo "Usage: $0 [-s <method>] [-t <time_out>]" 1>&2; exit 1; }
+usage() { echo "Usage: $0 [-s <method>] [-t <time_out>] [-e <stepsize_and_criterion>]" 1>&2; exit 1; }
 
 # Get flags and arguments
-while getopts ":s:t:" opt; do
+while getopts ":s:t:o:" opt; do
   case $opt in
     s)
       echo "-s was triggered, Parameter: $OPTARG" >&2
@@ -15,6 +15,16 @@ while getopts ":s:t:" opt; do
       echo "-t was triggered, Parameter: $OPTARG" >&2
       TFLAG="-t"
       TIMEOUT=${OPTARG}
+      ;;
+    o)
+      echo "-o was triggered, Parameter: $OPTARG" >&2
+      OFLAG="-o"
+      CWD=$(pwd)
+      OPTIONS="${CWD}/${OPTARG}"
+      if [[ ! -f  $OPTIONS ]]; then
+        echo "Options file not found."  # check if file exists
+        exit 127
+      fi
       ;;
     \?)
       echo "Invalid option: -$OPTARG" >&2
@@ -35,6 +45,13 @@ then
     METHOD_NM="${method}"
 fi
 
+##################################################
+################### VARIABLES ####################
+
+# Passed arguments (options for GULP)
+ARGS="$SFLAG $TFLAG $TIMEOUT $OFLAG $OPTIONS"
+echo $ARGS
+
 # IO DIRS
 INPUT_DIR="input"
 OUTPUT_DIR="output"
@@ -44,6 +61,9 @@ DATA_DIR="/users/phd/tonyts/Desktop/Data"
 
 # Map file
 MAP="map_files.txt"
+
+##################################################
+################## USER INPUT ####################
 
 # Catch user input with files list (random initialisation)
 read -p "Enter file with list of inputs [random init] : " ifiles
@@ -62,6 +82,9 @@ if [[ ! -f  $r_ifiles ]]; then
     exit 127
 fi
 readarray -t rattled_filesList < $r_ifiles
+
+##################################################
+################# DIRECTORIES ####################
 
 # Check existence of method DIR
 if [ ! -d "$METHOD_NM" ]; then
@@ -87,6 +110,9 @@ fi
 
 counter=1
 
+##################################################
+################## EXECUTION #####################
+
 # Try random init
 # Read every input file in files list
 # Run python script and get .gin
@@ -105,7 +131,7 @@ for file in "${random_filesList[@]}"; do
 
     # Make GULP input file
     echo "Running Python script for gulp.gin.."
-    python method.py $method $file $SFLAG $TFLAG $TIMEOUT || {
+    python method.py $method $file $ARGS || {
         printf "\n`date` Python script failed with file \"%s\".\n" "$file" >> $LOG
     }
 
@@ -155,7 +181,7 @@ for file in "${rattled_filesList[@]}"; do
 
     # Make GULP input file
     echo "Running Python script for gulp.gin.."
-    python method.py $method $file $SFLAG $TFLAG $TIMEOUT || {
+    python method.py $method $file $ARGS || {
         printf "\n`date` Python script failed with file \"%s\".\n" "$file" >> $LOG
     }
 

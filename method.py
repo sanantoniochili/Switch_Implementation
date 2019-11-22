@@ -10,10 +10,10 @@ from ase.optimize.sciopt import SciPyFminBFGS, SciPyFminCG
 
 class Method:
 	'''
-		Initialisation
-		name:       Name of method
-		keywords:   Keywords for GULP calculator
-		library:    Library of potential
+			Initialisation
+			name:       Name of method
+			keywords:   Keywords for GULP calculator
+			library:    Library of potential
 	'''
 
 	def __init__(self, name, keywords=[], options=[], library=None):
@@ -47,6 +47,28 @@ class Method:
 		return self.atoms.get_potential_energy()
 
 
+''' Set options '''
+
+def set_options(args):
+	options = []
+	if args.switch:
+		print("-----Switching methods.")
+		options += ['switch_minimiser bfgs gnorm 0.1']
+	if args.t != -1:
+		print("-----Using time_out.")
+		options += ['time ' + str(args.t)]
+	if args.optfile:
+		print("-----Using options file.")
+		with open(args.optfile, 'r') as f:
+			for line in f:
+				options += [line.rstrip('\n')]
+
+	print("-----Using options:")
+	print(options)
+	print("-------------------")
+	return options
+
+
 if __name__ == "__main__":
 	''' Get input file and method to use from user '''
 	parser = argparse.ArgumentParser(
@@ -64,26 +86,17 @@ if __name__ == "__main__":
 	parser.add_argument(
 		'-t', type=int, default=-1,
 		help='Set time_out')
+	parser.add_argument(
+		'-optfile', type=str,
+		default=None,
+		help='Add options file')
 	args = parser.parse_args()
 
 	''' File with structure '''
 	print("-----About to use "+args.method +
 		  " with input file:" + str(args.ifilename))
 
-	''' Set options '''
-	options = []
-	if args.switch:
-		print("-----Switching methods.")
-		# inuser = input("-----Options: ")  # get options from user
-		options = ['switch_minimiser bfgs gnorm 0.1']
-		# if inuser:
-		# options = [inuser]
-		print("-----Using options: "+options[0])
-	if args.t != -1:
-		print("-----Using time_out.")
-		options = ['time ' + str(args.t)]
-		print("-----Using options: "+options[0])
-
+	options = set_options(args)
 	with open('temp.txt', 'w') as f:
 		for item in options:
 			f.write("%s\n" % item)
