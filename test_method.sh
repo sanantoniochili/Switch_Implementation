@@ -66,11 +66,6 @@ if [ ! -d "$METHOD_NM" ]; then
     mkdir $METHOD_NM
 fi
 
-# Copy list of input files
-# in folder 
-cp ifiles $METHOD_NM/random.txt
-cp r_ifiles $METHOD_NM/rattled.txt
-
 # Copy script to method directory 
 # to produce .gin, .got inside it and locate inside
 cp method.py $METHOD_NM/method.py
