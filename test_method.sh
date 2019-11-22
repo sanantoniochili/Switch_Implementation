@@ -42,6 +42,9 @@ OUTPUT_DIR="output"
 # Data DIR
 DATA_DIR="/users/phd/tonyts/Desktop/Data"
 
+# Map file
+MAP="map_files.txt"
+
 # Catch user input with files list (random initialisation)
 read -p "Enter file with list of inputs [random init] : " ifiles
 ifiles="${DATA_DIR}/${ifiles}"
@@ -111,7 +114,7 @@ for file in "${random_filesList[@]}"; do
     GOT="${OUTPUT_DIR}/structure${counter}.got"
 
     # Map structure to initial file
-    printf "${file} : rat_structure${counter}"
+    printf "${file} : structure${counter}\n" >> $MAP
 
     # GULP relaxation
     echo "Running GULP relaxation with ${GIN}.."
@@ -161,7 +164,7 @@ for file in "${rattled_filesList[@]}"; do
     GOT="${OUTPUT_DIR}/rat_structure${counter}.got"
 
     # Map structure to initial file
-    printf "${file} : rat_structure${counter}"
+    printf "${file} : rat_structure${counter}\n" >> $MAP
 
     # GULP relaxation
     echo "Running GULP relaxation with ${GIN}.."
