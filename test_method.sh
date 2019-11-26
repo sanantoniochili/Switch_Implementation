@@ -44,7 +44,7 @@ then
     method="${method}"
     METHOD_NM="${method}"
 fi
-
+# METHOD_NM="${METHOD_NM}_c6"
 ##################################################
 ################### VARIABLES ####################
 

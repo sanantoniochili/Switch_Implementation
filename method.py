@@ -30,8 +30,8 @@ class Method:
 	''' Set GULP calculator '''
 
 	def set_calc(self):
-		# keywords_ = ['opti', 'c6']
-		keywords_ = ['opti']
+		# keywords_ = ['opti']
+		keywords_ = ['opti c6']
 		keywords_.append(self.name)
 		if len(self.keywords):
 			self.keywords = keywords_ + self.keywords
@@ -51,9 +51,6 @@ class Method:
 
 def set_options(args):
 	options = []
-	if args.switch:
-		print("-----Switching methods.")
-		options += ['switch_minimiser bfgs gnorm 0.1']
 	if args.t != -1:
 		print("-----Using time_out.")
 		options += ['time ' + str(args.t)]
@@ -62,10 +59,13 @@ def set_options(args):
 		with open(args.optfile, 'r') as f:
 			for line in f:
 				options += [line.rstrip('\n')]
-
-	print("-----Using options:")
-	print(options)
-	print("-------------------")
+	if args.switch:
+		print("-----Switching methods.")
+		options += ['switch_minimiser bfgs gnorm 0.1']
+	if options:
+		print("-----Using options:")
+		print(options)
+		print("-------------------")
 	return options
 
 
