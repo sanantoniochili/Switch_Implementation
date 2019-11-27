@@ -44,7 +44,7 @@ then
     method="${method}"
     METHOD_NM="${method}"
 fi
-# METHOD_NM="${METHOD_NM}_c6"
+
 ##################################################
 ################### VARIABLES ####################
 
@@ -86,6 +86,9 @@ readarray -t rattled_filesList < $r_ifiles
 ##################################################
 ################# DIRECTORIES ####################
 
+# Print Current directory
+echo "\nInside ${CWD}."
+
 # Check existence of method DIR
 if [ ! -d "$METHOD_NM" ]; then
     echo "Creating method directory.."
@@ -97,6 +100,10 @@ fi
 cp method.py $METHOD_NM/method.py
 cp read_gulp.py $METHOD_NM/read_gulp.py
 cd $METHOD_NM
+
+CWD=$(pwd)
+# Print Current directory
+echo "\nInside ${CWD}."
 
 # Check existence of IO method dirs
 if [ ! -d "${INPUT_DIR}" ]; then
