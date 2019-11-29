@@ -93,26 +93,26 @@ if [ ! -d "$testdir" ]; then
     echo "Creating test directory.."
     mkdir tests/$testdir
 fi
-METHOD_NM="tests/${testdir}/${METHOD_NM}"
+testdir="tests/${testdir}/${METHOD_NM}"
 
+CWD=$(pwd)
 # Print Current directory
-echo "\nInside ${CWD}.Moving to ${METHOD_NM}"
+BLUE='\033[0;34m'
+GREEN='\033[0;32m'
+NC='\033[0m' # No Color
+printf "\nInside ${BLUE}${CWD}${NC}. Moving to ${GREEN}${testdir}${NC}..\n"
 
 # Check existence of method DIR
-if [ ! -d "$METHOD_NM" ]; then
+if [ ! -d "${testdir}" ]; then
     echo "Creating method directory.."
-    mkdir $METHOD_NM
+    mkdir $testdir
 fi
 
 # Copy script to method directory 
 # to produce .gin, .got inside it
-cp method.py $METHOD_NM/method.py
-cp read_gulp.py $METHOD_NM/read_gulp.py
-cd $METHOD_NM
-
-CWD=$(pwd)
-# Print Current directory
-echo "\nInside ${CWD}."
+cp method.py $testdir/method.py
+cp read_gulp.py $testdir/read_gulp.py
+cd $testdir
 
 # Check existence of IO method dirs
 if [ ! -d "${INPUT_DIR}" ]; then

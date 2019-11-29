@@ -31,8 +31,8 @@ class Method:
 
 	def set_calc(self):
 		# keywords_ = ['opti']
-		keywords_ = ['opti c6']
-		# keywords_ = ['opti unfix']
+		# keywords_ = ['opti c6']
+		keywords_ = ['opti unfix']
 		keywords_.append(self.name)
 		if len(self.keywords):
 			self.keywords = keywords_ + self.keywords
