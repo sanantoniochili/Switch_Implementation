@@ -21,6 +21,7 @@ while getopts ":s:t:o:" opt; do
       OFLAG="-o"
       CWD=$(pwd)
       OPTIONS="${CWD}/${OPTARG}"
+      METHOD_NM="${METHOD_NM}_o"
       if [[ ! -f  $OPTIONS ]]; then
         echo "Options file not found."  # check if file exists
         exit 127
@@ -86,8 +87,16 @@ readarray -t rattled_filesList < $r_ifiles
 ##################################################
 ################# DIRECTORIES ####################
 
+# Work inside new test directory
+read -p "Choose test directory: " testdir
+if [ ! -d "$testdir" ]; then
+    echo "Creating test directory.."
+    mkdir tests/$testdir
+fi
+METHOD_NM="tests/${testdir}/${METHOD_NM}"
+
 # Print Current directory
-echo "\nInside ${CWD}."
+echo "\nInside ${CWD}.Moving to ${METHOD_NM}"
 
 # Check existence of method DIR
 if [ ! -d "$METHOD_NM" ]; then
