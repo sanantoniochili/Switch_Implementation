@@ -179,6 +179,10 @@ for file in "${random_filesList[@]}"; do
     ((counter++))
 done
 
+# Initialise counter 
+# to match no. of samples
+counter=201
+
 # Try rattled init
 # Read every input file in files list
 # Run python script and get .gin

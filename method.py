@@ -10,10 +10,10 @@ from ase.optimize.sciopt import SciPyFminBFGS, SciPyFminCG
 
 class Method:
 	'''
-			Initialisation
-			name:       Name of method
-			keywords:   Keywords for GULP calculator
-			library:    Library of potential
+		Initialisation
+		name:       Name of method
+		keywords:   Keywords for GULP calculator
+		library:    Library of potential
 	'''
 
 	def __init__(self, name, keywords=[], options=[], library=None):
@@ -31,8 +31,9 @@ class Method:
 
 	def set_calc(self):
 		# keywords_ = ['opti']
-		# keywords_ = ['opti c6']
-		keywords_ = ['opti unfix']
+		# keywords_ = ['opti unfix']
+		keywords_ = ['opti c6']
+		keywords_ = ['opti c6 unfix']
 		keywords_.append(self.name)
 		if len(self.keywords):
 			self.keywords = keywords_ + self.keywords
