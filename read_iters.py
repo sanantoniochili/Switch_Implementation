@@ -47,22 +47,37 @@ if __name__ == "__main__":
 			for line in file:
 				if "Cycle" in line:
 					energy = line.split(':')[2].split(' ')[-3]
+					gnorm = line.split(':')[3].split(' ')[-3]
 					if "**" not in energy:
-						Es.append(energy)	
+						Es.append(energy)
+					if "**" not in gnorm:
+						Gns.append(gnorm)	
 
 			dfe = pd.DataFrame(Es).T
-			df = df.join(dfe)
-			df = df.set_index(['structure', 'method'])
+			dfe_ = df.join(dfe)
+			dfe_ = dfe_.set_index(['structure', 'method'])
+
+			dfg = pd.DataFrame(Gns).T
+			dfg_ = df.join(dfg)
+			dfg_ = dfg_.set_index(['structure', 'method'])
 
 		''' Merge dataframes '''
 		if count:
-			dfes = pd.concat([dfes,df], axis=0)
+			dfes = pd.concat([dfes,dfe_], axis=0)
+			dfgs = pd.concat([dfgs,dfg_], axis=0)			
 		else:
-			dfes = df
+			dfes = dfe_
+			dfgs = dfg_
 		count += 1
 
 	try:
-		with open(args.test_dir+args.ofilename, 'w') as f:
+		with open(args.test_dir+args.ofilename+'_energy', 'w') as f:
 			dfes.to_csv(f, header=True)
+	finally:
+		f.close()
+
+	try:
+		with open(args.test_dir+args.ofilename+'_gnorm', 'w') as f:
+			dfgs.to_csv(f, header=True)
 	finally:
 		f.close()
