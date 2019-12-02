@@ -15,34 +15,30 @@ if __name__ == "__main__":
 	''' Get input file and method to use from user '''
 	parser = argparse.ArgumentParser(
 		description='Define input')
-	# parser.add_argument(
-	# 	'ofilename', metavar='--output', type=str,
-	# 	help='.csv file to produce')
 	parser.add_argument(
-		'ifilename', metavar='--input', type=str,
-		help='.got file to read')
-	parser.add_argument(
-		'method', metavar='--method', type=str,
-		help='Method used')
+		'ofilename', metavar='--output', type=str,
+		help='.csv file to produce')
 	parser.add_argument(
 		'test_dir', metavar='--test_folder', type=str,
 		help='Define folder with samples')
 	args = parser.parse_args()
 
-	test_dir = args.test_dir+'/'+args.method+'/output'
-	flist = os.listdir(test_dir)	
+	flist = []
+	dirs = [d+'/output' for d in os.listdir(args.test_dir) if os.path.isdir(os.path.join(args.test_dir,d))]
+	for d in dirs:
+		d = os.path.abspath(args.test_dir+'/'+d)
+		flist += [os.path.join(d,file) for file in os.listdir(d) if file.endswith(".got")]
 
 	count=0
 	ofilename = args.test_dir+args.ofilename
-	''' Get energies and gnorms for all files 
-		in method directory in one dataframe '''
+	# Get energies and gnorms for all files 
+	#	in method directory in one dataframe
 	for filename in flist:
-		with open(args.ifilename, 'r') as file:
+		with open(filename, 'r') as file:
 			info = Info(file, {})
 			info.catg['structure'] = [
-				args.ifilename.split('/')[-1].split('.')[0]]
-			info.catg['method'] = args.method
-
+				filename.split('/')[-1].split('.')[0]]
+			info.catg['method'] = filename.split('/')[-3]
 			df = pd.DataFrame.from_dict(info.catg, orient='columns')
 
 			Es = [] # lists for each file
@@ -59,19 +55,14 @@ if __name__ == "__main__":
 			df = df.set_index(['structure', 'method'])
 
 		''' Merge dataframes '''
-		if not count:
-			dfes = 
-		
+		if count:
+			dfes = pd.concat([dfes,df], axis=0)
+		else:
+			dfes = df
 		count += 1
 
-		# 	try:
-		# 		with open(args.ofilename, 'w') as f:
-		# 			df.to_csv(f, header=True)
-		# 	finally:
-		# 		f.close()
-		# else:
-		# 	try:
-		# 		with open(args.ofilename, 'a') as f:
-		# 			df.to_csv(f, header=False)
-		# 	finally:
-		# 		f.close()
+	try:
+		with open(args.test_dir+args.ofilename, 'w') as f:
+			dfes.to_csv(f, header=True)
+	finally:
+		f.close()

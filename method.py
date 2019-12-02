@@ -32,7 +32,7 @@ class Method:
 	def set_calc(self):
 		# keywords_ = ['opti']
 		# keywords_ = ['opti unfix']
-		keywords_ = ['opti c6']
+		# keywords_ = ['opti c6']
 		keywords_ = ['opti c6 unfix']
 		keywords_.append(self.name)
 		if len(self.keywords):
