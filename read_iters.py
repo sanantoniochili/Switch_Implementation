@@ -63,21 +63,21 @@ if __name__ == "__main__":
 
 		''' Merge dataframes '''
 		if count:
-			dfes = pd.concat([dfes,dfe_], axis=0)
-			dfgs = pd.concat([dfgs,dfg_], axis=0)			
+			dfes = pd.concat([dfes,dfe_], axis=0, sort=False)
+			dfgs = pd.concat([dfgs,dfg_], axis=0, sort=False)			
 		else:
 			dfes = dfe_
 			dfgs = dfg_
 		count += 1
-
+	print(count)
 	try:
-		with open(args.test_dir+args.ofilename+'_energy', 'w') as f:
+		with open(args.test_dir+args.ofilename+'_energy.csv', 'w') as f:
 			dfes.to_csv(f, header=True)
 	finally:
 		f.close()
 
 	try:
-		with open(args.test_dir+args.ofilename+'_gnorm', 'w') as f:
+		with open(args.test_dir+args.ofilename+'_gnorm.csv', 'w') as f:
 			dfgs.to_csv(f, header=True)
 	finally:
 		f.close()
