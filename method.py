@@ -30,10 +30,7 @@ class Method:
 	''' Set GULP calculator '''
 
 	def set_calc(self):
-		# keywords_ = ['opti']
-		# keywords_ = ['opti unfix']
-		# keywords_ = ['opti c6']
-		keywords_ = ['opti c6 unfix']
+		keywords_ = ['conp full nosymm']
 		keywords_.append(self.name)
 		if len(self.keywords):
 			self.keywords = keywords_ + self.keywords
@@ -63,7 +60,7 @@ def set_options(args):
 				options += [line.rstrip('\n')]
 	if args.switch:
 		print("-----Switching methods.")
-		options += ['switch_minimiser bfgs gnorm 0.1']
+		options += ['switch_minimiser bfgs gnorm 0.5']
 	if options:
 		print("-----Using options:")
 		print(options)
@@ -104,7 +101,7 @@ if __name__ == "__main__":
 			f.write("%s\n" % item)
 
 	''' Set GULP parameters and calculate energy '''
-	m = Method(args.method, ['conp', 'full', 'nosymm'], options, 'buck.lib')
+	m = Method(args.method, ['opti', 'c6', 'unfix'], options, 'buck.lib')
 	m.set_atoms(read(args.ifilename))
 	m.set_calc()  # set GULP
 	e = m.calc()  # structure energy

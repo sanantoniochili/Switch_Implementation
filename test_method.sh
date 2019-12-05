@@ -87,6 +87,14 @@ readarray -t rattled_filesList < $r_ifiles
 ##################################################
 ################# DIRECTORIES ####################
 
+BLUE='\033[0;34m'
+GREEN='\033[0;32m'
+NC='\033[0m' # No Color
+
+COLUMNS=$(tput cols) 
+title="DIRECTORIES" 
+printf "${BLUE}%*s\n${NC}" $(((${#title}+$COLUMNS)/2)) "$title"
+
 # Work inside new test directory
 read -p "Choose test directory: " testdir
 if [ ! -d "$testdir" ]; then
@@ -97,10 +105,7 @@ testdir="tests/${testdir}/${METHOD_NM}"
 
 CWD=$(pwd)
 # Print Current directory
-BLUE='\033[0;34m'
-GREEN='\033[0;32m'
-NC='\033[0m' # No Color
-printf "\nInside ${BLUE}${CWD}${NC}. Moving to ${GREEN}${testdir}${NC}..\n"
+printf "\nInside ${CWD}. Moving to ${GREEN}${testdir}${NC}..\n"
 
 # Check existence of method DIR
 if [ ! -d "${testdir}" ]; then
@@ -129,6 +134,9 @@ counter=1
 ##################################################
 ################## EXECUTION #####################
 
+title="RANDOM" 
+printf "${BLUE}%*s\n${NC}" $(((${#title}+$COLUMNS)/2)) "$title"
+
 # Try random init
 # Read every input file in files list
 # Run python script and get .gin
@@ -146,7 +154,6 @@ for file in "${random_filesList[@]}"; do
     printf "\n`date`\n File : %s\n" "$file" >> $LOG
 
     # Make GULP input file
-    echo "Running Python script for gulp.gin.."
     python method.py $method $file $ARGS || {
         printf "\n`date` Python script failed with file \"%s\".\n" "$file" >> $LOG
     }
@@ -159,7 +166,8 @@ for file in "${random_filesList[@]}"; do
     printf "${file} : structure${counter}\n" >> $MAP
 
     # GULP relaxation
-    echo "Running GULP relaxation with ${GIN}.."
+    title="RELAXATION" 
+    printf "${GREEN}%*s\n${NC}" $(((${#title}+$COLUMNS)/2)) "$title"
     cp "gulp.gin" "${GIN}"
     gulp < "${GIN}" > "${GOT}" || {
     	echo "Failed to execute GULP properly"
@@ -173,11 +181,16 @@ for file in "${random_filesList[@]}"; do
     fi
 
     # Add results to csv
+    printf "\nReading GULP output..."
     python read_gulp.py $GOT results.csv $METHOD_NM $HFLAG
+    printf "..${GREEN}DONE${NC}"
 
     # Count total
     ((counter++))
 done
+
+title="RATTLED" 
+printf "${BLUE}%*s\n${NC}" $(((${#title}+$COLUMNS)/2)) "$title"
 
 # Initialise counter 
 # to match no. of samples
@@ -200,7 +213,6 @@ for file in "${rattled_filesList[@]}"; do
     printf "\n`date`\n File : %s\n" "$file" >> $LOG
 
     # Make GULP input file
-    echo "Running Python script for gulp.gin.."
     python method.py $method $file $ARGS || {
         printf "\n`date` Python script failed with file \"%s\".\n" "$file" >> $LOG
     }
@@ -213,6 +225,8 @@ for file in "${rattled_filesList[@]}"; do
     printf "${file} : rat_structure${counter}\n" >> $MAP
 
     # GULP relaxation
+    title="RELAXATION" 
+    printf "${GREEN}%*s\n${NC}" $(((${#title}+$COLUMNS)/2)) "$title"
     echo "Running GULP relaxation with ${GIN}.."
     cp "gulp.gin" "${GIN}"
     gulp < "${GIN}" > "${GOT}" || {
@@ -227,7 +241,9 @@ for file in "${rattled_filesList[@]}"; do
     fi
 
     # Add results to csv
+    printf "\nReading GULP output..."
     python read_gulp.py $GOT results.csv $METHOD_NM $HFLAG
+    printf "..${GREEN}DONE${NC}"
 
     # Count total
     ((counter++))
