@@ -181,9 +181,9 @@ for file in "${random_filesList[@]}"; do
     fi
 
     # Add results to csv
-    printf "\nReading GULP output..."
+    printf "Reading GULP output..."
     python read_gulp.py $GOT results.csv $METHOD_NM $HFLAG
-    printf "..${GREEN}DONE${NC}"
+    printf "..${GREEN}DONE${NC}\n\n"
 
     # Count total
     ((counter++))
@@ -241,9 +241,9 @@ for file in "${rattled_filesList[@]}"; do
     fi
 
     # Add results to csv
-    printf "\nReading GULP output..."
+    printf "Reading GULP output..."
     python read_gulp.py $GOT results.csv $METHOD_NM $HFLAG
-    printf "..${GREEN}DONE${NC}"
+    printf "..${GREEN}DONE${NC}\n\n"
 
     # Count total
     ((counter++))
