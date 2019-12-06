@@ -62,6 +62,11 @@ DATA_DIR="/users/phd/tonyts/Desktop/Data"
 
 # Map file
 MAP="map_files.txt"
+> $MAP
+
+# Log file
+LOG="${METHOD_NM}_stoplog.txt"
+> $LOG
 
 ##################################################
 ################## USER INPUT ####################
@@ -150,7 +155,6 @@ for file in "${random_filesList[@]}"; do
     fi
 
     # Log file
-    LOG="${METHOD_NM}_stoplog.txt"
     printf "\n`date`\n File : %s\n" "$file" >> $LOG
 
     # Make GULP input file
@@ -209,7 +213,6 @@ for file in "${rattled_filesList[@]}"; do
     fi
 
     # Log file
-    LOG="${METHOD_NM}_stoplog.txt"
     printf "\n`date`\n File : %s\n" "$file" >> $LOG
 
     # Make GULP input file
@@ -227,7 +230,6 @@ for file in "${rattled_filesList[@]}"; do
     # GULP relaxation
     title="RELAXATION" 
     printf "${GREEN}%*s\n${NC}" $(((${#title}+$COLUMNS)/2)) "$title"
-    echo "Running GULP relaxation with ${GIN}.."
     cp "gulp.gin" "${GIN}"
     gulp < "${GIN}" > "${GOT}" || {
         echo "Failed to execute GULP properly"
