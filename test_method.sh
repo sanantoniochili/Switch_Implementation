@@ -62,11 +62,9 @@ DATA_DIR="/users/phd/tonyts/Desktop/Data"
 
 # Map file
 MAP="map_files.txt"
-> $MAP
 
 # Log file
 LOG="${METHOD_NM}_stoplog.txt"
-> $LOG
 
 ##################################################
 ################## USER INPUT ####################
@@ -134,10 +132,15 @@ if [ ! -d "${OUTPUT_DIR}" ]; then
     mkdir $OUTPUT_DIR
 fi
 
-counter=1
-
 ##################################################
 ################## EXECUTION #####################
+
+# Empty files
+> $MAP
+> $LOG
+
+# Set counter
+counter=1
 
 title="RANDOM" 
 printf "${BLUE}%*s\n${NC}" $(((${#title}+$COLUMNS)/2)) "$title"
