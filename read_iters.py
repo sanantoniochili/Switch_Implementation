@@ -24,13 +24,17 @@ if __name__ == "__main__":
 	args = parser.parse_args()
 
 	flist = []
-	dirs = [d+'/output' for d in os.listdir(args.test_dir) if os.path.isdir(os.path.join(args.test_dir,d))]
+	dirs = [d for d in os.listdir(args.test_dir) # find all objects
+			if os.path.isdir(os.path.join(args.test_dir,d))] # check if is directory
 	for d in dirs:
+		d += '/output'
+		if not os.path.exists(os.path.join(args.test_dir,d)):
+			continue
 		d = os.path.abspath(args.test_dir+'/'+d)
 		flist += [os.path.join(d,file) for file in os.listdir(d) if file.endswith(".got")]
 
 	count=0
-	ofilename = args.test_dir+args.ofilename
+	ofilename = args.test_dir+'/'+args.ofilename
 	# Get energies and gnorms for all files 
 	#	in method directory in one dataframe
 	for filename in flist:
@@ -71,13 +75,13 @@ if __name__ == "__main__":
 		count += 1
 	print(count)
 	try:
-		with open(args.test_dir+args.ofilename+'_energy.csv', 'w') as f:
+		with open(args.test_dir+'/'+args.ofilename+'_energy.csv', 'w') as f:
 			dfes.to_csv(f, header=True)
 	finally:
 		f.close()
 
 	try:
-		with open(args.test_dir+args.ofilename+'_gnorm.csv', 'w') as f:
+		with open(args.test_dir+'/'+args.ofilename+'_gnorm.csv', 'w') as f:
 			dfgs.to_csv(f, header=True)
 	finally:
 		f.close()
