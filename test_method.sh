@@ -47,6 +47,17 @@ then
 fi
 
 ##################################################
+################## USER INPUT ####################
+
+# Catch user input with files list
+read -p "Enter file with list of inputs : " ifiles
+
+# Structure name is based on structure sequential number
+read -p "Enter structures name : " SNAME
+read -p "Enter first structure number : " counter
+
+
+##################################################
 ################### VARIABLES ####################
 
 # Passed arguments (options for GULP)
@@ -66,30 +77,22 @@ MAP="map_files.txt"
 # Log file
 LOG="${METHOD_NM}_stoplog.txt"
 
-##################################################
-################## USER INPUT ####################
-
-# Catch user input with files list (random initialisation)
-read -p "Enter file with list of inputs [random init] : " ifiles
+# Find file with inputs
 ifiles="${DATA_DIR}/${ifiles}"
 if [[ ! -f  $ifiles ]]; then
 	echo "File not found."	# check if file exists
 	exit 127
 fi
-readarray -t random_filesList < $ifiles
+readarray -t filesList < $ifiles
 
-# Catch user input with files list (rattled initialisation)
-read -p "Enter file with list of inputs [rattled init]: " r_ifiles
-r_ifiles="${DATA_DIR}/${r_ifiles}"
-if [[ ! -f  $r_ifiles ]]; then
-    echo "File not found."  # check if file exists
-    exit 127
-fi
-readarray -t rattled_filesList < $r_ifiles
+# Copy GULP IO to directories
+GIN="${INPUT_DIR}/${SNAME}${counter}.gin"
+GOT="${OUTPUT_DIR}/${SNAME}${counter}.got"
 
 ##################################################
 ################# DIRECTORIES ####################
 
+# Appearance
 BLUE='\033[0;34m'
 GREEN='\033[0;32m'
 NC='\033[0m' # No Color
@@ -104,23 +107,23 @@ if [ ! -d "$testdir" ]; then
     echo "Creating test directory.."
     mkdir tests/$testdir
 fi
-testdir="tests/${testdir}/${METHOD_NM}"
+TEST_DIR="tests/${testdir}/${METHOD_NM}"
 
 CWD=$(pwd)
 # Print Current directory
-printf "\nInside ${CWD}. Moving to ${GREEN}${testdir}${NC}..\n"
+printf "\nInside ${CWD}. Moving to ${GREEN}${TEST_DIR}${NC}..\n"
 
 # Check existence of method DIR
-if [ ! -d "${testdir}" ]; then
+if [ ! -d "${TEST_DIR}" ]; then
     echo "Creating method directory.."
-    mkdir $testdir
+    mkdir $TEST_DIR
 fi
 
 # Copy script to method directory 
 # to produce .gin, .got inside it
-cp method.py $testdir/method.py
-cp read_gulp.py $testdir/read_gulp.py
-cd $testdir
+cp method.py $TEST_DIR/method.py
+cp read_gulp.py $TEST_DIR/read_gulp.py
+cd $TEST_DIR
 
 # Check existence of IO method dirs
 if [ ! -d "${INPUT_DIR}" ]; then
@@ -139,17 +142,14 @@ fi
 > $MAP
 > $LOG
 
-# Set counter
-counter=1
-
-title="RANDOM" 
+title="EXECUTION" 
 printf "${BLUE}%*s\n${NC}" $(((${#title}+$COLUMNS)/2)) "$title"
 
 # Try random init
 # Read every input file in files list
 # Run python script and get .gin
 # Run GULP and save output
-for file in "${random_filesList[@]}"; do
+for file in "${filesList[@]}"; do
 
     # Check if file exists
     if [ ! -f $file ]; then
@@ -160,84 +160,15 @@ for file in "${random_filesList[@]}"; do
     # Log file
     printf "\n`date`\n File : %s\n" "$file" >> $LOG
 
-    # Make GULP input file
+    # Run GULP relaxation
     python method.py $method $file $ARGS || {
         printf "\n`date` Python script failed with file \"%s\".\n" "$file" >> $LOG
     }
-
-    # GULP input filename
-    GIN="${INPUT_DIR}/structure${counter}.gin"
-    GOT="${OUTPUT_DIR}/structure${counter}.got"
+    cp "gulp.gin" "${GIN}"
+    cp "gulp.got" "${GOT}"
 
     # Map structure to initial file
-    printf "${file} : structure${counter}\n" >> $MAP
-
-    # GULP relaxation
-    title="RELAXATION" 
-    printf "${GREEN}%*s\n${NC}" $(((${#title}+$COLUMNS)/2)) "$title"
-    cp "gulp.gin" "${GIN}"
-    gulp < "${GIN}" > "${GOT}" || {
-    	echo "Failed to execute GULP properly"
-        exit 1
-    }
-
-    # Add headers to csv file
-    HFLAG=""
-    if [[ counter -eq 1 ]]; then
-      HFLAG="-c"
-    fi
-
-    # Add results to csv
-    printf "Reading GULP output..."
-    python read_gulp.py $GOT results.csv $METHOD_NM $HFLAG
-    printf "..${GREEN}DONE${NC}\n\n"
-
-    # Count total
-    ((counter++))
-done
-
-title="RATTLED" 
-printf "${BLUE}%*s\n${NC}" $(((${#title}+$COLUMNS)/2)) "$title"
-
-# Initialise counter 
-# to match no. of samples
-counter=201
-
-# Try rattled init
-# Read every input file in files list
-# Run python script and get .gin
-# Run GULP and save output
-for file in "${rattled_filesList[@]}"; do
-
-    # Check if file exists
-    if [ ! -f $file ]; then
-      echo "File not found"
-      continue
-    fi
-
-    # Log file
-    printf "\n`date`\n File : %s\n" "$file" >> $LOG
-
-    # Make GULP input file
-    python method.py $method $file $ARGS || {
-        printf "\n`date` Python script failed with file \"%s\".\n" "$file" >> $LOG
-    }
-
-    # GULP input filename
-    GIN="${INPUT_DIR}/rat_structure${counter}.gin"
-    GOT="${OUTPUT_DIR}/rat_structure${counter}.got"
-
-    # Map structure to initial file
-    printf "${file} : rat_structure${counter}\n" >> $MAP
-
-    # GULP relaxation
-    title="RELAXATION" 
-    printf "${GREEN}%*s\n${NC}" $(((${#title}+$COLUMNS)/2)) "$title"
-    cp "gulp.gin" "${GIN}"
-    gulp < "${GIN}" > "${GOT}" || {
-        echo "Failed to execute GULP properly"
-        exit 1
-    }
+    printf "${file} : ${SNAME}${counter}\n" >> $MAP
 
     # Add headers to csv file
     HFLAG=""
