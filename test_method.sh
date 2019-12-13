@@ -56,7 +56,6 @@ read -p "Enter file with list of inputs : " ifiles
 read -p "Enter structures name : " SNAME
 read -p "Enter first structure number : " counter
 
-
 ##################################################
 ################### VARIABLES ####################
 
