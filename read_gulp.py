@@ -25,10 +25,6 @@ if __name__ == "__main__":
 	parser.add_argument(
 		'method', metavar='--method', type=str,
 		help='Method used')
-	parser.add_argument(
-		'-c', '--categories',
-		action='store_true',
-		help='Add columns to file')
 	args = parser.parse_args()
 
 	# Initialisation
@@ -55,6 +51,8 @@ if __name__ == "__main__":
 		info = Info(file, {})
 		info.catg['structure'] = [
 			args.ifilename.split('/')[-1].split('.')[0]]
+		info.catg['folder'] = [
+			args.ifilename.split('/')[-2]]
 		info.catg['method'] = args.method
 
 		# Initialisation
@@ -65,6 +63,7 @@ if __name__ == "__main__":
 		info.catg['cpu_time'] 	= [0]
 
 		for line in file:
+			print('-', end='', flush=True)
 			if "Cycle" in line:
 				# no. of iterations without cycle 0
 				c_cnt += 1
@@ -118,9 +117,9 @@ if __name__ == "__main__":
 		info.catg['switch'] 	= [switch]
 
 		df = pd.DataFrame.from_dict(info.catg, orient='columns')
-		df = df.set_index(['structure', 'method'])
+		df = df.set_index(['structure', 'method', 'folder'])
 
-	if args.categories:
+	if os.path.isfile(args.ofilename):
 		try:
 			with open(args.ofilename, 'w') as f:
 				df.to_csv(f, header=True)

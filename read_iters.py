@@ -20,7 +20,7 @@ if __name__ == "__main__":
 		help='.csv file to produce')
 	parser.add_argument(
 		'test_dir', metavar='--test_folder', type=str,
-		help='Define folder with samples')
+		help='Define test environment folder')
 	args = parser.parse_args()
 
 	flist = []
@@ -31,7 +31,9 @@ if __name__ == "__main__":
 		if not os.path.exists(os.path.join(args.test_dir,d)):
 			continue
 		d = os.path.abspath(args.test_dir+'/'+d)
-		flist += [os.path.join(d,file) for file in os.listdir(d) if file.endswith(".got")]
+		for sd in os.listdir(d):
+			npath = os.path.join(d,sd)
+			flist += [os.path.join(npath,file) for file in os.listdir(npath) if file.endswith(".got")]
 
 	count=0
 	ofilename = args.test_dir+'/'+args.ofilename
@@ -42,7 +44,8 @@ if __name__ == "__main__":
 			info = Info(file, {})
 			info.catg['structure'] = [
 				filename.split('/')[-1].split('.')[0]]
-			info.catg['method'] = filename.split('/')[-3]
+			info.catg['method'] = filename.split('/')[-4]
+			info.catg['folder'] = filename.split('/')[-2]
 			df = pd.DataFrame.from_dict(info.catg, orient='columns')
 
 			Es = [] # lists for each file
@@ -73,7 +76,6 @@ if __name__ == "__main__":
 			dfes = dfe_
 			dfgs = dfg_
 		count += 1
-	print(count)
 	try:
 		with open(args.test_dir+'/'+args.ofilename+'_energy.csv', 'w') as f:
 			dfes.to_csv(f, header=True)

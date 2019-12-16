@@ -64,7 +64,6 @@ def set_options(args):
 	if options:
 		print("-----Using options:")
 		print(options)
-		print("-------------------")
 	return options
 
 
@@ -101,7 +100,11 @@ if __name__ == "__main__":
 			f.write("%s\n" % item)
 
 	''' Set GULP parameters and calculate energy '''
-	m = Method(args.method, ['opti', 'c6', 'unfix'], options, 'buck.lib')
+	m = Method(args.method, ['opti'], options, 'buck.lib')
+	# m = Method(args.method, ['opti', 'unfix'], options, 'buck.lib')
+	# m = Method(args.method, ['opti', 'c6'], options, 'buck.lib')
+	# m = Method(args.method, ['opti', 'c6', 'unfix'], options, 'buck.lib')
+
 	m.set_atoms(read(args.ifilename))
 	m.set_calc()  # set GULP
 	e = m.calc()  # structure energy
