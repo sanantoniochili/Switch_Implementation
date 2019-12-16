@@ -120,7 +120,7 @@ if __name__ == "__main__":
 		df = pd.DataFrame.from_dict(info.catg, orient='columns')
 		df = df.set_index(['structure', 'method', 'folder'])
 
-	if os.path.isfile(args.ofilename):
+	if not os.path.isfile(args.ofilename):
 		try:
 			with open(args.ofilename, 'w') as f:
 				df.to_csv(f, header=True)
