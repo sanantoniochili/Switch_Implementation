@@ -148,10 +148,6 @@ OUT_DIR="${OUTPUT_DIR}/${SAMPLES}"
 ##################################################
 ################## EXECUTION #####################
 
-# Empty files
-> $MAP
-> $LOG
-
 # Try random init
 # Read every input file in files list
 # Run python script and get .gin
