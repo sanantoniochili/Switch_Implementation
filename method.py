@@ -60,7 +60,8 @@ def set_options(args):
 				options += [line.rstrip('\n')]
 	if args.switch:
 		print("-----Switching methods.")
-		options += ['switch_minimiser bfgs gnorm 0.5']
+		switch_str = 'switch_minimiser '+args.switch+' gnorm 0.5'
+		options += [switch_str]
 	if options:
 		print("-----Using options:")
 		print(options)
@@ -78,9 +79,9 @@ if __name__ == "__main__":
 		'ifilename', metavar='--input', type=str,
 		help='Name of input file')
 	parser.add_argument(
-		'-s', '--switch',
-		action='store_true',
-		help='Switch methods')
+		'-switch', type=str,
+		default='',
+		help='Switch to second method')
 	parser.add_argument(
 		'-t', type=int, default=-1,
 		help='Set time_out')
@@ -101,9 +102,9 @@ if __name__ == "__main__":
 
 	''' Set GULP parameters and calculate energy '''
 	# m = Method(args.method, ['opti'], options, 'buck.lib')
-	m = Method(args.method, ['opti', 'unfix'], options, 'buck.lib')
+	# m = Method(args.method, ['opti', 'unfix'], options, 'buck.lib')
 	# m = Method(args.method, ['opti', 'c6'], options, 'buck.lib')
-	# m = Method(args.method, ['opti', 'c6', 'unfix'], options, 'buck.lib')
+	m = Method(args.method, ['opti', 'c6', 'unfix'], options, 'buck.lib')
 
 	m.set_atoms(read(args.ifilename))
 	m.set_calc()  # set GULP

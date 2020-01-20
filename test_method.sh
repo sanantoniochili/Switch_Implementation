@@ -1,15 +1,23 @@
 #!/bin/bash
 
-usage() { echo "Usage: $0 [-s <method>] [-t <time_out>] [-e <stepsize_and_criterion>]" 1>&2; exit 1; }
+usage() { echo "Usage: $0 [-s \"<from_method> <to_method>\"] [-t <time_out>] [-o <additional_options_file>]" 1>&2; exit 1; }
 
 # Get flags and arguments
 while getopts ":s:t:o:" opt; do
   case $opt in
     s)
       echo "-s was triggered, Parameter: $OPTARG" >&2
-      SFLAG="--switch"
-      method=${OPTARG}
-      METHOD_NM="switch"
+      
+      set -f # disable glob
+      IFS=' ' # split on space characters
+      switch2=($OPTARG) # keep 2 methods
+
+      method="${switch2[0]}"
+      method2="${switch2[1]}"
+
+      # For later operations
+      SFLAG="-switch"
+      METHOD_NM="switch_${method2}"
       ;;
     t)
       echo "-t was triggered, Parameter: $OPTARG" >&2
@@ -29,6 +37,7 @@ while getopts ":s:t:o:" opt; do
       ;;
     \?)
       echo "Invalid option: -$OPTARG" >&2
+      usage
       exit 1
       ;;
     :)
@@ -41,7 +50,7 @@ done
 if [ -z "$method" ]
 then
     # Method to execute
-    read -p "Choose method (conj or bfgs): " method
+    read -p "Choose method (e.g. conj): " method
     method="${method}"
     METHOD_NM="${method}"
 fi
@@ -68,7 +77,7 @@ NC='\033[0m' # No Color
 COLUMNS=$(tput cols) 
 
 # Passed arguments (options for GULP)
-ARGS="$SFLAG $TFLAG $TIMEOUT $OFLAG $OPTIONS"
+ARGS="$SFLAG $method2 $TFLAG $TIMEOUT $OFLAG $OPTIONS"
 
 # IO DIRS
 INPUT_DIR="input"
