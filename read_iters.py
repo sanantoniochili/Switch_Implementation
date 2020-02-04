@@ -26,11 +26,11 @@ if __name__ == "__main__":
 	flist = []
 	dirs = [d for d in os.listdir(args.test_dir) # find all objects
 			if os.path.isdir(os.path.join(args.test_dir,d))] # check if is directory
-	for d in dirs:
+	for d in dirs: # for every method folder
 		d += '/output'
 		if not os.path.exists(os.path.join(args.test_dir,d)):
 			continue
-		d = os.path.abspath(args.test_dir+'/'+d)
+		d = os.path.abspath(args.test_dir+'/'+d) # use absolute path
 		for sd in os.listdir(d):
 			npath = os.path.join(d,sd)
 			flist += [os.path.join(npath,file) for file in os.listdir(npath) if file.endswith(".got")]
