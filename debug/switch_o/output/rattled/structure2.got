@@ -17,7 +17,7 @@
 ********************************************************************************
 
 
-  Job Started  at 16:29.13  3rd February   2020                               
+  Job Started  at 12:05.04  4th February   2020                               
 
   Number of CPUs =     1
 
@@ -170,7 +170,7 @@ O    c O    c Buckingham    Buckingham A     1388.7700    eV        0.000 10.000
 
   Start of bulk optimisation :
 
-  Cycle:      0 Energy:      -475.375886  Gnorm:      0.419631  CPU:    0.012
+  Cycle:      0 Energy:      -475.375886  Gnorm:      0.419631  CPU:    0.011
   ** Hessian calculated **
  Line minimisation2
  ALPHA BEFORE:    1.0000000000000000     
@@ -231,7 +231,7 @@ new    ...       0.50000000    -475.55700606
 __s__    ...       0.10000000
 
  ALPHA AFTER:   0.50000000000000000     
-  Cycle:      2 Energy:      -475.557006  Gnorm:      0.099295  CPU:    0.031
+  Cycle:      2 Energy:      -475.557006  Gnorm:      0.099295  CPU:    0.032
  Line minimisation2
  ALPHA BEFORE:    1.0678579801851558     
   ** Opt : line minimisation
@@ -381,7 +381,7 @@ new    ...       0.50000000    -475.56730884
 __s__    ...       0.10000000
 
  ALPHA AFTER:   0.50000000000000000     
-  Cycle:      7 Energy:      -475.567309  Gnorm:      0.003016  CPU:    0.055
+  Cycle:      7 Energy:      -475.567309  Gnorm:      0.003016  CPU:    0.052
  Line minimisation2
  ALPHA BEFORE:    1.0017149619779990     
   ** Opt : line minimisation
@@ -411,7 +411,7 @@ new    ...       0.50000000    -475.56731590
 __s__    ...       0.10000000
 
  ALPHA AFTER:   0.50000000000000000     
-  Cycle:      8 Energy:      -475.567316  Gnorm:      0.001508  CPU:    0.059
+  Cycle:      8 Energy:      -475.567316  Gnorm:      0.001508  CPU:    0.056
  Line minimisation2
  ALPHA BEFORE:    1.0008531826643732     
   ** Opt : line minimisation
@@ -427,7 +427,7 @@ new    ...       0.30000000    -475.56731709
 __s__    ...       0.10000000
 
  ALPHA AFTER:   0.30000000000000004     
-  Cycle:      9 Energy:      -475.567317  Gnorm:      0.001055  CPU:    0.062
+  Cycle:      9 Energy:      -475.567317  Gnorm:      0.001055  CPU:    0.059
  Line minimisation2
  ALPHA BEFORE:   0.42868448178849217     
   ** Opt : line minimisation
@@ -443,7 +443,7 @@ new    ...       0.30000000    -475.56731768
 __s__    ...       0.10000000
 
  ALPHA AFTER:   0.30000000000000004     
-  Cycle:     10 Energy:      -475.567318  Gnorm:      0.000739  CPU:    0.064
+  Cycle:     10 Energy:      -475.567318  Gnorm:      0.000739  CPU:    0.061
   ** Hessian calculated **
  Line minimisation2
  ALPHA BEFORE:    1.0000000000000000     
@@ -460,7 +460,7 @@ new    ...       0.30000000    -475.56731797
 __s__    ...       0.10000000
 
  ALPHA AFTER:   0.30000000000000004     
-  Cycle:     11 Energy:      -475.567318  Gnorm:      0.000515  CPU:    0.068
+  Cycle:     11 Energy:      -475.567318  Gnorm:      0.000515  CPU:    0.066
  Line minimisation2
  ALPHA BEFORE:   0.43521500872803420     
   ** Opt : line minimisation
@@ -571,7 +571,7 @@ __s__    ...       0.10000000
 --------------------------------------------------------------------------------
 
 
-  Time to end of optimisation =       0.0714 seconds
+  Time to end of optimisation =       0.0684 seconds
 
  Exiting ------OPTIONS------
 
@@ -583,13 +583,13 @@ __s__    ...       0.10000000
 --------------------------------------------------------------------------------
   Task / Subroutine                                          Time (Seconds)
 --------------------------------------------------------------------------------
-  Calculation of reciprocal space energy and derivatives          0.0080
-  Calculation of real space energy and derivatives                0.0550
-  Calculation of matrix inversion                                 0.0001
+  Calculation of reciprocal space energy and derivatives          0.0074
+  Calculation of real space energy and derivatives                0.0529
+  Calculation of matrix inversion                                 0.0002
 --------------------------------------------------------------------------------
-  Total CPU time                                                  0.0715
+  Total CPU time                                                  0.0685
 --------------------------------------------------------------------------------
 
 
-  Job Finished at 16:29.13  3rd February   2020                               
+  Job Finished at 12:05.04  4th February   2020                               
 

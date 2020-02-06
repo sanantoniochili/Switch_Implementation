@@ -17,7 +17,7 @@
 ********************************************************************************
 
 
-  Job Started  at 16:25.17  3rd February   2020                               
+  Job Started  at 11:57.28  4th February   2020                               
 
   Number of CPUs =     1
 
@@ -165,7 +165,7 @@ O    c O    c Buckingham    Buckingham A     1388.7700    eV        0.000 10.000
 
   Start of bulk optimisation :
 
-  Cycle:      0 Energy:       -53.354440  Gnorm:     31.391907  CPU:    0.012
+  Cycle:      0 Energy:       -53.354440  Gnorm:     31.391907  CPU:    0.011
  Perform trimming
  Line minimisation2
  ALPHA BEFORE:    1.0000000000000000     
@@ -203,7 +203,7 @@ new    ...       1.80368654    -278.26112510
 __s__    ...       0.00780001
 
  ALPHA AFTER:    1.8036865373670468     
-  Cycle:      1 Energy:      -278.261125  Gnorm:      9.633754  CPU:    0.028
+  Cycle:      1 Energy:      -278.261125  Gnorm:      9.633754  CPU:    0.025
  Perform trimming
  Line minimisation2
  ALPHA BEFORE:    1.8036865373670468     
@@ -234,7 +234,7 @@ new    ...       0.43351994    -313.96528295
 __s__    ...       0.01439730
 
  ALPHA AFTER:   0.43351993591050947     
-  Cycle:      2 Energy:      -313.965283  Gnorm:     10.323993  CPU:    0.034
+  Cycle:      2 Energy:      -313.965283  Gnorm:     10.323993  CPU:    0.032
  Perform trimming
  Line minimisation2
  ALPHA BEFORE:   0.43351993591050947     
@@ -279,7 +279,7 @@ new    ...       0.52706422    -348.67815793
 __s__    ...       0.01582193
 
  ALPHA AFTER:   0.52706422453083079     
-  Cycle:      3 Energy:      -348.678158  Gnorm:      9.744716  CPU:    0.041
+  Cycle:      3 Energy:      -348.678158  Gnorm:      9.744716  CPU:    0.039
  Line minimisation2
  ALPHA BEFORE:   0.52706422453083079     
   ** Opt : line minimisation
@@ -309,7 +309,7 @@ new    ...       0.12364762    -366.36882043
 __s__    ...       0.00676836
 
  ALPHA AFTER:   0.12364762186028617     
-  Cycle:      4 Energy:      -366.368820  Gnorm:      9.373926  CPU:    0.047
+  Cycle:      4 Energy:      -366.368820  Gnorm:      9.373926  CPU:    0.043
  Line minimisation2
  ALPHA BEFORE:   0.12364762186028617     
   ** Opt : line minimisation
@@ -332,7 +332,7 @@ new    ...       0.16861892    -383.45951421
 __s__    ...       0.00057288
 
  ALPHA AFTER:   0.16861891777557195     
-  Cycle:      5 Energy:      -383.459514  Gnorm:     10.122750  CPU:    0.052
+  Cycle:      5 Energy:      -383.459514  Gnorm:     10.122750  CPU:    0.047
  Line minimisation2
  ALPHA BEFORE:   0.16861891777557195     
   ** Opt : line minimisation
@@ -348,7 +348,7 @@ new    ...       0.09506930    -394.00163825
 __s__    ...       0.01075984
 
  ALPHA AFTER:    9.5069303273707773E-002
-  Cycle:      6 Energy:      -394.001638  Gnorm:      7.875622  CPU:    0.056
+  Cycle:      6 Energy:      -394.001638  Gnorm:      7.875622  CPU:    0.051
  Line minimisation2
  ALPHA BEFORE:    9.5069303273707773E-002
   ** Opt : line minimisation
@@ -378,7 +378,7 @@ new    ...       0.18511635    -409.60933571
 __s__    ...      -0.00900783
 
  ALPHA AFTER:   0.18511635336309865     
-  Cycle:      7 Energy:      -409.609336  Gnorm:      5.169000  CPU:    0.061
+  Cycle:      7 Energy:      -409.609336  Gnorm:      5.169000  CPU:    0.056
  Line minimisation2
  ALPHA BEFORE:   0.18511635336309865     
   ** Opt : line minimisation
@@ -401,7 +401,7 @@ new    ...       0.17348442    -414.70248329
 __s__    ...       0.02163114
 
  ALPHA AFTER:   0.17348442471467709     
-  Cycle:      8 Energy:      -414.702483  Gnorm:      5.432087  CPU:    0.066
+  Cycle:      8 Energy:      -414.702483  Gnorm:      5.432087  CPU:    0.060
  Line minimisation2
  ALPHA BEFORE:   0.17348442471467709     
   ** Opt : line minimisation
@@ -424,7 +424,7 @@ new    ...       0.27419682    -424.35968547
 __s__    ...       0.01577431
 
  ALPHA AFTER:   0.27419681763664078     
-  Cycle:      9 Energy:      -424.359685  Gnorm:      5.549823  CPU:    0.071
+  Cycle:      9 Energy:      -424.359685  Gnorm:      5.549823  CPU:    0.064
  Line minimisation2
  ALPHA BEFORE:   0.27419681763664078     
   ** Opt : line minimisation
@@ -440,7 +440,7 @@ new    ...       0.17121043    -430.46865990
 __s__    ...       0.03411202
 
  ALPHA AFTER:   0.13709840881832039     
-  Cycle:     10 Energy:      -430.480897  Gnorm:      3.629462  CPU:    0.074
+  Cycle:     10 Energy:      -430.480897  Gnorm:      3.629462  CPU:    0.067
  Line minimisation2
  ALPHA BEFORE:   0.13709840881832039     
   ** Opt : line minimisation
@@ -463,7 +463,7 @@ new    ...       0.29045083    -435.26827231
 __s__    ...       0.01742775
 
  ALPHA AFTER:   0.29045083384423631     
-  Cycle:     11 Energy:      -435.268272  Gnorm:      3.544090  CPU:    0.079
+  Cycle:     11 Energy:      -435.268272  Gnorm:      3.544090  CPU:    0.072
  Line minimisation2
  ALPHA BEFORE:   0.29045083384423631     
   ** Opt : line minimisation
@@ -486,7 +486,7 @@ new    ...       0.32682835    -440.28607881
 __s__    ...      -0.02390575
 
  ALPHA AFTER:   0.32682835166717744     
-  Cycle:     12 Energy:      -440.286079  Gnorm:      3.584659  CPU:    0.084
+  Cycle:     12 Energy:      -440.286079  Gnorm:      3.584659  CPU:    0.075
  Line minimisation2
  ALPHA BEFORE:   0.32682835166717744     
   ** Opt : line minimisation
@@ -509,7 +509,7 @@ new    ...       0.36398878    -445.46665330
 __s__    ...       0.02586867
 
  ALPHA AFTER:   0.36398878206075391     
-  Cycle:     13 Energy:      -445.466653  Gnorm:      4.077131  CPU:    0.088
+  Cycle:     13 Energy:      -445.466653  Gnorm:      4.077131  CPU:    0.078
  Line minimisation2
  ALPHA BEFORE:   0.36398878206075391     
   ** Opt : line minimisation
@@ -525,7 +525,7 @@ new    ...       0.14737665    -448.47817101
 __s__    ...      -0.03461774
 
  ALPHA AFTER:   0.14737665355903223     
-  Cycle:     14 Energy:      -448.478171  Gnorm:      3.148754  CPU:    0.091
+  Cycle:     14 Energy:      -448.478171  Gnorm:      3.148754  CPU:    0.081
  Line minimisation2
  ALPHA BEFORE:   0.14737665355903223     
   ** Opt : line minimisation
@@ -548,7 +548,7 @@ new    ...       0.35719871    -452.51821848
 __s__    ...       0.02242085
 
  ALPHA AFTER:   0.35719870504015327     
-  Cycle:     15 Energy:      -452.518218  Gnorm:      1.952356  CPU:    0.094
+  Cycle:     15 Energy:      -452.518218  Gnorm:      1.952356  CPU:    0.084
  Line minimisation2
  ALPHA BEFORE:   0.35719870504015327     
   ** Opt : line minimisation
@@ -571,7 +571,7 @@ new    ...       0.50335323    -454.86416989
 __s__    ...      -0.06072538
 
  ALPHA AFTER:   0.50335323499104256     
-  Cycle:     16 Energy:      -454.864170  Gnorm:      2.341955  CPU:    0.098
+  Cycle:     16 Energy:      -454.864170  Gnorm:      2.341955  CPU:    0.088
  Perform trimming
  Line minimisation2
  ALPHA BEFORE:   0.50335323499104256     
@@ -588,7 +588,7 @@ new    ...       0.33797321    -456.61746931
 __s__    ...       0.08629659
 
  ALPHA AFTER:   0.25167661749552128     
-  Cycle:     17 Energy:      -456.636723  Gnorm:      1.673606  CPU:    0.101
+  Cycle:     17 Energy:      -456.636723  Gnorm:      1.673606  CPU:    0.091
  Line minimisation2
  ALPHA BEFORE:   0.25167661749552128     
   ** Opt : line minimisation
@@ -611,7 +611,7 @@ new    ...       0.25864202    -457.43535044
 __s__    ...       0.02053580
 
  ALPHA AFTER:   0.25864201681216065     
-  Cycle:     18 Energy:      -457.435350  Gnorm:      1.016826  CPU:    0.104
+  Cycle:     18 Energy:      -457.435350  Gnorm:      1.016826  CPU:    0.094
  Line minimisation2
  ALPHA BEFORE:   0.25864201681216065     
   ** Opt : line minimisation
@@ -634,7 +634,7 @@ new    ...       0.53148131    -458.09684200
 __s__    ...      -0.02311173
 
  ALPHA AFTER:   0.53148131012129118     
-  Cycle:     19 Energy:      -458.096842  Gnorm:      0.931426  CPU:    0.108
+  Cycle:     19 Energy:      -458.096842  Gnorm:      0.931426  CPU:    0.097
  Line minimisation2
  ALPHA BEFORE:   0.53148131012129118     
   ** Opt : line minimisation
@@ -650,7 +650,7 @@ new    ...       0.21322115    -458.31178500
 __s__    ...      -0.05251951
 
  ALPHA AFTER:   0.21322115003696843     
-  Cycle:     20 Energy:      -458.311785  Gnorm:      0.608768  CPU:    0.111
+  Cycle:     20 Energy:      -458.311785  Gnorm:      0.608768  CPU:    0.100
  Line minimisation2
  ALPHA BEFORE:   0.21322115003696843     
   ** Opt : line minimisation
@@ -673,7 +673,7 @@ new    ...       0.61946480    -458.57755392
 __s__    ...       0.03782469
 
  ALPHA AFTER:   0.61946480361405132     
-  Cycle:     21 Energy:      -458.577554  Gnorm:      0.832445  CPU:    0.114
+  Cycle:     21 Energy:      -458.577554  Gnorm:      0.832445  CPU:    0.104
  Perform trimming
  Line minimisation2
  ALPHA BEFORE:   0.61946480361405132     
@@ -697,7 +697,7 @@ new    ...       1.90752221    -459.59387656
 __s__    ...       0.59778981
 
  ALPHA AFTER:    1.9075222114129611     
-  Cycle:     22 Energy:      -459.593877  Gnorm:      1.572372  CPU:    0.118
+  Cycle:     22 Energy:      -459.593877  Gnorm:      1.572372  CPU:    0.107
  Perform trimming
  Line minimisation2
  ALPHA BEFORE:    1.9075222114129611     
@@ -714,7 +714,7 @@ new    ...       1.31731478    -461.09718133
 __s__    ...       0.36355368
 
  ALPHA AFTER:   0.95376110570648054     
-  Cycle:     23 Energy:      -461.135388  Gnorm:      1.307255  CPU:    0.123
+  Cycle:     23 Energy:      -461.135388  Gnorm:      1.307255  CPU:    0.112
  Line minimisation2
  ALPHA BEFORE:   0.95376110570648054     
   ** Opt : line minimisation
@@ -730,7 +730,7 @@ new    ...       0.52971174    -462.34646952
 __s__    ...       0.05283119
 
  ALPHA AFTER:   0.52971174045798375     
-  Cycle:     24 Energy:      -462.346470  Gnorm:      1.345907  CPU:    0.128
+  Cycle:     24 Energy:      -462.346470  Gnorm:      1.345907  CPU:    0.117
  Line minimisation2
  ALPHA BEFORE:   0.52971174045798375     
   ** Opt : line minimisation
@@ -746,7 +746,7 @@ new    ...       0.31956538    -462.99386443
 __s__    ...       0.05470951
 
  ALPHA AFTER:   0.31956538488265290     
-  Cycle:     25 Energy:      -462.993864  Gnorm:      1.180695  CPU:    0.133
+  Cycle:     25 Energy:      -462.993864  Gnorm:      1.180695  CPU:    0.121
  Line minimisation2
  ALPHA BEFORE:   0.31956538488265290     
   ** Opt : line minimisation
@@ -769,7 +769,7 @@ new    ...       0.34928818    -463.54072980
 __s__    ...       0.00129455
 
  ALPHA AFTER:   0.34928818049016952     
-  Cycle:     26 Energy:      -463.540730  Gnorm:      0.945111  CPU:    0.139
+  Cycle:     26 Energy:      -463.540730  Gnorm:      0.945111  CPU:    0.127
  Line minimisation2
  ALPHA BEFORE:   0.34928818049016952     
   ** Opt : line minimisation
@@ -792,7 +792,7 @@ new    ...       0.48546339    -464.02224836
 __s__    ...       0.01031244
 
  ALPHA AFTER:   0.48546339067231281     
-  Cycle:     27 Energy:      -464.022248  Gnorm:      0.875254  CPU:    0.144
+  Cycle:     27 Energy:      -464.022248  Gnorm:      0.875254  CPU:    0.133
  Line minimisation2
  ALPHA BEFORE:   0.48546339067231281     
   ** Opt : line minimisation
@@ -808,7 +808,7 @@ new    ...       0.39304322    -464.36969467
 __s__    ...       0.15031152
 
  ALPHA AFTER:   0.39304321986880425     
-  Cycle:     28 Energy:      -464.369695  Gnorm:      0.629102  CPU:    0.149
+  Cycle:     28 Energy:      -464.369695  Gnorm:      0.629102  CPU:    0.137
  Line minimisation2
  ALPHA BEFORE:   0.39304321986880425     
   ** Opt : line minimisation
@@ -831,7 +831,7 @@ new    ...       0.73524866    -464.70953476
 __s__    ...       0.02698494
 
  ALPHA AFTER:   0.73524866104989728     
-  Cycle:     29 Energy:      -464.709535  Gnorm:      0.870446  CPU:    0.155
+  Cycle:     29 Energy:      -464.709535  Gnorm:      0.870446  CPU:    0.143
  Line minimisation2
  ALPHA BEFORE:   0.73524866104989728     
   ** Opt : line minimisation
@@ -854,7 +854,7 @@ new    ...       0.19471858    -464.87203593
 __s__    ...      -0.00612694
 
  ALPHA AFTER:   0.19471858128166936     
-  Cycle:     30 Energy:      -464.872036  Gnorm:      0.433242  CPU:    0.161
+  Cycle:     30 Energy:      -464.872036  Gnorm:      0.433242  CPU:    0.148
  Line minimisation2
  ALPHA BEFORE:   0.19471858128166936     
   ** Opt : line minimisation
@@ -877,7 +877,7 @@ new    ...       0.56187180    -464.99258443
 __s__    ...      -0.00627427
 
  ALPHA AFTER:   0.56187179776213103     
-  Cycle:     31 Energy:      -464.992584  Gnorm:      0.484983  CPU:    0.167
+  Cycle:     31 Energy:      -464.992584  Gnorm:      0.484983  CPU:    0.154
  Perform trimming
  Line minimisation2
  ALPHA BEFORE:   0.56187179776213103     
@@ -901,7 +901,7 @@ new    ...       1.17895962    -465.29246607
 __s__    ...      -0.03653397
 
  ALPHA AFTER:    1.1789596229251622     
-  Cycle:     32 Energy:      -465.292466  Gnorm:      0.643537  CPU:    0.173
+  Cycle:     32 Energy:      -465.292466  Gnorm:      0.643537  CPU:    0.160
  Perform trimming
  Line minimisation2
  ALPHA BEFORE:    1.1789596229251622     
@@ -918,7 +918,7 @@ new    ...       0.64182068    -465.52369382
 __s__    ...       0.05234086
 
  ALPHA AFTER:   0.64182067548143495     
-  Cycle:     33 Energy:      -465.523694  Gnorm:      0.715902  CPU:    0.178
+  Cycle:     33 Energy:      -465.523694  Gnorm:      0.715902  CPU:    0.165
  Line minimisation2
  ALPHA BEFORE:   0.64182067548143495     
   ** Opt : line minimisation
@@ -934,7 +934,7 @@ new    ...       0.53291935    -465.83792178
 __s__    ...       0.21200901
 
  ALPHA AFTER:   0.53291934702045074     
-  Cycle:     34 Energy:      -465.837922  Gnorm:      0.811493  CPU:    0.184
+  Cycle:     34 Energy:      -465.837922  Gnorm:      0.811493  CPU:    0.171
  Perform trimming
  Line minimisation2
  ALPHA BEFORE:   0.53291934702045074     
@@ -951,7 +951,7 @@ new    ...       0.40345695    -466.11344369
 __s__    ...       0.13699727
 
  ALPHA AFTER:   0.40345694670686572     
-  Cycle:     35 Energy:      -466.113444  Gnorm:      0.606835  CPU:    0.191
+  Cycle:     35 Energy:      -466.113444  Gnorm:      0.606835  CPU:    0.177
  Line minimisation2
  ALPHA BEFORE:   0.40345694670686572     
   ** Opt : line minimisation
@@ -974,7 +974,7 @@ new    ...       0.42669078    -466.29455484
 __s__    ...      -0.00028622
 
  ALPHA AFTER:   0.42697699606543221     
-  Cycle:     36 Energy:      -466.294556  Gnorm:      0.585225  CPU:    0.199
+  Cycle:     36 Energy:      -466.294556  Gnorm:      0.585225  CPU:    0.185
  Line minimisation2
  ALPHA BEFORE:   0.42697699606543221     
   ** Opt : line minimisation
@@ -997,7 +997,7 @@ new    ...       0.46723112    -466.48167838
 __s__    ...      -0.00820128
 
  ALPHA AFTER:   0.46723112434600644     
-  Cycle:     37 Energy:      -466.481678  Gnorm:      0.455597  CPU:    0.207
+  Cycle:     37 Energy:      -466.481678  Gnorm:      0.455597  CPU:    0.193
  Line minimisation2
  ALPHA BEFORE:   0.46723112434600644     
   ** Opt : line minimisation
@@ -1013,7 +1013,7 @@ new    ...       0.40734217    -466.58040001
 __s__    ...       0.17372661
 
  ALPHA AFTER:   0.40734217287031432     
-  Cycle:     38 Energy:      -466.580400  Gnorm:      0.412222  CPU:    0.214
+  Cycle:     38 Energy:      -466.580400  Gnorm:      0.412222  CPU:    0.200
  Line minimisation2
  ALPHA BEFORE:   0.40734217287031432     
   ** Opt : line minimisation
@@ -1036,7 +1036,7 @@ new    ...       0.43883458    -466.66820786
 __s__    ...      -0.00183479
 
  ALPHA AFTER:   0.43883458461779523     
-  Cycle:     39 Energy:      -466.668208  Gnorm:      0.409668  CPU:    0.222
+  Cycle:     39 Energy:      -466.668208  Gnorm:      0.409668  CPU:    0.207
  Line minimisation2
  ALPHA BEFORE:   0.43883458461779523     
   ** Opt : line minimisation
@@ -1052,7 +1052,7 @@ new    ...       0.22479940    -466.71167912
 __s__    ...       0.00538211
 
  ALPHA AFTER:   0.22479940161679898     
-  Cycle:     40 Energy:      -466.711679  Gnorm:      0.280863  CPU:    0.229
+  Cycle:     40 Energy:      -466.711679  Gnorm:      0.280863  CPU:    0.214
  Line minimisation2
  ALPHA BEFORE:   0.22479940161679898     
   ** Opt : line minimisation
@@ -1075,7 +1075,7 @@ new    ...       0.64116452    -466.76957869
 __s__    ...       0.00155308
 
  ALPHA AFTER:   0.64116452265311086     
-  Cycle:     41 Energy:      -466.769579  Gnorm:      0.316378  CPU:    0.238
+  Cycle:     41 Energy:      -466.769579  Gnorm:      0.316378  CPU:    0.222
  Perform trimming
  Line minimisation2
  ALPHA BEFORE:   0.64116452265311086     
@@ -1099,7 +1099,7 @@ new    ...       0.86765484    -466.86605880
 __s__    ...       0.02031732
 
  ALPHA AFTER:   0.86765484352462496     
-  Cycle:     42 Energy:      -466.866059  Gnorm:      0.386136  CPU:    0.246
+  Cycle:     42 Energy:      -466.866059  Gnorm:      0.386136  CPU:    0.230
  Perform trimming
  Line minimisation2
  ALPHA BEFORE:   0.86765484352462496     
@@ -1116,7 +1116,7 @@ new    ...       0.47543431    -466.93908161
 __s__    ...       0.04160689
 
  ALPHA AFTER:   0.47543430834642514     
-  Cycle:     43 Energy:      -466.939082  Gnorm:      0.370384  CPU:    0.252
+  Cycle:     43 Energy:      -466.939082  Gnorm:      0.370384  CPU:    0.236
  Line minimisation2
  ALPHA BEFORE:   0.47543430834642514     
   ** Opt : line minimisation
@@ -1139,7 +1139,7 @@ new    ...       0.84873090    -467.07378376
 __s__    ...      -0.01414779
 
  ALPHA AFTER:   0.84873089880426911     
-  Cycle:     44 Energy:      -467.073784  Gnorm:      0.437465  CPU:    0.261
+  Cycle:     44 Energy:      -467.073784  Gnorm:      0.437465  CPU:    0.244
  Perform trimming
  Line minimisation2
  ALPHA BEFORE:   0.84873089880426911     
@@ -1156,7 +1156,7 @@ new    ...       0.49716976    -467.17238163
 __s__    ...       0.07280431
 
  ALPHA AFTER:   0.49716976345032227     
-  Cycle:     45 Energy:      -467.172382  Gnorm:      0.433509  CPU:    0.267
+  Cycle:     45 Energy:      -467.172382  Gnorm:      0.433509  CPU:    0.251
  Line minimisation2
  ALPHA BEFORE:   0.49716976345032227     
   ** Opt : line minimisation
@@ -1179,7 +1179,7 @@ new    ...       0.97461062    -467.38323734
 __s__    ...       0.01718026
 
  ALPHA AFTER:   0.95743035960592759     
-  Cycle:     46 Energy:      -467.383284  Gnorm:      0.662409  CPU:    0.276
+  Cycle:     46 Energy:      -467.383284  Gnorm:      0.662409  CPU:    0.259
  Perform trimming
  Line minimisation2
  ALPHA BEFORE:   0.95743035960592759     
@@ -1196,7 +1196,7 @@ new    ...       0.75303099    -467.61157805
 __s__    ...       0.27431581
 
  ALPHA AFTER:   0.75303099197326562     
-  Cycle:     47 Energy:      -467.611578  Gnorm:      0.624895  CPU:    0.283
+  Cycle:     47 Energy:      -467.611578  Gnorm:      0.624895  CPU:    0.265
  Line minimisation2
  ALPHA BEFORE:   0.75303099197326562     
   ** Opt : line minimisation
@@ -1212,7 +1212,7 @@ new    ...       0.56486466    -467.87181208
 __s__    ...       0.18834916
 
  ALPHA AFTER:   0.56486465957173659     
-  Cycle:     48 Energy:      -467.871812  Gnorm:      0.610149  CPU:    0.290
+  Cycle:     48 Energy:      -467.871812  Gnorm:      0.610149  CPU:    0.272
  Line minimisation2
  ALPHA BEFORE:   0.56486465957173659     
   ** Opt : line minimisation
@@ -1235,7 +1235,7 @@ new    ...       0.59453514    -468.13657209
 __s__    ...       0.00137734
 
  ALPHA AFTER:   0.59315779408026281     
-  Cycle:     49 Energy:      -468.136580  Gnorm:      0.825877  CPU:    0.299
+  Cycle:     49 Energy:      -468.136580  Gnorm:      0.825877  CPU:    0.280
  Line minimisation2
  ALPHA BEFORE:   0.59315779408026281     
   ** Opt : line minimisation
@@ -1251,7 +1251,7 @@ new    ...       0.22877765    -468.31845941
 __s__    ...      -0.06780125
 
  ALPHA AFTER:   0.22877764663147485     
-  Cycle:     50 Energy:      -468.318459  Gnorm:      0.489871  CPU:    0.306
+  Cycle:     50 Energy:      -468.318459  Gnorm:      0.489871  CPU:    0.287
  Line minimisation2
  ALPHA BEFORE:   0.22877764663147485     
   ** Opt : line minimisation
@@ -1274,7 +1274,7 @@ new    ...       0.39647651    -468.42933665
 __s__    ...      -0.01006710
 
  ALPHA AFTER:   0.39647650606413343     
-  Cycle:     51 Energy:      -468.429337  Gnorm:      0.429695  CPU:    0.316
+  Cycle:     51 Energy:      -468.429337  Gnorm:      0.429695  CPU:    0.295
  Line minimisation2
  ALPHA BEFORE:   0.39647650606413343     
   ** Opt : line minimisation
@@ -1297,7 +1297,7 @@ new    ...       1.49319396    -468.75022253
 __s__    ...       0.29495571
 
  ALPHA AFTER:    1.4931939637347769     
-  Cycle:     52 Energy:      -468.750223  Gnorm:      0.719992  CPU:    0.325
+  Cycle:     52 Energy:      -468.750223  Gnorm:      0.719992  CPU:    0.303
  Perform trimming
  Line minimisation2
  ALPHA BEFORE:    1.4931939637347769     
@@ -1321,7 +1321,7 @@ new    ...       0.49393223    -468.90091593
 __s__    ...       0.00127031
 
  ALPHA AFTER:   0.49393222752690558     
-  Cycle:     53 Energy:      -468.900916  Gnorm:      0.422632  CPU:    0.333
+  Cycle:     53 Energy:      -468.900916  Gnorm:      0.422632  CPU:    0.311
  Line minimisation2
  ALPHA BEFORE:   0.49393222752690558     
   ** Opt : line minimisation
@@ -1344,7 +1344,7 @@ new    ...       0.57701748    -469.02164893
 __s__    ...      -0.00367638
 
  ALPHA AFTER:   0.57701747823701743     
-  Cycle:     54 Energy:      -469.021649  Gnorm:      0.418173  CPU:    0.342
+  Cycle:     54 Energy:      -469.021649  Gnorm:      0.418173  CPU:    0.319
  Line minimisation2
  ALPHA BEFORE:   0.57701747823701743     
   ** Opt : line minimisation
@@ -1360,7 +1360,7 @@ new    ...       0.36757074    -469.09629592
 __s__    ...       0.07906200
 
  ALPHA AFTER:   0.36757074274908408     
-  Cycle:     55 Energy:      -469.096296  Gnorm:      0.342918  CPU:    0.351
+  Cycle:     55 Energy:      -469.096296  Gnorm:      0.342918  CPU:    0.326
  Line minimisation2
  ALPHA BEFORE:   0.36757074274908408     
   ** Opt : line minimisation
@@ -1383,7 +1383,7 @@ new    ...       0.41357290    -469.15074470
 __s__    ...       0.01829761
 
  ALPHA AFTER:   0.41357289549841919     
-  Cycle:     56 Energy:      -469.150745  Gnorm:      0.289638  CPU:    0.360
+  Cycle:     56 Energy:      -469.150745  Gnorm:      0.289638  CPU:    0.334
  Line minimisation2
  ALPHA BEFORE:   0.41357289549841919     
   ** Opt : line minimisation
@@ -1406,7 +1406,7 @@ new    ...       0.67353655    -469.21610116
 __s__    ...      -0.00494189
 
  ALPHA AFTER:   0.67847844193172413     
-  Cycle:     57 Energy:      -469.216114  Gnorm:      0.335530  CPU:    0.368
+  Cycle:     57 Energy:      -469.216114  Gnorm:      0.335530  CPU:    0.342
  Line minimisation2
  ALPHA BEFORE:   0.67847844193172413     
   ** Opt : line minimisation
@@ -1422,7 +1422,7 @@ new    ...       0.32133266    -469.25770205
 __s__    ...      -0.01790656
 
  ALPHA AFTER:   0.32133265867034955     
-  Cycle:     58 Energy:      -469.257702  Gnorm:      0.221584  CPU:    0.375
+  Cycle:     58 Energy:      -469.257702  Gnorm:      0.221584  CPU:    0.349
  Line minimisation2
  ALPHA BEFORE:   0.32133265867034955     
   ** Opt : line minimisation
@@ -1445,7 +1445,7 @@ new    ...       0.58874412    -469.29194616
 __s__    ...       0.07164895
 
  ALPHA AFTER:   0.58874412431613232     
-  Cycle:     59 Energy:      -469.291946  Gnorm:      0.240261  CPU:    0.385
+  Cycle:     59 Energy:      -469.291946  Gnorm:      0.240261  CPU:    0.357
  Line minimisation2
  ALPHA BEFORE:   0.58874412431613232     
   ** Opt : line minimisation
@@ -1461,7 +1461,7 @@ new    ...       0.27347645    -469.31010059
 __s__    ...      -0.02089561
 
  ALPHA AFTER:   0.27347645421941141     
-  Cycle:     60 Energy:      -469.310101  Gnorm:      0.174612  CPU:    0.392
+  Cycle:     60 Energy:      -469.310101  Gnorm:      0.174612  CPU:    0.363
  Line minimisation2
  ALPHA BEFORE:   0.27347645421941141     
   ** Opt : line minimisation
@@ -1484,7 +1484,7 @@ new    ...       0.49942201    -469.32762780
 __s__    ...       0.00550239
 
  ALPHA AFTER:   0.49942200934143172     
-  Cycle:     61 Energy:      -469.327628  Gnorm:      0.192089  CPU:    0.400
+  Cycle:     61 Energy:      -469.327628  Gnorm:      0.192089  CPU:    0.372
  Line minimisation2
  ALPHA BEFORE:   0.49942200934143172     
   ** Opt : line minimisation
@@ -1507,7 +1507,7 @@ new    ...       0.54866114    -469.35058126
 __s__    ...       0.00322719
 
  ALPHA AFTER:   0.54866114146542444     
-  Cycle:     62 Energy:      -469.350581  Gnorm:      0.168232  CPU:    0.409
+  Cycle:     62 Energy:      -469.350581  Gnorm:      0.168232  CPU:    0.380
  Line minimisation2
  ALPHA BEFORE:   0.54866114146542444     
   ** Opt : line minimisation
@@ -1523,7 +1523,7 @@ new    ...       0.40955434    -469.36344578
 __s__    ...       0.13522377
 
  ALPHA AFTER:   0.40955433683477599     
-  Cycle:     63 Energy:      -469.363446  Gnorm:      0.162882  CPU:    0.416
+  Cycle:     63 Energy:      -469.363446  Gnorm:      0.162882  CPU:    0.386
  Line minimisation2
  ALPHA BEFORE:   0.40955433683477599     
   ** Opt : line minimisation
@@ -1546,7 +1546,7 @@ new    ...       0.47638049    -469.37729444
 __s__    ...      -0.02007379
 
  ALPHA AFTER:   0.47638048905525537     
-  Cycle:     64 Energy:      -469.377294  Gnorm:      0.152494  CPU:    0.424
+  Cycle:     64 Energy:      -469.377294  Gnorm:      0.152494  CPU:    0.394
  Line minimisation2
  ALPHA BEFORE:   0.47638048905525537     
   ** Opt : line minimisation
@@ -1569,7 +1569,7 @@ new    ...       0.67189814    -469.39443521
 __s__    ...       0.11057804
 
  ALPHA AFTER:   0.67189814311261709     
-  Cycle:     65 Energy:      -469.394435  Gnorm:      0.165681  CPU:    0.433
+  Cycle:     65 Energy:      -469.394435  Gnorm:      0.165681  CPU:    0.402
  Line minimisation2
  ALPHA BEFORE:   0.67189814311261709     
   ** Opt : line minimisation
@@ -1592,7 +1592,7 @@ new    ...       0.61049326    -469.41289677
 __s__    ...      -0.00944699
 
  ALPHA AFTER:   0.61049326270092652     
-  Cycle:     66 Energy:      -469.412897  Gnorm:      0.205260  CPU:    0.442
+  Cycle:     66 Energy:      -469.412897  Gnorm:      0.205260  CPU:    0.411
  Line minimisation2
  ALPHA BEFORE:   0.61049326270092652     
   ** Opt : line minimisation
@@ -1608,7 +1608,7 @@ new    ...       0.44740611    -469.43487323
 __s__    ...       0.14215948
 
  ALPHA AFTER:   0.44740610705033973     
-  Cycle:     67 Energy:      -469.434873  Gnorm:      0.172187  CPU:    0.449
+  Cycle:     67 Energy:      -469.434873  Gnorm:      0.172187  CPU:    0.417
  Line minimisation2
  ALPHA BEFORE:   0.44740610705033973     
   ** Opt : line minimisation
@@ -1631,7 +1631,7 @@ new    ...       0.41075915    -469.44892407
 __s__    ...      -0.00256252
 
  ALPHA AFTER:   0.41075914777728351     
-  Cycle:     68 Energy:      -469.448924  Gnorm:      0.128028  CPU:    0.458
+  Cycle:     68 Energy:      -469.448924  Gnorm:      0.128028  CPU:    0.425
  Line minimisation2
  ALPHA BEFORE:   0.41075914777728351     
   ** Opt : line minimisation
@@ -1647,7 +1647,7 @@ new    ...       0.32455557    -469.45505835
 __s__    ...       0.11917600
 
  ALPHA AFTER:   0.32455556990528517     
-  Cycle:     69 Energy:      -469.455058  Gnorm:      0.098198  CPU:    0.464
+  Cycle:     69 Energy:      -469.455058  Gnorm:      0.098198  CPU:    0.432
  Line minimisation2
  ALPHA BEFORE:   0.32455556990528517     
   ** Opt : line minimisation
@@ -1663,7 +1663,7 @@ new    ...       0.28776694    -469.45828634
 __s__    ...       0.12548915
 
  ALPHA AFTER:   0.28776693547660387     
-  Cycle:     70 Energy:      -469.458286  Gnorm:      0.074672  CPU:    0.471
+  Cycle:     70 Energy:      -469.458286  Gnorm:      0.074672  CPU:    0.438
  Line minimisation2
  ALPHA BEFORE:   0.28776693547660387     
   ** Opt : line minimisation
@@ -1686,7 +1686,7 @@ new    ...       0.61899491    -469.46228172
 __s__    ...       0.00161545
 
  ALPHA AFTER:   0.61899491486926872     
-  Cycle:     71 Energy:      -469.462282  Gnorm:      0.087568  CPU:    0.482
+  Cycle:     71 Energy:      -469.462282  Gnorm:      0.087568  CPU:    0.447
  Perform trimming
  Line minimisation2
  ALPHA BEFORE:   0.61899491486926872     
@@ -1703,7 +1703,7 @@ new    ...       0.53053746    -469.46655292
 __s__    ...       0.22104001
 
  ALPHA AFTER:   0.53053746477479524     
-  Cycle:     72 Energy:      -469.466553  Gnorm:      0.081079  CPU:    0.489
+  Cycle:     72 Energy:      -469.466553  Gnorm:      0.081079  CPU:    0.453
  Line minimisation2
  ALPHA BEFORE:   0.53053746477479524     
   ** Opt : line minimisation
@@ -1719,7 +1719,7 @@ new    ...       0.35684947    -469.46926090
 __s__    ...       0.09158074
 
  ALPHA AFTER:   0.35684947030308906     
-  Cycle:     73 Energy:      -469.469261  Gnorm:      0.058509  CPU:    0.496
+  Cycle:     73 Energy:      -469.469261  Gnorm:      0.058509  CPU:    0.460
  Line minimisation2
  ALPHA BEFORE:   0.35684947030308906     
   ** Opt : line minimisation
@@ -1742,7 +1742,7 @@ new    ...       0.55725043    -469.47127790
 __s__    ...       0.07701208
 
  ALPHA AFTER:   0.48023834770089835     
-  Cycle:     74 Energy:      -469.471326  Gnorm:      0.054263  CPU:    0.504
+  Cycle:     74 Energy:      -469.471326  Gnorm:      0.054263  CPU:    0.468
  Line minimisation2
  ALPHA BEFORE:   0.48023834770089835     
   ** Opt : line minimisation
@@ -1765,7 +1765,7 @@ new    ...       1.04104528    -469.47488564
 __s__    ...       0.00488699
 
  ALPHA AFTER:    1.0361582889801171     
-  Cycle:     75 Energy:      -469.474886  Gnorm:      0.068635  CPU:    0.513
+  Cycle:     75 Energy:      -469.474886  Gnorm:      0.068635  CPU:    0.477
  Perform trimming
  Line minimisation2
  ALPHA BEFORE:    1.0361582889801171     
@@ -1782,7 +1782,7 @@ new    ...       0.75623580    -469.47820593
 __s__    ...       0.23815666
 
  ALPHA AFTER:   0.75623580199757368     
-  Cycle:     76 Energy:      -469.478206  Gnorm:      0.091137  CPU:    0.520
+  Cycle:     76 Energy:      -469.478206  Gnorm:      0.091137  CPU:    0.483
  Perform trimming
  Line minimisation2
  ALPHA BEFORE:   0.75623580199757368     
@@ -1799,7 +1799,7 @@ new    ...       0.53266037    -469.48234427
 __s__    ...       0.15454247
 
  ALPHA AFTER:   0.53266037161039759     
-  Cycle:     77 Energy:      -469.482344  Gnorm:      0.082497  CPU:    0.527
+  Cycle:     77 Energy:      -469.482344  Gnorm:      0.082497  CPU:    0.490
  Line minimisation2
  ALPHA BEFORE:   0.53266037161039759     
   ** Opt : line minimisation
@@ -1822,7 +1822,7 @@ new    ...       0.51248706    -469.48636944
 __s__    ...      -0.01502466
 
  ALPHA AFTER:   0.51248705722730215     
-  Cycle:     78 Energy:      -469.486369  Gnorm:      0.084481  CPU:    0.536
+  Cycle:     78 Energy:      -469.486369  Gnorm:      0.084481  CPU:    0.498
  Line minimisation2
  ALPHA BEFORE:   0.51248705722730215     
   ** Opt : line minimisation
@@ -1852,7 +1852,7 @@ new    ...       0.71032773    -469.49253018
 __s__    ...      -0.00400791
 
  ALPHA AFTER:   0.71032773212053091     
-  Cycle:     79 Energy:      -469.492530  Gnorm:      0.128089  CPU:    0.546
+  Cycle:     79 Energy:      -469.492530  Gnorm:      0.128089  CPU:    0.508
  Line minimisation2
  ALPHA BEFORE:   0.71032773212053091     
   ** Opt : line minimisation
@@ -1875,7 +1875,7 @@ new    ...       0.20402780    -469.49635771
 __s__    ...      -0.00324104
 
  ALPHA AFTER:   0.20402780485264752     
-  Cycle:     80 Energy:      -469.496358  Gnorm:      0.064434  CPU:    0.555
+  Cycle:     80 Energy:      -469.496358  Gnorm:      0.064434  CPU:    0.517
  Line minimisation2
  ALPHA BEFORE:   0.20402780485264752     
   ** Opt : line minimisation
@@ -1891,7 +1891,7 @@ new    ...       0.36676223    -469.49810474
 __s__    ...       0.26474833
 
  ALPHA AFTER:   0.36676223284972709     
-  Cycle:     81 Energy:      -469.498105  Gnorm:      0.050863  CPU:    0.561
+  Cycle:     81 Energy:      -469.498105  Gnorm:      0.050863  CPU:    0.523
  Line minimisation2
  ALPHA BEFORE:   0.36676223284972709     
   ** Opt : line minimisation
@@ -1907,7 +1907,7 @@ new    ...       0.53900196    -469.49972298
 __s__    ...       0.35562084
 
  ALPHA AFTER:   0.53900195831885123     
-  Cycle:     82 Energy:      -469.499723  Gnorm:      0.055259  CPU:    0.568
+  Cycle:     82 Energy:      -469.499723  Gnorm:      0.055259  CPU:    0.530
  Line minimisation2
  ALPHA BEFORE:   0.53900195831885123     
   ** Opt : line minimisation
@@ -1930,7 +1930,7 @@ new    ...       0.50176889    -469.50151875
 __s__    ...       0.02099577
 
  ALPHA AFTER:   0.50176888606255776     
-  Cycle:     83 Energy:      -469.501519  Gnorm:      0.053034  CPU:    0.577
+  Cycle:     83 Energy:      -469.501519  Gnorm:      0.053034  CPU:    0.538
  Line minimisation2
  ALPHA BEFORE:   0.50176888606255776     
   ** Opt : line minimisation
@@ -1946,7 +1946,7 @@ new    ...       0.62180724    -469.50356522
 __s__    ...       0.37092280
 
  ALPHA AFTER:   0.62180724155074463     
-  Cycle:     84 Energy:      -469.503565  Gnorm:      0.046198  CPU:    0.584
+  Cycle:     84 Energy:      -469.503565  Gnorm:      0.046198  CPU:    0.545
  Line minimisation2
  ALPHA BEFORE:   0.62180724155074463     
   ** Opt : line minimisation
@@ -1962,7 +1962,7 @@ new    ...       0.58184310    -469.50501208
 __s__    ...       0.27093948
 
  ALPHA AFTER:   0.58184310413702400     
-  Cycle:     85 Energy:      -469.505012  Gnorm:      0.043704  CPU:    0.591
+  Cycle:     85 Energy:      -469.505012  Gnorm:      0.043704  CPU:    0.551
  Line minimisation2
  ALPHA BEFORE:   0.58184310413702400     
   ** Opt : line minimisation
@@ -1978,7 +1978,7 @@ new    ...       0.48187849    -469.50606670
 __s__    ...       0.19095694
 
  ALPHA AFTER:   0.48187848877920059     
-  Cycle:     86 Energy:      -469.506067  Gnorm:      0.048943  CPU:    0.598
+  Cycle:     86 Energy:      -469.506067  Gnorm:      0.048943  CPU:    0.558
  Line minimisation2
  ALPHA BEFORE:   0.48187848877920059     
   ** Opt : line minimisation
@@ -1994,7 +1994,7 @@ new    ...       0.64621449    -469.50787299
 __s__    ...       0.40527525
 
  ALPHA AFTER:   0.64621448946445115     
-  Cycle:     87 Energy:      -469.507873  Gnorm:      0.055925  CPU:    0.605
+  Cycle:     87 Energy:      -469.507873  Gnorm:      0.055925  CPU:    0.565
  Line minimisation2
  ALPHA BEFORE:   0.64621448946445115     
   ** Opt : line minimisation
@@ -2010,7 +2010,7 @@ new    ...       0.58810378    -469.50987692
 __s__    ...       0.26499653
 
  ALPHA AFTER:   0.58810377508738287     
-  Cycle:     88 Energy:      -469.509877  Gnorm:      0.047974  CPU:    0.611
+  Cycle:     88 Energy:      -469.509877  Gnorm:      0.047974  CPU:    0.572
  Line minimisation2
  ALPHA BEFORE:   0.58810377508738287     
   ** Opt : line minimisation
@@ -2033,7 +2033,7 @@ new    ...       0.86854161    -469.51192452
 __s__    ...       0.12250941
 
  ALPHA AFTER:   0.74603220588986652     
-  Cycle:     89 Energy:      -469.511975  Gnorm:      0.081445  CPU:    0.620
+  Cycle:     89 Energy:      -469.511975  Gnorm:      0.081445  CPU:    0.580
  Line minimisation2
  ALPHA BEFORE:   0.74603220588986652     
   ** Opt : line minimisation
@@ -2049,7 +2049,7 @@ new    ...       0.17587448    -469.51332018
 __s__    ...      -0.19714162
 
  ALPHA AFTER:   0.17587448475730547     
-  Cycle:     90 Energy:      -469.513320  Gnorm:      0.042221  CPU:    0.627
+  Cycle:     90 Energy:      -469.513320  Gnorm:      0.042221  CPU:    0.587
  Line minimisation2
  ALPHA BEFORE:   0.17587448475730547     
   ** Opt : line minimisation
@@ -2065,7 +2065,7 @@ new    ...       0.81623203    -469.51500474
 __s__    ...       0.72829478
 
  ALPHA AFTER:   0.81623202516105475     
-  Cycle:     91 Energy:      -469.515005  Gnorm:      0.050243  CPU:    0.634
+  Cycle:     91 Energy:      -469.515005  Gnorm:      0.050243  CPU:    0.594
  Perform trimming
  Line minimisation2
  ALPHA BEFORE:   0.81623202516105475     
@@ -2082,7 +2082,7 @@ new    ...       0.56893149    -469.51641597
 __s__    ...       0.16081547
 
  ALPHA AFTER:   0.56893148505900515     
-  Cycle:     92 Energy:      -469.516416  Gnorm:      0.042285  CPU:    0.640
+  Cycle:     92 Energy:      -469.516416  Gnorm:      0.042285  CPU:    0.601
  Line minimisation2
  ALPHA BEFORE:   0.56893148505900515     
   ** Opt : line minimisation
@@ -2098,7 +2098,7 @@ new    ...       0.39603740    -469.51723511
 __s__    ...       0.11157166
 
  ALPHA AFTER:   0.39603739801166671     
-  Cycle:     93 Energy:      -469.517235  Gnorm:      0.034281  CPU:    0.647
+  Cycle:     93 Energy:      -469.517235  Gnorm:      0.034281  CPU:    0.608
  Line minimisation2
  ALPHA BEFORE:   0.39603739801166671     
   ** Opt : line minimisation
@@ -2114,7 +2114,7 @@ new    ...       0.66673297    -469.51813616
 __s__    ...       0.46871427
 
  ALPHA AFTER:   0.66673296761052758     
-  Cycle:     94 Energy:      -469.518136  Gnorm:      0.040714  CPU:    0.654
+  Cycle:     94 Energy:      -469.518136  Gnorm:      0.040714  CPU:    0.615
  Perform trimming
  Line minimisation2
  ALPHA BEFORE:   0.66673296761052758     
@@ -2131,7 +2131,7 @@ new    ...       0.69146397    -469.51941059
 __s__    ...       0.35809748
 
  ALPHA AFTER:   0.69146396731364035     
-  Cycle:     95 Energy:      -469.519411  Gnorm:      0.043630  CPU:    0.660
+  Cycle:     95 Energy:      -469.519411  Gnorm:      0.043630  CPU:    0.622
  Line minimisation2
  ALPHA BEFORE:   0.69146396731364035     
   ** Opt : line minimisation
@@ -2147,7 +2147,7 @@ new    ...       0.42417943    -469.52036117
 __s__    ...       0.07844745
 
  ALPHA AFTER:   0.42417942932812175     
-  Cycle:     96 Energy:      -469.520361  Gnorm:      0.040729  CPU:    0.667
+  Cycle:     96 Energy:      -469.520361  Gnorm:      0.040729  CPU:    0.628
  Line minimisation2
  ALPHA BEFORE:   0.42417942932812175     
   ** Opt : line minimisation
@@ -2170,7 +2170,7 @@ new    ...       0.58325936    -469.52138676
 __s__    ...       0.13396684
 
  ALPHA AFTER:   0.58325936081349927     
-  Cycle:     97 Energy:      -469.521387  Gnorm:      0.034966  CPU:    0.676
+  Cycle:     97 Energy:      -469.521387  Gnorm:      0.034966  CPU:    0.637
  Line minimisation2
  ALPHA BEFORE:   0.58325936081349927     
   ** Opt : line minimisation
@@ -2186,7 +2186,7 @@ new    ...       0.60286179    -469.52218500
 __s__    ...       0.31123211
 
  ALPHA AFTER:   0.60286178797155443     
-  Cycle:     98 Energy:      -469.522185  Gnorm:      0.044555  CPU:    0.683
+  Cycle:     98 Energy:      -469.522185  Gnorm:      0.044555  CPU:    0.644
  Perform trimming
  Line minimisation2
  ALPHA BEFORE:   0.60286178797155443     
@@ -2210,7 +2210,7 @@ new    ...       0.63949667    -469.52357632
 __s__    ...      -0.00057435
 
  ALPHA AFTER:   0.63949667359820594     
-  Cycle:     99 Energy:      -469.523576  Gnorm:      0.066741  CPU:    0.692
+  Cycle:     99 Energy:      -469.523576  Gnorm:      0.066741  CPU:    0.652
  Line minimisation2
  ALPHA BEFORE:   0.63949667359820594     
   ** Opt : line minimisation
@@ -2226,7 +2226,7 @@ new    ...       0.20686784    -469.52463738
 __s__    ...      -0.11288049
 
  ALPHA AFTER:   0.20686784452031967     
-  Cycle:    100 Energy:      -469.524637  Gnorm:      0.037900  CPU:    0.698
+  Cycle:    100 Energy:      -469.524637  Gnorm:      0.037900  CPU:    0.659
  Line minimisation2
  ALPHA BEFORE:   0.20686784452031967     
   ** Opt : line minimisation
@@ -2242,7 +2242,7 @@ new    ...       0.43263959    -469.52535569
 __s__    ...       0.32920566
 
  ALPHA AFTER:   0.43263958683381976     
-  Cycle:    101 Energy:      -469.525356  Gnorm:      0.032381  CPU:    0.705
+  Cycle:    101 Energy:      -469.525356  Gnorm:      0.032381  CPU:    0.666
  Line minimisation2
  ALPHA BEFORE:   0.43263958683381976     
   ** Opt : line minimisation
@@ -2258,7 +2258,7 @@ new    ...       0.67939869    -469.52618065
 __s__    ...       0.46307890
 
  ALPHA AFTER:   0.67939869337485592     
-  Cycle:    102 Energy:      -469.526181  Gnorm:      0.039601  CPU:    0.712
+  Cycle:    102 Energy:      -469.526181  Gnorm:      0.039601  CPU:    0.673
  Perform trimming
  Line minimisation2
  ALPHA BEFORE:   0.67939869337485592     
@@ -2275,7 +2275,7 @@ new    ...       0.53142121    -469.52701452
 __s__    ...       0.19172186
 
  ALPHA AFTER:   0.53142120817645178     
-  Cycle:    103 Energy:      -469.527015  Gnorm:      0.036423  CPU:    0.719
+  Cycle:    103 Energy:      -469.527015  Gnorm:      0.036423  CPU:    0.680
  Line minimisation2
  ALPHA BEFORE:   0.53142120817645178     
   ** Opt : line minimisation
@@ -2291,7 +2291,7 @@ new    ...       0.49488931    -469.52777709
 __s__    ...       0.22917871
 
  ALPHA AFTER:   0.49488931082688631     
-  Cycle:    104 Energy:      -469.527777  Gnorm:      0.033335  CPU:    0.726
+  Cycle:    104 Energy:      -469.527777  Gnorm:      0.033335  CPU:    0.686
  Line minimisation2
  ALPHA BEFORE:   0.49488931082688631     
   ** Opt : line minimisation
@@ -2307,7 +2307,7 @@ new    ...       0.56363205    -469.52850095
 __s__    ...       0.31618740
 
  ALPHA AFTER:   0.56363205377595227     
-  Cycle:    105 Energy:      -469.528501  Gnorm:      0.029503  CPU:    0.733
+  Cycle:    105 Energy:      -469.528501  Gnorm:      0.029503  CPU:    0.693
  Line minimisation2
  ALPHA BEFORE:   0.56363205377595227     
   ** Opt : line minimisation
@@ -2323,7 +2323,7 @@ new    ...       0.45079481    -469.52895195
 __s__    ...       0.16897879
 
  ALPHA AFTER:   0.45079481353325235     
-  Cycle:    106 Energy:      -469.528952  Gnorm:      0.029728  CPU:    0.740
+  Cycle:    106 Energy:      -469.528952  Gnorm:      0.029728  CPU:    0.700
  Line minimisation2
  ALPHA BEFORE:   0.45079481353325235     
   ** Opt : line minimisation
@@ -2339,7 +2339,7 @@ new    ...       0.83793375    -469.52980951
 __s__    ...       0.61253634
 
  ALPHA AFTER:   0.83793374724585545     
-  Cycle:    107 Energy:      -469.529810  Gnorm:      0.036251  CPU:    0.747
+  Cycle:    107 Energy:      -469.529810  Gnorm:      0.036251  CPU:    0.707
  Perform trimming
  Line minimisation2
  ALPHA BEFORE:   0.83793374724585545     
@@ -2363,7 +2363,7 @@ new    ...       0.77039937    -469.53060527
 __s__    ...       0.23428833
 
  ALPHA AFTER:   0.53611103840179142     
-  Cycle:    108 Energy:      -469.530753  Gnorm:      0.030813  CPU:    0.756
+  Cycle:    108 Energy:      -469.530753  Gnorm:      0.030813  CPU:    0.716
  Line minimisation2
  ALPHA BEFORE:   0.53611103840179142     
   ** Opt : line minimisation
@@ -2379,7 +2379,7 @@ new    ...       0.65203627    -469.53146840
 __s__    ...       0.38398075
 
  ALPHA AFTER:   0.65203626806559345     
-  Cycle:    109 Energy:      -469.531468  Gnorm:      0.052103  CPU:    0.762
+  Cycle:    109 Energy:      -469.531468  Gnorm:      0.052103  CPU:    0.724
  Line minimisation2
  ALPHA BEFORE:   0.65203626806559345     
   ** Opt : line minimisation
@@ -2402,7 +2402,7 @@ new    ...       0.18062309    -469.53201350
 __s__    ...       0.00123401
 
  ALPHA AFTER:   0.18062308590083800     
-  Cycle:    110 Energy:      -469.532014  Gnorm:      0.027846  CPU:    0.771
+  Cycle:    110 Energy:      -469.532014  Gnorm:      0.027846  CPU:    0.732
  Line minimisation2
  ALPHA BEFORE:   0.18062308590083800     
   ** Opt : line minimisation
@@ -2418,7 +2418,7 @@ new    ...       0.65537193    -469.53260033
 __s__    ...       0.56506038
 
  ALPHA AFTER:   0.65537192542418754     
-  Cycle:    111 Energy:      -469.532600  Gnorm:      0.030343  CPU:    0.778
+  Cycle:    111 Energy:      -469.532600  Gnorm:      0.030343  CPU:    0.740
  Perform trimming
  Line minimisation2
  ALPHA BEFORE:   0.65537192542418754     
@@ -2435,7 +2435,7 @@ new    ...       0.67713550    -469.53313462
 __s__    ...       0.34944954
 
  ALPHA AFTER:   0.67713549823337771     
-  Cycle:    112 Energy:      -469.533135  Gnorm:      0.026066  CPU:    0.785
+  Cycle:    112 Energy:      -469.533135  Gnorm:      0.026066  CPU:    0.747
  Line minimisation2
  ALPHA BEFORE:   0.67713549823337771     
   ** Opt : line minimisation
@@ -2451,7 +2451,7 @@ new    ...       0.55986343    -469.53355427
 __s__    ...       0.22129568
 
  ALPHA AFTER:   0.55986342983089865     
-  Cycle:    113 Energy:      -469.533554  Gnorm:      0.026839  CPU:    0.791
+  Cycle:    113 Energy:      -469.533554  Gnorm:      0.026839  CPU:    0.754
  Line minimisation2
  ALPHA BEFORE:   0.55986342983089865     
   ** Opt : line minimisation
@@ -2467,7 +2467,7 @@ new    ...       0.52831243    -469.53399201
 __s__    ...       0.24838071
 
  ALPHA AFTER:   0.52831242644689191     
-  Cycle:    114 Energy:      -469.533992  Gnorm:      0.030653  CPU:    0.799
+  Cycle:    114 Energy:      -469.533992  Gnorm:      0.030653  CPU:    0.762
  Line minimisation2
  ALPHA BEFORE:   0.52831242644689191     
   ** Opt : line minimisation
@@ -2490,7 +2490,7 @@ new    ...       0.52448293    -469.53454175
 __s__    ...      -0.11855059
 
  ALPHA AFTER:   0.52448292824377385     
-  Cycle:    115 Energy:      -469.534542  Gnorm:      0.026099  CPU:    0.807
+  Cycle:    115 Energy:      -469.534542  Gnorm:      0.026099  CPU:    0.770
  Line minimisation2
  ALPHA BEFORE:   0.52448292824377385     
   ** Opt : line minimisation
@@ -2506,7 +2506,7 @@ new    ...       0.91221699    -469.53526353
 __s__    ...       0.64997553
 
  ALPHA AFTER:   0.91221699405834178     
-  Cycle:    116 Energy:      -469.535264  Gnorm:      0.027509  CPU:    0.814
+  Cycle:    116 Energy:      -469.535264  Gnorm:      0.027509  CPU:    0.779
  Line minimisation2
  ALPHA BEFORE:   0.91221699405834178     
   ** Opt : line minimisation
@@ -2522,7 +2522,7 @@ new    ...       0.65322042    -469.53583365
 __s__    ...       0.19711193
 
  ALPHA AFTER:   0.65322042474817454     
-  Cycle:    117 Energy:      -469.535834  Gnorm:      0.020995  CPU:    0.821
+  Cycle:    117 Energy:      -469.535834  Gnorm:      0.020995  CPU:    0.785
  Line minimisation2
  ALPHA BEFORE:   0.65322042474817454     
   ** Opt : line minimisation
@@ -2566,7 +2566,7 @@ new    ...       1.99498596    -469.53700608
 __s__    ...      -0.14277329
 
  ALPHA AFTER:    1.9389129071459674     
-  Cycle:    118 Energy:      -469.537007  Gnorm:      0.045943  CPU:    0.834
+  Cycle:    118 Energy:      -469.537007  Gnorm:      0.045943  CPU:    0.800
  Perform trimming
  Line minimisation2
  ALPHA BEFORE:    1.9389129071459674     
@@ -2597,7 +2597,7 @@ new    ...       3.96945645    -469.54047901
 __s__    ...       1.00000000
 
  ALPHA AFTER:    3.9694564535729837     
-  Cycle:    119 Energy:      -469.540479  Gnorm:      0.076558  CPU:    0.845
+  Cycle:    119 Energy:      -469.540479  Gnorm:      0.076558  CPU:    0.810
  Line minimisation2
  ALPHA BEFORE:    3.9694564535729837     
   ** Opt : line minimisation
@@ -2627,7 +2627,7 @@ new    ...       0.17738956    -469.54179991
 __s__    ...       0.01205526
 
  ALPHA AFTER:   0.16533429808494440     
-  Cycle:    120 Energy:      -469.541802  Gnorm:      0.032820  CPU:    0.855
+  Cycle:    120 Energy:      -469.541802  Gnorm:      0.032820  CPU:    0.821
  Line minimisation2
  ALPHA BEFORE:   0.16533429808494440     
   ** Opt : line minimisation
@@ -2657,7 +2657,7 @@ new    ...       0.34742387    -469.54238666
 __s__    ...      -0.04209056
 
  ALPHA AFTER:   0.38951443217943071     
-  Cycle:    121 Energy:      -469.542416  Gnorm:      0.020491  CPU:    0.865
+  Cycle:    121 Energy:      -469.542416  Gnorm:      0.020491  CPU:    0.831
  Line minimisation2
  ALPHA BEFORE:   0.38951443217943071     
   ** Opt : line minimisation
@@ -2694,7 +2694,7 @@ new    ...       0.24195581    -469.54262083
 __s__    ...       0.02300898
 
  ALPHA AFTER:   0.24195580598393132     
-  Cycle:    122 Energy:      -469.542621  Gnorm:      0.014849  CPU:    0.877
+  Cycle:    122 Energy:      -469.542621  Gnorm:      0.014849  CPU:    0.842
  Line minimisation2
  ALPHA BEFORE:   0.24195580598393132     
   ** Opt : line minimisation
@@ -2724,7 +2724,7 @@ new    ...       0.00444844    -469.54262314
 __s__    ...       0.00683883
 
  ALPHA AFTER:    4.4484448218081027E-003
-  Cycle:    123 Energy:      -469.542623  Gnorm:      0.014791  CPU:    0.887
+  Cycle:    123 Energy:      -469.542623  Gnorm:      0.014791  CPU:    0.852
  Line minimisation2
  ALPHA BEFORE:    4.4484448218081027E-003
   ** Opt : line minimisation
@@ -2754,7 +2754,7 @@ new    ...       1.64904014    -469.54269597
 __s__    ...       1.00000000
 
  ALPHA AFTER:    1.0022242224109041     
-  Cycle:    124 Energy:      -469.542739  Gnorm:      0.024046  CPU:    0.897
+  Cycle:    124 Energy:      -469.542739  Gnorm:      0.024046  CPU:    0.862
  Perform trimming
  Line minimisation2
  ALPHA BEFORE:    1.0022242224109041     
@@ -2771,7 +2771,7 @@ new    ...       1.14170100    -469.54315837
 __s__    ...       0.64058889
 
  ALPHA AFTER:    1.1417010019869389     
-  Cycle:    125 Energy:      -469.543158  Gnorm:      0.022891  CPU:    0.905
+  Cycle:    125 Energy:      -469.543158  Gnorm:      0.022891  CPU:    0.869
  Perform trimming
  Line minimisation2
  ALPHA BEFORE:    1.1417010019869389     
@@ -2795,7 +2795,7 @@ new    ...       0.34416561    -469.54339251
 __s__    ...       0.04246908
 
  ALPHA AFTER:   0.34416560741365715     
-  Cycle:    126 Energy:      -469.543393  Gnorm:      0.012286  CPU:    0.913
+  Cycle:    126 Energy:      -469.543393  Gnorm:      0.012286  CPU:    0.877
  Line minimisation2
  ALPHA BEFORE:   0.34416560741365715     
   ** Opt : line minimisation
@@ -2825,7 +2825,7 @@ new    ...       0.09267344    -469.54342904
 __s__    ...       0.00955874
 
  ALPHA AFTER:    9.2673439290077750E-002
-  Cycle:    127 Energy:      -469.543429  Gnorm:      0.010608  CPU:    0.924
+  Cycle:    127 Energy:      -469.543429  Gnorm:      0.010608  CPU:    0.887
  Line minimisation2
  ALPHA BEFORE:    9.2673439290077750E-002
   ** Opt : line minimisation
@@ -2855,7 +2855,7 @@ new    ...       0.25280417    -469.54347576
 __s__    ...       0.03371654
 
  ALPHA AFTER:   0.25280417381835341     
-  Cycle:    128 Energy:      -469.543476  Gnorm:      0.009113  CPU:    0.933
+  Cycle:    128 Energy:      -469.543476  Gnorm:      0.009113  CPU:    0.897
  Line minimisation2
  ALPHA BEFORE:   0.25280417381835341     
   ** Opt : line minimisation
@@ -2878,7 +2878,7 @@ new    ...       1.55199199    -469.54363516
 __s__    ...       0.42558990
 
  ALPHA AFTER:    1.5519919875241222     
-  Cycle:    129 Energy:      -469.543635  Gnorm:      0.021028  CPU:    0.942
+  Cycle:    129 Energy:      -469.543635  Gnorm:      0.021028  CPU:    0.905
  Perform trimming
  Line minimisation2
  ALPHA BEFORE:    1.5519919875241222     
@@ -2930,7 +2930,7 @@ new    ...       0.04349247    -469.54366309
 __s__    ...       0.00776082
 
  ALPHA AFTER:    4.3492471123625226E-002
-  Cycle:    130 Energy:      -469.543663  Gnorm:      0.017225  CPU:    0.959
+  Cycle:    130 Energy:      -469.543663  Gnorm:      0.017225  CPU:    0.919
  Line minimisation2
  ALPHA BEFORE:    4.3492471123625226E-002
   ** Opt : line minimisation
@@ -2967,7 +2967,7 @@ new    ...       0.02271452    -469.54367598
 __s__    ...       0.00359717
 
  ALPHA AFTER:    2.2714521602977739E-002
-  Cycle:    131 Energy:      -469.543676  Gnorm:      0.015320  CPU:    0.971
+  Cycle:    131 Energy:      -469.543676  Gnorm:      0.015320  CPU:    0.931
  Line minimisation2
  ALPHA BEFORE:    2.2714521602977739E-002
   ** Opt : line minimisation
@@ -2983,7 +2983,7 @@ new    ...       0.00292834    -469.54367740
 __s__    ...      -0.00842892
 
  ALPHA AFTER:    5.6786304007444346E-003
-  Cycle:    132 Energy:      -469.543679  Gnorm:      0.014904  CPU:    0.978
+  Cycle:    132 Energy:      -469.543679  Gnorm:      0.014904  CPU:    0.938
  Line minimisation2
  ALPHA BEFORE:    5.6786304007444346E-003
   ** Opt : line minimisation
@@ -3013,7 +3013,7 @@ new    ...       0.00456236    -469.54350598
 __s__    ...      -0.03932213
 
  ALPHA AFTER:    2.8393152003722173E-003
-  Cycle:    133 Energy:      -469.543680  Gnorm:      0.014688  CPU:    0.988
+  Cycle:    133 Energy:      -469.543680  Gnorm:      0.014688  CPU:    0.949
  Line minimisation2
  ALPHA BEFORE:    2.8393152003722173E-003
   ** Opt : line minimisation
@@ -3043,7 +3043,7 @@ new    ...       0.00345179    -469.54350681
 __s__    ...      -0.03923292
 
  ALPHA AFTER:    1.4196576001861087E-003
-  Cycle:    134 Energy:      -469.543681  Gnorm:      0.014582  CPU:    0.998
+  Cycle:    134 Energy:      -469.543681  Gnorm:      0.014582  CPU:    0.959
  Line minimisation2
  ALPHA BEFORE:    1.4196576001861087E-003
   ** Opt : line minimisation
@@ -3059,7 +3059,7 @@ new    ...      -0.00017711    -469.54368074
 __s__    ...       0.00017781
 
  ALPHA AFTER:   -1.7710613166292395E-004
-  Cycle:    135 Energy:      -469.543681  Gnorm:      0.014582  CPU:    1.005
+  Cycle:    135 Energy:      -469.543681  Gnorm:      0.014582  CPU:    0.966
  Line minimisation2
  ALPHA BEFORE:    1.4196576001861087E-003
   ** Opt : line minimisation
@@ -3075,7 +3075,7 @@ new    ...      -0.00017710    -469.54368074
 __s__    ...       0.00017781
 
  ALPHA AFTER:   -1.7710360411019916E-004
-  Cycle:    136 Energy:      -469.543681  Gnorm:      0.014582  CPU:    1.013
+  Cycle:    136 Energy:      -469.543681  Gnorm:      0.014582  CPU:    0.974
  Line minimisation2
  ALPHA BEFORE:    1.4196576001861087E-003
   ** Opt : line minimisation
@@ -3188,7 +3188,7 @@ __s__    ...       0.00017781
 --------------------------------------------------------------------------------
 
 
-  Time to end of optimisation =       1.0197 seconds
+  Time to end of optimisation =       0.9808 seconds
 
  Exiting ------OPTIONS------
 
@@ -3200,13 +3200,13 @@ __s__    ...       0.00017781
 --------------------------------------------------------------------------------
   Task / Subroutine                                          Time (Seconds)
 --------------------------------------------------------------------------------
-  Calculation of reciprocal space energy and derivatives          0.0705
-  Calculation of real space energy and derivatives                0.9320
+  Calculation of reciprocal space energy and derivatives          0.0671
+  Calculation of real space energy and derivatives                0.8991
   Global summation overhead                                       0.0004
 --------------------------------------------------------------------------------
-  Total CPU time                                                  1.0197
+  Total CPU time                                                  0.9808
 --------------------------------------------------------------------------------
 
 
-  Job Finished at 16:25.18  3rd February   2020                               
+  Job Finished at 11:57.29  4th February   2020                               
 
