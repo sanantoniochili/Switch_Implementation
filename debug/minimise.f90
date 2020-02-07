@@ -1,27 +1,26 @@
-  program minimise(xc,fc,gc)
+  subroutine minimise(xc,fc,gc)
+    implicit none
     integer, parameter :: i4  = selected_int_kind(5)
     integer, parameter :: dp  = kind(1.0d0)
 
-  integer(i4)                                :: nvar=3
-!   real(dp),             intent(inout)         :: fc
-!   real(dp),             intent(inout)         :: gc(nvar)
-!   real(dp),             intent(inout)         :: xc(nvar)
-! !
-! !  Local variables
-! !
+  integer(i4)                                 :: nvar=3
+  integer(i4)                                 :: i
+  real(dp),             intent(inout)         :: fc
+  real(dp),             intent(inout)         :: gc(nvar)
+  real(dp),             intent(inout)         :: xc(nvar)
+!
+!  Local variables
+!
 
-!   real(dp), dimension(:),   allocatable       :: gg
-
-!   !
-!   !  Set local number of variables
-!   !
-!     maxnvar = max(nvar,1_i4)
+  real(dp), dimension(:),   allocatable       :: gg
 
   !
   !  Allocate local memory
   !
-  ! allocate(gg(maxnvar),stat=status)
-
+  allocate(gg(3))
+  do i=1,3
+    write(*,*) xc(i)
+  end do
 ! !************************
 ! !  Conjugate gradients  *
 ! !************************
