@@ -1,59 +1,55 @@
-  subroutine minimise(xc,fc,gc)
-    implicit none
-    integer, parameter :: i4  = selected_int_kind(5)
-    integer, parameter :: dp  = kind(1.0d0)
-
-  integer(i4)                                 :: nvar=3
-  integer(i4)                                 :: i
-  real(dp),             intent(inout)         :: fc
-  real(dp),             intent(inout)         :: gc(nvar)
-  real(dp),             intent(inout)         :: xc(nvar)
-!
-!  Local variables
-!
-
-  real(dp), dimension(:),   allocatable       :: gg
-
-  !
-  !  Allocate local memory
-  !
-  allocate(gg(3))
-  do i=1,3
-    write(*,*) xc(i)
-  end do
-! !************************
-! !  Conjugate gradients  *
-! !************************
-!   if (lfrst.or.mod(jcyc,nupdate).eq.0) then
-!     do i = 1,nvar
-!       xlast(i) = xc(i)
-!       glast(i) = - gsca*gc(i)
-!       pvect(i) = glast(i)
-!     enddo
-!     lfrst = .false.
-!   else
-!     ggg = 0.0_dp
-!     dggg = 0.0_dp
-!     do i = 1,nvar
-!       ggg = ggg + glast(i)*glast(i)
-!       dggg = dggg + (glast(i) + gsca*gc(i))*gc(i)*gsca
-!     enddo
-!     gam = dggg/ggg
-!     do i = 1,nvar
-!       xlast(i) = xc(i)
-!       glast(i) = - gsca*gc(i)
-!       pvect(i) = glast(i) + gam*pvect(i)
-!     enddo
-!   endif
-!   pnorm = sqrt(ddot(nvar,pvect,1_i4,pvect,1_i4))
-!   call linmin(xc,alp,pvect,nvar,fc,okf,gg,imode)
   
-!
-!  Free local memory
-!
-  ! deallocate(xvar,stat=status)
+  ! Common Conjugate Gradient
+
+  subroutine minimise(xc,fc,gc,pvect,glast)
+    implicit none
+
+    integer                                          :: i
+    real,  dimension(2),   intent(inout)             :: xc
+    real,  dimension(2),   intent(in)                :: gc
+    real,                  intent(in)                :: fc
+    real,  dimension(2),   intent(inout)             :: pvect
+    real,  dimension(2)                              :: plast
+    real,  dimension(2)                              :: rk
+    real,                  intent(inout)             :: glast
+    real                                             :: gn
+    real                                             :: beta
+
+  call gnorm(gc, gn)
+  do i = 1,2
+    rk(i) = - gc(i)/gn ! residual
+  end do
+
+  do i = 1,2
+    xc(i) = xc(i) + alpha*pvect(i)
+  end do
+
+  beta = gn/glast ! ||cur_grad|| / ||prev_grad||
+
+  ! Calculate new direction
+  do i = 1,2
+    pvect(i) = rk(i) + beta*pvect(i)
+  end do
+
+  print*, glast
+  glast = gn ! save last gradient norm 
+  end subroutine minimise
 
 
-  return
-  end
+! Calculate gn = ||grad||
 
+  subroutine gnorm(gc,gn)
+    implicit none
+
+    integer                                             :: i
+    real, dimension(2), intent(in)                      :: gc
+    real                                                :: grad
+    real,               intent(out)                     :: gn
+
+    grad = 0
+    do i = 1,2
+      grad = gc(i)**2
+    end do
+
+    gn = sqrt(grad)
+  end subroutine gnorm
