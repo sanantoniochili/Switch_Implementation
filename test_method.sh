@@ -62,10 +62,10 @@ fi
 read -p "Enter file with list of inputs : " ifiles
 
 # Structure name is based on structure sequential number
-read -p "Enter samples' folder name : " SAMPLES
+read -p "Enter results' folder name : " SAMPLES
 
 # Choose testing directory
-read -p "Choose test folder: " testdir
+read -p "Choose test environment: " testdir
 
 ##################################################
 ################### VARIABLES ####################
