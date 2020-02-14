@@ -55,12 +55,13 @@ if __name__ == "__main__":
 			Es = [] # lists for each file
 			Gns = []
 			Steps = []
-			Stepi = [] # iterations of step 
 
 			for line in file:
 				if "new    ..." in line:
-					step = line.split('...')[1].rstrip().split(' ')[-5]
-					energy = line.split('...')[1].rstrip().split(' ')[-1]
+					line_ = line.split('...')[1].rstrip().lstrip(' ').split(' ') # remove first part of line
+					nline_ = list(filter(None, line_)) # remove blanks
+					step = nline_[0]
+					energy = nline_[-1]
 					if ("*" in energy[1:]):
 						step = energy.split('*')[0]
 						energy = -math.inf
@@ -74,55 +75,53 @@ if __name__ == "__main__":
 					Es.append(energy)
 					Steps.append(step)
 					count_stepc += 1
-					print(step)
 
-				# if "Cycle" in line:
-				# 	energy = line.split(':')[2].split(' ')[-3]
-				# 	gnorm = line.split(':')[3].split(' ')[-3]
-				# 	if "**" not in energy:
-				# 		Es.append(energy)
-				# 		Stepi.append(count_stepc)
-				# 	if "**" not in gnorm:
-				# 		Gns.append(gnorm)
-	# 			# 	count_stepc=0 # step is stabilized	
+				if "Cycle" in line:
+					energy = line.split(':')[2].split(' ')[-3]
+					gnorm = line.split(':')[3].split(' ')[-3]
+					# if "**" not in energy:
+						# Es.append(energy)
+					if "**" not in gnorm:
+						Gns.append(gnorm)
+					count_stepc=0 # step is stabilized
 
-	# 		dfe = pd.DataFrame(Es).T
-	# 		dfe_ = df.join(dfe)
-	# 		dfe_ = dfe_.set_index(['structure', 'method'])
+			dfe = pd.DataFrame(Es).T
+			dfe_ = df.join(dfe)
+			dfe_ = dfe_.set_index(['structure', 'method'])
 
-	# 		dfg = pd.DataFrame(Gns).T
-	# 		dfg_ = df.join(dfg)
-	# 		dfg_ = dfg_.set_index(['structure', 'method'])
+			dfg = pd.DataFrame(Gns).T
+			dfg_ = df.join(dfg)
+			dfg_ = dfg_.set_index(['structure', 'method'])
 
-	# 		dfs = pd.DataFrame(Steps).T
-	# 		dfs_ = df.join(dfs)
-	# 		dfs_ = dfs_.set_index(['structure', 'method'])
+			dfs = pd.DataFrame(Steps).T
+			dfs_ = df.join(dfs)
+			dfs_ = dfs_.set_index(['structure', 'method'])
 
-	# 		# dfsi = pd.DataFrame(Stepi).T
-	# 		# dfsi_ = df.join(dfsi)
-	# 		# dfsi_ = dfsi_.set_index(['structure', 'method'])
+			# dfsi = pd.DataFrame(Stepi).T
+			# dfsi_ = df.join(dfsi)
+			# dfsi_ = dfsi_.set_index(['structure', 'method'])
 
-	# 	''' Merge dataframes '''
-	# 	if count:
-	# 		dfes = pd.concat([dfes,dfe_], axis=0, sort=False)
-	# 		dfgs = pd.concat([dfgs,dfg_], axis=0, sort=False)
-	# 		dfss = pd.concat([dfss,dfs_], axis=0, sort=False)
-	# 		# dfsis = pd.concat([dfsis,dfsi_], axis=0, sort=False)												
-	# 	else: # initialise
-	# 		dfes = dfe_
-	# 		dfgs = dfg_
-	# 		dfss = dfs_
-	# 		# dfsis = dfsi_
-	# 	count += 1
-	# for d in dirs:
-	# 	with open(args.test_dir+'/'+args.ofilename+'_energy.csv', 'w') as f:
-	# 		dfes.to_csv(f, header=True)
+		''' Merge dataframes '''
+		if count:
+			dfes = pd.concat([dfes,dfe_], axis=0, sort=False)
+			dfgs = pd.concat([dfgs,dfg_], axis=0, sort=False)
+			dfss = pd.concat([dfss,dfs_], axis=0, sort=False)
+			# dfsis = pd.concat([dfsis,dfsi_], axis=0, sort=False)												
+		else: # initialise
+			dfes = dfe_
+			dfgs = dfg_
+			dfss = dfs_
+			# dfsis = dfsi_
+		count += 1
+	for d in dirs:
+		with open(args.test_dir+'/'+args.ofilename+'_energy.csv', 'w') as f:
+			dfes.to_csv(f, header=True)
 
-	# 	with open(args.test_dir+'/'+args.ofilename+'_gnorm.csv', 'w') as f:
-	# 		dfgs.to_csv(f, header=True)
+		with open(args.test_dir+'/'+args.ofilename+'_gnorm.csv', 'w') as f:
+			dfgs.to_csv(f, header=True)
 
-	# 	with open(args.test_dir+'/'+args.ofilename+'_step.csv', 'w') as f:
-	# 		dfss.to_csv(f, header=True)
+		with open(args.test_dir+'/'+args.ofilename+'_step.csv', 'w') as f:
+			dfss.to_csv(f, header=True)
 
-	# 	# with open(args.test_dir+'/'+args.ofilename+'_stepi.csv', 'w') as f:
-	# 	# 	dfsis.to_csv(f, header=True)
+		# with open(args.test_dir+'/'+args.ofilename+'_stepi.csv', 'w') as f:
+		# 	dfsis.to_csv(f, header=True)
