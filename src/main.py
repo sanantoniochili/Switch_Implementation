@@ -92,4 +92,8 @@ for atomi in range(0,len(charges)):
  Result
 '''
 res = Es + El - E_
-print(res)
+print("Es:"+str(Es)+" El: "+str(El)+" Eself: "+str(E_))
+print("Result: "+str(res))
+print(charges)
+
+https://github.com/SINGROUP/Pysic/blob/master/fortran/Geometry.f90
