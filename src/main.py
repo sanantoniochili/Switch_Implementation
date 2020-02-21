@@ -13,11 +13,68 @@ from ase import *
 from ase.io import read as aread
 from ase.geometry import Cell
 
-# library = {
-#     'O': -2.,
-#     'Sr': 2.,
-#     'Ti': 4.}
+charges = {
+	'O': -2.,
+	'Sr': 2.,
+	'Ti': 4.}
 
+class Buckingham_Coulomb:
+	def __init__(self, charge_dict):
+		self.charges = charge_dict
+
+	def set_parameters(self, alpha, epsilon, \
+							real_cut_off=4, recip_cut_off=4):
+		self.real_cut_off  = real_cut_off
+		self.recip_cut_off = recip_cut_off
+		self.epsilon       = epsilon
+		self.alpha         = alpha
+
+	def set_structure(self, atoms):
+		self.atoms = atoms
+
+	# def get_structure_vects(self):
+		# pass
+		# return vects
+
+	def get_shifts(self, cut_off, vects):
+		''' 
+		 Get all possible lattice positions:   
+		 (2cut_off+1)^3-{case of (cut_off,cut_off,cut_off)}
+		 combinations in R^3  
+		'''
+		shifts = np.zeros(((2*cut_off+1)**3 -1, 3))
+		tmp = np.array([cut_off,cut_off,cut_off])
+
+		for i in range(0,(2*cut_off+1)**3):
+			for shift in np.ndindex(2*cut_off+1, 2*cut_off+1, 2*cut_off+1):
+				if shift != (cut_off,cut_off,cut_off):
+					shifts[i,] = shift
+					shifts[i,] = shifts[i,] - tmp
+					i = i+1
+		shifts = shifts@vects
+		return shifts
+
+	def calc_real(self, vects):
+		'''
+		 Calculate short range
+		'''
+		esum = np.zeros((N,N)) 
+
+		for atomi in range(0,N):
+			for atomj in range(atomi, N):
+
+				if atomi != atomj: # skip in case it's the same atom
+					rij = np.linalg.norm(pos[i,] - pos[j,])
+		            esum[i, j] += math.erfc( self.alpha*rij )/(2*rij)
+
+		        # take care of the rest lattice (+ Ln)
+		        for shift in get_shifts( self.real_cut_off, \
+		        							self.get_structure_vects ):
+		        	rij = np.linalg.norm(pos[i,] + shift - pos[j,])
+		            esum[i, j] += math.erfc( self.alpha*rij )/(2*rij)
+
+pot = Buckingham_Coulomb(charges)
+pot.calc_real()
 
 # Atoms = aread("/users/phd/tonyts/Desktop/Data/RandomStart_Sr3Ti3O9/1.cif")
 # charges = [library[x] for x in Atoms.get_chemical_symbols()]
