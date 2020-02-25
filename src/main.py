@@ -8,12 +8,13 @@ from scipy.special import erfc
 from cmath import pi
 from cmath import exp
 import cmath
+import math
 
 from ase import *
 from ase.io import read as aread
 from ase.geometry import Cell
 
-charges = {
+charge_dict = {
 	'O': -2.,
 	'Sr': 2.,
 	'Ti': 4.}
@@ -24,7 +25,7 @@ class Coulomb:
 		self.recip_cut_off = recip_cut_off
 		self.alpha         = alpha
 
-	def set_structure(self, atoms, volume, vects, charge_dict):
+	def set_structure(self, atoms, volume, charge_dict, size=[[1,0,0],[0,1,0],[0,0,1]]):
 		'''
 		 atoms:       ASE object
 		 vects:       Supercell vectors
@@ -32,10 +33,27 @@ class Coulomb:
 		 charge_dict: Dictionary of chemical symbols with charge value
 		'''
 		self.atoms   = atoms
-		self.vects   = vects
-		self.pos     = atoms.get_scaled_positions()@vects
+		self.vects   = atoms.get_cell()@size
+		self.pos     = atoms.get_positions()
 		self.volume  = volume
-		self.charges = [library[x] for x in atoms.get_chemical_symbols()]
+		self.charges = [charge_dict[x] for x in atoms.get_chemical_symbols()]
+		self.N       = len(atoms.get_positions())
+
+		# print("--------------------------------------------------------------")
+		# print("Vectors used: ")
+		# print(self.vects)
+		# print("Vectors of unit cell:")
+		# print(atoms.get_cell()[:])
+		# print("\n")
+		# print("Atoms positions:")
+		# print([list(p) for p in self.pos])
+		# print("\n")
+		# print("Volume:")
+		# print(volume)
+		# print("\n")
+		# print("Atoms charges:")
+		# print(self.charges)
+		# print("--------------------------------------------------------------")
 
 	def get_reciprocal_vects(self):
 		'''
@@ -43,9 +61,9 @@ class Coulomb:
 		'''
 		rvects = np.zeros((3,3))
 		for i in np.arange(3):
-			rvects[i,] = 2*math.pi*np.cross( self.vects[(1+i)%3,], \
+			rvects[i,] = 2*pi*np.cross( self.vects[(1+i)%3,], \
 									self.vects[(2+i)%3] ) / self.volume
-			return rvects
+		return rvects
 
 	def get_shifts(self, cut_off, vects):
 		''' 
@@ -56,12 +74,12 @@ class Coulomb:
 		shifts = np.zeros(((2*cut_off+1)**3 -1, 3))
 		tmp = np.array([cut_off,cut_off,cut_off])
 
-		for i in range(0,(2*cut_off+1)**3):
-			for shift in np.ndindex(2*cut_off+1, 2*cut_off+1, 2*cut_off+1):
-				if shift != (cut_off,cut_off,cut_off):
-					shifts[i,] = shift
-					shifts[i,] = shifts[i,] - tmp
-					i = i+1
+		i = 0
+		for shift in np.ndindex(2*cut_off+1, 2*cut_off+1, 2*cut_off+1):
+			if shift != (cut_off,cut_off,cut_off):
+				shifts[i,] = shift
+				shifts[i,] = shifts[i,] - tmp
+				i = i+1
 		shifts = shifts@vects
 		return shifts
 
@@ -72,79 +90,92 @@ class Coulomb:
 		'''
 		return ( self.charges[index1]*self.charges[index2] )
 
-	# def calc_self(self, esum):
+	def calc_self(self, esum):
 		'''
 		 Calculate self interaction term
 		'''
-	#     for i in np.arange(N):
-	#         esum[i, i] = esum[i, i]-alpha/math.sqrt(math.pi)
 
-	def calc_real(self, vects, esum):
+		for i in range(0, self.N):
+			esum[i] = esum[i]-self.get_charges_mult(i, i)
+			esum[i] *= ( alpha / math.sqrt(pi) )
+
+	def calc_real(self, esum):
 		'''
 		 Calculate short range
 		'''
-		shifts = get_shifts( self.real_cut_off, \
-											self.vects )
+		shifts = self.get_shifts( self.real_cut_off,self.vects )
 
-		for atomi in range(0,N):
-			for atomj in range(atomi, N):
+		for atomi in range(0, self.N):
+			for atomj in range(0, self.N):
 
 				if atomi != atomj: # skip in case it's the same atom
 					rij = np.linalg.norm(self.pos[atomi,] - self.pos[atomj,])
-					esum[atomi, atomj] += ( get_charges_mult(atomi,atomj) ) * \
+					esum[atomi] += ( self.get_charges_mult(atomi,atomj) ) * \
 												math.erfc( self.alpha*rij )/(2*rij)
 
-				# take care of the rest lattice (+ Ln)
-				for shift in shifts:
-					rij = np.linalg.norm(self.pos[atomi,] + shift - self.pos[atomj,])
-					esum[atomi, atomj] += ( get_charges_mult(atomi,atomj) ) * \
+					# take care of the rest lattice (+ Ln)
+					# maybe needs to be outside ---> if <--- block
+					for shift in shifts:
+						rij = np.linalg.norm(self.pos[atomi,] + shift - self.pos[atomj,])
+						esum[atomi] += ( self.get_charges_mult(atomi,atomj) ) * \
 												math.erfc( self.alpha*rij )/(2*rij)
 
 	def calc_recip(self, recip_vects, esum):
 		'''
 		 Calculate long range
 		'''
-		shifts = get_shifts( self.recip_cut_off, \
-									self.get_reciprocal_vects )
-		for atomi in range(0,N):
-			for atomj in range(atomi,N):
+		shifts = self.get_shifts( self.recip_cut_off,recip_vects )
+		for atomi in range(0, self.N):
+			for atomj in range(0, self.N):
 
-				dist = self.pos[atomi,] - self.pos[atomj,]
+				dist = self.pos[atomi,] - self.pos[atomj,] # order of atomi, atomj matters
 
-				for s in range(0,shifts):
+				for s in range(0,len(shifts)):
 					k = shifts[s,]
 
-					# -k^2/4a^2
-					po = -np.dot(k,k)/(4*alpha**2)
-					# 4pi^2 * e^(power) * cos(k(ri-rj))
-					numerator = (4*math.pi**2) * math.exp(po) * math.cos(np.dot(k, dist))
-					# k^2 * 2piV
-					denominator = np.dot(k,k) * (2*math.pi*cell_volume)
-
-					esum[atomi, atomj] += (( get_charges_mult(atomi,atomj) ) * \
+					# power = -k^2/4a^2
+					po = np.dot(k,k)/(4*alpha**2)
+					# 2* pi * e^(power) * cos(k(ri-rj))
+					numerator = 2 * pi * (1/math.exp(po)) * math.cos(np.dot(k, dist))
+					# Vk^2
+					denominator = np.dot(k,k) * self.volume
+					esum[atomi] += (( self.get_charges_mult(atomi,atomj) ) * \
 														(numerator/denominator))
+
 	
-	def calc_complete(self, esum):
+	def calc_conv(self, esum):
 		'''
-		 Complete calculations
+		 Convert to ev per Angstrom
 		'''
 
 		# Unit conversion
 		esum = esum*14.399645351950543
 
-		# symmetry completion
-		for atomi in range(0,N):
-			for atomj in range(0,i):
-				esum[atomi, atomj] = esum[atomj, atomi]
 
 
 
+atoms = aread("/users/phd/tonyts/Desktop/Data/RandomStart_Sr3Ti3O9/1.cif")
 
-Atoms = aread("/users/phd/tonyts/Desktop/Data/RandomStart_Sr3Ti3O9/1.cif")
+vects       = atoms.get_cell()
+cell_volume = abs(np.linalg.det(vects)) # unit cell vectors?
+alpha       = 2/(cell_volume**(1.0/3))
 
 
-volume = abs(np.linalg.det(vects))
-pot = Coulomb(2/(volume**(1.0/3)))
+pot         = Coulomb(alpha)
+pot.set_structure(atoms, cell_volume, charge_dict)
+esum        = np.zeros((pot.N, 1))
+rvects      = pot.get_reciprocal_vects()
+
+pot.calc_real(esum)
+pot.calc_recip(rvects,esum)
+pot.calc_self(esum)
+pot.calc_conv(esum)
+
+print(sum(esum))
+
+
+# volume = abs(np.linalg.det(vects))
+# pot = Coulomb(2/(volume**(1.0/3)))
 
 # charges = [library[x] for x in Atoms.get_chemical_symbols()]
 # Atoms.set_initial_charges(charges)
