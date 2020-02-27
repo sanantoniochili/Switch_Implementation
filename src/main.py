@@ -23,8 +23,8 @@ charge_dict = {
 	'Sr': 2.,
 	'Ti': 4.}
 
-# class Geometry:
-# 	def __init__():
+class Geometry:
+	def __init__():
 		
 
 class Coulomb:
