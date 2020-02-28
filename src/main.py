@@ -23,8 +23,21 @@ charge_dict = {
 	'Sr': 2.,
 	'Ti': 4.}
 
-# class Geometry:
-# 	def __init__():
+class Supercell:
+	'''
+	 Create supercell
+	'''
+	def __init__(self, size, atoms):
+		self.atoms     = atoms
+		self.size      = size
+		self.positions = np.zeros(((2*size+1)**3-1, len(atoms.get_positions())))
+
+	def populate(self):
+		size_all_directions = 2*self.size+1
+		for spot in np.ndindex(size_all_directions, size_all_directions, \
+													size_all_directions):
+			posispot-np.array([self.size,self.size,self.size])
+			
 		
 
 class Coulomb:
@@ -37,14 +50,14 @@ class Coulomb:
 		self.recip_cut_off = recip_cut_off
 		self.alpha         = alpha
 
-	def set_structure(self, positions, volume, charge_dict, size):
+	def set_structure(self, positions, volume, charge_dict):
 		'''
 		 atoms:       ASE object
 		 vects:       Supercell vectors
 		 pos:         ASE positions of atoms
 		 charge_dict: Dictionary of chemical symbols with charge value
 		'''
-		self.vects   = atoms.get_cell()@size
+		self.vects   = atoms.get_cell()
 		self.pos     = atoms.positions
 		self.volume  = volume
 		self.charges = [charge_dict[x] for x in atoms.get_chemical_symbols()]
@@ -191,27 +204,11 @@ class Buckingham:
 
 
 if __name__=="__main__":
-	atoms = aread("/users/phd/tonyts/Desktop/Data/RandomStart_Sr3Ti3O9/1.cif")
-	cells        = float(input("Give number of unit cells: "))
-	uvects       = atoms.get_cell()
-
-	ions_on_sides = [5,5,5]
-	step = 1.0/np.array(ions_on_sides)
+	atoms = aread("/home/sanantoniochili/Desktop/PhD/Data/RandomStart_Sr3Ti3O9/1.cif")
 	
-	pos = np.zeros((ions_on_sides[0]*ions_on_sides[1]*ions_on_sides[2], 3))
-	# print("The total number of points in the cell is ", len(self.ions))
-
-	row = 0
-	for (i,j,k) in np.ndindex(ions_on_sides[0], ions_on_sides[1], ions_on_sides[2]):
-		pos[row, ] = np.array([i*step[0], j*step[1], k*step[2]])
-		row = row + 1
-		print(pos[row-1, ])
-
-	print(atoms.get_scaled_positions())
-		
+	scell        = Supercell(size, atoms)
 	# cell_volume = abs(np.linalg.det(vects))
 	# alpha       = 2/(cell_volume**(1.0/3))
-
 
 	# Cpot        = Coulomb(alpha)
 	# Cpot.set_structure(positions, cell_volume, charge_dict)
@@ -232,8 +229,8 @@ if __name__=="__main__":
 	# print(Etotal.min())
 	# print(Etotal.max())
 
-	filename    = DATAPATH+"Libraries/buck.lib"
-	Bpot 		= Buckingham(filename)
+	# filename    = DATAPATH+"Libraries/buck.lib"
+	# Bpot 		= Buckingham(filename)
 
 # https://github.com/SINGROUP/Pysic/blob/master/fortran/Geometry.f90
 # https://github.com/vlgusev/IPCSP/blob/master/tools/matrix_generator.py?
