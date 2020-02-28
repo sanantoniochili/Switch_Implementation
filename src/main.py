@@ -34,7 +34,7 @@ class Supercell:
 		 Every atoms has a position of 3 coordinates
 		'''
 		self.atoms     = atoms
-		self.size      = size
+		self.size      = size # number of cells per direction
 		self.vects     = [[size,0,0],[0,size,0],[0,0,size]]@atoms.get_cell()
 		self.positions = np.zeros(((2*size+1)**3, len(atoms.get_positions()), 3))
 
@@ -128,11 +128,12 @@ class Coulomb:
 		'''
 		return ( self.charges[index1]*self.charges[index2] )
 
-	def calc_self(self): # CHECK CHARGES AND POSITIONS
+	def calc_self(self): # CHECK CHARGES AND POSITIONS OF SUPERCELL
 		'''
 		 Calculate self interaction term
 		'''
 		esum        = np.zeros((Cpot.N, Cpot.N))
+		for cell in range()
 		for i in range(0, self.N):
 			esum[i, i] += ( self.get_charges_mult(i, i) )
 			esum[i, i] *= ( alpha / math.sqrt(pi) )
