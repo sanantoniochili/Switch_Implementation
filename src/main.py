@@ -38,20 +38,20 @@ class Supercell:
 		self.vects     = [[size,0,0],[0,size,0],[0,0,size]]@atoms.get_cell()
 		self.positions = np.zeros(((2*size+1)**3, len(atoms.get_positions()), 3))
 
-	def populate(self):
+	def populate(self):# change so that it doesnt behave as mirror from unit cell to unit cell
 		'''
 		 Create atoms supercell positions based on unit cell
 		'''
 		i = 0
-		size_all_directions = 2*self.size+1
-		# For all possible cell positions (combinations of integers)
-		for spot in np.ndindex(size_all_directions, size_all_directions, \
-													size_all_directions):
-			# Cell position
-			[shift_x,shift_y,shift_z] = spot-np.array([self.size,self.size,self.size])
-			# Multiply cell coords with respactive atom coords
-			self.positions[i] = [ [pos[0]*shift_x, pos[1]*shift_y, pos[2]*shift_z]  \
-											for pos in self.atoms.get_scaled_positions()]
+		# size_all_directions = 2*self.size+1
+		# # For all possible cell positions (combinations of integers)
+		# for spot in np.ndindex(size_all_directions, size_all_directions, \
+		# 											size_all_directions):
+		# 	# Cell position
+		# 	[shift_x,shift_y,shift_z] = spot-np.array([self.size,self.size,self.size])
+		# 	# Multiply cell coords with respactive atom coords
+		# 	self.positions[i] = [ [pos[0]*shift_x, pos[1]*shift_y, pos[2]*shift_z]  \
+		# 									for pos in self.atoms.get_scaled_positions()]
 			i += 1
 
 class Coulomb:
@@ -133,7 +133,7 @@ class Coulomb:
 		 Calculate self interaction term
 		'''
 		esum        = np.zeros((Cpot.N, Cpot.N))
-		for cell in range()
+		# for cell in range()
 		for i in range(0, self.N):
 			esum[i, i] += ( self.get_charges_mult(i, i) )
 			esum[i, i] *= ( alpha / math.sqrt(pi) )
@@ -234,6 +234,7 @@ if __name__=="__main__":
 	alpha       = 2/(cell_volume**(1.0/3))
 
 	Cpot        = Coulomb(alpha,4,4)
+	print(atoms.get_cell().find_mic)
 	# Cpot.set_structure(scell.positions, cell_volume, charge_dict)
 	# rvects      = Cpot.get_reciprocal_vects()
 
