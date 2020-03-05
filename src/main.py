@@ -180,9 +180,8 @@ class Buckingham(Potential):
 		if esum == []:
 			esum        = np.zeros((Cpot.N, Cpot.N))
 		chemical_symbols = self.atoms.get_chemical_symbols()
-		shifts = self.get_shifts( self.real_cut_off,self.vects )
 		for ioni in range(self.N):
-			for ionj in range(ioni+1, self.N):
+			for ionj in range(ioni, self.N):
 				# Find the pair we are examining
 				pair = (min(chemical_symbols[ioni], chemical_symbols[ionj]), \
 								max(chemical_symbols[ioni], chemical_symbols[ionj]))
@@ -193,10 +192,13 @@ class Buckingham(Potential):
 					C    = self.buck[pair]['par'][2]
 
 					dist = np.linalg.norm(self.pos[ioni] - self.pos[ionj])
-					if (dist <= self.buck[pair]['hi']):
 					# Check if distance of ions allows interaction 					
+					if (dist <= self.buck[pair]['hi']) & (ioni != ionj):
 						esum[ioni, ionj] += A*math.exp(-1.0*dist/rho) - C/dist**6
-					for shift in shifts: # Interaction with rest of cells
+					
+					# Check interactions with neighbouring cells
+					shifts = self.get_shifts( int(self.buck[pair]['hi']),self.vects )
+					for shift in shifts:
 						dist = np.linalg.norm(self.pos[ioni] + shift - self.pos[ionj])
 						# Check if distance of ions allows interaction 					
 						if (dist <= self.buck[pair]['hi']):
@@ -229,22 +231,54 @@ if __name__=="__main__":
 
 	Eupper = Er + Es + Erc
 	Etotal = Cpot.calc_complete(Eupper)
-	# Etotal = Cpot.calc_complete(Erc)
+
+	print("--------------------------------------------------------------------------------")
 
 	# Convert to eV per Angstrom
-	print("Real:\t"+str(sum(sum(Cpot.calc_complete(Er)))))
-	print("Self:\t"+str(sum(sum(Cpot.calc_complete(Es)))))
-	print("Recip:\t"+str(sum(sum(Cpot.calc_complete(Erc)))))
-	print("Total:\t"+str(sum(sum(Etotal))))
+	print("Real:\t\t"+str(sum(sum(Cpot.calc_complete(Er)))))
+	print("Self:\t\t"+str(sum(sum(Cpot.calc_complete(Es)))))
+	print("Recip:\t\t"+str(sum(sum(Cpot.calc_complete(Erc)))))
+	print("Total:\t\t"+str(sum(sum(Etotal))))
 
-	print("------------------")
+	print("--------------------------------------------------------------------------------")
 
 	filename    = DATAPATH+"Libraries/buck.lib"
 	Bpot 		= Buckingham(filename)
 	Bpot.set_structure(charge_dict, atoms)
 
 	Einter = Bpot.calc_real()
-	print(sum(sum(Bpot.calc_complete(Einter))))
+	print("Interatomic:\t"+str(sum(sum(Einter))))
+
+	print("--------------------------------------------------------------------------------")
+
+	print("Total lattice:\t"+str(sum(sum(Etotal+Einter))))
+
+	print("--------------------------------------------------------------------------------")
+
+	# from matrix_generator import BuckinghamTwoIons
+	# for ioni in range(Bpot.N):
+	# 	for ionj in range(ioni+1, Bpot.N):
+	# 		# Find the pair we are examining
+	# 		pair = (min(chemical_symbols[ioni], chemical_symbols[ionj]), \
+	# 						max(chemical_symbols[ioni], chemical_symbols[ionj]))
+	# 		if (pair in self.buck):
+	# 		# Pair of ions is listed in parameters file
+	# 			A    = self.buck[pair]['par'][0]
+	# 			rho  = self.buck[pair]['par'][1]
+	# 			C    = self.buck[pair]['par'][2]
+
+	# 			dist = np.linalg.norm(self.pos[ioni] - self.pos[ionj])
+	# 			# Check if distance of ions allows interaction 					
+	# 			if (dist <= self.buck[pair]['hi']):
+	# 				esum[ioni, ionj] += A*math.exp(-1.0*dist/rho) - C/dist**6
+				
+	# 			# Check interactions with neighbouring cells
+	# 			shifts = self.get_shifts( int(self.buck[pair]['hi']),self.vects )
+	# 			for shift in shifts:
+	# 				dist = np.linalg.norm(self.pos[ioni] + shift - self.pos[ionj])
+	# 				# Check if distance of ions allows interaction 					
+	# 				if (dist <= self.buck[pair]['hi']):
+	# 					esum[ioni, ionj] += A*math.exp(-1.0*dist/rho) - C/dist**6
 
 	# print("Inter:\t"+str(Einter))
 	# print(sum(sum(Einter)))
