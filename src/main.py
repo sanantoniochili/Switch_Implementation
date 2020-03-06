@@ -194,7 +194,7 @@ class Buckingham(Potential):
 					dist = np.linalg.norm(self.pos[ioni] - self.pos[ionj])
 					# Check if distance of ions allows interaction 					
 					if (dist <= self.buck[pair]['hi']) & (ioni != ionj):
-						esum[ioni, ionj] += A*math.exp(-1.0*dist/rho) - C/dist**6
+						esum[ioni, ionj] +=  A*math.exp(-1.0*dist/rho) - C/dist**6
 					
 					# Check interactions with neighbouring cells
 					shifts = self.get_shifts( int(self.buck[pair]['hi']),self.vects )
@@ -251,37 +251,9 @@ if __name__=="__main__":
 
 	print("--------------------------------------------------------------------------------")
 
-	print("Total lattice:\t"+str(sum(sum(Etotal+Einter))))
+	print("Total lattice:\t"+str(sum(sum(Etotal + Einter))))
 
 	print("--------------------------------------------------------------------------------")
-
-	# from matrix_generator import BuckinghamTwoIons
-	# for ioni in range(Bpot.N):
-	# 	for ionj in range(ioni+1, Bpot.N):
-	# 		# Find the pair we are examining
-	# 		pair = (min(chemical_symbols[ioni], chemical_symbols[ionj]), \
-	# 						max(chemical_symbols[ioni], chemical_symbols[ionj]))
-	# 		if (pair in self.buck):
-	# 		# Pair of ions is listed in parameters file
-	# 			A    = self.buck[pair]['par'][0]
-	# 			rho  = self.buck[pair]['par'][1]
-	# 			C    = self.buck[pair]['par'][2]
-
-	# 			dist = np.linalg.norm(self.pos[ioni] - self.pos[ionj])
-	# 			# Check if distance of ions allows interaction 					
-	# 			if (dist <= self.buck[pair]['hi']):
-	# 				esum[ioni, ionj] += A*math.exp(-1.0*dist/rho) - C/dist**6
-				
-	# 			# Check interactions with neighbouring cells
-	# 			shifts = self.get_shifts( int(self.buck[pair]['hi']),self.vects )
-	# 			for shift in shifts:
-	# 				dist = np.linalg.norm(self.pos[ioni] + shift - self.pos[ionj])
-	# 				# Check if distance of ions allows interaction 					
-	# 				if (dist <= self.buck[pair]['hi']):
-	# 					esum[ioni, ionj] += A*math.exp(-1.0*dist/rho) - C/dist**6
-
-	# print("Inter:\t"+str(Einter))
-	# print(sum(sum(Einter)))
 
 # https://github.com/SINGROUP/Pysic/blob/master/fortran/Geometry.f90
 # https://github.com/vlgusev/IPCSP/blob/master/tools/matrix_generator.py?
