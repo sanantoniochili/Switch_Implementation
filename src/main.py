@@ -175,7 +175,7 @@ class Buckingham(Potential):
 
 	def calc_real(self, esum=[]):
 		'''
-		 Interatomic potential for original unit cell
+		 Interatomic potential
 		'''
 		if esum == []:
 			esum        = np.zeros((Cpot.N, Cpot.N))
@@ -205,14 +205,6 @@ class Buckingham(Potential):
 							esum[ioni, ionj] += A*math.exp(-1.0*dist/rho) - C/dist**6
 		return esum
 
-	def calc_complete(self, esum):
-		'''
-		 Complete lower triangular matrix of monopole to monopole
-		'''
-		for ioni in range(0, self.N):
-			for ionj in range(0, ioni+1):
-				esum[ioni, ionj] = esum[ionj, ioni]
-		return esum
 
 if __name__=="__main__":
 	atoms  = aread(DATAPATH+"RandomStart_Sr3Ti3O9/3.cif")
