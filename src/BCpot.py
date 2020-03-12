@@ -10,6 +10,7 @@ import cmath
 import math
 
 from ase import *
+from ase.visualize import view
 from ase.io import read as aread
 from ase.geometry import Cell
 
@@ -217,9 +218,10 @@ class Buckingham(Potential):
 		return esum
 
 if __name__=="__main__":
-	# atoms  = aread(DATAPATH+"RandomStart_Sr3Ti3O9/1.cif")
-	atoms  = aread(DATAPATH+"material/NaCl.cif")
-	print(atoms.get_all_distances())
+	atoms  = aread(DATAPATH+"RandomStart_Sr3Ti3O9/1.cif")
+	# atoms  = aread(DATAPATH+"material/NaCl.cif")
+	# print(atoms.get_positions())
+	# view(atoms)
 
 	# from ase.calculators.gulp import GULP
 	# calc = GULP(keywords='conp full nosymm opti unfix', \
@@ -231,49 +233,48 @@ if __name__=="__main__":
 	volume = abs(np.linalg.det(vects))
 	alpha  = 2/(volume**(1.0/3))
 
-	################ COULOMB ################
-	Cpot        = Coulomb(alpha,4,4)
-	Cpot.set_structure(charge_dict, atoms)
-	rvects      = Cpot.get_reciprocal_vects()
+	# ################ COULOMB ################
+	# Cpot        = Coulomb(alpha,1,1)
+	# Cpot.set_structure(charge_dict, atoms)
+	# rvects      = Cpot.get_reciprocal_vects()
 
-	Er  = Cpot.calc_real()
-	Es  = Cpot.calc_self()
-	Erc = Cpot.calc_recip(rvects)
+	# Er  = Cpot.calc_real()
+	# Es  = Cpot.calc_self()
+	# Erc = Cpot.calc_recip(rvects)
 
-	Eupper = Er + Es + Erc
-	Etotal = Cpot.calc_complete(Eupper)
-
-	print("--------------------------------------------------------------------------------")
-
-	print("Real:\t\t"+str(sum(sum(Cpot.calc_complete(Er)))))
-	print("Self:\t\t"+str(sum(sum(Cpot.calc_complete(Es)))))
-	print("Recip:\t\t"+str(sum(sum(Cpot.calc_complete(Erc)))))
-	print("Total:\t\t"+str(sum(sum(Etotal))))
-
-	print("--------------------------------------------------------------------------------")
-
-	# ################ BUCKINGHAM ################
-	# filename    = DATAPATH+"Libraries/buck.lib"
-	# Bpot 		= Buckingham(filename)
-	# Bpot.set_structure(charge_dict, atoms)
-
-	# Einter = Bpot.calc_real()
-	# print("Interatomic:\t"+str(Einter))
+	# Eupper = Er + Es + Erc
+	# Etotal = Cpot.calc_complete(Eupper)
 
 	# print("--------------------------------------------------------------------------------")
+
+	# print("Real:\t\t"+str(sum(sum(Cpot.calc_complete(Er)))))
+	# print("Self:\t\t"+str(sum(sum(Cpot.calc_complete(Es)))))
+	# print("Recip:\t\t"+str(sum(sum(Cpot.calc_complete(Erc)))))
+	# print("Total:\t\t"+str(sum(sum(Etotal))))
+
+	# print("--------------------------------------------------------------------------------")
+
+	################ BUCKINGHAM ################
+	filename    = DATAPATH+"Libraries/buck.lib"
+	Bpot 		= Buckingham(filename)
+	Bpot.set_structure(charge_dict, atoms)
+
+	Einter = Bpot.calc_real()
+	print("Interatomic:\t"+str(Einter))
+
+	print("--------------------------------------------------------------------------------")
 
 	# print("Total lattice:\t"+str(sum(sum(Etotal)) + Einter))
 
-	# print("--------------------------------------------------------------------------------")
+	print("--------------------------------------------------------------------------------")
 
-	# print(atoms.get_chemical_symbols())
-	# parameters = {'pair_style': 'buck 10',
- #              		'pair_coeff': ['2 1 1952.39 0.33685 19.22'], # Sr-O
- #              		'pair_coeff': ['3 1 4590.7279 0.261 0.0'],   # Ti-O
- #              		'pair_coeff': ['1 1 1388.77 0.36262 175']}    # O-O
-	# lammps = LAMMPS(parameters=parameters)
-	# atoms.set_calculator(lammps)
-	# print("Energy ", atoms.get_potential_energy())
+	print(atoms.get_chemical_symbols())
+	parameters = {'pair_style': 'buck 10',
+              		'pair_coeff': ['* * 1952.39 0.33685 19.22 0.0 10.0'], # Sr-O
+              		'pair_coeff': ['* * 4590.7279 0.261 0.0 0.0 10.0'],   # Ti-O
+              		'pair_coeff': ['* * 1388.77 0.36262 175 0.0 10.0']}    # O-O
+	atoms.calc = LAMMPS(parameters=parameters)
+	print("Energy ", atoms.get_potential_energy())
 
 # https://github.com/SINGROUP/Pysic/blob/master/fortran/Geometry.f90
 # https://github.com/vlgusev/IPCSP/blob/master/tools/matrix_generator.py?
