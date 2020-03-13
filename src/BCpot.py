@@ -16,8 +16,9 @@ from ase.geometry import Cell
 
 from ase.calculators.gulp import GULP
 from ase.calculators.lammpsrun import LAMMPS
+from ase.calculators.lammpslib import LAMMPSlib
 
-DATAPATH = "../../Data/"
+DATAPATH = "../../../Data/"
 
 
 charge_dict = {
@@ -26,6 +27,12 @@ charge_dict = {
 	'Ti':  4.,
 	'Cl': -1.,
 	'Na':  1.}
+
+atom_types = {
+	'O' : 1,
+	'Sr': 2,
+	'Ti': 3
+}
 
 class Potential:
 	def __init__(self):
@@ -229,12 +236,12 @@ if __name__=="__main__":
 	# atoms.set_calculator(calc)
 	# print(atoms.get_potential_energy())
 
-	vects  = np.array(atoms.get_cell())
-	volume = abs(np.linalg.det(vects))
-	alpha  = 2/(volume**(1.0/3))
+	# vects  = np.array(atoms.get_cell())
+	# volume = abs(np.linalg.det(vects))
+	# alpha  = 2/(volume**(1.0/3))
 
 	# ################ COULOMB ################
-	# Cpot        = Coulomb(alpha,1,1)
+	# Cpot        = Coulomb(alpha,4,4)
 	# Cpot.set_structure(charge_dict, atoms)
 	# rvects      = Cpot.get_reciprocal_vects()
 
@@ -268,12 +275,15 @@ if __name__=="__main__":
 
 	print("--------------------------------------------------------------------------------")
 
-	print(atoms.get_chemical_symbols())
-	parameters = {'pair_style': 'buck 10',
-              		'pair_coeff': ['* * 1952.39 0.33685 19.22 0.0 10.0'], # Sr-O
-              		'pair_coeff': ['* * 4590.7279 0.261 0.0 0.0 10.0'],   # Ti-O
-              		'pair_coeff': ['* * 1388.77 0.36262 175 0.0 10.0']}    # O-O
-	atoms.calc = LAMMPS(parameters=parameters)
+	cmds = ["pair_style buck 10",
+			"pair_coeff 1 2 1952.39 0.33685 19.22", # Sr-O
+			"pair_coeff 1 3 4590.7279 0.261 0.0",   # Ti-O
+			"pair_coeff 1 1 1388.77 0.36262 175",   # O-O
+			"pair_coeff 2 2 0.0 1.0 0.0",
+			"pair_coeff 3 3 0.0 1.0 0.0",
+			"pair_coeff 2 3 0.0 1.0 0.0"]   
+	lammps = LAMMPSlib(lmpcmds=cmds, atom_types=atom_types, log_file='test.log')
+	atoms.set_calculator(lammps)
 	print("Energy ", atoms.get_potential_energy())
 
 # https://github.com/SINGROUP/Pysic/blob/master/fortran/Geometry.f90
