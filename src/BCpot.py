@@ -211,7 +211,7 @@ class Buckingham(Potential):
 
 					dist = np.linalg.norm(self.pos[ioni] - self.pos[ionj])
 					# Check if distance of ions allows interaction 					
-					if (dist <= self.buck[pair]['hi']) & (ioni != ionj):
+					if (dist < self.buck[pair]['hi']) & (ioni != ionj):
 						esum +=  A*math.exp(-1.0*dist/rho) - C/dist**6
 					
 					# Check interactions with neighbouring cells
@@ -220,7 +220,7 @@ class Buckingham(Potential):
 					for shift in shifts:
 						dist = np.linalg.norm(self.pos[ioni] + shift - self.pos[ionj])
 						# Check if distance of ions allows interaction 					
-						if (dist <= self.buck[pair]['hi']):
+						if (dist < self.buck[pair]['hi']):
 							esum += A*math.exp(-1.0*dist/rho) - C/dist**6
 		return esum
 
