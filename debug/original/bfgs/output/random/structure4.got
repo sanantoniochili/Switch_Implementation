@@ -16,7 +16,7 @@
 ********************************************************************************
 
 
-  Job Started  at 11:48.12  4th February   2020                               
+  Job Started  at 13:26.15 21st February   2020                               
 
   Number of CPUs =     1
 
@@ -168,8 +168,8 @@ O    c O    c Buckingham    Buckingham A     1388.7700    eV        0.000 10.000
 
   Cycle:      0 Energy:       -53.354440  Gnorm:     31.391907  CPU:    0.014
   ** Hessian calculated **
- Line minimisation2
  ALPHA BEFORE:    1.0000000000000000     
+ XC BEFORE:   0.66666999999995369     
   ** Opt : line minimisation
 left   ...       0.00000000     -53.35443983
 centre ...       0.25000000     -58.00157871
@@ -211,10 +211,60 @@ new    ...       2.72400546     -87.98929276
 __s__    ...       0.05963887
 
  ALPHA AFTER:    2.7240054626107124     
-  Cycle:      1 Energy:       -87.989293  Gnorm:     31.944337  CPU:    0.027
+ XC AFTER:   0.55856282084781472     
+ SANITY CHECK:    2.7240054626107164     
+ DIRECTION dim            1  value   -3.9686843743891712E-002
+ DIRECTION dim            2  value   -1.5526741928772493E-002
+ DIRECTION dim            3  value   -7.1083847646265172E-003
+ DIRECTION dim            4  value    2.4525013568847814E-003
+ DIRECTION dim            5  value   -1.7230633684581548E-003
+ DIRECTION dim            6  value   -1.1056892320399116E-002
+ DIRECTION dim            7  value   -2.4470297870407911E-002
+ DIRECTION dim            8  value    4.4957415915104779E-003
+ DIRECTION dim            9  value   -3.4760092052007288E-003
+ DIRECTION dim           10  value   -1.0279868532646286E-002
+ DIRECTION dim           11  value    7.2453191864544980E-004
+ DIRECTION dim           12  value   -6.5742262248367446E-003
+ DIRECTION dim           13  value    1.6776902299094874E-002
+ DIRECTION dim           14  value    4.4481016899959244E-003
+ DIRECTION dim           15  value   -5.9867835709995982E-003
+ DIRECTION dim           16  value   -5.3380212488767724E-002
+ DIRECTION dim           17  value   -3.2821306586386496E-002
+ DIRECTION dim           18  value    1.3960819330606211E-003
+ DIRECTION dim           19  value   -1.2291562925739945E-002
+ DIRECTION dim           20  value   -4.5272582884854995E-003
+ DIRECTION dim           21  value   -1.5654119707851064E-002
+ DIRECTION dim           22  value    5.1889553122407882E-003
+ DIRECTION dim           23  value   -6.6816006372971233E-003
+ DIRECTION dim           24  value   -1.5662178016738991E-003
+ DIRECTION dim           25  value   -5.1228295514824301E-002
+ DIRECTION dim           26  value   -1.1944473518527111E-002
+ DIRECTION dim           27  value   -3.9299327276878099E-003
+ DIRECTION dim           28  value    5.4389760231844438E-003
+ DIRECTION dim           29  value    2.1994137800585719E-003
+ DIRECTION dim           30  value    6.3092575879295067E-003
+ DIRECTION dim           31  value   -3.6950245980319936E-002
+ DIRECTION dim           32  value   -5.3655841985943510E-002
+ DIRECTION dim           33  value   -7.6102900766667992E-003
+ DIRECTION dim           34  value   -4.9075844568269432E-002
+ DIRECTION dim           35  value   -2.4141327258683416E-002
+ DIRECTION dim           36  value   -1.1674272453741511E-002
+ DIRECTION dim           37  value    4.0356672154751878E-003
+ DIRECTION dim           38  value    3.7548868504420885E-003
+ DIRECTION dim           39  value    1.4284395488324223E-002
+ DIRECTION dim           40  value   -8.0877080474622623E-002
+ DIRECTION dim           41  value   -5.9960750653559715E-003
+ DIRECTION dim           42  value    6.3089037883937887E-004
+ DIRECTION dim           43  value   -8.8890772398717816E-002
+ DIRECTION dim           44  value   -3.6738769503519460E-002
+ DIRECTION dim           45  value   -5.3491578022969423E-002
+ DIRECTION dim           46  value   -6.7635298156153364E-003
+ DIRECTION dim           47  value    4.7554174927159736E-002
+ DIRECTION dim           48  value   -1.7879331822599986E-002
+  Cycle:      1 Energy:       -87.989293  Gnorm:     31.944337  CPU:    0.030
   ** Hessian calculated **
- Line minimisation2
  ALPHA BEFORE:    1.0000000000000000     
+ XC BEFORE:   0.55856282084781472     
   ** Opt : line minimisation
 left   ...       0.00000000     -87.98929276
 centre ...       0.25000000     -90.06918011
@@ -263,10 +313,60 @@ new    ...       1.66616551    -233.89633588
 __s__    ...       0.11375954
 
  ALPHA AFTER:    1.6661655135455342     
-  Cycle:      2 Energy:      -233.896336  Gnorm:     17.894640  CPU:    0.044
+ XC AFTER:   0.57936766112995908     
+ SANITY CHECK:    1.6661655135455402     
+ DIRECTION dim            1  value    1.2486658806106485E-002
+ DIRECTION dim            2  value   -6.9249017731117975E-003
+ DIRECTION dim            3  value   -3.8954314293415241E-003
+ DIRECTION dim            4  value    1.1202743021735215E-002
+ DIRECTION dim            5  value   -1.2330680982695684E-003
+ DIRECTION dim            6  value   -8.1000876801933606E-003
+ DIRECTION dim            7  value   -2.0191625937368750E-002
+ DIRECTION dim            8  value    9.2726472443794856E-004
+ DIRECTION dim            9  value   -1.6117104404062004E-003
+ DIRECTION dim           10  value    7.1913523234176857E-003
+ DIRECTION dim           11  value    3.5995184126802286E-004
+ DIRECTION dim           12  value   -2.1969477451739680E-003
+ DIRECTION dim           13  value    8.5004935819351819E-003
+ DIRECTION dim           14  value   -1.7234650400078613E-002
+ DIRECTION dim           15  value   -6.3625289178445305E-003
+ DIRECTION dim           16  value   -7.4002936197459139E-003
+ DIRECTION dim           17  value    1.0002016007950461E-003
+ DIRECTION dim           18  value    3.0174229455650378E-003
+ DIRECTION dim           19  value    2.0684583607575396E-002
+ DIRECTION dim           20  value    7.2350975020342712E-003
+ DIRECTION dim           21  value   -7.2383561059010983E-003
+ DIRECTION dim           22  value    1.0739528409468645E-002
+ DIRECTION dim           23  value   -1.4284889038861456E-002
+ DIRECTION dim           24  value   -2.8052731253490292E-002
+ DIRECTION dim           25  value   -4.7060765852868546E-003
+ DIRECTION dim           26  value    1.0320511148585267E-003
+ DIRECTION dim           27  value    7.6361939326401412E-004
+ DIRECTION dim           28  value   -5.5366260851699546E-003
+ DIRECTION dim           29  value    5.0684078470378180E-003
+ DIRECTION dim           30  value    5.5499563232060565E-003
+ DIRECTION dim           31  value    6.5001009823952268E-003
+ DIRECTION dim           32  value    1.3942139245180520E-003
+ DIRECTION dim           33  value   -3.2748802391429174E-002
+ DIRECTION dim           34  value  -0.18425099556118574     
+ DIRECTION dim           35  value   -5.3168498143797843E-002
+ DIRECTION dim           36  value    2.3170867556167676E-002
+ DIRECTION dim           37  value   -4.3750565783944638E-003
+ DIRECTION dim           38  value   -1.5805016646569592E-003
+ DIRECTION dim           39  value    9.9334585911081616E-003
+ DIRECTION dim           40  value    5.9581035519421710E-003
+ DIRECTION dim           41  value    2.0873079659154109E-002
+ DIRECTION dim           42  value  -0.20565691831653204     
+ DIRECTION dim           43  value    2.1251135117207737E-002
+ DIRECTION dim           44  value    3.5155575394718537E-002
+ DIRECTION dim           45  value   -1.6942022596866831E-002
+ DIRECTION dim           46  value   -4.2212784146150616E-002
+ DIRECTION dim           47  value    8.5103410256844019E-003
+ DIRECTION dim           48  value   -1.8442012068829568E-002
+  Cycle:      2 Energy:      -233.896336  Gnorm:     17.894640  CPU:    0.048
   ** Hessian calculated **
- Line minimisation2
  ALPHA BEFORE:    1.0000000000000000     
+ XC BEFORE:   0.57936766112995908     
   ** Opt : line minimisation
 left   ...       0.00000000    -233.89633588
 centre ...       0.25000000    -214.82561053
@@ -308,10 +408,60 @@ new    ...      -0.67472523    -282.03824814
 __s__    ...       0.00064086
 
  ALPHA AFTER:   0.67472522996488116     
-  Cycle:      3 Energy:      -282.038248  Gnorm:     13.505435  CPU:    0.060
+ XC AFTER:   0.57436168007773913     
+ SANITY CHECK:   0.67472522996488515     
+ DIRECTION dim            1  value   -7.4192883708831675E-003
+ DIRECTION dim            2  value    2.4856123430052317E-003
+ DIRECTION dim            3  value    3.3466476880322921E-003
+ DIRECTION dim            4  value   -7.3717503576102884E-003
+ DIRECTION dim            5  value   -6.1457349205718589E-004
+ DIRECTION dim            6  value   0.42532151664302570     
+ DIRECTION dim            7  value    8.7432380966484726E-003
+ DIRECTION dim            8  value    6.3457818436163957E-004
+ DIRECTION dim            9  value    3.1567393107896700E-003
+ DIRECTION dim           10  value   -3.0966769009378491E-003
+ DIRECTION dim           11  value    1.0281966666320426E-004
+ DIRECTION dim           12  value    3.7523755054622234E-003
+ DIRECTION dim           13  value   -1.7061862686709158E-003
+ DIRECTION dim           14  value    1.0479293733639324E-002
+ DIRECTION dim           15  value    6.3394848665620689E-003
+ DIRECTION dim           16  value  -0.11061531872179253     
+ DIRECTION dim           17  value    3.7963591494979249E-003
+ DIRECTION dim           18  value    2.0364012996693902E-003
+ DIRECTION dim           19  value    3.0542406771961406E-002
+ DIRECTION dim           20  value   -3.4926493684846430E-003
+ DIRECTION dim           21  value    2.9162071792720426E-003
+ DIRECTION dim           22  value   -5.6366887266686143E-002
+ DIRECTION dim           23  value   -2.6581026517646226E-003
+ DIRECTION dim           24  value   -4.0310349029246253E-004
+ DIRECTION dim           25  value    6.8828006616637727E-004
+ DIRECTION dim           26  value   -3.8415772441939918E-004
+ DIRECTION dim           27  value    1.8570114554552156E-003
+ DIRECTION dim           28  value    1.0308753167514854E-003
+ DIRECTION dim           29  value   -1.8493921062392813E-003
+ DIRECTION dim           30  value   -9.4085638284403079E-004
+ DIRECTION dim           31  value    8.0335223645652701E-004
+ DIRECTION dim           32  value   -7.0629876563850144E-004
+ DIRECTION dim           33  value    5.1214654056216530E-003
+ DIRECTION dim           34  value    5.0592352504462068E-003
+ DIRECTION dim           35  value    7.0019066707468431E-003
+ DIRECTION dim           36  value    6.3885595377090798E-004
+ DIRECTION dim           37  value    1.9231933971447885E-003
+ DIRECTION dim           38  value    1.7736068258634749E-004
+ DIRECTION dim           39  value   -3.4487988385258523E-004
+ DIRECTION dim           40  value   -1.1178833121456521E-002
+ DIRECTION dim           41  value    8.1974799040247055E-004
+ DIRECTION dim           42  value    8.6715408400139771E-004
+ DIRECTION dim           43  value   -7.5441890079860820E-003
+ DIRECTION dim           44  value   -1.5238048200445596E-002
+ DIRECTION dim           45  value    5.1566882641961723E-003
+ DIRECTION dim           46  value    5.7552344647863254E-003
+ DIRECTION dim           47  value    2.7254626502346772E-002
+ DIRECTION dim           48  value   -1.7563470749206653E-002
+  Cycle:      3 Energy:      -282.038248  Gnorm:     13.505435  CPU:    0.065
   ** Hessian calculated **
- Line minimisation2
  ALPHA BEFORE:    1.0000000000000000     
+ XC BEFORE:   0.57436168007773913     
   ** Opt : line minimisation
 left   ...       0.00000000    -282.03824814
 centre ...       0.25000000    -292.47118835
@@ -339,10 +489,60 @@ new    ...       0.99187729    -312.78632455
 __s__    ...       0.00376485
 
  ALPHA AFTER:   0.99187728704948153     
-  Cycle:      4 Energy:      -312.786325  Gnorm:     13.273913  CPU:    0.069
+ XC AFTER:   0.62951961830966718     
+ SANITY CHECK:   0.99187728704948042     
+ DIRECTION dim            1  value    5.5609639369810934E-002
+ DIRECTION dim            2  value   -1.9983281927468594E-002
+ DIRECTION dim            3  value    3.9884163700251017E-002
+ DIRECTION dim            4  value   0.21872577382225872     
+ DIRECTION dim            5  value   -6.6930540243100065E-002
+ DIRECTION dim            6  value    5.6536950084213972E-002
+ DIRECTION dim            7  value    4.9095763718429664E-002
+ DIRECTION dim            8  value  -0.13080915917135241     
+ DIRECTION dim            9  value    3.4348391749242806E-002
+ DIRECTION dim           10  value    8.8431038981849661E-002
+ DIRECTION dim           11  value   -9.7246191024443318E-002
+ DIRECTION dim           12  value    3.9837118622033353E-002
+ DIRECTION dim           13  value   -5.5519132072492546E-002
+ DIRECTION dim           14  value   -4.5543166560451376E-002
+ DIRECTION dim           15  value    4.7832212131207322E-002
+ DIRECTION dim           16  value   0.25874644594103163     
+ DIRECTION dim           17  value   -3.4275708806230799E-002
+ DIRECTION dim           18  value    4.1604343820155411E-002
+ DIRECTION dim           19  value   -2.1452226083039073E-002
+ DIRECTION dim           20  value    5.0471555874991698E-002
+ DIRECTION dim           21  value    9.0592763189083058E-003
+ DIRECTION dim           22  value    8.7330050351955554E-002
+ DIRECTION dim           23  value   -2.9463196815785707E-002
+ DIRECTION dim           24  value    3.3783142080549645E-002
+ DIRECTION dim           25  value    7.6793124550669306E-002
+ DIRECTION dim           26  value   -1.0582141017817136E-002
+ DIRECTION dim           27  value    1.2347612105928161E-002
+ DIRECTION dim           28  value   -5.3560613964460041E-003
+ DIRECTION dim           29  value    3.8212790281235864E-002
+ DIRECTION dim           30  value    2.1435705024919913E-002
+ DIRECTION dim           31  value   0.25738317228359792     
+ DIRECTION dim           32  value   -5.4479970633520718E-002
+ DIRECTION dim           33  value    1.6828623837416520E-003
+ DIRECTION dim           34  value   0.18532488742163783     
+ DIRECTION dim           35  value   -8.3266383894278234E-002
+ DIRECTION dim           36  value    4.7217193497763571E-002
+ DIRECTION dim           37  value    6.7999393342131013E-003
+ DIRECTION dim           38  value   -1.0441915976137375E-002
+ DIRECTION dim           39  value    1.5012119195369725E-002
+ DIRECTION dim           40  value   0.16719284416189051     
+ DIRECTION dim           41  value   -5.1282917289590876E-002
+ DIRECTION dim           42  value    4.6286559559399122E-002
+ DIRECTION dim           43  value    6.9506124471406971E-002
+ DIRECTION dim           44  value    7.1420364769632383E-004
+ DIRECTION dim           45  value  -0.15637557743137168     
+ DIRECTION dim           46  value   -3.7095683753815565E-003
+ DIRECTION dim           47  value  -0.25638211385267046     
+ DIRECTION dim           48  value    9.6516863685258997E-002
+  Cycle:      4 Energy:      -312.786325  Gnorm:     13.273913  CPU:    0.075
   ** Hessian calculated **
- Line minimisation2
  ALPHA BEFORE:    1.0000000000000000     
+ XC BEFORE:   0.62951961830966718     
   ** Opt : line minimisation
 left   ...       0.00000000    -312.78632455
 centre ...       0.25000000    -322.38749712
@@ -370,10 +570,60 @@ new    ...       0.60796877    -329.69965443
 __s__    ...       0.02084545
 
  ALPHA AFTER:   0.60796877185590836     
-  Cycle:      5 Energy:      -329.699654  Gnorm:     15.064958  CPU:    0.076
+ XC AFTER:   0.80455084536793720     
+ SANITY CHECK:   0.60796877185590825     
+ DIRECTION dim            1  value   0.28789509455224671     
+ DIRECTION dim            2  value   -4.9848194541340964E-002
+ DIRECTION dim            3  value   0.17512154782191808     
+ DIRECTION dim            4  value   0.28783047540317358     
+ DIRECTION dim            5  value   -1.9055242446758328E-002
+ DIRECTION dim            6  value    5.7398780330381413E-002
+ DIRECTION dim            7  value   0.24419251806240780     
+ DIRECTION dim            8  value   -1.3846699780253980E-002
+ DIRECTION dim            9  value    6.9647822264450061E-003
+ DIRECTION dim           10  value   0.15659863452752606     
+ DIRECTION dim           11  value    2.9857011755994891E-002
+ DIRECTION dim           12  value    8.9596450912664785E-002
+ DIRECTION dim           13  value    3.5114992369908206E-002
+ DIRECTION dim           14  value   -2.4626191242039273E-002
+ DIRECTION dim           15  value    1.5876843596016440E-003
+ DIRECTION dim           16  value   0.31073307477419704     
+ DIRECTION dim           17  value   -5.7936941988357719E-003
+ DIRECTION dim           18  value    2.5380717986948610E-002
+ DIRECTION dim           19  value   0.11245485353862063     
+ DIRECTION dim           20  value    6.5011406528370660E-002
+ DIRECTION dim           21  value    8.8104863188417731E-002
+ DIRECTION dim           22  value   0.19098774312816494     
+ DIRECTION dim           23  value    3.4865658797073484E-002
+ DIRECTION dim           24  value   0.12628131149243418     
+ DIRECTION dim           25  value   0.25840300359714213     
+ DIRECTION dim           26  value   -3.8330736103635674E-002
+ DIRECTION dim           27  value   0.15133267065092959     
+ DIRECTION dim           28  value   0.12125078745735593     
+ DIRECTION dim           29  value   -1.3076045322430344E-002
+ DIRECTION dim           30  value   -3.4338016696519058E-003
+ DIRECTION dim           31  value   0.23682501194775718     
+ DIRECTION dim           32  value   -3.6488658461492447E-003
+ DIRECTION dim           33  value    2.3603931612727027E-002
+ DIRECTION dim           34  value   0.35163650653051615     
+ DIRECTION dim           35  value    3.3042530725763505E-002
+ DIRECTION dim           36  value    8.6715053374850415E-002
+ DIRECTION dim           37  value   0.12543134123042024     
+ DIRECTION dim           38  value    5.2545702279785137E-003
+ DIRECTION dim           39  value    6.1005000724243551E-002
+ DIRECTION dim           40  value   0.23104288555029595     
+ DIRECTION dim           41  value    3.0619879947760758E-002
+ DIRECTION dim           42  value   0.14629833148518415     
+ DIRECTION dim           43  value  -0.10988950727372532     
+ DIRECTION dim           44  value    6.3685835647628752E-002
+ DIRECTION dim           45  value   -5.2594429781539699E-002
+ DIRECTION dim           46  value    6.2293711476948697E-002
+ DIRECTION dim           47  value  -0.34851880906335714     
+ DIRECTION dim           48  value   -3.8506542067229761E-002
+  Cycle:      5 Energy:      -329.699654  Gnorm:     15.064958  CPU:    0.083
   ** Hessian calculated **
- Line minimisation2
  ALPHA BEFORE:    1.0000000000000000     
+ XC BEFORE:   0.80455084536793720     
   ** Opt : line minimisation
 left   ...       0.00000000    -329.69965443
 centre ...       0.25000000   -8006.13352726
@@ -422,10 +672,60 @@ new    ...       0.27756117  -13112.19099976
 __s__    ...       0.00006219
 
  ALPHA AFTER:   0.27756117334359109     
-  Cycle:      6 Energy:    -13112.191000  Gnorm:  28641.730181  CPU:    0.086
+ XC AFTER:   0.82157590678500847     
+ SANITY CHECK:   0.27756117334359187     
+ DIRECTION dim            1  value    6.1338051039278536E-002
+ DIRECTION dim            2  value   -8.7896385456340334E-003
+ DIRECTION dim            3  value  -0.17081626714669343     
+ DIRECTION dim            4  value    5.3292263077343367E-002
+ DIRECTION dim            5  value   -3.3183097467713155E-002
+ DIRECTION dim            6  value    2.7720146901473449E-002
+ DIRECTION dim            7  value   -1.7291205853707293E-002
+ DIRECTION dim            8  value   -1.2795416545356407E-003
+ DIRECTION dim            9  value    4.8254995510498069E-003
+ DIRECTION dim           10  value   -1.3998670393746587E-002
+ DIRECTION dim           11  value    1.0297198986436188E-002
+ DIRECTION dim           12  value    1.2882700074420907E-002
+ DIRECTION dim           13  value    7.3793386043414762E-003
+ DIRECTION dim           14  value   -6.0295336843171968E-003
+ DIRECTION dim           15  value   -1.5358504306033867E-002
+ DIRECTION dim           16  value    2.9101370531318942E-002
+ DIRECTION dim           17  value    2.4282410043193217E-002
+ DIRECTION dim           18  value    2.6035929072427033E-003
+ DIRECTION dim           19  value   -5.7041603083832944E-002
+ DIRECTION dim           20  value    5.1977572443221241E-003
+ DIRECTION dim           21  value   -2.3071507240556333E-002
+ DIRECTION dim           22  value   -1.4701177959153848     
+ DIRECTION dim           23  value    1.0081385448411820E-002
+ DIRECTION dim           24  value   -3.6038291288736067E-004
+ DIRECTION dim           25  value    1.6396592051835567E-003
+ DIRECTION dim           26  value    6.9771702066170772E-003
+ DIRECTION dim           27  value   -2.4609759145853005E-002
+ DIRECTION dim           28  value    1.0069592799571861E-002
+ DIRECTION dim           29  value    1.2945028406327302E-002
+ DIRECTION dim           30  value   0.12786458211520696     
+ DIRECTION dim           31  value   -4.4776633180794237E-002
+ DIRECTION dim           32  value    3.0313760757622769E-002
+ DIRECTION dim           33  value   -3.0760475608685302E-002
+ DIRECTION dim           34  value   -2.6696179391004500E-002
+ DIRECTION dim           35  value   -2.8004864597307899E-003
+ DIRECTION dim           36  value  -0.13106879939520430     
+ DIRECTION dim           37  value   -1.6833840973130866E-003
+ DIRECTION dim           38  value   -7.3665902069243597E-003
+ DIRECTION dim           39  value    1.4900079597584184E-004
+ DIRECTION dim           40  value    2.0141725912944726E-002
+ DIRECTION dim           41  value   -9.7100356782735802E-003
+ DIRECTION dim           42  value    4.2032321233686169E-003
+ DIRECTION dim           43  value    9.1851745548185565E-002
+ DIRECTION dim           44  value    6.8187085756177060E-002
+ DIRECTION dim           45  value    3.1938418121864348E-002
+ DIRECTION dim           46  value   -2.2722972772731029E-002
+ DIRECTION dim           47  value    6.6063420689799549E-002
+ DIRECTION dim           48  value   -7.9758994983937515E-002
+  Cycle:      6 Energy:    -13112.191000  Gnorm:  28641.730181  CPU:    0.093
   ** Hessian calculated **
- Line minimisation2
  ALPHA BEFORE:    1.0000000000000000     
+ XC BEFORE:   0.82157590678500847     
   ** Opt : line minimisation
 left   ...       0.00000000  -13112.19099976
 centre ...       0.25000000   -6023.64809030
@@ -474,10 +774,60 @@ new    ...       0.04670479  -15576.25959143
 __s__    ...      -0.00006332
 
  ALPHA AFTER:    4.6704794882091762E-002
-  Cycle:      7 Energy:    -15576.259591  Gnorm:  34788.537729  CPU:    0.097
+ XC AFTER:   0.82483974222641510     
+ SANITY CHECK:    4.6704794882089368E-002
+ DIRECTION dim            1  value    6.9882234782242050E-002
+ DIRECTION dim            2  value   -1.6401864431374154E-002
+ DIRECTION dim            3  value  -0.35067655045686574     
+ DIRECTION dim            4  value   0.17986477937098244     
+ DIRECTION dim            5  value   -3.5581947139717740E-002
+ DIRECTION dim            6  value   -1.2500576027555671E-002
+ DIRECTION dim            7  value    2.5822106325111421E-003
+ DIRECTION dim            8  value   -1.3268140806605313E-002
+ DIRECTION dim            9  value   0.14506378553802463     
+ DIRECTION dim           10  value   -3.4200274456099196E-003
+ DIRECTION dim           11  value    7.1309827094719225E-002
+ DIRECTION dim           12  value    4.0203984934333595E-002
+ DIRECTION dim           13  value    1.1646025708375463E-002
+ DIRECTION dim           14  value   -1.2450321072312824E-002
+ DIRECTION dim           15  value   -4.7530754971869003E-002
+ DIRECTION dim           16  value    6.7181153715375211E-002
+ DIRECTION dim           17  value    7.0681210788209353E-002
+ DIRECTION dim           18  value    4.0583694905912378E-003
+ DIRECTION dim           19  value   0.63344373292405021     
+ DIRECTION dim           20  value   -2.4152062645804918E-002
+ DIRECTION dim           21  value    5.5793345259862702E-002
+ DIRECTION dim           22  value   -2.5805165642537866E-003
+ DIRECTION dim           23  value    1.3269326224461128E-002
+ DIRECTION dim           24  value  -0.14514292368567577     
+ DIRECTION dim           25  value   -2.8378112842783023E-003
+ DIRECTION dim           26  value    3.1159200074058400E-002
+ DIRECTION dim           27  value  -0.10448066828698059     
+ DIRECTION dim           28  value   -3.7348215725013560E-002
+ DIRECTION dim           29  value    3.9507613488567531E-002
+ DIRECTION dim           30  value    9.2581731107549692E-003
+ DIRECTION dim           31  value  -0.12296569271419942     
+ DIRECTION dim           32  value    9.1005655351674179E-004
+ DIRECTION dim           33  value   -1.4927328351190554E-002
+ DIRECTION dim           34  value  -0.14990651762444807     
+ DIRECTION dim           35  value   -1.4862302389550660E-002
+ DIRECTION dim           36  value    1.0600246066541577     
+ DIRECTION dim           37  value    7.8295891200155732E-002
+ DIRECTION dim           38  value   -3.6618680400311909E-002
+ DIRECTION dim           39  value   -5.3920392628941504E-003
+ DIRECTION dim           40  value   0.18415186446418011     
+ DIRECTION dim           41  value    3.0642276921129662E-002
+ DIRECTION dim           42  value   0.19738117619593235     
+ DIRECTION dim           43  value  -0.44886315275248329     
+ DIRECTION dim           44  value   0.21608799616187205     
+ DIRECTION dim           45  value   -1.3214367065216754     
+ DIRECTION dim           46  value   0.63390745403703852     
+ DIRECTION dim           47  value  -0.67847591090499892     
+ DIRECTION dim           48  value  -0.33475780354683538     
+  Cycle:      7 Energy:    -15576.259591  Gnorm:  34788.537729  CPU:    0.105
   ** Hessian calculated **
- Line minimisation2
  ALPHA BEFORE:    1.0000000000000000     
+ XC BEFORE:   0.82483974222641510     
   ** Opt : line minimisation
 left   ...       0.00000000  -15576.25959143
 centre ...       0.25000000  -10814.72352336
@@ -505,10 +855,60 @@ new    ...      -0.00814541  -15581.78143135
 __s__    ...       0.00068469
 
  ALPHA AFTER:    8.1454129523708535E-003
-  Cycle:      8 Energy:    -15581.781431  Gnorm:  34781.812450  CPU:    0.106
+ XC AFTER:   0.82446762065788370     
+ SANITY CHECK:    8.1454129523692818E-003
+ DIRECTION dim            1  value   -4.5684800845259971E-002
+ DIRECTION dim            2  value    1.0831469816736616E-002
+ DIRECTION dim            3  value   0.30607682609508313     
+ DIRECTION dim            4  value  -0.15540529600153455     
+ DIRECTION dim            5  value    3.6881906024291505E-002
+ DIRECTION dim            6  value   -2.0479439756101645E-002
+ DIRECTION dim            7  value   -8.0037087162538774E-003
+ DIRECTION dim            8  value    1.1508523127985013E-002
+ DIRECTION dim            9  value   -7.6392361894123979E-003
+ DIRECTION dim           10  value   -5.4663666853015963E-002
+ DIRECTION dim           11  value   -6.6839918893791733E-002
+ DIRECTION dim           12  value   -4.6729460450791759E-002
+ DIRECTION dim           13  value   -1.5595414336484554E-002
+ DIRECTION dim           14  value   -9.5252720322049258E-003
+ DIRECTION dim           15  value    4.9320990003358885E-002
+ DIRECTION dim           16  value   -7.6227253042236140E-002
+ DIRECTION dim           17  value   -6.4424480739537965E-002
+ DIRECTION dim           18  value   -3.2482390183089266E-002
+ DIRECTION dim           19  value  -0.23550506051244816     
+ DIRECTION dim           20  value    3.1290084693042793E-002
+ DIRECTION dim           21  value   -3.6866272134928234E-002
+ DIRECTION dim           22  value    8.0000153912253603E-003
+ DIRECTION dim           23  value   -1.1508865632094986E-002
+ DIRECTION dim           24  value    7.6431023920265871E-003
+ DIRECTION dim           25  value    3.1247480711973801E-003
+ DIRECTION dim           26  value   -3.3479360499248309E-002
+ DIRECTION dim           27  value    9.5792690425756527E-002
+ DIRECTION dim           28  value    2.9074512772500932E-003
+ DIRECTION dim           29  value   -3.9132124052820932E-002
+ DIRECTION dim           30  value   -2.4674508135162972E-002
+ DIRECTION dim           31  value   0.13631677563856898     
+ DIRECTION dim           32  value    8.0630362850081030E-003
+ DIRECTION dim           33  value   -5.1779713654316205E-004
+ DIRECTION dim           34  value    9.7814458231644114E-002
+ DIRECTION dim           35  value    1.9899914024732530E-002
+ DIRECTION dim           36  value   -6.8999995554998209E-002
+ DIRECTION dim           37  value    1.5397633063455806E-002
+ DIRECTION dim           38  value    4.1031183281508399E-002
+ DIRECTION dim           39  value   -1.7365544848507832E-003
+ DIRECTION dim           40  value  -0.21495584843739934     
+ DIRECTION dim           41  value   -6.7765389835764064E-002
+ DIRECTION dim           42  value    1.9318890148308974E-002
+ DIRECTION dim           43  value   0.48844321224097442     
+ DIRECTION dim           44  value  -0.17812587559340001     
+ DIRECTION dim           45  value   0.47493479041726067     
+ DIRECTION dim           46  value   0.65191858398752212     
+ DIRECTION dim           47  value    1.1386843209301540     
+ DIRECTION dim           48  value   0.45951122074654616     
+  Cycle:      8 Energy:    -15581.781431  Gnorm:  34781.812450  CPU:    0.115
   ** Hessian calculated **
- Line minimisation2
  ALPHA BEFORE:    1.0000000000000000     
+ XC BEFORE:   0.82446762065788370     
   ** Opt : line minimisation
 left   ...       0.00000000  -15581.78143135
 centre ...       0.25000000  -11108.91937230
@@ -529,10 +929,60 @@ new    ...       0.01901214  -15611.73618515
 __s__    ...       0.00138044
 
  ALPHA AFTER:    1.7631699413392932E-002
-  Cycle:      9 Energy:    -15612.129113  Gnorm:  34914.043782  CPU:    0.113
+ XC AFTER:   0.82535243729669838     
+ SANITY CHECK:    1.7631699413392272E-002
+ DIRECTION dim            1  value    5.0183287388770370E-002
+ DIRECTION dim            2  value   -1.1969228765289757E-002
+ DIRECTION dim            3  value  -0.29106703487632579     
+ DIRECTION dim            4  value   0.15400778161986814     
+ DIRECTION dim            5  value   -3.6432185211893446E-002
+ DIRECTION dim            6  value    1.6825213212071862E-002
+ DIRECTION dim            7  value    8.8944229300631263E-003
+ DIRECTION dim            8  value   -1.1550972084835033E-002
+ DIRECTION dim            9  value    8.6247870204149164E-003
+ DIRECTION dim           10  value   -2.3063826600460248E-003
+ DIRECTION dim           11  value    6.7286767098831773E-002
+ DIRECTION dim           12  value    4.9367624038618468E-002
+ DIRECTION dim           13  value    1.6493525693358678E-002
+ DIRECTION dim           14  value    1.2523347460897344E-002
+ DIRECTION dim           15  value   -4.8137297368385089E-002
+ DIRECTION dim           16  value    6.8501866169126568E-002
+ DIRECTION dim           17  value    6.7065824057669282E-002
+ DIRECTION dim           18  value    3.1293260923319986E-002
+ DIRECTION dim           19  value   0.24223208944310765     
+ DIRECTION dim           20  value   -3.1323531278484078E-002
+ DIRECTION dim           21  value    3.3997724854083811E-002
+ DIRECTION dim           22  value   -8.8913996262399882E-003
+ DIRECTION dim           23  value    1.1551333684796765E-002
+ DIRECTION dim           24  value   -8.6286755690254957E-003
+ DIRECTION dim           25  value   -3.8475059234111030E-003
+ DIRECTION dim           26  value    3.3716562454628889E-002
+ DIRECTION dim           27  value   -9.7172146568268294E-002
+ DIRECTION dim           28  value   -8.4877122684469900E-003
+ DIRECTION dim           29  value    3.8696694225360408E-002
+ DIRECTION dim           30  value    2.3558634969375773E-002
+ DIRECTION dim           31  value  -0.13568639355009707     
+ DIRECTION dim           32  value   -1.0064866165486012E-002
+ DIRECTION dim           33  value   -6.8837964822504518E-004
+ DIRECTION dim           34  value  -0.10340908746440777     
+ DIRECTION dim           35  value   -1.9100688899428717E-002
+ DIRECTION dim           36  value    8.9906306394979679E-002
+ DIRECTION dim           37  value   -9.4005729586349712E-003
+ DIRECTION dim           38  value   -4.0452310181186203E-002
+ DIRECTION dim           39  value    3.2691977097242856E-003
+ DIRECTION dim           40  value   0.23345972228405004     
+ DIRECTION dim           41  value    6.3129055108038581E-002
+ DIRECTION dim           42  value   -2.7506083451488802E-002
+ DIRECTION dim           43  value  -0.49728096506968661     
+ DIRECTION dim           44  value   0.17923717189838639     
+ DIRECTION dim           45  value  -0.48923137960176405     
+ DIRECTION dim           46  value  -0.73138210232755430     
+ DIRECTION dim           47  value   -1.1702014258430147     
+ DIRECTION dim           48  value  -0.49801905859353596     
+  Cycle:      9 Energy:    -15612.129113  Gnorm:  34914.043782  CPU:    0.124
   ** Hessian calculated **
- Line minimisation2
  ALPHA BEFORE:    1.0000000000000000     
+ XC BEFORE:   0.82535243729669838     
   ** Opt : line minimisation
 left   ...       0.00000000  -15612.12911318
 centre ...       0.25000000  -10529.99837738
@@ -560,10 +1010,60 @@ new    ...      -0.04614838  -15776.37013131
 __s__    ...       0.00124123
 
  ALPHA AFTER:    4.6148384572752492E-002
-  Cycle:     10 Energy:    -15776.370131  Gnorm:  35240.802748  CPU:    0.122
+ XC AFTER:   0.82350425297191010     
+ SANITY CHECK:    4.6148384572753914E-002
+ DIRECTION dim            1  value   -4.0048732840790566E-002
+ DIRECTION dim            2  value    9.2532466572395455E-003
+ DIRECTION dim            3  value   0.33106086958732722     
+ DIRECTION dim            4  value  -0.15718007424377481     
+ DIRECTION dim            5  value    3.7574786461841952E-002
+ DIRECTION dim            6  value   -2.8272964682401359E-002
+ DIRECTION dim            7  value   -6.9138151895570057E-003
+ DIRECTION dim            8  value    1.1452381189198330E-002
+ DIRECTION dim            9  value   -6.3816321487903480E-003
+ DIRECTION dim           10  value   0.19874910720994157     
+ DIRECTION dim           11  value   -6.6691634295191121E-002
+ DIRECTION dim           12  value   -4.3864540006234583E-002
+ DIRECTION dim           13  value   -1.4487738539857664E-002
+ DIRECTION dim           14  value   -6.0642492388146710E-003
+ DIRECTION dim           15  value    5.0657911770811151E-002
+ DIRECTION dim           16  value   -8.7094817707912928E-002
+ DIRECTION dim           17  value   -6.1209377310588710E-002
+ DIRECTION dim           18  value   -3.4021536405528109E-002
+ DIRECTION dim           19  value  -0.22632520880195875     
+ DIRECTION dim           20  value    3.1040843868098158E-002
+ DIRECTION dim           21  value   -4.0296563337597013E-002
+ DIRECTION dim           22  value    6.9093185528305906E-003
+ DIRECTION dim           23  value   -1.1452699424612781E-002
+ DIRECTION dim           24  value    6.3854626979796391E-003
+ DIRECTION dim           25  value    1.8968064369997290E-003
+ DIRECTION dim           26  value   -3.3118816111450830E-002
+ DIRECTION dim           27  value    9.3955504805516135E-002
+ DIRECTION dim           28  value   -4.7032230981039697E-003
+ DIRECTION dim           29  value   -3.9864326946371501E-002
+ DIRECTION dim           30  value   -2.6710585073561853E-002
+ DIRECTION dim           31  value   0.13676564407965647     
+ DIRECTION dim           32  value    5.4678615165181426E-003
+ DIRECTION dim           33  value   -1.9614395035178027E-003
+ DIRECTION dim           34  value    9.1901782218175007E-002
+ DIRECTION dim           35  value    2.1066668861427672E-002
+ DIRECTION dim           36  value   -5.0652383902214951E-002
+ DIRECTION dim           37  value    2.4946982441779383E-002
+ DIRECTION dim           38  value    4.2260305956559885E-002
+ DIRECTION dim           39  value    4.3938993573275749E-004
+ DIRECTION dim           40  value  -0.18980725407753682     
+ DIRECTION dim           41  value   -7.4018297408128403E-002
+ DIRECTION dim           42  value    1.0540950278571470E-002
+ DIRECTION dim           43  value   0.47708742341024724     
+ DIRECTION dim           44  value  -0.17676508632289634     
+ DIRECTION dim           45  value   0.45520222581269387     
+ DIRECTION dim           46  value   0.56429484509731687     
+ DIRECTION dim           47  value    1.1006622918007916     
+ DIRECTION dim           48  value   0.41608894584781753     
+  Cycle:     10 Energy:    -15776.370131  Gnorm:  35240.802748  CPU:    0.133
   ** Hessian calculated **
- Line minimisation2
  ALPHA BEFORE:    1.0000000000000000     
+ XC BEFORE:   0.82350425297191010     
   ** Opt : line minimisation
 left   ...       0.00000000  -15776.37013131
 centre ...       0.25000000  -12168.15390224
@@ -598,10 +1098,60 @@ new    ...       0.07097978  -16625.55252004
 __s__    ...      -0.00088376
 
  ALPHA AFTER:    7.0979784555089215E-002
-  Cycle:     11 Energy:    -16625.552520  Gnorm:  37809.742261  CPU:    0.137
+ XC AFTER:   0.82817331312901243     
+ SANITY CHECK:    7.0979784555089520E-002
+ DIRECTION dim            1  value    6.5780139885864786E-002
+ DIRECTION dim            2  value   -1.4345853603351963E-002
+ DIRECTION dim            3  value  -0.28012414429483551     
+ DIRECTION dim            4  value   0.14948088678175178     
+ DIRECTION dim            5  value   -3.5154380988184207E-002
+ DIRECTION dim            6  value    1.2916103962068597E-002
+ DIRECTION dim            7  value    1.1854524521356545E-002
+ DIRECTION dim            8  value   -1.1672278670017021E-002
+ DIRECTION dim            9  value    1.1663650735072270E-002
+ DIRECTION dim           10  value   -6.7544348970231732E-002
+ DIRECTION dim           11  value    6.9856607665306242E-002
+ DIRECTION dim           12  value    6.3235878300299878E-002
+ DIRECTION dim           13  value    1.9140739248239797E-002
+ DIRECTION dim           14  value    2.3818711367614268E-002
+ DIRECTION dim           15  value   -4.4068069623526336E-002
+ DIRECTION dim           16  value    4.9274490881694194E-002
+ DIRECTION dim           17  value    7.5989595557031747E-002
+ DIRECTION dim           18  value    2.7865825630190213E-002
+ DIRECTION dim           19  value   0.26682812992090454     
+ DIRECTION dim           20  value   -3.1274562476024399E-002
+ DIRECTION dim           21  value    1.7561691149532432E-002
+ DIRECTION dim           22  value   -1.1854340226023108E-002
+ DIRECTION dim           23  value    1.1672691508244607E-002
+ DIRECTION dim           24  value   -1.1667426763723236E-002
+ DIRECTION dim           25  value   -4.4403414044132689E-003
+ DIRECTION dim           26  value    3.4023579061281416E-002
+ DIRECTION dim           27  value   -9.9345086238913596E-002
+ DIRECTION dim           28  value   -2.3532275775770755E-002
+ DIRECTION dim           29  value    3.8245075322678034E-002
+ DIRECTION dim           30  value    2.2197109167661197E-002
+ DIRECTION dim           31  value  -0.13172424475219979     
+ DIRECTION dim           32  value   -1.5963695531181290E-002
+ DIRECTION dim           33  value   -4.6717586887102683E-003
+ DIRECTION dim           34  value  -0.11712887180815118     
+ DIRECTION dim           35  value   -1.7178277435302737E-002
+ DIRECTION dim           36  value   0.24988984036460199     
+ DIRECTION dim           37  value    8.7039843356873561E-003
+ DIRECTION dim           38  value   -3.9923048114587176E-002
+ DIRECTION dim           39  value    8.1311190014727065E-003
+ DIRECTION dim           40  value   0.30376035858084943     
+ DIRECTION dim           41  value    5.0990403491774867E-002
+ DIRECTION dim           42  value   -6.0758624944288825E-002
+ DIRECTION dim           43  value  -0.52415553892166333     
+ DIRECTION dim           44  value   0.18285651300773348     
+ DIRECTION dim           45  value  -0.52873083594745196     
+ DIRECTION dim           46  value   -1.0588252031184149     
+ DIRECTION dim           47  value   -1.2775521450915310     
+ DIRECTION dim           48  value  -0.64933307705906951     
+  Cycle:     11 Energy:    -16625.552520  Gnorm:  37809.742261  CPU:    0.148
   ** Hessian calculated **
- Line minimisation2
  ALPHA BEFORE:    1.0000000000000000     
+ XC BEFORE:   0.82817331312901243     
   ** Opt : line minimisation
 left   ...       0.00000000  -16625.55252004
 centre ...       0.13108474  -16247.42214210
@@ -650,10 +1200,60 @@ new    ...      -0.14941897 -474417.21542775
 __s__    ...       0.00803305
 
  ALPHA AFTER:   0.14941896677208838     
-  Cycle:     12 Energy:   -474417.215428  Gnorm:1445726.379824  CPU:    0.149
+ XC AFTER:   0.82757347165527995     
+ SANITY CHECK:   0.14941896677213581     
+ DIRECTION dim            1  value   -4.0144935190674072E-003
+ DIRECTION dim            2  value    8.0989439209288832E-005
+ DIRECTION dim            3  value   0.11078897373026035     
+ DIRECTION dim            4  value   -3.5016433730677830E-002
+ DIRECTION dim            5  value    9.3303524933500241E-003
+ DIRECTION dim            6  value   -3.0514613097843224     
+ DIRECTION dim            7  value   -5.7099281381477261E-004
+ DIRECTION dim            8  value    2.3750666413626035E-003
+ DIRECTION dim            9  value   -8.7830075592976802E-005
+ DIRECTION dim           10  value    6.4348628663549986E-003
+ DIRECTION dim           11  value   -1.5501165491302916E-002
+ DIRECTION dim           12  value   -8.6756244492467507E-003
+ DIRECTION dim           13  value   -2.1209815048606881E-003
+ DIRECTION dim           14  value    1.2942965768400455E-003
+ DIRECTION dim           15  value    1.1484371382600481E-002
+ DIRECTION dim           16  value   -3.3644293101500876E-002
+ DIRECTION dim           17  value   -1.1295746738587227E-002
+ DIRECTION dim           18  value   -8.4921488063971727E-003
+ DIRECTION dim           19  value   -4.2227867065752718E-002
+ DIRECTION dim           20  value    5.9395699565969939E-003
+ DIRECTION dim           21  value   -6.1254669596935863E-003
+ DIRECTION dim           22  value    5.6975212863235821E-004
+ DIRECTION dim           23  value   -2.3751144423827968E-003
+ DIRECTION dim           24  value    8.8462268000838719E-005
+ DIRECTION dim           25  value   -1.5280515468362604E-003
+ DIRECTION dim           26  value   -6.7656471419605966E-003
+ DIRECTION dim           27  value    1.8275311553244605E-002
+ DIRECTION dim           28  value   -1.6781951222056123E-002
+ DIRECTION dim           29  value   -9.7901676197343478E-003
+ DIRECTION dim           30  value   -1.1867099305598308E-002
+ DIRECTION dim           31  value    2.8259262968127342E-002
+ DIRECTION dim           32  value   -9.1536420158696858E-004
+ DIRECTION dim           33  value   -1.0522956738038912E-004
+ DIRECTION dim           34  value    1.6439780356671312E-002
+ DIRECTION dim           35  value    6.1170726592970287E-003
+ DIRECTION dim           36  value   -6.4156714331707002E-004
+ DIRECTION dim           37  value    3.8097811829355711E-002
+ DIRECTION dim           38  value    1.1844754391791801E-002
+ DIRECTION dim           39  value    2.2695374414948431E-003
+ DIRECTION dim           40  value   -1.3244705239273959E-002
+ DIRECTION dim           41  value   -2.3480695139749951E-002
+ DIRECTION dim           42  value   -2.1905332452436120E-003
+ DIRECTION dim           43  value    9.1167946386201404E-002
+ DIRECTION dim           44  value   -3.6520592637318293E-002
+ DIRECTION dim           45  value    7.1841807443550204E-002
+ DIRECTION dim           46  value    6.2332456988568624E-002
+ DIRECTION dim           47  value   0.20132470605258168     
+ DIRECTION dim           48  value    5.9375094369911993E-002
+  Cycle:     12 Energy:   -474417.215428  Gnorm:1445726.379824  CPU:    0.161
   ** Hessian calculated **
- Line minimisation2
  ALPHA BEFORE:    1.0000000000000000     
+ XC BEFORE:   0.82757347165527995     
   ** Opt : line minimisation
 left   ...       0.00000000 -474417.21542775
 centre ...       0.20856392   -2455.93838334
@@ -702,10 +1302,60 @@ new    ...      -0.01717156 -704826.36832447
 __s__    ...       0.00011829
 
  ALPHA AFTER:    1.7171563819504583E-002
-  Cycle:     13 Energy:   -704826.368324  Gnorm:2112963.012101  CPU:    0.164
+ XC AFTER:   0.82741161078285275     
+ SANITY CHECK:    1.7171563819507459E-002
+ DIRECTION dim            1  value   -9.4260996918242509E-003
+ DIRECTION dim            2  value   0.43745485041650428     
+ DIRECTION dim            3  value   -1.8589422229287917E-003
+ DIRECTION dim            4  value    9.4261255589367324E-003
+ DIRECTION dim            5  value  -0.43747277359263192     
+ DIRECTION dim            6  value    1.8588363648374146E-003
+ DIRECTION dim            7  value   -4.9022963482560425E-003
+ DIRECTION dim            8  value    1.1193030281430089E-002
+ DIRECTION dim            9  value   -1.8043687108872043E-003
+ DIRECTION dim           10  value   -8.5328067481398484E-002
+ DIRECTION dim           11  value   -8.9935016113851782E-002
+ DIRECTION dim           12  value   -5.9936632490520926E-002
+ DIRECTION dim           13  value    8.0593073127500361E-004
+ DIRECTION dim           14  value    3.6014342933320072E-002
+ DIRECTION dim           15  value    6.5037884092020562E-002
+ DIRECTION dim           16  value   -3.7109638872016598E-002
+ DIRECTION dim           17  value   -3.7742246958940534E-003
+ DIRECTION dim           18  value   -2.3147973880916037E-002
+ DIRECTION dim           19  value  -0.32319372909652744     
+ DIRECTION dim           20  value    2.7461716233375292E-002
+ DIRECTION dim           21  value   -1.4643367060885898E-002
+ DIRECTION dim           22  value    4.8988193205495708E-003
+ DIRECTION dim           23  value   -1.1193249985558306E-002
+ DIRECTION dim           24  value    1.8039801354332986E-003
+ DIRECTION dim           25  value    5.4363357799556665E-002
+ DIRECTION dim           26  value   -4.5658851627766020E-002
+ DIRECTION dim           27  value   0.22051563478802325     
+ DIRECTION dim           28  value   -1.4853560661797315E-002
+ DIRECTION dim           29  value   -4.6109770394753863E-002
+ DIRECTION dim           30  value   -4.9751207379181463E-002
+ DIRECTION dim           31  value   0.21454275031543621     
+ DIRECTION dim           32  value    3.7542420677829973E-002
+ DIRECTION dim           33  value   -1.8157772715364826E-002
+ DIRECTION dim           34  value   0.17701316599779740     
+ DIRECTION dim           35  value   0.10986887158038239     
+ DIRECTION dim           36  value   -4.3753201478025167E-002
+ DIRECTION dim           37  value    6.2864039467955671E-002
+ DIRECTION dim           38  value    4.9088356986018968E-002
+ DIRECTION dim           39  value    5.1588471110998327E-003
+ DIRECTION dim           40  value   0.38197177167802171     
+ DIRECTION dim           41  value  -0.13003813827306346     
+ DIRECTION dim           42  value    1.9178772218176079     
+ DIRECTION dim           43  value  -0.20510219148929010     
+ DIRECTION dim           44  value   -1.4890109053511880     
+ DIRECTION dim           45  value   0.59043089947959781     
+ DIRECTION dim           46  value   -1.1231307752224984     
+ DIRECTION dim           47  value    1.0496748527887108     
+ DIRECTION dim           48  value    1.4725598462130716     
+  Cycle:     13 Energy:   -704826.368324  Gnorm:2112963.012101  CPU:    0.177
   ** Hessian calculated **
- Line minimisation2
  ALPHA BEFORE:    1.0000000000000000     
+ XC BEFORE:   0.82741161078285275     
   ** Opt : line minimisation
 left   ...       0.00000000 -704826.36832447
 centre ...       0.25000000 -800252.70319547
@@ -747,10 +1397,60 @@ new    ...       0.15987396 -863435.88685609
 __s__    ...       0.00003143
 
  ALPHA AFTER:   0.15987395846102812     
-  Cycle:     14 Energy:   -863435.886856  Gnorm:3815131.803378  CPU:    0.180
+ XC AFTER:   0.82876587730731421     
+ SANITY CHECK:   0.15987395846102090     
+ DIRECTION dim            1  value    8.4708387625971795E-003
+ DIRECTION dim            2  value    1.5316182553583142E-004
+ DIRECTION dim            3  value    1.6524658421624738E-003
+ DIRECTION dim            4  value   -8.4708555205850553E-003
+ DIRECTION dim            5  value   -1.5323500118356222E-004
+ DIRECTION dim            6  value   -1.6524046426966111E-003
+ DIRECTION dim            7  value    8.6784103904222979E-003
+ DIRECTION dim            8  value   -1.1224961845040488E-002
+ DIRECTION dim            9  value    7.6513787775732151E-004
+ DIRECTION dim           10  value   0.16496508002551455     
+ DIRECTION dim           11  value    9.1893803520090397E-002
+ DIRECTION dim           12  value    6.3768128409294189E-002
+ DIRECTION dim           13  value    8.8681705210084637E-005
+ DIRECTION dim           14  value   -4.0979689385423762E-002
+ DIRECTION dim           15  value   -7.2993064318711123E-002
+ DIRECTION dim           16  value    1.0870518153298168E-002
+ DIRECTION dim           17  value    8.4440782587353257E-004
+ DIRECTION dim           18  value    1.9158497185605711E-002
+ DIRECTION dim           19  value   0.42337833618561355     
+ DIRECTION dim           20  value   -2.2994033740330898E-002
+ DIRECTION dim           21  value   -2.1483905473889790E-002
+ DIRECTION dim           22  value   -8.6771867797935456E-003
+ DIRECTION dim           23  value    1.1225125761998056E-002
+ DIRECTION dim           24  value   -7.6317350482564778E-004
+ DIRECTION dim           25  value   -5.2130989310124762E-002
+ DIRECTION dim           26  value    4.6804879236183809E-002
+ DIRECTION dim           27  value  -0.20099053816170198     
+ DIRECTION dim           28  value    2.3432880452154779E-002
+ DIRECTION dim           29  value    4.9847779449500688E-002
+ DIRECTION dim           30  value    5.3704882343918681E-002
+ DIRECTION dim           31  value  -0.25283189832077335     
+ DIRECTION dim           32  value   -3.8154587089424673E-002
+ DIRECTION dim           33  value    4.8675370879615104E-003
+ DIRECTION dim           34  value  -0.22963535786174269     
+ DIRECTION dim           35  value   -9.3551896383280417E-002
+ DIRECTION dim           36  value   0.10197154774910663     
+ DIRECTION dim           37  value   -7.7046594987879677E-002
+ DIRECTION dim           38  value   -4.7693881984018534E-002
+ DIRECTION dim           39  value   -2.1958396907071158E-003
+ DIRECTION dim           40  value  -0.35971418624700074     
+ DIRECTION dim           41  value   0.11268697441881849     
+ DIRECTION dim           42  value   0.51042354831149228     
+ DIRECTION dim           43  value   0.17844893427943842     
+ DIRECTION dim           44  value   0.18431174176408716     
+ DIRECTION dim           45  value  -0.61558433207069108     
+ DIRECTION dim           46  value  -0.32278056630291924     
+ DIRECTION dim           47  value   -1.5748046520480457     
+ DIRECTION dim           48  value   -7.7803802276420309E-002
+  Cycle:     14 Energy:   -863435.886856  Gnorm:3815131.803378  CPU:    0.194
   ** Hessian calculated **
- Line minimisation2
  ALPHA BEFORE:    1.0000000000000000     
+ XC BEFORE:   0.82876587730731421     
   ** Opt : line minimisation
 left   ...       0.00000000 -863435.88685609
 centre ...       0.13583026 -770728.96391478
@@ -799,10 +1499,60 @@ new    ...      -0.95081184-1870662.86353259
 __s__    ...      -0.13583026
 
  ALPHA AFTER:   0.95081184367271598     
-  Cycle:     15 Energy:  -1870662.863533  Gnorm:8006607.780115  CPU:    0.196
+ XC AFTER:   0.82784253532967511     
+ SANITY CHECK:   0.95081184367256044     
+ DIRECTION dim            1  value   -9.7110904095666932E-004
+ DIRECTION dim            2  value   -1.2919933352204463E-004
+ DIRECTION dim            3  value    1.9856332577620761E-003
+ DIRECTION dim            4  value    9.7110949161652999E-004
+ DIRECTION dim            5  value    1.2920357850897300E-004
+ DIRECTION dim            6  value   -1.9856316013873634E-003
+ DIRECTION dim            7  value   -2.1223765900338514E-004
+ DIRECTION dim            8  value    1.5174248248349873E-003
+ DIRECTION dim            9  value    1.4883521415692384E-003
+ DIRECTION dim           10  value    6.8574962310114368E-003
+ DIRECTION dim           11  value   -9.0446762080659993E-002
+ DIRECTION dim           12  value   -9.5455626947481605E-003
+ DIRECTION dim           13  value    8.2139977364865894E-003
+ DIRECTION dim           14  value    1.6500303556356202E-002
+ DIRECTION dim           15  value   -1.3532449882323549E-003
+ DIRECTION dim           16  value    5.4268942306335659E-003
+ DIRECTION dim           17  value   -4.8792759003950187E-003
+ DIRECTION dim           18  value   -4.2807795296058498E-003
+ DIRECTION dim           19  value   -9.5110564605704034E-003
+ DIRECTION dim           20  value    1.7723394089579289E-003
+ DIRECTION dim           21  value   -3.2750937025234220E-003
+ DIRECTION dim           22  value    2.1014143060445490E-004
+ DIRECTION dim           23  value   -1.5173700683239312E-003
+ DIRECTION dim           24  value   -1.4868246763665772E-003
+ DIRECTION dim           25  value    6.5954783167475857E-005
+ DIRECTION dim           26  value   -5.8998011658507260E-003
+ DIRECTION dim           27  value    3.1693286284236913E-002
+ DIRECTION dim           28  value    8.2520593533795539E-003
+ DIRECTION dim           29  value   -6.1533907447289737E-003
+ DIRECTION dim           30  value   -4.6320088207803742E-003
+ DIRECTION dim           31  value    1.4234090853586014E-002
+ DIRECTION dim           32  value    7.2945138443455421E-003
+ DIRECTION dim           33  value   -9.2056368576765892E-003
+ DIRECTION dim           34  value   -2.0906498316501376E-003
+ DIRECTION dim           35  value   -6.1803482121499213E-003
+ DIRECTION dim           36  value    4.0120995594266455E-003
+ DIRECTION dim           37  value   -5.1896019050773094E-003
+ DIRECTION dim           38  value    1.9110254042786486E-002
+ DIRECTION dim           39  value    3.0951556434654803E-002
+ DIRECTION dim           40  value   -3.8145043651404732E-002
+ DIRECTION dim           41  value   -1.3083012169483908E-002
+ DIRECTION dim           42  value    2.9448518322872337     
+ DIRECTION dim           43  value   -2.2819275043347218E-002
+ DIRECTION dim           44  value   -2.2812801095011839E-002
+ DIRECTION dim           45  value    5.9771314788399789E-002
+ DIRECTION dim           46  value    4.1565892071005715E-003
+ DIRECTION dim           47  value   -1.2117188889731635E-002
+ DIRECTION dim           48  value    1.8846388520889466E-003
+  Cycle:     15 Energy:  -1870662.863533  Gnorm:8006607.780115  CPU:    0.211
   ** Hessian calculated **
- Line minimisation2
  ALPHA BEFORE:    1.0000000000000000     
+ XC BEFORE:   0.82784253532967511     
   ** Opt : line minimisation
 left   ...       0.00000000-1870662.86353259
 centre ...       0.10393087  -18015.58638285
@@ -851,10 +1601,60 @@ new    ...       0.00804439-2801369.84019073
 __s__    ...      -0.00058576
 
  ALPHA AFTER:    8.0443912223385535E-003
-  Cycle:     16 Energy:  -2801369.840191  Gnorm:8539430.644187  CPU:    0.211
+ XC AFTER:   0.82787823784788495     
+ SANITY CHECK:    8.0443912223581420E-003
+ DIRECTION dim            1  value    4.4381877040744972E-003
+ DIRECTION dim            2  value    1.2377681229753703E-003
+ DIRECTION dim            3  value   0.64041962394298124     
+ DIRECTION dim            4  value   -4.4381894046183661E-003
+ DIRECTION dim            5  value   -1.2377737959046991E-003
+ DIRECTION dim            6  value  -0.64042145094291436     
+ DIRECTION dim            7  value    2.5349153277761816E-003
+ DIRECTION dim            8  value   -6.7930835809009767E-003
+ DIRECTION dim            9  value   -6.4970166212929906E-003
+ DIRECTION dim           10  value  -0.13983815972339961     
+ DIRECTION dim           11  value    7.0055566891789852E-003
+ DIRECTION dim           12  value   -3.8487122576850670     
+ DIRECTION dim           13  value   -6.0897841761885750E-002
+ DIRECTION dim           14  value   -5.5760693828632635E-002
+ DIRECTION dim           15  value   -3.4474718044484494E-003
+ DIRECTION dim           16  value  -0.40164866147688805     
+ DIRECTION dim           17  value    3.9674913298484167E-002
+ DIRECTION dim           18  value    2.7173228058258572E-002
+ DIRECTION dim           19  value    2.0061882308571453E-002
+ DIRECTION dim           20  value   -2.3926893679155396E-002
+ DIRECTION dim           21  value    3.4390497535737100E-002
+ DIRECTION dim           22  value   -2.5290913737512056E-003
+ DIRECTION dim           23  value    6.7926314010400080E-003
+ DIRECTION dim           24  value    6.4939543517835915E-003
+ DIRECTION dim           25  value   -3.6089215669968769E-002
+ DIRECTION dim           26  value    4.7703050432504231E-002
+ DIRECTION dim           27  value  -0.10534136559382207     
+ DIRECTION dim           28  value   -2.4741743865420659E-002
+ DIRECTION dim           29  value    3.3959718597368904E-002
+ DIRECTION dim           30  value   -1.5847760248966038E-002
+ DIRECTION dim           31  value   -1.9332127148081687E-002
+ DIRECTION dim           32  value   -2.8413416838872552E-002
+ DIRECTION dim           33  value    1.3751703045336386E-002
+ DIRECTION dim           34  value   -2.1232502486938636E-002
+ DIRECTION dim           35  value    7.6313909130669988E-002
+ DIRECTION dim           36  value   -1.8954375622219063E-002
+ DIRECTION dim           37  value   0.11182807495089674     
+ DIRECTION dim           38  value   -2.5095766931604941E-002
+ DIRECTION dim           39  value   -1.1081720733273055     
+ DIRECTION dim           40  value    6.5907512249398476E-002
+ DIRECTION dim           41  value    1.5081485747354881     
+ DIRECTION dim           42  value    1.6607449685998872E-002
+ DIRECTION dim           43  value   0.10711661610674704     
+ DIRECTION dim           44  value   0.10763499213460949     
+ DIRECTION dim           45  value  -0.33342735494115844     
+ DIRECTION dim           46  value    6.8435174792849982E-002
+ DIRECTION dim           47  value  -0.20921411662006703     
+ DIRECTION dim           48  value    1.5167088669281698E-002
+  Cycle:     16 Energy:  -2801369.840191  Gnorm:8539430.644187  CPU:    0.228
   ** Hessian calculated **
- Line minimisation2
  ALPHA BEFORE:    1.0000000000000000     
+ XC BEFORE:   0.82787823784788495     
   ** Opt : line minimisation
 left   ...       0.00000000-2801369.84019073
 centre ...       0.10184864-2094595.33786773
@@ -868,10 +1668,60 @@ new    ...       0.00000000-2801369.84019073
 __s__    ...       0.10184864
 
  ALPHA AFTER:    0.0000000000000000     
-  Cycle:     17 Energy:  -2801369.840191  Gnorm:8539430.644187  CPU:    0.223
+ XC AFTER:   0.82787823784788495     
+ SANITY CHECK:    0.0000000000000000     
+ DIRECTION dim            1  value    1.0229043234629169E-002
+ DIRECTION dim            2  value    4.3950720752122798E-003
+ DIRECTION dim            3  value   -9.6544415515894179E-006
+ DIRECTION dim            4  value   -1.0229046474034080E-002
+ DIRECTION dim            5  value   -4.3950768711609372E-003
+ DIRECTION dim            6  value    9.6578497678362222E-006
+ DIRECTION dim            7  value    3.8902144152146516E-003
+ DIRECTION dim            8  value   -1.0812439747625286E-002
+ DIRECTION dim            9  value   -1.0271131295647726E-002
+ DIRECTION dim           10  value   0.49574418293714906     
+ DIRECTION dim           11  value    1.4085385448698721E-002
+ DIRECTION dim           12  value   -4.9353346602347130E-002
+ DIRECTION dim           13  value   -9.0623229121330251E-002
+ DIRECTION dim           14  value   -8.2213828442171469E-002
+ DIRECTION dim           15  value   -7.6969308161927638E-002
+ DIRECTION dim           16  value  -0.52421606297016310     
+ DIRECTION dim           17  value    6.9521191748386821E-002
+ DIRECTION dim           18  value    4.1453527612305412E-002
+ DIRECTION dim           19  value    4.3062569658168612E-002
+ DIRECTION dim           20  value   -3.8609296471904378E-002
+ DIRECTION dim           21  value    4.3829101632573406E-002
+ DIRECTION dim           22  value   -3.8823841020192078E-003
+ DIRECTION dim           23  value    1.0812201404703891E-002
+ DIRECTION dim           24  value    1.0268013738176707E-002
+ DIRECTION dim           25  value   -5.4210434413366392E-002
+ DIRECTION dim           26  value    7.3262792238950505E-002
+ DIRECTION dim           27  value  -0.16757000384303766     
+ DIRECTION dim           28  value   -4.2017577755793574E-002
+ DIRECTION dim           29  value    5.3457567788022346E-002
+ DIRECTION dim           30  value   -2.2956443327732775E-002
+ DIRECTION dim           31  value   -3.0682124950683867E-002
+ DIRECTION dim           32  value   -4.4942802370666182E-002
+ DIRECTION dim           33  value    2.2268461521960301E-002
+ DIRECTION dim           34  value   -3.5946504975005844E-002
+ DIRECTION dim           35  value   0.11306302850102491     
+ DIRECTION dim           36  value   -3.8124149081002312E-002
+ DIRECTION dim           37  value  -0.69412033435366605     
+ DIRECTION dim           38  value   -2.6200860969911994E-002
+ DIRECTION dim           39  value    5.1534381569371138E-002
+ DIRECTION dim           40  value    9.2810364156595770E-002
+ DIRECTION dim           41  value  -0.44792949640061264     
+ DIRECTION dim           42  value    2.7053689321753036E-002
+ DIRECTION dim           43  value   0.23650228563426215     
+ DIRECTION dim           44  value   0.28147225320885794     
+ DIRECTION dim           45  value   -3.9273966519812822     
+ DIRECTION dim           46  value   0.24242676966826465     
+ DIRECTION dim           47  value   0.47885803693734119     
+ DIRECTION dim           48  value   0.13192306654854427     
+  Cycle:     17 Energy:  -2801369.840191  Gnorm:8539430.644187  CPU:    0.241
   ** Hessian calculated **
- Line minimisation2
  ALPHA BEFORE:    1.0000000000000000     
+ XC BEFORE:   0.82787823784788495     
   ** Opt : line minimisation
 left   ...       0.00000000-2801369.84019073
 centre ...       0.10184864-2094595.33786773
@@ -885,6 +1735,56 @@ new    ...       0.00000000-2801369.84019073
 __s__    ...       0.10184864
 
  ALPHA AFTER:    0.0000000000000000     
+ XC AFTER:   0.82787823784788495     
+ SANITY CHECK:    0.0000000000000000     
+ DIRECTION dim            1  value    1.0229043234629169E-002
+ DIRECTION dim            2  value    4.3950720752122798E-003
+ DIRECTION dim            3  value   -9.6544415515894179E-006
+ DIRECTION dim            4  value   -1.0229046474034080E-002
+ DIRECTION dim            5  value   -4.3950768711609372E-003
+ DIRECTION dim            6  value    9.6578497678362222E-006
+ DIRECTION dim            7  value    3.8902144152146516E-003
+ DIRECTION dim            8  value   -1.0812439747625286E-002
+ DIRECTION dim            9  value   -1.0271131295647726E-002
+ DIRECTION dim           10  value   0.49574418293714906     
+ DIRECTION dim           11  value    1.4085385448698721E-002
+ DIRECTION dim           12  value   -4.9353346602347130E-002
+ DIRECTION dim           13  value   -9.0623229121330251E-002
+ DIRECTION dim           14  value   -8.2213828442171469E-002
+ DIRECTION dim           15  value   -7.6969308161927638E-002
+ DIRECTION dim           16  value  -0.52421606297016310     
+ DIRECTION dim           17  value    6.9521191748386821E-002
+ DIRECTION dim           18  value    4.1453527612305412E-002
+ DIRECTION dim           19  value    4.3062569658168612E-002
+ DIRECTION dim           20  value   -3.8609296471904378E-002
+ DIRECTION dim           21  value    4.3829101632573406E-002
+ DIRECTION dim           22  value   -3.8823841020192078E-003
+ DIRECTION dim           23  value    1.0812201404703891E-002
+ DIRECTION dim           24  value    1.0268013738176707E-002
+ DIRECTION dim           25  value   -5.4210434413366392E-002
+ DIRECTION dim           26  value    7.3262792238950505E-002
+ DIRECTION dim           27  value  -0.16757000384303766     
+ DIRECTION dim           28  value   -4.2017577755793574E-002
+ DIRECTION dim           29  value    5.3457567788022346E-002
+ DIRECTION dim           30  value   -2.2956443327732775E-002
+ DIRECTION dim           31  value   -3.0682124950683867E-002
+ DIRECTION dim           32  value   -4.4942802370666182E-002
+ DIRECTION dim           33  value    2.2268461521960301E-002
+ DIRECTION dim           34  value   -3.5946504975005844E-002
+ DIRECTION dim           35  value   0.11306302850102491     
+ DIRECTION dim           36  value   -3.8124149081002312E-002
+ DIRECTION dim           37  value  -0.69412033435366605     
+ DIRECTION dim           38  value   -2.6200860969911994E-002
+ DIRECTION dim           39  value    5.1534381569371138E-002
+ DIRECTION dim           40  value    9.2810364156595770E-002
+ DIRECTION dim           41  value  -0.44792949640061264     
+ DIRECTION dim           42  value    2.7053689321753036E-002
+ DIRECTION dim           43  value   0.23650228563426215     
+ DIRECTION dim           44  value   0.28147225320885794     
+ DIRECTION dim           45  value   -3.9273966519812822     
+ DIRECTION dim           46  value   0.24242676966826465     
+ DIRECTION dim           47  value   0.47885803693734119     
+ DIRECTION dim           48  value   0.13192306654854427     
 
 
   **** Conditions for a minimum have not been satisfied. However ****
@@ -982,7 +1882,7 @@ __s__    ...       0.10184864
 --------------------------------------------------------------------------------
 
 
-  Time to end of optimisation =       0.2352 seconds
+  Time to end of optimisation =       0.2546 seconds
 
  Exiting ------OPTIONS------
 
@@ -994,14 +1894,14 @@ __s__    ...       0.10184864
 --------------------------------------------------------------------------------
   Task / Subroutine                                          Time (Seconds)
 --------------------------------------------------------------------------------
-  Calculation of reciprocal space energy and derivatives          0.0197
-  Calculation of real space energy and derivatives                0.2054
+  Calculation of reciprocal space energy and derivatives          0.0207
+  Calculation of real space energy and derivatives                0.2236
   Calculation and manipulation of Hessian matrix                  0.0002
-  Calculation of matrix inversion                                 0.0007
+  Calculation of matrix inversion                                 0.0008
 --------------------------------------------------------------------------------
-  Total CPU time                                                  0.2352
+  Total CPU time                                                  0.2547
 --------------------------------------------------------------------------------
 
 
-  Job Finished at 11:48.13  4th February   2020                               
+  Job Finished at 13:26.15 21st February   2020                               
 
