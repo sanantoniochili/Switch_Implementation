@@ -15,18 +15,17 @@ from ase.io import read as aread
 from ase.geometry import Cell
 
 from ase.calculators.gulp import GULP
-from ase.calculators.lammpsrun import LAMMPS
 from ase.calculators.lammpslib import LAMMPSlib
 
 DATAPATH = "../../../Data/"
-
 
 charge_dict = {
 	'O' : -2.,
 	'Sr':  2.,
 	'Ti':  4.,
 	'Cl': -1.,
-	'Na':  1.}
+	'Na':  1.
+}
 
 atom_types = {
 	'O' : 1,
@@ -199,7 +198,7 @@ class Buckingham(Potential):
 		'''
 		chemical_symbols = self.atoms.get_chemical_symbols()
 		for ioni in range(self.N):
-			for ionj in range(ioni, self.N):
+			for ionj in range(self.N):
 				# Find the pair we are examining
 				pair = (min(chemical_symbols[ioni], chemical_symbols[ionj]), \
 								max(chemical_symbols[ioni], chemical_symbols[ionj]))
@@ -222,10 +221,10 @@ class Buckingham(Potential):
 						# Check if distance of ions allows interaction 					
 						if (dist < self.buck[pair]['hi']):
 							esum += A*math.exp(-1.0*dist/rho) - C/dist**6
-		return esum
+		return esum/2
 
 if __name__=="__main__":
-	atoms  = aread(DATAPATH+"RandomStart_Sr3Ti3O9/1.cif")
+	atoms  = aread(DATAPATH+"random/RandomStart_Sr3Ti3O9/1.cif")
 	# atoms  = aread(DATAPATH+"material/NaCl.cif")
 	# print(atoms.get_positions())
 	# view(atoms)
@@ -236,30 +235,33 @@ if __name__=="__main__":
 	# atoms.set_calculator(calc)
 	# print(atoms.get_potential_energy())
 
-	# vects  = np.array(atoms.get_cell())
-	# volume = abs(np.linalg.det(vects))
-	# alpha  = 2/(volume**(1.0/3))
+	vects  = np.array(atoms.get_cell())
+	volume = abs(np.linalg.det(vects))
+	alpha  = 2/(volume**(1.0/3))
+	# N = len(atoms.get_positions())
+	# w = 2
+	# eta = (N*w*(pi**3/volume**2))**1/3
 
-	# ################ COULOMB ################
-	# Cpot        = Coulomb(alpha,4,4)
-	# Cpot.set_structure(charge_dict, atoms)
-	# rvects      = Cpot.get_reciprocal_vects()
+	################ COULOMB ################
+	Cpot        = Coulomb(alpha,4,4)
+	Cpot.set_structure(charge_dict, atoms)
+	rvects      = Cpot.get_reciprocal_vects()
 
-	# Er  = Cpot.calc_real()
-	# Es  = Cpot.calc_self()
-	# Erc = Cpot.calc_recip(rvects)
+	Er  = Cpot.calc_real()
+	Es  = Cpot.calc_self()
+	Erc = Cpot.calc_recip(rvects)
 
-	# Eupper = Er + Es + Erc
-	# Etotal = Cpot.calc_complete(Eupper)
+	Eupper = Er + Es + Erc
+	Etotal = Cpot.calc_complete(Eupper)
 
-	# print("--------------------------------------------------------------------------------")
+	print("--------------------------------------------------------------------------------")
 
-	# print("Real:\t\t"+str(sum(sum(Cpot.calc_complete(Er)))))
-	# print("Self:\t\t"+str(sum(sum(Cpot.calc_complete(Es)))))
-	# print("Recip:\t\t"+str(sum(sum(Cpot.calc_complete(Erc)))))
-	# print("Total:\t\t"+str(sum(sum(Etotal))))
+	print("Real:\t\t"+str(sum(sum(Cpot.calc_complete(Er)))))
+	print("Self:\t\t"+str(sum(sum(Cpot.calc_complete(Es)))))
+	print("Recip:\t\t"+str(sum(sum(Cpot.calc_complete(Erc)))))
+	print("Total:\t\t"+str(sum(sum(Etotal))))
 
-	# print("--------------------------------------------------------------------------------")
+	print("--------------------------------------------------------------------------------")
 
 	################ BUCKINGHAM ################
 	filename    = DATAPATH+"Libraries/buck.lib"
@@ -271,7 +273,7 @@ if __name__=="__main__":
 
 	print("--------------------------------------------------------------------------------")
 
-	# print("Total lattice:\t"+str(sum(sum(Etotal)) + Einter))
+	print("Total lattice:\t"+str(sum(sum(Etotal)) + Einter))
 
 	print("--------------------------------------------------------------------------------")
 
