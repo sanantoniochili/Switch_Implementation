@@ -17,7 +17,10 @@ from ase.geometry import Cell
 from ase.calculators.gulp import GULP
 from ase.calculators.lammpslib import LAMMPSlib
 
-DATAPATH = "../../../Data/"
+import argparse
+import pandas as pd
+
+DATAPATH = "../../Data/"
 
 charge_dict = {
 	'O' : -2.,
@@ -224,7 +227,17 @@ class Buckingham(Potential):
 		return esum/2
 
 if __name__=="__main__":
-	atoms  = aread(DATAPATH+"random/RandomStart_Sr3Ti3O9/1.cif")
+
+
+	parser = argparse.ArgumentParser(
+		description='Define input')
+	parser.add_argument(
+		'filename', metavar='--input', type=str,
+		help='.cif file to read')
+	args = parser.parse_args()
+
+	# atoms  = aread(DATAPATH+"random/RandomStart_Sr3Ti3O9/1.cif")
+	atoms = aread(args.filename)
 	# atoms  = aread(DATAPATH+"material/NaCl.cif")
 	# print(atoms.get_positions())
 	# view(atoms)
@@ -238,12 +251,14 @@ if __name__=="__main__":
 	vects  = np.array(atoms.get_cell())
 	volume = abs(np.linalg.det(vects))
 	alpha  = 2/(volume**(1.0/3))
-	# N = len(atoms.get_positions())
-	# w = 2
-	# eta = (N*w*(pi**3/volume**2))**1/3
+	
+	### GULP eta ###
+	N = len(atoms.get_positions())
+	w = 350
+	eta = (N*w*(pi**3/volume**2))**1/3
 
 	################ COULOMB ################
-	Cpot        = Coulomb(alpha,4,4)
+	Cpot        = Coulomb(eta**2,4,4)
 	Cpot.set_structure(charge_dict, atoms)
 	rvects      = Cpot.get_reciprocal_vects()
 
@@ -264,11 +279,20 @@ if __name__=="__main__":
 	print("--------------------------------------------------------------------------------")
 
 	################ BUCKINGHAM ################
-	filename    = DATAPATH+"Libraries/buck.lib"
-	Bpot 		= Buckingham(filename)
+	libfile    = DATAPATH+"Libraries/buck.lib"
+	Bpot 		= Buckingham(libfile)
 	Bpot.set_structure(charge_dict, atoms)
 
 	Einter = Bpot.calc_real()
+
+	# ''' NAME '''
+	# count = args.filename.split('.')[-2].split('/')[-1]
+	# structure = 'structure'+count
+	# ''' FOLDER '''
+	# folder = 'random'
+	# ''' DATAFRAME '''
+	# df = pd.DataFrame.from_dict({'structure': [structure], 'folder': [folder], 'interatomic': [Einter]}, orient='columns')
+	# df.to_csv('src/custom_buck.csv', mode='a', header=False)
 	print("Interatomic:\t"+str(Einter))
 
 	print("--------------------------------------------------------------------------------")
