@@ -1,2 +1,0 @@
-stepmx 0.001
-switch_stepmx 0.1 gnorm 10
