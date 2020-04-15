@@ -10,9 +10,6 @@ from ase import *
 from ase.visualize import view
 from ase.geometry import Cell
 
-from ase.calculators.gulp import GULP
-from ase.calculators.lammpslib import LAMMPSlib
-
 class Potential:
 	def __init__(self, charge_dict, atoms):
 		'''
@@ -120,8 +117,8 @@ class Coulomb(Potential):
 				dist = self.pos[ionj,] - self.pos[ioni,] 
 				for k in shifts:
 					po = -np.dot(k,k)/(4*self.alpha**2)
-					numerator = 4 * pi * (math.exp(po)) * math.cos(np.dot(k, dist))
-					denominator = np.dot(k,k) * 2 * self.volume
+					numerator = 4 * (pi**2) * (math.exp(po)) * math.cos(np.dot(k, dist))
+					denominator = np.dot(k,k) * 2 * pi * self.volume
 					esum[ioni, ionj] += (( self.get_charges_mult(ioni,ionj) ) * \
 																(numerator/denominator))
 		return esum
@@ -130,7 +127,7 @@ class Coulomb(Potential):
 		'''
 		 Complete lower triangular matrix of monopole to monopole
 		'''
-		esum *= 14.399645351950543
+		esum *= 14.399645351950543 # electrostatic constant
 		for ioni in range(0, self.N):
 			for ionj in range(0, ioni):
 				esum[ioni, ionj] = esum[ionj, ioni]

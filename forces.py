@@ -1,0 +1,76 @@
+from scipy.special import erfc
+import numpy as np
+
+from cmath import pi
+from cmath import exp
+import cmath
+import math
+
+from ase import *
+from ase.visualize import view
+from ase.geometry import Cell
+
+class Forces:
+	def __init__(self, potential):
+		self.potential = potential
+
+class DCoulomb(Forces):
+	def calc_real(self):
+		'''
+		 Calculate short range forces
+		'''
+		alpha = self.potential.alpha
+		N     = self.potential.N
+		a2pi  = 2*alpha/pi**(1/2) # 2a/sqrt(pi)
+
+		grad = np.zeros((N,3))
+		shifts = self.potential.get_shifts( self.potential.real_cut_off,self.potential.vects )
+		for ioni in range(0, N): 
+			for ionj in range(0, N): 
+				
+				if ioni != ionj: # skip in case it's the same atom in original unit cell
+					rij = self.potential.pos[ioni,] - self.potential.pos[ionj,] # direction matters
+					rnorm = np.linalg.norm(rij)
+					csum = a2pi*math.exp(-alpha**2 * rnorm**2) + (math.erfc(alpha*rnorm) / rnorm)
+					csum = -csum/(rnorm**2)
+					grad[ioni,] += self.potential.get_charges_mult(ioni,ionj) * rij * csum # partial derivative for ion i
+				# take care of the rest lattice (+ Ln)
+				for shift in shifts:
+					rij = self.potential.pos[ioni,] + shift - self.potential.pos[ionj,]
+					rnorm = np.linalg.norm(rij)
+					csum = a2pi*math.exp(-alpha**2 * rnorm**2) + (math.erfc(alpha*rnorm) / rnorm)
+					csum = -csum/(rnorm**2)
+					grad[ioni,] += self.potential.get_charges_mult(ioni,ionj) * rij * csum # partial derivative for ion i
+		return grad
+
+	def calc_recip(self):
+		'''
+		 Calculate long range forces
+		'''
+		alpha = self.potential.alpha
+		N     = self.potential.N
+
+		grad = np.zeros((N,3))
+		recip_vects = self.potential.get_reciprocal_vects()
+		shifts = self.potential.get_shifts( self.potential.recip_cut_off,recip_vects )
+		for ioni in range(0, N): 
+			for ionj in range(0, N): 
+
+				dist = self.potential.pos[ionj,] - self.potential.pos[ioni,] 
+				for k in shifts:
+					po = -np.dot(k,k)/(4*alpha**2)
+					numerator = - 4 * (pi**2) * (math.exp(po)) * k * math.sin(np.dot(k, dist))
+					denominator = np.dot(k,k) * 2 * pi * self.potential.volume
+					grad[ioni,] += (( self.potential.get_charges_mult(ioni,ionj) ) * \
+																(numerator/denominator))
+		return grad
+
+class DBuckingham(Forces):
+	def calc(self):
+		print(self.potential.buck)
+
+
+
+
+if __name__=="__main__":
+	pass
