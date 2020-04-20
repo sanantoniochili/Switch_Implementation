@@ -32,15 +32,13 @@ class DCoulomb(Forces):
 					rij = self.potential.pos[ioni,] - self.potential.pos[ionj,] # direction matters
 					rnorm = np.linalg.norm(rij)
 					csum = a2pi*math.exp(-alpha**2 * rnorm**2) + (math.erfc(alpha*rnorm) / rnorm)
-					csum = csum/(rnorm**2)
-					forces[ioni,] -= self.potential.get_charges_mult(ioni,ionj) * rij * csum # partial derivative for ion i
+					forces[ioni,] -= self.potential.get_charges_mult(ioni,ionj) * (rij/(rnorm**2)) * csum # partial derivative for ion i
 				# take care of the rest lattice (+ Ln)
 				for shift in shifts:
 					rij = self.potential.pos[ioni,] + shift - self.potential.pos[ionj,]
 					rnorm = np.linalg.norm(rij)
 					csum = a2pi*math.exp(-alpha**2 * rnorm**2) + (math.erfc(alpha*rnorm) / rnorm)
-					csum = csum/(rnorm**2)
-					forces[ioni,] -= self.potential.get_charges_mult(ioni,ionj) * rij * csum # partial derivative for ion i
+					forces[ioni,] -= self.potential.get_charges_mult(ioni,ionj) * (rij/(rnorm**2)) * csum # partial derivative for ion i
 		return forces
 
 	def calc_recip(self):
@@ -56,10 +54,10 @@ class DCoulomb(Forces):
 		for ioni in range(0, N): 
 			for ionj in range(0, N): 
 
-				dist = self.potential.pos[ionj,] - self.potential.pos[ioni,] 
+				rij = self.potential.pos[ionj,] - self.potential.pos[ioni,] 
 				for k in shifts:
 					po = -np.dot(k,k)/(4*alpha**2)
-					numerator = 4 * (pi**2) * (math.exp(po)) * k * math.sin(np.dot(k, dist))
+					numerator = 4 * (pi**2) * (math.exp(po)) * k * math.sin(np.dot(k, rij))
 					denominator = np.dot(k,k) * 2 * pi * self.potential.volume
 					forces[ioni,] -= (( self.potential.get_charges_mult(ioni,ionj) ) * \
 																(numerator/denominator))
@@ -90,7 +88,7 @@ class DBuckingham(Forces):
 					# Check if distance of ions allows interaction 					
 					if (dist < self.potential.buck[pair]['hi']) & (ioni != ionj):
 						csum = - 1/rho * A * math.exp(-1.0*dist/rho) + 6*C/dist**7
-						forces[ioni] += rij * csum
+						forces[ioni] += (rij/dist) * csum
 					# Check interactions with neighbouring cells
 					cutoff = self.potential.get_cutoff( self.potential.buck[pair]['hi'] )
 					shifts = self.potential.get_shifts( cutoff,self.potential.vects )
@@ -100,7 +98,7 @@ class DBuckingham(Forces):
 						# Check if distance of ions allows interaction 					
 						if (dist < self.potential.buck[pair]['hi']):
 							csum = - 1/rho * A * math.exp(-1.0*dist/rho) + 6*C/dist**7
-							forces[ioni] += rij * csum
+							forces[ioni] += (rij/dist) * csum
 	
 		return forces
 

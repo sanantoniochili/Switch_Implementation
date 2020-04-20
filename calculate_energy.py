@@ -34,10 +34,10 @@ atom_types = {
 	'O' : 1,
 	'Sr': 2,
 	'Ti': 3,
-	'Na': 4,
-	'Cl': 5,
-	'S' : 6,
-	'Zn': 7
+	# 'Na': 4,
+	# 'Cl': 5,
+	# 'S' : 6,
+	# 'Zn': 7
 }
 
 import shutil
@@ -88,37 +88,37 @@ if __name__=="__main__":
 	print("Self:\t\t"+str(sum(sum(Cpot.calc_complete(Es)))))
 	print("Recip:\t\t"+str(sum(sum(Cpot.calc_complete(Erc)))))
 	print("Electrostatic:\t"+str(sum(sum(Etotal))))
-	print("----------------------------------LAMMPS----------------------------------------".center(columns))
+	# print("----------------------------------LAMMPS----------------------------------------".center(columns))
 
-	# Change atom_style parameter to allow charges
-	LAMMPSlib.default_parameters['lammps_header'] = ['units metal', 'atom_style charge', \
-														'atom_modify map array sort 0 0']
-	charge_cmds = [
-					"set type 1 charge 2.0",  # Sr
-					"set type 2 charge -2.0", # O
-					"set type 3 charge 4.0",  # Ti
-					"set type 4 charge 1.0",  # Na
-					"set type 5 charge -1.0", # Cl
-					"set type 6 charge -2.0", # S
-					"set type 7 charge  2.0"  # Zn
-					]
-	param_cmds  = [
-					"pair_style coul/long "+str(real_cut),
-					"pair_coeff * *",
-					"kspace_style ewald "+str(accuracy)]
-	cmds = charge_cmds + param_cmds
-	lammps = LAMMPSlib(lmpcmds=cmds, atom_types=atom_types, log_file=LOG)
-	atoms.set_initial_charges(Cpot.charges)
-	atoms.set_calculator(lammps)
+	# # Change atom_style parameter to allow charges
+	# LAMMPSlib.default_parameters['lammps_header'] = ['units metal', 'atom_style charge', \
+	# 													'atom_modify map array sort 0 0']
+	# charge_cmds = [
+	# 				"set type 1 charge 2.0",  # Sr
+	# 				"set type 2 charge -2.0", # O
+	# 				"set type 3 charge 4.0",  # Ti
+	# 				# "set type 4 charge 1.0",  # Na
+	# 				# "set type 5 charge -1.0", # Cl
+	# 				# "set type 6 charge -2.0", # S
+	# 				# "set type 7 charge  2.0"  # Zn
+	# 				]
+	# param_cmds  = [
+	# 				"pair_style coul/long "+str(real_cut),
+	# 				"pair_coeff * *",
+	# 				"kspace_style ewald "+str(accuracy)]
+	# cmds = charge_cmds + param_cmds
+	# lammps = LAMMPSlib(lmpcmds=cmds, atom_types=atom_types, log_file=LOG)
+	# atoms.set_initial_charges(Cpot.charges)
+	# atoms.set_calculator(lammps)
 
-	print("Electrostatic:\t"+str(atoms.get_potential_energy()))
-	print("---------------------------------MADELUNG---------------------------------------".center(columns))
-	Emade = Cpot.calc_madelung()
-	if Emade==None:
-		print("No Madelung constant for this structure.")
-	else:
-		print("Electrostatic:\t"+str(Emade))
-	print("--------------------------------------------------------------------------------".center(columns))
+	# print("Electrostatic:\t"+str(atoms.get_potential_energy()))
+	# print("---------------------------------MADELUNG---------------------------------------".center(columns))
+	# Emade = Cpot.calc_madelung()
+	# if Emade==None:
+	# 	print("No Madelung constant for this structure.")
+	# else:
+	# 	print("Electrostatic:\t"+str(Emade))
+	# print("--------------------------------------------------------------------------------".center(columns))
 
 	############################################################################################
 	######################################## BUCKINGHAM ########################################
@@ -160,7 +160,7 @@ if __name__=="__main__":
 
 	print("-------------------------------------GULP---------------------------------------".center(columns))
 	from ase.calculators.gulp import GULP
-	calc = GULP(keywords='conp full nosymm unfix', \
+	calc = GULP(keywords='conp full nosymm unfix gradient', \
 					library='buck.lib')
 	atoms.set_calculator(calc)
 	print("Total lattice:\t"+str(atoms.get_potential_energy()))
@@ -190,18 +190,18 @@ if __name__=="__main__":
 	# except:
 	# 	df.to_csv(fileout, mode='w', header=True)
 
-	# dcoul = DCoulomb(Cpot)
-	# grad_real = dcoul.calc_real()
-	# grad_recip = dcoul.calc_recip()	
-	# grad_coul = grad_real + grad_recip
+	dcoul = DCoulomb(Cpot)
+	grad_real = dcoul.calc_real()
+	grad_recip = dcoul.calc_recip()	
+	grad_coul = grad_real + grad_recip
 
-	# dbuck = DBuckingham(Bpot)
-	# grad_buck = dbuck.calc()
-	# grad = grad_coul+grad_buck
+	dbuck = DBuckingham(Bpot)
+	grad_buck = dbuck.calc()
+	grad = grad_coul+grad_buck
 
-	# gnorm = np.linalg.norm(grad) 
+	gnorm = np.linalg.norm(grad) 
 
-	# print(gnorm)
+	print(gnorm)
 	
 
 

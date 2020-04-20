@@ -129,7 +129,7 @@ class Coulomb(Potential):
 		for ioni in range(0, self.N): 
 			for ionj in range(ioni, self.N): 
 
-				dist = self.pos[ionj,] - self.pos[ioni,] 
+				dist = self.pos[ioni,] - self.pos[ionj,] 
 				for k in shifts:
 					po = -np.dot(k,k)/(4*self.alpha**2)
 					numerator = 4 * (pi**2) * (math.exp(po)) * math.cos(np.dot(k, dist))
