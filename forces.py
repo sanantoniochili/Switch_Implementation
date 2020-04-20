@@ -54,7 +54,7 @@ class DCoulomb(Forces):
 		for ioni in range(0, N): 
 			for ionj in range(0, N): 
 
-				rij = self.potential.pos[ionj,] - self.potential.pos[ioni,] 
+				rij = self.potential.pos[ioni,] - self.potential.pos[ionj,] 
 				for k in shifts:
 					po = -np.dot(k,k)/(4*alpha**2)
 					numerator = 4 * (pi**2) * (math.exp(po)) * k * math.sin(np.dot(k, rij))

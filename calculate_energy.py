@@ -1,4 +1,5 @@
 import sys
+import shutil
 import argparse
 import fileinput
 import numpy as np
@@ -40,17 +41,7 @@ atom_types = {
 	# 'Zn': 7
 }
 
-import shutil
-if __name__=="__main__":
-	columns = shutil.get_terminal_size().columns
-	parser = argparse.ArgumentParser(
-		description='Define input')
-	parser.add_argument(
-		'filename', metavar='--input', type=str,
-		help='.cif file to read')
-	args = parser.parse_args()
-	atoms = aread(args.filename)
-
+def calculate_energy(atoms):
 
 	############################################################################################
 	###################################### INITIALISATION ######################################
@@ -190,18 +181,37 @@ if __name__=="__main__":
 	# except:
 	# 	df.to_csv(fileout, mode='w', header=True)
 
-	dcoul = DCoulomb(Cpot)
+
+	return {'Coulomb' : Cpot, 'Buckingham' : Bpot}
+
+
+def calculate_forces(potentials):
+	dcoul = DCoulomb(potentials['Coulomb'])
 	grad_real = dcoul.calc_real()
 	grad_recip = dcoul.calc_recip()	
 	grad_coul = grad_real + grad_recip
 
-	dbuck = DBuckingham(Bpot)
+	dbuck = DBuckingham(potentials['Buckingham'])
 	grad_buck = dbuck.calc()
 	grad = grad_coul+grad_buck
 
 	gnorm = np.linalg.norm(grad) 
 
 	print(gnorm)
+
+
+if __name__=="__main__":
+	columns = shutil.get_terminal_size().columns
+	parser = argparse.ArgumentParser(
+		description='Define input')
+	parser.add_argument(
+		'filename', metavar='--input', type=str,
+		help='.cif file to read')
+	args = parser.parse_args()
+	atoms = aread(args.filename)
+
+	potentials = calculate_energy(atoms)
+	calculate_forces(potentials)
 	
 
 
