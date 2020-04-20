@@ -52,10 +52,25 @@ class Coulomb(Potential):
 	 Calculations for the Coulomb energy contribution.
 	 Ewald summation method used for long range.
 	'''
-	def set_parameters(self, alpha, real_cut_off=4, recip_cut_off=4):
+	def set_parameters(self, alpha, real_cut_off=4, recip_cut_off=4, filename=None):
 		self.real_cut_off  = math.ceil(real_cut_off)
 		self.recip_cut_off = math.ceil(recip_cut_off)
 		self.alpha         = alpha
+		self.made_const    = 0
+
+		try:
+			with open(filename,"r") as fin:
+				for line in fin:
+					line = line.split()
+					found = True
+					for symbol in self.atoms.get_chemical_symbols():
+						if symbol not in line: # chemical formula does not match
+							found = False
+							break
+					if found == True: # correct formula
+						self.made_const = float(line[-1])						
+		except IOError:
+			print("No Madelung library file found.")
 
 	def get_reciprocal_vects(self):
 		'''
@@ -133,6 +148,19 @@ class Coulomb(Potential):
 				esum[ioni, ionj] = esum[ionj, ioni]
 		return esum
 
+	def calc_madelung(self):
+		if not self.made_const:
+			return None
+		esum = 0
+		for ioni in range(self.N): 
+			for ionj in range(self.N): 
+				if ioni != ionj: # skip in case it's the same atom in original unit cell
+					dist = np.linalg.norm(self.pos[ioni,] - self.pos[ionj,])
+					esum += ( self.get_charges_mult(ioni,ionj) * self.made_const / dist )
+		esum *= 14.399645351950543 / 2 # electrostatic constant
+		return esum
+
+
 class Buckingham(Potential):
 	'''
 	 Calculations for the Buckingham energy contribution.
@@ -169,7 +197,7 @@ class Buckingham(Potential):
 		cutoff = math.ceil(hi/min(self.vects[self.vects!=0]))
 		return cutoff
 
-	def calc_real(self, esum=0):
+	def calc(self, esum=0):
 		'''
 		 Interatomic potential
 		'''
