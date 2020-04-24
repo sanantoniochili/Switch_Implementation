@@ -4,6 +4,7 @@ import argparse
 import fileinput
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
 
 from cmath import pi
 from cmath import exp
@@ -13,8 +14,10 @@ import math
 from ase import *
 from ase.visualize import view
 from ase.io import read as aread
+from ase.io import write as awrite
 from ase.calculators.gulp import GULP
 from ase.calculators.lammpslib import LAMMPSlib
+from ase.visualize.plot import plot_atoms
 
 from potential import *
 from forces import *
@@ -47,12 +50,17 @@ def calculate_energy(atoms):
 	###################################### INITIALISATION ######################################
 	############################################################################################
 
-	vects    = np.array(atoms.get_cell())
-	volume   = abs(np.linalg.det(vects))
-	N        = len(atoms.get_positions())
-	accuracy = 0.00001 # Demanded accuracy of terms (tolerance of parameters?)
-	alpha    = N**(1/6) * pi**(1/2) / volume**(1/3)
-	LOG      = "src/test.log"
+	vects     = np.array(atoms.get_cell())
+	volume    = abs(np.linalg.det(vects))
+	N         = len(atoms.get_positions())
+	accuracy  = 0.00001 # Demanded accuracy of terms (tolerance of parameters?)
+	alpha     = N**(1/6) * pi**(1/2) / volume**(1/3)
+	real_cut  = (-np.log(accuracy))**(1/2)/alpha 
+	recip_cut = 2*alpha*(-np.log(accuracy))**(1/2) 
+	LOG       = "src/test.log"
+
+	if -np.log(accuracy)/N**(1/6) < 1:
+		raise ValueError("Values of constants truncate too many terms.")
 
 	#########################################################################################
 	######################################## COULOMB ########################################
@@ -62,10 +70,8 @@ def calculate_energy(atoms):
 	print("==========================COULOMB==========================".center(columns))
 
 	libfile    = DATAPATH+"Libraries/madelung.lib"
-	real_cut  = (-np.log(accuracy))**(1/2)/alpha
-	recip_cut = 2*alpha*(-np.log(accuracy))**(1/2)
 	Cpot      = Coulomb(charge_dict, atoms)
-	Cpot.set_parameters(alpha,real_cut_off=real_cut,recip_cut_off=recip_cut, filename=libfile)
+	Cpot.set_parameters(alpha=alpha,real_cut_off=real_cut,recip_cut_off=recip_cut, filename=libfile)
 
 	print("--------------------------CUSTOM IMPLEMENTATION---------------------------------".center(columns))
 	rvects    = Cpot.get_reciprocal_vects()
@@ -109,21 +115,21 @@ def calculate_energy(atoms):
 	# 	print("No Madelung constant for this structure.")
 	# else:
 	# 	print("Electrostatic:\t"+str(Emade))
-	# print("--------------------------------------------------------------------------------".center(columns))
+	print("--------------------------------------------------------------------------------".center(columns))
 
 	############################################################################################
 	######################################## BUCKINGHAM ########################################
 	############################################################################################
 
-	# print("\n")
-	# print("==========================BUCKINGHAM==========================".center(columns))
+	print("\n")
+	print("==========================BUCKINGHAM==========================".center(columns))
 
-	# print("--------------------------CUSTOM IMPLEMENTATION---------------------------------".center(columns))
+	print("--------------------------CUSTOM IMPLEMENTATION---------------------------------".center(columns))
 	libfile    = DATAPATH+"Libraries/buck.lib"
 	Bpot 	   = Buckingham(charge_dict, atoms)
 	Bpot.set_parameters(libfile)
 	Einter = Bpot.calc()
-	# print("Interatomic:\t"+str(Einter))
+	print("Interatomic:\t"+str(Einter))
 	# print("----------------------------------LAMMPS----------------------------------------".center(columns))
 	
 	# cmds = [
@@ -138,7 +144,7 @@ def calculate_energy(atoms):
 	# atoms.set_calculator(lammps)
 	
 	# print("Interatomic:\t"+str(atoms.get_potential_energy()))
-	# print("--------------------------------------------------------------------------------".center(columns))
+	print("--------------------------------------------------------------------------------".center(columns))
 
 	############################################################################################
 	########################################### TOTAL ##########################################
@@ -158,20 +164,23 @@ def calculate_energy(atoms):
 
 	print("--------------------------------------------------------------------------------".center(columns))
 
-	############################################################################################
-	########################################## OUTPUT ##########################################
-	############################################################################################
+	# ############################################################################################
+	# ########################################## OUTPUT ##########################################
+	# ############################################################################################
 
 	# ''' SAVE TO CSV '''
 	# ''' NAME '''
 	# count = args.filename.split('.')[-2].split('/')[-1]
 	# structure = 'structure'+count
 	# ''' FOLDER '''
-	# folder = 'random'
+	# folder = 'rattled'
 	# ''' DATAFRAME '''
-	# df = pd.DataFrame.from_dict({'structure': [structure], 'folder': [folder], 'interatomic_custom': [Einter],\
-	# 							 'interatomic_lammps': [atoms.get_potential_energy()], 'electrostatic_custom': [sum(sum(Etotal))] }, orient='columns')
-	# fileout = "src/custom_all.csv"
+	# df = pd.DataFrame.from_dict({'structure': [structure], 'folder': [folder], \
+	# 								'real_cutoff': [math.ceil(real_cut)], \
+	# 								'reciprocal_cutoff': [math.ceil(recip_cut)]})
+	# # df = pd.DataFrame.from_dict({'structure': [structure], 'folder': [folder], 'interatomic_custom': [Einter],\
+	# # 							 'interatomic_lammps': [atoms.get_potential_energy()], 'electrostatic_custom': [sum(sum(Etotal))] }, orient='columns')
+	# fileout = "src/cutoffs_rattled.csv"
 	# try:
 	# 	df_in = pd.read_csv(fileout) 
 	# 	if(df_in.empty):
@@ -182,7 +191,7 @@ def calculate_energy(atoms):
 	# 	df.to_csv(fileout, mode='w', header=True)
 
 
-	return {'Coulomb' : Cpot, 'Buckingham' : Bpot}
+	return {'Coulomb' : Cpot, 'Buckingham' : Bpot, 'Energy' : }
 
 
 def calculate_forces(potentials):
@@ -212,7 +221,26 @@ if __name__=="__main__":
 
 	potentials = calculate_energy(atoms)
 	calculate_forces(potentials)
-	
+
+	# fig, ax = plt.subplots()
+	# plot_atoms(atoms, ax)
+	# fig.savefig("src/structure1.png")
+
+	# print(atoms.positions)
+	# ion = 0
+	# dx = np.array(atoms.get_cell())[0][0]/4
+	# dx_array = np.zeros((15,3))
+	# dx_array[ion][0] = dx
+	# atoms.set_positions(atoms.positions + dx_array,  apply_constraint=False)
+	# print(atoms.positions)
+	# print(atoms.get_chemical_symbols())
+
+	# potentials = calculate_energy(atoms)
+	# # calculate_forces(potentials)
+
+	# fig, ax = plt.subplots()
+	# plot_atoms(atoms, ax)
+	# fig.savefig("src/structure1_"+str(ion)+"_"+str(dx)+".png")
 
 
 # https://github.com/SINGROUP/Pysic/blob/master/fortran/Geometry.f90
