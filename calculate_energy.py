@@ -77,7 +77,7 @@ def print_template(dict):
 	print("--------------------------------------------------------------------------------".center(columns))
 
 
-def calculate_energy(atoms):
+def calculate_energy(atoms, displacement=None):
 	""" Calculate energy using different calculators
 	for the Buckingham Coulomb potential. The Coulomb part
 	is calculated using the traditional Ewald summation.
@@ -98,7 +98,7 @@ def calculate_energy(atoms):
 	vects = np.array(atoms.get_cell())
 	volume = abs(np.linalg.det(vects))
 	N = len(atoms.get_positions())
-	accuracy = 0.00001  # Demanded accuracy of terms (tolerance of parameters?)
+	accuracy = 0.00001  # Demanded accuracy of terms 
 	alpha = N**(1/6) * pi**(1/2) / volume**(1/3)
 	real_cut = (-np.log(accuracy))**(1/2)/alpha
 	recip_cut = 2*alpha*(-np.log(accuracy))**(1/2)
@@ -115,15 +115,10 @@ def calculate_energy(atoms):
 						recip_cut_off=recip_cut, filename=libfile)
 
 	rvects = Cpot.get_reciprocal_vects()
-	Er_array = Cpot.calc_real()
-	Es_array = Cpot.calc_self()
-	Erc_array = Cpot.calc_recip(rvects)
-	Eupper = Er_array + Es_array + Erc_array
-
-	Er = sum(sum(Cpot.calc_complete(Er_array)))
-	Es = sum(sum(Cpot.calc_complete(Es_array)))
-	Erc = sum(sum(Cpot.calc_complete(Erc_array)))
-	Electr = sum(sum(Cpot.calc_complete(Eupper)))
+	if displacement==None:
+		coulomb_energies = Cpot.calc(rvects)
+	else:
+		coulomb_energies = Cpot.calc_move(rvects, displacement)
 
 	# # Change atom_style parameter to allow charges
 	# LAMMPSlib.default_parameters['lammps_header'] = ['units metal', 'atom_style charge', \
@@ -154,7 +149,11 @@ def calculate_energy(atoms):
 	libfile = DATAPATH+"Libraries/buck.lib"
 	Bpot = Buckingham(charge_dict, atoms)
 	Bpot.set_parameters(libfile)
-	Einter = Bpot.calc()
+
+	if displacement==None:
+		Einter = Bpot.calc()
+	else:
+		Einter = Bpot.calc_move(displacement)
 
 	# cmds = [
 	# 		"pair_style buck 10",
@@ -176,10 +175,10 @@ def calculate_energy(atoms):
 	# atoms.set_calculator(calc)
 	# total_GULP = atoms.get_potential_energy()
 
-	dict = {'Real': Er, 'Self': Es, 'Reciprocal': Erc, 'Electrostatic': Electr,
+	dict = { **coulomb_energies,
 			'Elect_LAMMPS': elect_LAMMPS, 'E_madelung': Emade, 'Interatomic': Einter,
 			'Inter_LAMMPS': inter_LAMMPS, 'Total_GULP': total_GULP}
-	# print_template(dict)
+	print_template(dict)
 
 	return {'Coulomb': Cpot, 'Buckingham': Bpot, 'energy': Electr+Einter}
 
@@ -246,48 +245,41 @@ if __name__ == "__main__":
 	args = parser.parse_args()
 	atoms = aread(args.filename)
 
+	displacement ={'coordinate' : 0, 'value' : np.random.random() / 1000, \
+						'ion' : 0, 'image' : [0,0,1]}
+	potentials = calculate_energy(atoms, displacement)
 	potentials = calculate_energy(atoms)
-	forces = calculate_forces(potentials)
-	diffs = finite_diff_grad(atoms, potentials['energy'], trials=len(atoms.positions))
+	# forces = calculate_forces(potentials)
+	# diffs = finite_diff_grad(atoms, potentials['energy'], trials=len(atoms.positions))
 
-	############################################################################################
-	########################################## OUTPUT ##########################################
-	############################################################################################
+	# ''' SAVE TO CSV '''
+	# ''' NAME '''
+	# count = args.filename.split('.')[-2].split('/')[-1]
+	# structure = 'structure'+count
+	# ''' FOLDER '''
+	# folder = 'random'
+	# ''' DATAFRAMES '''
+	# norms = {'structure' : structure,'folder' : folder,'forces_gnorm' : [forces['gnorm']]}
+	# df = pd.DataFrame.from_dict(norms).set_index(['structure','folder'])
 
-	''' SAVE TO CSV '''
-	''' NAME '''
-	count = args.filename.split('.')[-2].split('/')[-1]
-	structure = 'structure'+count
-	''' FOLDER '''
-	folder = 'random'
-	''' DATAFRAMES '''
-	norms = {'structure' : structure,'folder' : folder,'forces_gnorm' : [forces['gnorm']]}
-	df = pd.DataFrame.from_dict(norms).set_index(['structure','folder'])
+	# '''		DIFFS 		'''
+	# df_diffs = pd.DataFrame(
+	# 	diffs['gnorm']).T.add_prefix('diffs_gnorm_')
+	# new_col1 = pd.Series(data=structure)
+	# new_col2 = pd.Series(data=folder)
+	# df_diffs = pd.concat([new_col1.rename('structure'), \
+	# 	new_col2.rename('folder'), df_diffs], axis=1).set_index(['structure','folder'])
+	# df = df_diffs.join(df)
 
-	# '''		FORCES 		'''
-	# df_forces = pd.DataFrame(
-	#     forces['grad'], columns=index).T.add_prefix('forces_')
-	# new_col = pd.Series(data=forces['gnorm'], index=index)
-	# df_forces = pd.concat([df_forces, new_col.rename('forces_gnorm')], axis=1)
-
-	'''		DIFFS 		'''
-	df_diffs = pd.DataFrame(
-		diffs['gnorm']).T.add_prefix('diffs_gnorm_')
-	new_col1 = pd.Series(data=structure)
-	new_col2 = pd.Series(data=folder)
-	df_diffs = pd.concat([new_col1.rename('structure'), \
-		new_col2.rename('folder'), df_diffs], axis=1).set_index(['structure','folder'])
-	df = df_diffs.join(df)
-
-	fileout = "src/fin_diffs.csv"
-	try:
-	    df_in = pd.read_csv(fileout)
-	    if(df_in.empty):
-	        df.to_csv(fileout, mode='w', header=True)
-	    else:
-	        df.to_csv(fileout, mode='a', header=False)
-	except:
-	    df.to_csv(fileout, mode='w', header=True)
+	# fileout = "src/fin_diffs.csv"
+	# try:
+	#     df_in = pd.read_csv(fileout)
+	#     if(df_in.empty):
+	#         df.to_csv(fileout, mode='w', header=True)
+	#     else:
+	#         df.to_csv(fileout, mode='a', header=False)
+	# except:
+	#     df.to_csv(fileout, mode='w', header=True)
 
 
 # https://github.com/SINGROUP/Pysic/blob/master/fortran/Geometry.f90
