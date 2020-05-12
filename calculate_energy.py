@@ -206,10 +206,10 @@ def finite_diff_grad(atoms, initial_energy, trials=1):
 	(like the derivative limit). 
 
 	A displacement is added to the coordinate of a selected ion.
-	The potential <new_energy> is evaluated using each new 
+	The potential <new_energy> is evaluated using the new 
 	position and then we have the partial derivative's
 	approach as (<new_energy> - <initial_energy>) / <displacement>
-	for each ion and coordinate.
+	for each one of x iterations (trials).
 
 	"""
 	dims = 3
@@ -222,17 +222,16 @@ def finite_diff_grad(atoms, initial_energy, trials=1):
 		ioni = np.random.randint(0,len(atoms.positions))
 		# random displacement
 		h[coord] = np.random.random() / 1000
-		print(h)
-		print("ion: "+str(ioni))
+		print("Ion: {} moved {}".format(ioni, h))
 		# add perturbation to one ion coordinate
 		atoms.positions[ioni] += h
-		# calculate (f(x+h)-f(x))/h !!!!!!!!!! CHANGE TO MOVE ONLY ONE IMAGE
+		# calculate (f(x+h)-f(x))/h
 		grad = ( calculate_energy(atoms)['energy']-initial_energy )/h[coord]
 		# restore initial coordinates
 		atoms.positions[ioni] -= h
 		# calculate norm   
 		gnorm[x] = np.linalg.norm(grad)
-	return {'gnorm': gnorm }
+	return gnorm
 
 
 if __name__ == "__main__":
@@ -245,41 +244,41 @@ if __name__ == "__main__":
 	args = parser.parse_args()
 	atoms = aread(args.filename)
 
-	displacement ={'coordinate' : 0, 'value' : np.random.random() / 1000, \
-						'ion' : 0, 'image' : [0,0,1]}
-	potentials = calculate_energy(atoms, displacement)
+	trials = 3
+
 	potentials = calculate_energy(atoms)
-	# forces = calculate_forces(potentials)
-	# diffs = finite_diff_grad(atoms, potentials['energy'], trials=len(atoms.positions))
+	forces = calculate_forces(potentials)
+	diffs = finite_diff_grad(atoms, potentials['energy'], trials=trials)
 
-	# ''' SAVE TO CSV '''
-	# ''' NAME '''
-	# count = args.filename.split('.')[-2].split('/')[-1]
-	# structure = 'structure'+count
-	# ''' FOLDER '''
-	# folder = 'random'
-	# ''' DATAFRAMES '''
-	# norms = {'structure' : structure,'folder' : folder,'forces_gnorm' : [forces['gnorm']]}
-	# df = pd.DataFrame.from_dict(norms).set_index(['structure','folder'])
+	''' SAVE TO CSV '''
+	''' NAME '''
+	count = args.filename.split('.')[-2].split('/')[-1]
+	structure = 'structure'+count
+	''' FOLDER '''
+	folder = 'random'
+	''' DATAFRAMES '''
+	norms = {'structure' : structure,'folder' : folder,'forces_gnorm' : [forces['gnorm']]}
+	df = pd.DataFrame.from_dict(norms).set_index(['structure','folder'])
 
-	# '''		DIFFS 		'''
-	# df_diffs = pd.DataFrame(
-	# 	diffs['gnorm']).T.add_prefix('diffs_gnorm_')
-	# new_col1 = pd.Series(data=structure)
-	# new_col2 = pd.Series(data=folder)
-	# df_diffs = pd.concat([new_col1.rename('structure'), \
-	# 	new_col2.rename('folder'), df_diffs], axis=1).set_index(['structure','folder'])
-	# df = df_diffs.join(df)
+	'''		DIFFS 		'''
+	df_diffs = pd.DataFrame(
+		diffs).T.add_prefix('diffs_gnorm_')
+	new_col1 = pd.Series(data=structure)
+	new_col2 = pd.Series(data=folder)
+	df_diffs = pd.concat([new_col1.rename('structure'), \
+		new_col2.rename('folder'), df_diffs], axis=1).set_index(['structure','folder'])
+	df = df_diffs.join(df)
 
-	# fileout = "src/fin_diffs.csv"
-	# try:
-	#     df_in = pd.read_csv(fileout)
-	#     if(df_in.empty):
-	#         df.to_csv(fileout, mode='w', header=True)
-	#     else:
-	#         df.to_csv(fileout, mode='a', header=False)
-	# except:
-	#     df.to_csv(fileout, mode='w', header=True)
+
+	fileout = "src/fin_diffs.csv"
+	try:
+	    df_in = pd.read_csv(fileout)
+	    if(df_in.empty):
+	        df.to_csv(fileout, mode='w', header=True)
+	    else:
+	        df.to_csv(fileout, mode='a', header=False)
+	except:
+	    df.to_csv(fileout, mode='w', header=True)
 
 
 # https://github.com/SINGROUP/Pysic/blob/master/fortran/Geometry.f90
