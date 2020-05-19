@@ -119,45 +119,111 @@ class Coulomb(Potential):
 						   (self.alpha / math.sqrt(pi)))
 		return esum
 
-	def calc_real(self, esum=[]):
-		'''
-		 Calculate short range
-		'''
+
+	def calc_real_move(self, displace_dict, esum=[]):
+		"""Calculate short range when moving single ion
+
+		dx		  : Array that holds the value of displacement
+		coord 	  : The coordinate of the ion to be changed
+		img_t 	  : Selected image of which an ion will be moved (tuple)
+		image 	  : Selected image of which an ion will be moved
+		multiplied by the lattice vectors
+		ion 	  : Selected ion to be moved
+		move_flag : Denotes if an ion was moved
+
+		"""
+		dx = np.zeros(3)
+		coord = displace_dict['coordinate'] # define affected dimension
+		dx[coord]  = displace_dict['value'] # define displacement value
+		image = displace_dict['image']
+		img_t = tuple(image)
+		image = image@self.vects
+		ion   = displace_dict['ion']
+		move_flag = False
+
+		# energy calculation
 		if esum == []:
 			esum = np.zeros((self.N, self.N))
 		shifts = self.get_shifts(self.real_cut_off, self.vects)
 		for ioni in range(0, self.N):
+			move_flag = False 
 			for ionj in range(ioni, self.N):
 				if ioni != ionj:  # skip in case it's the same ion in original unit cell
-					dist = np.linalg.norm(self.pos[ioni, ] - self.pos[ionj, ])
+					# check if it is the correct image
+					if (image==[0,0,0]).all():
+						# check if it is the correct ion
+						if (ioni==ion): # add displacement
+							rij = (self.pos[ioni, ]+dx) - self.pos[ionj, ]
+							move_flag = True
+						elif (ionj==ion):
+							rij = self.pos[ioni, ] - (self.pos[ionj, ]+dx)
+					else:
+						rij = self.pos[ioni, ] - self.pos[ionj, ]
+					dist = np.linalg.norm(rij)
 					esum[ioni, ionj] += (self.get_charges_mult(ioni, ionj) *
 										 math.erfc(self.alpha*dist)/(2*dist))
 				# take care of the rest lattice (+ Ln)
 				for shift in shifts:
-					dist = np.linalg.norm(
-						self.pos[ioni, ] + shift - self.pos[ionj, ])
+					# check if it is the correct image
+					if (ioni != ionj) and (shift==image).all(): # skip same ion
+						# check if it is the correct ion
+						if (ioni==ion): # add displacement
+							rij = (self.pos[ioni, ]+dx) + shift - self.pos[ionj, ]
+							move_flag = True
+						elif (ionj==ion):
+							rij = self.pos[ioni, ] + shift - (self.pos[ionj, ]+dx)
+					else:
+						rij = self.pos[ioni, ] + shift - self.pos[ionj, ]
+					dist = np.linalg.norm(rij)
 					esum[ioni, ionj] += (self.get_charges_mult(ioni, ionj) *
 										 math.erfc(self.alpha*dist)/(2*dist))
+
+			if move_flag:
+				print("Ion {} of image {} moved {}".format(ioni,img_t,dx))
+
 		return esum
 
-	def calc_recip(self, recip_vects, esum=[]):
+
+	def calc_recip_move(self, recip_vects, displace_dict, esum=[]):
 		'''
-		 Calculate long range
+		 Calculate long range when moving single ion
 		'''
+		dx = np.zeros(3)
+		coord = displace_dict['coordinate'] # define affected dimension
+		dx[coord]  = displace_dict['value'] # define displacement value
+		image = displace_dict['image']
+		img_t = tuple(image)
+		image = image@recip_vects
+		ion   = displace_dict['ion']
+
 		if esum == []:
 			esum = np.zeros((self.N, self.N))
 		shifts = self.get_shifts(self.recip_cut_off, recip_vects)
 		for ioni in range(0, self.N):
+			move_flag = False 
 			for ionj in range(ioni, self.N):
 
-				rij = self.pos[ioni, ] - self.pos[ionj, ]
 				for k in shifts:
+					# check if it is the correct image
+					if (ioni != ionj) and(k==image).all(): # add displacement
+						# check if it is the correct ion
+						if (ioni==ion): # add displacement
+							rij = (self.pos[ioni, ]+dx) - self.pos[ionj, ]
+							move_flag = True
+						elif (ionj==ion):
+							rij = self.pos[ioni, ] - (self.pos[ionj, ]+dx)
+					else:
+						rij = self.pos[ioni, ] - self.pos[ionj, ]
 					po = -np.dot(k, k)/(4*self.alpha**2)
 					numerator = 4 * (pi**2) * (math.exp(po)) * \
 						math.cos(np.dot(k, rij))
 					denominator = np.dot(k, k) * 2 * pi * self.volume
 					esum[ioni, ionj] += ((self.get_charges_mult(ioni, ionj)) *
 										 (numerator/denominator))
+
+			if move_flag:
+				print("Ion {} of image {} moved {}".format(ioni,img_t,dx))
+
 		return esum
 
 	def calc_complete(self, esum):
@@ -184,11 +250,11 @@ class Coulomb(Potential):
 		esum *= 14.399645351950543 / 2  # electrostatic constant
 		return esum
 
-	def calc(self, rvects):
+	def calc_move(self, rvects, displace_dict):
 		energies = {}
-		Er_array = self.calc_real()
+		Er_array = self.calc_real_move(displace_dict=displace_dict)
 		Es_array = self.calc_self()
-		Erc_array = self.calc_recip(rvects)
+		Erc_array = self.calc_recip_move(rvects, displace_dict=displace_dict)
 		Eupper = Er_array + Es_array + Erc_array
 
 		energies['Real'] = sum(sum(self.calc_complete(Er_array)))
@@ -234,12 +300,23 @@ class Buckingham(Potential):
 		cutoff = math.ceil(hi/min(self.vects[self.vects != 0]))
 		return cutoff
 
-	def calc(self, esum=0):
+
+	def calc_move(self, displace_dict, esum=0):
 		'''
-		 Interatomic potential
+		 Interatomic potential with single ion displacement
 		'''
+		dx = np.zeros(3)
+		coord = displace_dict['coordinate'] # define affected dimension
+		dx[coord]  = displace_dict['value'] # define displacement value
+		image = displace_dict['image']
+		img_t = tuple(image)
+		image = image@self.vects
+		ion   = displace_dict['ion']
+
+
 		chemical_symbols = self.atoms.get_chemical_symbols()
 		for ioni in range(self.N):
+			move_flag = False
 			for ionj in range(self.N):
 				# Find the pair we are examining
 				pair = (min(chemical_symbols[ioni], chemical_symbols[ionj]),
@@ -250,18 +327,42 @@ class Buckingham(Potential):
 					rho = self.buck[pair]['par'][1]
 					C = self.buck[pair]['par'][2]
 
-					dist = np.linalg.norm(self.pos[ioni] - self.pos[ionj])
-					# Check if distance of ions allows interaction
-					if (dist < self.buck[pair]['hi']) & (ioni != ionj):
-						esum += A*math.exp(-1.0*dist/rho) - C/dist**6
+					if (ioni != ionj): # skip same ion
+						# check if it is the correct image
+						if ([0,0,0]==image).all(): # add displacement
+							# check if it is the correct ion
+							if (ioni==ion): # add displacement
+								rij = (self.pos[ioni, ]+dx) - self.pos[ionj, ]
+								move_flag = True
+							elif (ionj==ion):
+								rij = self.pos[ioni, ] - (self.pos[ionj, ]+dx)
+						else:
+							rij = self.pos[ioni, ] - self.pos[ionj, ]
+						dist = np.linalg.norm(rij)
+						# Check if distance of ions allows interaction
+						if (dist < self.buck[pair]['hi']):
+							esum += A*math.exp(-1.0*dist/rho) - C/dist**6
 
 					# Check interactions with neighbouring cells
 					cutoff = self.get_cutoff(self.buck[pair]['hi'])
 					shifts = self.get_shifts(cutoff, self.vects)
 					for shift in shifts:
-						dist = np.linalg.norm(
-							self.pos[ioni] + shift - self.pos[ionj])
+						# check if it is the correct image
+						if (ioni != ionj) and (shift==image).all(): # add displacement
+							# check if it is the correct ion
+							if (ioni==ion): # add displacement
+								rij = (self.pos[ioni, ]+dx) + shift - self.pos[ionj, ]
+								move_flag = True
+							elif (ionj==ion):
+								rij = self.pos[ioni, ] + shift - (self.pos[ionj, ]+dx)
+						else:
+							rij = self.pos[ioni, ] + shift - self.pos[ionj]
+						dist = np.linalg.norm(rij)
 						# Check if distance of ions allows interaction
 						if (dist < self.buck[pair]['hi']):
 							esum += A*math.exp(-1.0*dist/rho) - C/dist**6
+
+			if move_flag:
+				print("Ion {} of image {} moved {}".format(ioni,img_t,dx))
+
 		return esum/2

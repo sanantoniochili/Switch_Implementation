@@ -38,7 +38,7 @@ class DCoulomb(Forces):
                     rnorm = np.linalg.norm(rij)
                     csum = a2pi*math.exp(-alpha**2 * rnorm**2) + \
                         (math.erfc(alpha*rnorm) / rnorm)
-                    forces[ioni, ] -= self.potential.get_charges_mult(ioni, ionj) *\
+                    forces[ioni, ] -= (1/2) * self.potential.get_charges_mult(ioni, ionj) *\
                         (rij/(rnorm**2)) * csum  # partial derivative for ion i
                 # take care of the rest lattice (+ Ln)
                 for shift in shifts:
@@ -47,7 +47,7 @@ class DCoulomb(Forces):
                     rnorm = np.linalg.norm(rij)
                     csum = a2pi*math.exp(-alpha**2 * rnorm**2) + \
                         (math.erfc(alpha*rnorm) / rnorm)
-                    forces[ioni, ] -= self.potential.get_charges_mult(ioni, ionj) *\
+                    forces[ioni, ] -= (1/2) * self.potential.get_charges_mult(ioni, ionj) *\
                         (rij/(rnorm**2)) * csum  # partial derivative for ion i
         return forces
 
@@ -100,7 +100,7 @@ class DBuckingham(Forces):
                     dist = np.linalg.norm(rij)
                     # Check if distance of ions allows interaction
                     if (dist < self.potential.buck[pair]['hi']) & (ioni != ionj):
-                        csum = - (1/rho) * A * \
+                        csum = -  (A/rho) * \
                             math.exp(-1.0*dist/rho) + 6*C/dist**7
                         forces[ioni] += (rij/dist) * csum
                     # Check interactions with neighbouring cells
@@ -114,7 +114,7 @@ class DBuckingham(Forces):
                         dist = np.linalg.norm(rij)
                         # Check if distance of ions allows interaction
                         if (dist < self.potential.buck[pair]['hi']):
-                            csum = - (1/rho) * A * \
+                            csum = - (A/rho) * \
                                 math.exp(-1.0*dist/rho) + 6*C/dist**7
                             forces[ioni] += (rij/dist) * csum
 

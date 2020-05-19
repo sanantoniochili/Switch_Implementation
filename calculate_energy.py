@@ -5,6 +5,8 @@ import fileinput
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+from matplotlib.ticker import (MultipleLocator, FormatStrFormatter,
+                               AutoMinorLocator)
 
 from cmath import pi
 from cmath import exp
@@ -77,7 +79,7 @@ def print_template(dict):
 	print("--------------------------------------------------------------------------------".center(columns))
 
 
-def calculate_energy(atoms, displacement=None):
+def calculate_energy(atoms):
 	""" Calculate energy using different calculators
 	for the Buckingham Coulomb potential. The Coulomb part
 	is calculated using the traditional Ewald summation.
@@ -86,7 +88,6 @@ def calculate_energy(atoms, displacement=None):
 	Er           = 0
 	Es 			 = 0
 	Erc 		 = 0
-	Electr 		 = 0
 	elect_LAMMPS = 0
 	Einter 		 = 0
 	inter_LAMMPS = 0
@@ -115,10 +116,7 @@ def calculate_energy(atoms, displacement=None):
 						recip_cut_off=recip_cut, filename=libfile)
 
 	rvects = Cpot.get_reciprocal_vects()
-	if displacement==None:
-		coulomb_energies = Cpot.calc(rvects)
-	else:
-		coulomb_energies = Cpot.calc_move(rvects, displacement)
+	coulomb_energies = Cpot.calc(rvects)
 
 	# # Change atom_style parameter to allow charges
 	# LAMMPSlib.default_parameters['lammps_header'] = ['units metal', 'atom_style charge', \
@@ -150,10 +148,7 @@ def calculate_energy(atoms, displacement=None):
 	Bpot = Buckingham(charge_dict, atoms)
 	Bpot.set_parameters(libfile)
 
-	if displacement==None:
-		Einter = Bpot.calc()
-	else:
-		Einter = Bpot.calc_move(displacement)
+	Einter = Bpot.calc()
 
 	# cmds = [
 	# 		"pair_style buck 10",
@@ -169,18 +164,20 @@ def calculate_energy(atoms, displacement=None):
 
 	############################ TOTAL #################################
 
-	# from ase.calculators.gulp import GULP
-	# calc = GULP(keywords='conp full nosymm unfix gradient', \
-	# 				library='buck.lib')
-	# atoms.set_calculator(calc)
-	# total_GULP = atoms.get_potential_energy()
+	from ase.calculators.gulp import GULP
+	g_keywords = 'conp full nosymm unfix gradient'
+	calc = GULP(keywords=g_keywords, \
+					library='buck.lib')
+	atoms.set_calculator(calc)
+	total_GULP = atoms.get_potential_energy()
 
 	dict = { **coulomb_energies,
 			'Elect_LAMMPS': elect_LAMMPS, 'E_madelung': Emade, 'Interatomic': Einter,
 			'Inter_LAMMPS': inter_LAMMPS, 'Total_GULP': total_GULP}
-	print_template(dict)
+	# print_template(dict)
 
-	return {'Coulomb': Cpot, 'Buckingham': Bpot, 'energy': Electr+Einter}
+	return {'Coulomb': Cpot, 'Buckingham': Bpot, \
+			'energy': coulomb_energies['Electrostatic']+Einter}
 
 
 def calculate_forces(potentials):
@@ -234,51 +231,94 @@ def finite_diff_grad(atoms, initial_energy, trials=1):
 	return gnorm
 
 
+def get_input(filename):
+	"""Choose input from file or manual.
+
+	"""
+	if filename:
+		atoms = aread(filename)
+		structure = "structure"+args.i.rstrip('.cif').split('/')[-1]
+		folder = "random"
+	else:
+		atoms = Atoms("NaCl",
+
+	              cell=[[2.00, 0.00, 0.00],
+	                    [0.00, 2.00, 0.00],
+	                    [0.00, 0.00, 2.00]],
+
+	              positions=[[0, 0, 0],
+	                         [1, 1, 1],
+	                         ],
+	              pbc=True)
+		atoms = atoms.repeat((3, 1, 1))
+	return (folder,structure,atoms)
+
+
+
+def stepsize_energy_change(foldr, filename, atoms):
+	"""Move ion with different stepsize to check 
+	changes in energy.
+
+	"""
+	steps = []
+	energies = []
+
+	step = 0.01
+	ioni = 0
+	coord = 0
+	for x in range(41):
+		atoms.positions[ioni] += [step,0,0]
+		energies += [calculate_energy(atoms)['energy']]
+		steps += [x*step]
+	# step *= 10
+	# for x in range(1,7):
+	# 	atoms.positions[ioni] += [step,0,0]
+	# 	energies += [calculate_energy(atoms)['energy']]
+	# 	steps += [x*step]
+
+	fileout = "src/displacement_echange/"+folder+"_"+structure+"_echange"
+
+	df = pd.DataFrame({'steps':steps, 'energies':energies})
+	df.to_csv(fileout+".csv")
+	ax = df.plot('steps', 'energies', figsize=(10,10))
+
+	ax.xaxis.set_major_locator(MultipleLocator(0.5))
+	ax.xaxis.set_major_formatter(FormatStrFormatter('%.1f'))
+
+	ax.xaxis.set_minor_locator(MultipleLocator(0.05))
+	ax.set_title('Energy change with ion displacement')
+
+
+	plt.xlabel('steps')
+	plt.ylabel('energy')
+	plt.savefig(fileout+".png")
+	plt.show()
+
+
 if __name__ == "__main__":
 	columns = shutil.get_terminal_size().columns
 	parser = argparse.ArgumentParser(
 		description='Define input')
 	parser.add_argument(
-		'filename', metavar='--input', type=str,
+		'-i', metavar='--input', type=str,
 		help='.cif file to read')
 	args = parser.parse_args()
-	atoms = aread(args.filename)
 
-	trials = 3
+	(folder, structure,atoms) = get_input(args.i)
 
-	potentials = calculate_energy(atoms)
-	forces = calculate_forces(potentials)
-	diffs = finite_diff_grad(atoms, potentials['energy'], trials=trials)
+	# ''' ENERGY '''
+	# potentials = calculate_energy(atoms)
 
-	''' SAVE TO CSV '''
-	''' NAME '''
-	count = args.filename.split('.')[-2].split('/')[-1]
-	structure = 'structure'+count
-	''' FOLDER '''
-	folder = 'random'
-	''' DATAFRAMES '''
-	norms = {'structure' : structure,'folder' : folder,'forces_gnorm' : [forces['gnorm']]}
-	df = pd.DataFrame.from_dict(norms).set_index(['structure','folder'])
+	stepsize_energy_change(folder, structure, atoms)
 
-	'''		DIFFS 		'''
-	df_diffs = pd.DataFrame(
-		diffs).T.add_prefix('diffs_gnorm_')
-	new_col1 = pd.Series(data=structure)
-	new_col2 = pd.Series(data=folder)
-	df_diffs = pd.concat([new_col1.rename('structure'), \
-		new_col2.rename('folder'), df_diffs], axis=1).set_index(['structure','folder'])
-	df = df_diffs.join(df)
+	''' FORCES '''
+	# forces = calculate_forces(potentials)
+	# print(forces)
+	# diffs = finite_diff_grad(atoms, potentials['energy'], trials=trials)
 
 
-	fileout = "src/fin_diffs.csv"
-	try:
-	    df_in = pd.read_csv(fileout)
-	    if(df_in.empty):
-	        df.to_csv(fileout, mode='w', header=True)
-	    else:
-	        df.to_csv(fileout, mode='a', header=False)
-	except:
-	    df.to_csv(fileout, mode='w', header=True)
+
+	
 
 
 # https://github.com/SINGROUP/Pysic/blob/master/fortran/Geometry.f90
