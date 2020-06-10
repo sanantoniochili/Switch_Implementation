@@ -23,6 +23,7 @@ from ase.visualize.plot import plot_atoms
 
 from potential import *
 from forces import *
+import output_functions as outf
 
 DATAPATH = "../../Data/"
 
@@ -162,18 +163,18 @@ def calculate_energy(atoms):
 	# atoms.set_calculator(lammps)
 	# inter_LAMMPS = atoms.get_potential_energy()
 
-	############################ TOTAL #################################
+	# ############################ TOTAL #################################
 
-	from ase.calculators.gulp import GULP
-	g_keywords = 'conp full nosymm unfix gradient'
-	calc = GULP(keywords=g_keywords, \
-					library='buck.lib')
-	atoms.set_calculator(calc)
-	total_GULP = atoms.get_potential_energy()
+	# from ase.calculators.gulp import GULP
+	# g_keywords = 'conp full nosymm unfix gradient'
+	# calc = GULP(keywords=g_keywords, \
+	# 				library='buck.lib')
+	# atoms.set_calculator(calc)
+	# total_GULP = atoms.get_potential_energy()
 
-	dict = { **coulomb_energies,
-			'Elect_LAMMPS': elect_LAMMPS, 'E_madelung': Emade, 'Interatomic': Einter,
-			'Inter_LAMMPS': inter_LAMMPS, 'Total_GULP': total_GULP}
+	# dict = { **coulomb_energies,
+	# 		'Elect_LAMMPS': elect_LAMMPS, 'E_madelung': Emade, 'Interatomic': Einter,
+	# 		'Inter_LAMMPS': inter_LAMMPS, 'Total_GULP': total_GULP}
 	# print_template(dict)
 
 	return {'Coulomb': Cpot, 'Buckingham': Bpot, \
@@ -198,11 +199,11 @@ def calculate_forces(potentials):
 	return {'grad': grad, 'gnorm': gnorm}
 
 
-def finite_diff_grad(atoms, initial_energy, trials=1):
+def finite_diff_grad(atoms, initial_energy, displacement):
 	"""Defining local slope using finite differences 
 	(like the derivative limit). 
 
-	A displacement is added to the coordinate of a selected ion.
+	A displacement is added to the coordinate of each ion per iter.
 	The potential <new_energy> is evaluated using the new 
 	position and then we have the partial derivative's
 	approach as (<new_energy> - <initial_energy>) / <displacement>
@@ -210,24 +211,33 @@ def finite_diff_grad(atoms, initial_energy, trials=1):
 
 	"""
 	dims = 3
-	gnorm = np.zeros((trials))
+	gnorm = np.zeros((len(atoms.positions),3))
 	h = np.zeros(3)
-	for x in range(trials):
-		h[:dims] = 0
-		# random ion and random coordinate to change
-		coord = np.random.randint(0,dims-1)
-		ioni = np.random.randint(0,len(atoms.positions))
-		# random displacement
-		h[coord] = np.random.random() / 1000
-		print("Ion: {} moved {}".format(ioni, h))
-		# add perturbation to one ion coordinate
-		atoms.positions[ioni] += h
-		# calculate (f(x+h)-f(x))/h
-		grad = ( calculate_energy(atoms)['energy']-initial_energy )/h[coord]
-		# restore initial coordinates
-		atoms.positions[ioni] -= h
-		# calculate norm   
-		gnorm[x] = np.linalg.norm(grad)
+	for ioni in range(len(atoms.positions)):
+		for coord in range(dims):
+			h[:dims] = 0
+			h[coord] = displacement
+			# print("Ion: {} moved {}".format(ioni, h))
+			# careful not to exceed unit cell
+			vects_coords = [vect[coord] for vect in atoms.get_cell()]
+			# try not to move ioni out of unit cell
+			if atoms.positions[ioni][coord]+h[coord] <= max(vects_coords):
+				# add perturbation to one ion coordinate
+				atoms.positions[ioni] += h
+				# calculate (f(x+h)-f(x))/h
+				grad = ( calculate_energy(atoms)['energy']-initial_energy )/h[coord]
+				# restore initial coordinates
+				atoms.positions[ioni] -= h
+			else:
+				# add perturbation to one ion coordinate
+				atoms.positions[ioni] -= h
+				# calculate (f(x+h)-f(x))/h
+				grad = ( calculate_energy(atoms)['energy']-initial_energy )/h[coord]
+				# restore initial coordinates
+				atoms.positions[ioni] += h
+				print("Ion: {} moved the other way".format(ioni))
+			# calculate norm   
+			gnorm[ioni][coord] = np.linalg.norm(grad)
 	return gnorm
 
 
@@ -254,47 +264,6 @@ def get_input(filename):
 	return (folder,structure,atoms)
 
 
-
-def stepsize_energy_change(foldr, filename, atoms):
-	"""Move ion with different stepsize to check 
-	changes in energy.
-
-	"""
-	steps = []
-	energies = []
-
-	step = 0.01
-	ioni = 0
-	coord = 0
-	for x in range(41):
-		atoms.positions[ioni] += [step,0,0]
-		energies += [calculate_energy(atoms)['energy']]
-		steps += [x*step]
-	# step *= 10
-	# for x in range(1,7):
-	# 	atoms.positions[ioni] += [step,0,0]
-	# 	energies += [calculate_energy(atoms)['energy']]
-	# 	steps += [x*step]
-
-	fileout = "src/displacement_echange/"+folder+"_"+structure+"_echange"
-
-	df = pd.DataFrame({'steps':steps, 'energies':energies})
-	df.to_csv(fileout+".csv")
-	ax = df.plot('steps', 'energies', figsize=(10,10))
-
-	ax.xaxis.set_major_locator(MultipleLocator(0.5))
-	ax.xaxis.set_major_formatter(FormatStrFormatter('%.1f'))
-
-	ax.xaxis.set_minor_locator(MultipleLocator(0.05))
-	ax.set_title('Energy change with ion displacement')
-
-
-	plt.xlabel('steps')
-	plt.ylabel('energy')
-	plt.savefig(fileout+".png")
-	plt.show()
-
-
 if __name__ == "__main__":
 	columns = shutil.get_terminal_size().columns
 	parser = argparse.ArgumentParser(
@@ -304,17 +273,19 @@ if __name__ == "__main__":
 		help='.cif file to read')
 	args = parser.parse_args()
 
-	(folder, structure,atoms) = get_input(args.i)
+	(folder, structure, atoms) = get_input(args.i)
 
+
+	displacement = 0.01
 	# ''' ENERGY '''
-	# potentials = calculate_energy(atoms)
-
-	stepsize_energy_change(folder, structure, atoms)
+	potentials = calculate_energy(atoms)
 
 	''' FORCES '''
-	# forces = calculate_forces(potentials)
-	# print(forces)
-	# diffs = finite_diff_grad(atoms, potentials['energy'], trials=trials)
+	forces = calculate_forces(potentials)
+	# diffs = finite_diff_grad(atoms, potentials['energy'], displacement)
+	# outf.print_forces_vs_diffs(folder, structure, forces['gnorm'], diffs, displacement)
+
+
 
 
 

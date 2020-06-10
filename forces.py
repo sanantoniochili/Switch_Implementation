@@ -118,7 +118,7 @@ class DBuckingham(Forces):
                                 math.exp(-1.0*dist/rho) + 6*C/dist**7
                             forces[ioni] += (rij/dist) * csum
 
-        return forces
+        return forces/2
 
 
 if __name__ == "__main__":
