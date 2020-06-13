@@ -282,6 +282,7 @@ if __name__ == "__main__":
 
 	''' FORCES '''
 	forces = calculate_forces(potentials)
+	print(forces['gnorm'])
 	# diffs = finite_diff_grad(atoms, potentials['energy'], displacement)
 	# outf.print_forces_vs_diffs(folder, structure, forces['gnorm'], diffs, displacement)
 
