@@ -30,26 +30,25 @@ class DCoulomb(Forces):
             self.potential.real_cut_off, self.potential.vects)
         for ioni in range(0, N):
             for ionj in range(0, N):
-
-                if ioni != ionj:  # skip in case it's the same atom in original unit cell
+                if ioni != ionj:  # skip in case it's the same atom or it is constant
                     # direction matters
                     rij = self.potential.pos[ioni, ] - \
                         self.potential.pos[ionj, ]
                     rnorm = np.linalg.norm(rij)
                     csum = a2pi*math.exp(-alpha**2 * rnorm**2) + \
                         (math.erfc(alpha*rnorm) / rnorm)
-                    forces[ioni, ] -= (1/2) * self.potential.get_charges_mult(ioni, ionj) *\
+                    forces[ioni, ] -= self.potential.get_charges_mult(ioni, ionj) *\
                         (rij/(rnorm**2)) * csum  # partial derivative for ion i
-                # take care of the rest lattice (+ Ln)
-                for shift in shifts:
-                    rij = self.potential.pos[ioni, ] + \
-                        shift - self.potential.pos[ionj, ]
-                    rnorm = np.linalg.norm(rij)
-                    csum = a2pi*math.exp(-alpha**2 * rnorm**2) + \
-                        (math.erfc(alpha*rnorm) / rnorm)
-                    forces[ioni, ] -= (1/2) * self.potential.get_charges_mult(ioni, ionj) *\
-                        (rij/(rnorm**2)) * csum  # partial derivative for ion i
-        return forces
+                    # take care of the rest lattice (+ Ln)
+                    for shift in shifts:
+                        rij = self.potential.pos[ioni, ] + \
+                            shift - self.potential.pos[ionj, ]
+                        rnorm = np.linalg.norm(rij)
+                        csum = a2pi*math.exp(-alpha**2 * rnorm**2) + \
+                            (math.erfc(alpha*rnorm) / rnorm)
+                        forces[ioni, ] -= self.potential.get_charges_mult(ioni, ionj) *\
+                            (rij/(rnorm**2)) * csum  # partial derivative for ion i
+        return forces/2
 
     def calc_recip(self):
         '''
@@ -64,16 +63,15 @@ class DCoulomb(Forces):
             self.potential.recip_cut_off, recip_vects)
         for ioni in range(0, N):
             for ionj in range(0, N):
-
                 rij = self.potential.pos[ioni, ] - self.potential.pos[ionj, ]
                 for k in shifts:
                     po = -np.dot(k, k)/(4*alpha**2)
                     numerator = 4 * (pi**2) * (math.exp(po)) * \
                         k * math.sin(np.dot(k, rij))
-                    denominator = np.dot(k, k) * 2 * pi * self.potential.volume
+                    denominator = np.dot(k, k) * pi * self.potential.volume
                     forces[ioni, ] -= ((self.potential.get_charges_mult(ioni, ionj)) *
                                        (numerator/denominator))
-        return forces
+        return forces/2
 
 
 class DBuckingham(Forces):
@@ -83,6 +81,8 @@ class DBuckingham(Forces):
         '''
         chemical_symbols = self.potential.atoms.get_chemical_symbols()
         N = self.potential.N
+
+        test = 0
 
         forces = np.zeros((N, 3))
         for ioni in range(N):
@@ -96,28 +96,30 @@ class DBuckingham(Forces):
                     rho = self.potential.buck[pair]['par'][1]
                     C = self.potential.buck[pair]['par'][2]
 
-                    rij = self.potential.pos[ioni] - self.potential.pos[ionj]
-                    dist = np.linalg.norm(rij)
-                    # Check if distance of ions allows interaction
-                    if (dist < self.potential.buck[pair]['hi']) & (ioni != ionj):
-                        csum = -  (A/rho) * \
-                            math.exp(-1.0*dist/rho) + 6*C/dist**7
-                        forces[ioni] += (rij/dist) * csum
-                    # Check interactions with neighbouring cells
-                    cutoff = self.potential.get_cutoff(
-                        self.potential.buck[pair]['hi'])
-                    shifts = self.potential.get_shifts(
-                        cutoff, self.potential.vects)
-                    for shift in shifts:
-                        rij = self.potential.pos[ioni] + \
-                            shift - self.potential.pos[ionj]
+                    if ioni != ionj:
+                        rij = self.potential.pos[ioni] - self.potential.pos[ionj]
                         dist = np.linalg.norm(rij)
                         # Check if distance of ions allows interaction
                         if (dist < self.potential.buck[pair]['hi']):
-                            csum = - (A/rho) * \
+                            csum = -  (A/rho) * \
                                 math.exp(-1.0*dist/rho) + 6*C/dist**7
                             forces[ioni] += (rij/dist) * csum
 
+                        # Check interactions with neighbouring cells
+                        cutoff = self.potential.get_cutoff(
+                            self.potential.buck[pair]['hi'])
+                        shifts = self.potential.get_shifts(
+                            cutoff, self.potential.vects)
+                        for shift in shifts: # this has to be for different i,j 
+                                             # or it's constant
+                            rij = self.potential.pos[ioni] + \
+                                shift - self.potential.pos[ionj]
+                            dist = np.linalg.norm(rij)
+                            # Check if distance of ions allows interaction
+                            if (dist < self.potential.buck[pair]['hi']):
+                                csum = - (A/rho) * \
+                                    math.exp(-1.0*dist/rho) + 6*C/dist**7
+                                forces[ioni] += (rij/dist) * csum
         return forces/2
 
 

@@ -211,7 +211,7 @@ def finite_diff_grad(atoms, initial_energy, displacement):
 
 	"""
 	dims = 3
-	gnorm = np.zeros((len(atoms.positions),3))
+	grad = np.zeros((len(atoms.positions),3))
 	h = np.zeros(3)
 	for ioni in range(len(atoms.positions)):
 		for coord in range(dims):
@@ -225,20 +225,18 @@ def finite_diff_grad(atoms, initial_energy, displacement):
 				# add perturbation to one ion coordinate
 				atoms.positions[ioni] += h
 				# calculate (f(x+h)-f(x))/h
-				grad = ( calculate_energy(atoms)['energy']-initial_energy )/h[coord]
+				grad[ioni][coord] = ( calculate_energy(atoms)['energy']-initial_energy )/h[coord]
 				# restore initial coordinates
 				atoms.positions[ioni] -= h
 			else:
 				# add perturbation to one ion coordinate
 				atoms.positions[ioni] -= h
 				# calculate (f(x+h)-f(x))/h
-				grad = ( calculate_energy(atoms)['energy']-initial_energy )/h[coord]
+				grad[ioni][coord] = ( calculate_energy(atoms)['energy']-initial_energy )/h[coord]
 				# restore initial coordinates
 				atoms.positions[ioni] += h
 				print("Ion: {} moved the other way".format(ioni))
-			# calculate norm   
-			gnorm[ioni][coord] = np.linalg.norm(grad)
-	return gnorm
+	return grad
 
 
 def get_input(filename):
@@ -284,7 +282,7 @@ if __name__ == "__main__":
 	forces = calculate_forces(potentials)
 	print(forces['gnorm'])
 	# diffs = finite_diff_grad(atoms, potentials['energy'], displacement)
-	# outf.print_forces_vs_diffs(folder, structure, forces['gnorm'], diffs, displacement)
+	# outf.print_forces_vs_diffs(folder, structure, forces['grad'], diffs, displacement)
 
 
 
