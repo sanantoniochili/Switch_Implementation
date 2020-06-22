@@ -23,6 +23,7 @@ from ase.visualize.plot import plot_atoms
 
 from potential import *
 from forces import *
+from descent import *
 import output_functions as outf
 
 DATAPATH = "../../Data/"
@@ -80,7 +81,7 @@ def print_template(dict):
 	print("--------------------------------------------------------------------------------".center(columns))
 
 
-def calculate_energy(atoms):
+def calculate_energies(atoms):
 	""" Calculate energy using different calculators
 	for the Buckingham Coulomb potential. The Coulomb part
 	is calculated using the traditional Ewald summation.
@@ -112,12 +113,14 @@ def calculate_energy(atoms):
 	########################### COULOMB ################################
 
 	libfile = DATAPATH+"Libraries/madelung.lib"
-	Cpot = Coulomb(charge_dict, atoms)
+	Cpot = Coulomb()
 	Cpot.set_parameters(alpha=alpha, real_cut_off=real_cut,
-						recip_cut_off=recip_cut, filename=libfile)
+						recip_cut_off=recip_cut, 
+						chemical_symbols=atoms.get_chemical_symbols(),
+						charge_dict=charge_dict,
+						filename=libfile)
 
-	rvects = Cpot.get_reciprocal_vects()
-	coulomb_energies = Cpot.calc(rvects)
+	coulomb_energies = Cpot.calc(atoms)
 
 	# # Change atom_style parameter to allow charges
 	# LAMMPSlib.default_parameters['lammps_header'] = ['units metal', 'atom_style charge', \
@@ -146,10 +149,10 @@ def calculate_energy(atoms):
 	######################## BUCKINGHAM ################################
 
 	libfile = DATAPATH+"Libraries/buck.lib"
-	Bpot = Buckingham(charge_dict, atoms)
+	Bpot = Buckingham()
 	Bpot.set_parameters(libfile)
 
-	Einter = Bpot.calc()
+	Einter = Bpot.calc(atoms)
 
 	# cmds = [
 	# 		"pair_style buck 10",
@@ -172,13 +175,13 @@ def calculate_energy(atoms):
 	# atoms.set_calculator(calc)
 	# total_GULP = atoms.get_potential_energy()
 
-	# dict = { **coulomb_energies,
-	# 		'Elect_LAMMPS': elect_LAMMPS, 'E_madelung': Emade, 'Interatomic': Einter,
-	# 		'Inter_LAMMPS': inter_LAMMPS, 'Total_GULP': total_GULP}
-	# print_template(dict)
+	dict = { **coulomb_energies,
+			'Elect_LAMMPS': elect_LAMMPS, 'E_madelung': Emade, 'Interatomic': Einter,
+			'Inter_LAMMPS': inter_LAMMPS, 'Total_GULP': total_GULP}
+	print_template(dict)
 
-	return {'Coulomb': Cpot, 'Buckingham': Bpot, \
-			'energy': coulomb_energies['Electrostatic']+Einter}
+	# return {'Coulomb': Cpot, 'Buckingham': Bpot, \
+	# 		'energy': coulomb_energies['Electrostatic']+Einter}
 
 
 def calculate_forces(potentials):
@@ -275,17 +278,18 @@ if __name__ == "__main__":
 
 
 	displacement = 0.01
-	# ''' ENERGY '''
-	potentials = calculate_energy(atoms)
+	''' ENERGY '''
+	calculate_energies(atoms)
 
 	''' FORCES '''
-	forces = calculate_forces(potentials)
-	print(forces['gnorm'])
+	# forces = calculate_forces(potentials)
+	# print(forces['gnorm'])
 	# diffs = finite_diff_grad(atoms, potentials['energy'], displacement)
 	# outf.print_forces_vs_diffs(folder, structure, forces['grad'], diffs, displacement)
 
-
-
+	''' RELAXATION '''
+	# GDescent = Descent(atoms)
+	# GDescent.repeat(potentials)
 
 
 	

@@ -18,9 +18,9 @@ class Forces:
 
 class DCoulomb(Forces):
     def calc_real(self):
-        '''
-         Calculate short range forces
-        '''
+        """Calculate short range forces
+        
+        """
         alpha = self.potential.alpha
         N = self.potential.N
         a2pi = 2*alpha/pi**(1/2)  # 2a/sqrt(pi)
@@ -51,9 +51,9 @@ class DCoulomb(Forces):
         return forces/2
 
     def calc_recip(self):
-        '''
-         Calculate long range forces
-        '''
+        """Calculate long range forces
+        
+        """
         alpha = self.potential.alpha
         N = self.potential.N
 
@@ -76,9 +76,9 @@ class DCoulomb(Forces):
 
 class DBuckingham(Forces):
     def calc(self):
-        '''
-         Interatomic forces
-        '''
+        """Interatomic forces
+        
+        """
         chemical_symbols = self.potential.atoms.get_chemical_symbols()
         N = self.potential.N
 
