@@ -1,0 +1,4 @@
+About test_diffs.csv:
+- column "interatomic_custom" contains differences of my implementation minus GULP results for the Buckingham potential
+- column "interatomic_lammps" contains differences of LAMMPS minus GULP results for the Buckingham potential
+- column "compare" tests if the difference own_implementation-GULP is larger than difference LAMMPS-GULP
