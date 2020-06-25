@@ -197,7 +197,8 @@ class Coulomb(Potential):
 
 
 class Buckingham(Potential):
-	"""Calculations for the Buckingham energy contribution.
+	"""Calculations for the Buckingham energy contribution. It
+	corresponds to the interatomic forces exercised among entities.
 	
 	"""
 	def set_parameters(self, filename):
