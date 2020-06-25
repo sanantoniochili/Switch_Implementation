@@ -26,7 +26,7 @@ from forces import *
 from descent import *
 import output_functions as outf
 
-DATAPATH = "../../Data/"
+DATAPATH = "../../../Data/"
 
 charge_dict = {
 	'O' : -2.,
@@ -175,10 +175,10 @@ def calculate_energies(atoms):
 	# atoms.set_calculator(calc)
 	# total_GULP = atoms.get_potential_energy()
 
-	# dict = { **coulomb_energies,
-	# 		'Elect_LAMMPS': elect_LAMMPS, 'E_madelung': Emade, 'Interatomic': Einter,
-	# 		'Inter_LAMMPS': inter_LAMMPS, 'Total_GULP': total_GULP}
-	# print_template(dict)
+	dict = { **coulomb_energies,
+			'Elect_LAMMPS': elect_LAMMPS, 'E_madelung': Emade, 'Interatomic': Einter,
+			'Inter_LAMMPS': inter_LAMMPS, 'Total_GULP': total_GULP}
+	print_template(dict)
 
 	return {'Coulomb': Cpot, 'Buckingham': Bpot, \
 			'energy': coulomb_energies['Electrostatic']+Einter}
@@ -282,8 +282,8 @@ if __name__ == "__main__":
 	potentials = calculate_energies(atoms)
 
 	''' FORCES '''
-	forces = calculate_forces(atoms, potentials)
-	diffs = finite_diff_grad(atoms, potentials['energy'], displacement)
+	# forces = calculate_forces(atoms, potentials)
+	# diffs = finite_diff_grad(atoms, potentials['energy'], displacement)
 	# acos = np.dot(forces['grad'],diffs)/(forces['gnorm']*np.linalg.norm(diffs))
 
 	# print("Diffs vs Forces angle cos: {}".format(acos))
@@ -293,9 +293,9 @@ if __name__ == "__main__":
 	# GDescent = Descent()
 	# GDescent.repeat(atoms, potentials)
 
-	for x in range(len(atoms.get_positions())):
-		acos = np.dot(forces['grad'][x],diffs[x])
-		print(acos)
+	# for x in range(len(atoms.get_positions())):
+	# 	acos = np.dot(forces['grad'][x],diffs[x])
+	# 	print(acos)
 
 # https://github.com/SINGROUP/Pysic/blob/master/fortran/Geometry.f90
 # https://github.com/vlgusev/IPCSP/blob/master/tools/matrix_generator.py?

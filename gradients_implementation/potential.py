@@ -95,26 +95,22 @@ class Coulomb(Potential):
 		"""
 		return (self.charges[index1]*self.charges[index2])
 
-	def calc_self(self, N, esum=[]):
+	def calc_self(self, N):
 		"""Calculate self interaction term
 		
 		"""
-		if esum == []:
-			esum = np.zeros((N, N))
+		esum = np.zeros((N, N))
 		for i in range(0, N):
 			esum[i, i] -= (self.get_charges_mult(i, i) *
 						   (self.alpha / math.sqrt(pi)))
 		return esum
 
-	def calc_real(self, atoms, N, esum=[]):
+	def calc_real(self, pos, vects, N):
 		"""Calculate short range
 		
 		"""
-		pos = atoms.get_positions()
-
-		if esum == []:
-			esum = np.zeros((N, N))
-		shifts = self.get_shifts(self.real_cut_off, atoms.get_cell())
+		esum = np.zeros((N, N))
+		shifts = self.get_shifts(self.real_cut_off, vects)
 		for ioni in range(0, N):
 			for ionj in range(ioni, N):
 				if ioni != ionj:  # skip in case it's the same ion in original unit cell
@@ -129,17 +125,14 @@ class Coulomb(Potential):
 										 math.erfc(self.alpha*dist)/(2*dist))
 		return esum
 
-	def calc_recip(self, atoms, N, esum=[]):
+	def calc_recip(self, pos, vects, N):
 		"""Calculate long range
 		
 		"""
-		vects = atoms.get_cell()
-		pos = atoms.get_positions()
 		volume = abs(np.linalg.det(vects))
 		rvects = self.get_reciprocal_vects(volume, vects)
 
-		if esum == []:
-			esum = np.zeros((N, N))
+		esum = np.zeros((N, N))
 		shifts = self.get_shifts(self.recip_cut_off, rvects)
 		for ioni in range(0, N):
 			for ionj in range(ioni, N):
@@ -164,9 +157,7 @@ class Coulomb(Potential):
 				esum[ioni, ionj] = esum[ionj, ioni]
 		return esum
 
-	def calc_madelung(self, N):
-		pos = atoms.get_positions()
-
+	def calc_madelung(self, pos, N):
 		if not self.made_const:
 			return None
 		esum = 0
@@ -181,12 +172,14 @@ class Coulomb(Potential):
 		return esum
 
 	def calc(self, atoms):
-		N = len(atoms.get_positions())
+		positions = atoms.positions
+		vects = atoms.get_cell()
+		N = len(positions)
 		energies = {}
 		
-		Er_array = self.calc_real(atoms, N)
+		Er_array = self.calc_real(positions, vects, N)
+		Erc_array = self.calc_recip(positions, vects, N)
 		Es_array = self.calc_self(N)
-		Erc_array = self.calc_recip(atoms, N)
 		Eupper = Er_array + Es_array + Erc_array
 
 		energies['Real'] = sum(sum(self.calc_complete(N, Er_array)))
@@ -222,7 +215,7 @@ class Buckingham(Potential):
 					self.buck[pair]['lo'] = float(line[7])
 					self.buck[pair]['hi'] = float(line[-1])
 		except IOError:
-			print("No library file found.")
+			print("No library file found for Buckingham constants.")
 
 	def get_cutoff(self, vects, hi):
 		"""Find how many cells away to check
