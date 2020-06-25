@@ -35,7 +35,7 @@ class Potential:
 
 
 class Coulomb(Potential):
-	"""Calculations for the Coulomb energy contribution.
+	"""Calculations for the Coulomb electrostatic energy contribution.
 	 Ewald summation method used for long range.
 
 	"""
