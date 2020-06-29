@@ -9,6 +9,7 @@ import math
 from ase import *
 from ase.visualize import view
 from ase.geometry import Cell
+from ase.io import read as aread
 
 
 class Potential:
@@ -63,20 +64,21 @@ class Coulomb(Potential):
 		self.made_const = 0
 		self.charges = [charge_dict[x] for x in chemical_symbols]
 
-		try:
-			with open(filename, "r") as fin:
-				for line in fin:
-					line = line.split()
-					found = True
-					for symbol in chemical_symbols:
-						if symbol not in line:
-								# chemical formula does not match
-							found = False
-							break
-					if found == True:  # correct formula
-						self.made_const = float(line[-1])
-		except IOError:
-			print("No Madelung library file found.")
+		if filename:
+			try:
+				with open(filename, "r") as fin:
+					for line in fin:
+						line = line.split()
+						found = True
+						for symbol in chemical_symbols:
+							if symbol not in line:
+									# chemical formula does not match
+								found = False
+								break
+						if found == True:  # correct formula
+							self.made_const = float(line[-1])
+			except IOError:
+				print("No Madelung library file found.")
 
 	def get_reciprocal_vects(self, volume, vects):
 		"""Calculate reciprocal vectors
@@ -194,13 +196,14 @@ class Buckingham(Potential):
 	corresponds to the interatomic forces exercised among entities.
 	
 	"""
-	def set_parameters(self, filename):
+	def set_parameters(self, filename, chemical_symbols):
 		'''
 		 Set atom_i-atom_j parameters as read from library file:
 		 - par: [A(eV), rho(Angstrom), C(eVAngstrom^6)]
 		 - lo : min radius (Angstrom)
 		 - hi : max radius (Angstrom)
 		'''
+		self.chemical_symbols = chemical_symbols
 		self.buck = {}
 
 		try:
@@ -232,13 +235,15 @@ class Buckingham(Potential):
 		pos = atoms.get_positions()
 		N = len(atoms.get_positions())
 		vects = atoms.get_cell()
+		return self.calc_real(pos, vects, N)
 
-		chemical_symbols = atoms.get_chemical_symbols()
+	def calc_real(self, pos, vects, N):
+		esum = 0
 		for ioni in range(N):
 			for ionj in range(N):
 				# Find the pair we are examining
-				pair = (min(chemical_symbols[ioni], chemical_symbols[ionj]),
-						max(chemical_symbols[ioni], chemical_symbols[ionj]))
+				pair = (min(self.chemical_symbols[ioni], self.chemical_symbols[ionj]),
+						max(self.chemical_symbols[ioni], self.chemical_symbols[ionj]))
 				if (pair in self.buck):
 					# Pair of ions is listed in parameters file
 					A = self.buck[pair]['par'][0]
@@ -260,3 +265,43 @@ class Buckingham(Potential):
 						if (dist < self.buck[pair]['hi']):
 							esum += A*math.exp(-1.0*dist/rho) - C/dist**6
 		return esum/2
+
+
+def buckingham_coulomb(positions, Coulomb, Buckingham, N, vects):
+	"""A wrapper for the result of the two potentials.
+
+	"""
+	Eupper = Coulomb.calc_real(positions, vects, N) + \
+			 Coulomb.calc_recip(positions, vects, N) + \
+			 Coulomb.calc_self(N)
+	electrostatic = sum(sum(Coulomb.calc_complete(N, Eupper)))
+	interatomic = Buckingham.calc_real(positions, vects, N)
+	return electrostatic+interatomic
+
+
+if __name__ == '__main__':
+	"""The following parameters were chosen according to GULP
+	documentation. This is just a test with the final calculated
+	energy printed.
+
+	"""
+	atoms = aread("../../../Data/random/RandomStart_Sr3Ti3O9/1.cif")
+	vects = np.array(atoms.get_cell())
+	volume = abs(np.linalg.det(vects))
+	N = len(atoms.get_positions())
+	accuracy = 0.00001  # Demanded accuracy of terms 
+	alpha = N**(1/6) * pi**(1/2) / volume**(1/3)
+	real_cut = (-np.log(accuracy))**(1/2)/alpha
+	recip_cut = 2*alpha*(-np.log(accuracy))**(1/2)
+
+
+	Cpot = Coulomb()
+	Cpot.set_parameters(alpha=alpha, real_cut_off=real_cut,
+						recip_cut_off=recip_cut, 
+						chemical_symbols=atoms.get_chemical_symbols(),
+						charge_dict={'O' : -2., 'Sr':  2., 'Ti':  4.})
+
+	Bpot = Buckingham()
+	Bpot.set_parameters("../../../Data/Libraries/buck.lib", atoms.get_chemical_symbols())
+	energy = buckingham_coulomb(atoms.positions, Cpot, Bpot, N, vects)
+	print(energy)

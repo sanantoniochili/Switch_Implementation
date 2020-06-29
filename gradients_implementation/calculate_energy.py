@@ -84,7 +84,8 @@ def print_template(dict):
 def calculate_energies(atoms):
 	""" Calculate energy using different calculators
 	for the Buckingham Coulomb potential. The Coulomb part
-	is calculated using the traditional Ewald summation.
+	is calculated using the traditional Ewald summation. All
+	the parts are printed separately where possible.
 
 	"""
 	Er           = 0
@@ -150,7 +151,7 @@ def calculate_energies(atoms):
 
 	libfile = DATAPATH+"Libraries/buck.lib"
 	Bpot = Buckingham()
-	Bpot.set_parameters(libfile)
+	Bpot.set_parameters(libfile, atoms.get_chemical_symbols())
 
 	Einter = Bpot.calc(atoms)
 
