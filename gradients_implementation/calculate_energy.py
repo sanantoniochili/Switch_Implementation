@@ -12,6 +12,7 @@ from cmath import pi
 from cmath import exp
 import cmath
 import math
+from PIL import Image 
 
 from ase import *
 from ase.visualize import view
@@ -24,7 +25,7 @@ from ase.visualize.plot import plot_atoms
 from potential import *
 from forces import *
 from descent import *
-import output_functions as outf
+from finite_differences import *
 
 DATAPATH = "../../../Data/"
 
@@ -81,7 +82,7 @@ def print_template(dict):
 	print("--------------------------------------------------------------------------------".center(columns))
 
 
-def calculate_energies(atoms):
+def calculate_energies(atoms,accuracy,alpha,real_cut,recip_cut):
 	""" Calculate energy using different calculators
 	for the Buckingham Coulomb potential. The Coulomb part
 	is calculated using the traditional Ewald summation. All
@@ -98,14 +99,6 @@ def calculate_energies(atoms):
 	Emade = None
 
 	######################## INITIALISATION ############################
-
-	vects = np.array(atoms.get_cell())
-	volume = abs(np.linalg.det(vects))
-	N = len(atoms.get_positions())
-	accuracy = 0.00001  # Demanded accuracy of terms 
-	alpha = N**(1/6) * pi**(1/2) / volume**(1/3)
-	real_cut = (-np.log(accuracy))**(1/2)/alpha
-	recip_cut = 2*alpha*(-np.log(accuracy))**(1/2)
 	LOG = "src/test.log"
 
 	if -np.log(accuracy)/N**(1/6) < 1:
@@ -176,10 +169,10 @@ def calculate_energies(atoms):
 	# atoms.set_calculator(calc)
 	# total_GULP = atoms.get_potential_energy()
 
-	dict = { **coulomb_energies,
-			'Elect_LAMMPS': elect_LAMMPS, 'E_madelung': Emade, 'Interatomic': Einter,
-			'Inter_LAMMPS': inter_LAMMPS, 'Total_GULP': total_GULP}
-	print_template(dict)
+	# dict = { **coulomb_energies,
+	# 		'Elect_LAMMPS': elect_LAMMPS, 'E_madelung': Emade, 'Interatomic': Einter,
+	# 		'Inter_LAMMPS': inter_LAMMPS, 'Total_GULP': total_GULP}
+	# print_template(dict)
 
 	return {'Coulomb': Cpot, 'Buckingham': Bpot, \
 			'energy': coulomb_energies['Electrostatic']+Einter}
@@ -203,66 +196,30 @@ def calculate_forces(atoms, potentials):
 	return {'grad': grad, 'gnorm': gnorm}
 
 
-def finite_diff_grad(atoms, initial_energy, displacement):
-	"""Defining local slope using finite differences 
-	(like the derivative limit). 
-
-	A displacement is added to the coordinate of each ion per iter.
-	The potential <new_energy> is evaluated using the new 
-	position and then we have the partial derivative's
-	approach as (<new_energy> - <initial_energy>) / <displacement>
-	for each one of x iterations (trials).
-
-	"""
-	dims = 3
-	grad = np.zeros((len(atoms.positions),3))
-	h = np.zeros(3)
-	for ioni in range(len(atoms.positions)):
-		for coord in range(dims):
-			h[:dims] = 0
-			h[coord] = displacement
-			# print("Ion: {} moved {}".format(ioni, h))
-			# careful not to exceed unit cell
-			vects_coords = [vect[coord] for vect in atoms.get_cell()]
-			# try not to move ioni out of unit cell
-			if atoms.positions[ioni][coord]+h[coord] <= max(vects_coords):
-				# add perturbation to one ion coordinate
-				atoms.positions[ioni] += h
-				# calculate (f(x+h)-f(x))/h
-				grad[ioni][coord] = ( calculate_energies(atoms)['energy']-initial_energy )/h[coord]
-				# restore initial coordinates
-				atoms.positions[ioni] -= h
-			else:
-				# add perturbation to one ion coordinate
-				atoms.positions[ioni] -= h
-				# calculate (f(x+h)-f(x))/h
-				grad[ioni][coord] = ( calculate_energies(atoms)['energy']-initial_energy )/h[coord]
-				# restore initial coordinates
-				atoms.positions[ioni] += h
-				print("Ion: {} moved the other way".format(ioni))
-	return grad
-
-
-def get_input(filename):
+def get_input(filename=None):
 	"""Choose input from file or manual.
 
 	"""
+	folder = None
+	structure = None
 	if filename:
 		atoms = aread(filename)
 		structure = "structure"+args.i.rstrip('.cif').split('/')[-1]
 		folder = "random"
 	else:
-		atoms = Atoms("NaCl",
+		atoms = Atoms("SrTiO3",
 
-	              cell=[[2.00, 0.00, 0.00],
-	                    [0.00, 2.00, 0.00],
-	                    [0.00, 0.00, 2.00]],
+				  cell=[[4.00, 0.00, 0.00],
+					    [0.00, 4.00, 0.00],
+					    [0.00, 0.00, 4.00]],
 
 	              positions=[[0, 0, 0],
-	                         [1, 1, 1],
-	                         ],
+	                         [2, 2, 2],
+	                         [0, 2, 2],
+	                         [2, 0, 2],
+	                         [2, 2, 0]],
 	              pbc=True)
-		atoms = atoms.repeat((3, 1, 1))
+		# atoms = atoms.repeat((3, 1, 1))
 	return (folder,structure,atoms)
 
 
@@ -275,28 +232,69 @@ if __name__ == "__main__":
 		help='.cif file to read')
 	args = parser.parse_args()
 
-	(folder, structure, atoms) = get_input(args.i)
+	(folder, structure, atoms) = get_input()
 
-
-	displacement = 0.01
 	''' ENERGY '''
-	potentials = calculate_energies(atoms)
+	vects = np.array(atoms.get_cell())
+	volume = abs(np.linalg.det(vects))
+	N = len(atoms.get_positions())
+	accuracy = 0.00001  # Demanded accuracy of terms 
+	alpha = N**(1/6) * pi**(1/2) / volume**(1/3)
+	real_cut = (-np.log(accuracy))**(1/2)/alpha
+	recip_cut = 2*alpha*(-np.log(accuracy))**(1/2)
+
+	potentials = calculate_energies(\
+		atoms,accuracy,alpha,real_cut,recip_cut)
+	print(atoms.get_chemical_symbols())
+	print("---Initial atom positions")
+	print(atoms.positions)
+	view(atoms)
 
 	''' FORCES '''
-	# forces = calculate_forces(atoms, potentials)
-	# diffs = finite_diff_grad(atoms, potentials['energy'], displacement)
-	# acos = np.dot(forces['grad'],diffs)/(forces['gnorm']*np.linalg.norm(diffs))
+	displacement = 0.01
 
-	# print("Diffs vs Forces angle cos: {}".format(acos))
-	# outf.print_forces_vs_diffs(folder, structure, forces['grad'], diffs, displacement)
+	np.set_printoptions(precision=10,suppress=True)
 
-	''' RELAXATION '''
+	forces = calculate_forces(atoms, potentials)
+	# # diffs = finite_diff_grad(atoms, potentials['energy'], displacement)
+	# print("---Initial analytical gradient")
+	# print(forces['grad'])
+
+	# ''' TEST MOVING TITANIUM '''
+	# atoms.positions[1] += [displacement,0,0]
+	# print("--- Ion {} moved {} in dimension {}".format(\
+	# 			atoms.get_chemical_symbols()[1],displacement,0))
+	# print(atoms.positions)
+	# print("---Final analytical gradient")
+	# forces2 =  calculate_forces(atoms, potentials)
+	# print(forces2['grad'])
+
+	# diff_ = np.zeros((len(atoms.positions),3))
+	# diff_[-3] = ( calculate_energies(\
+	# 	atoms,accuracy,alpha,real_cut,recip_cut)['energy']\
+	# 						-potentials['energy'] )/displacement
+	
+	# print("---Angle of analytical and possible slope")
+	# print("---Moving one Ti")
+	# fdiff_ = flatten(diff_)
+	# fforces = flatten(forces['grad'])
+	# acos = np.dot(fdiff_,fforces)/(np.linalg.norm(fdiff_)*np.linalg.norm(fforces))
+	# print(acos)
+	# print("---Moving all ions")
+	# forces_diffs_angle("", "", forces['grad'], diffs)
+	# view(atoms)
+
+	# ''' RELAXATION '''
 	# GDescent = Descent()
-	# GDescent.repeat(atoms, potentials)
+	# GDescent.repeat(atoms, potentials, 0.1)
 
-	# for x in range(len(atoms.get_positions())):
-	# 	acos = np.dot(forces['grad'][x],diffs[x])
-	# 	print(acos)
 
 # https://github.com/SINGROUP/Pysic/blob/master/fortran/Geometry.f90
 # https://github.com/vlgusev/IPCSP/blob/master/tools/matrix_generator.py?
+
+def flatten(positions):
+	vector = []
+	for sublist in positions:
+		for element in sublist:
+			vector.append(element)
+	return vector

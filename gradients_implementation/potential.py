@@ -37,7 +37,10 @@ class Potential:
 
 class Coulomb(Potential):
 	"""Calculations for the Coulomb electrostatic energy contribution.
-	 Ewald summation method used for long range.
+	The Ewald summation method used for long range. Each sum is calculated
+	on a NxN matrix, where N the number of atoms in the unit cell. First 
+	the upper triangular matrix is evaluated and the rest is merely repeated,
+	thanks to the symmetry of the interactions' effect.
 
 	"""
 	def set_parameters(self, alpha, real_cut_off, \
@@ -197,12 +200,12 @@ class Buckingham(Potential):
 	
 	"""
 	def set_parameters(self, filename, chemical_symbols):
-		'''
-		 Set atom_i-atom_j parameters as read from library file:
+		"""Set atom_i-atom_j parameters as read from library file:
 		 - par: [A(eV), rho(Angstrom), C(eVAngstrom^6)]
 		 - lo : min radius (Angstrom)
 		 - hi : max radius (Angstrom)
-		'''
+
+		"""
 		self.chemical_symbols = chemical_symbols
 		self.buck = {}
 
