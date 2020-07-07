@@ -17,13 +17,10 @@ class Forces:
 
 
 class DCoulomb(Forces):
-    def calc_real(self, atoms):
+    def calc_real(self, pos, vects, N):
         """Calculate short range forces
         
         """
-        N = len(atoms.get_positions())
-        pos = atoms.get_positions()
-        vects = atoms.get_cell()
         alpha = self.potential.alpha
         a2pi = 2*alpha/pi**(1/2)  # 2a/sqrt(pi)
         forces = np.zeros((N, 3))
@@ -31,6 +28,11 @@ class DCoulomb(Forces):
             self.potential.real_cut_off, vects)
 
         for ioni in range(0, N):
+
+            ################### PRINTS ####################
+            # print("----> Ion: {}{}{} gets the real forces:".format(self.potential.charges[ioni],self.potential.chemical_symbols[ioni],ioni))
+            ###############################################
+
             for ionj in range(0, N):
                 if ioni != ionj:  # skip in case it's the same atom or it is constant
                     # direction matters
@@ -40,6 +42,12 @@ class DCoulomb(Forces):
                         (math.erfc(alpha*rnorm) / rnorm)
                     forces[ioni, ] -= self.potential.get_charges_mult(ioni, ionj) *\
                         (rij/(rnorm**2)) * csum  # partial derivative for ion i
+
+                    ################### PRINTS ####################
+                    # print("-- from ion {}{}{} of {} eV".format(self.potential.charges[ionj],self.potential.chemical_symbols[ionj],ionj,-self.potential.get_charges_mult(ioni, ionj) *\
+                    #             (rij/(rnorm**2)) * csum))
+                    ###############################################
+
                     # take care of the rest lattice (+ Ln)
                     for shift in shifts:
                         rij = pos[ioni, ] + shift - pos[ionj, ]
@@ -48,16 +56,21 @@ class DCoulomb(Forces):
                             (math.erfc(alpha*rnorm) / rnorm)
                         forces[ioni, ] -= self.potential.get_charges_mult(ioni, ionj) *\
                             (rij/(rnorm**2)) * csum  # partial derivative for ion i
-        return forces/2
 
-    def calc_recip(self, atoms):
+                        ################### PRINTS ####################
+                        # print("-- in IMAGE {} of {} eV".format(shift,-self.potential.get_charges_mult(ioni, ionj) *\
+                        # (rij/(rnorm**2)) * csum))
+        # print("----> Total real:")
+        # print(-forces/2)
+        ###############################################################
+        forces = -(forces/2) * 14.399645351950543  # Coulomb constant
+        return forces
+
+    def calc_recip(self, pos, vects, N):
         """Calculate long range forces
         
         """
         alpha = self.potential.alpha
-        N = len(atoms.get_positions())
-        pos = atoms.get_positions()
-        vects = atoms.get_cell()
         volume = abs(np.linalg.det(vects))
         forces = np.zeros((N, 3))
         recip_vects = self.potential.get_reciprocal_vects(volume, vects)
@@ -74,21 +87,29 @@ class DCoulomb(Forces):
                     denominator = np.dot(k, k) * pi * volume
                     forces[ioni, ] -= ((self.potential.get_charges_mult(ioni, ionj)) *
                                        (numerator/denominator))
-        return forces/2
+
+        # print("----> Total recip:")
+        # print(-forces/2)
+        ###############################################################
+        forces = -(forces/2) * 14.399645351950543  # Coulomb constant
+        return forces
 
 
 class DBuckingham(Forces):
-    def calc(self, atoms):
+    def calc(self, pos, vects, N):
         """Interatomic forces
         
         """
-        chemical_symbols = atoms.get_chemical_symbols()
-        N = len(atoms.get_positions())
-        pos = atoms.get_positions()
-        vects = atoms.get_cell()
+        chemical_symbols = self.potential.chemical_symbols
 
         forces = np.zeros((N, 3))
         for ioni in range(N):
+
+            ################### PRINTS ####################
+            # print("----> Ion: {}{} gets the interatomic forces:".format(self.potential.chemical_symbols[ioni],ioni))
+            ###############################################
+
+
             for ionj in range(N):
                 # Find the pair we are examining
                 pair = (min(chemical_symbols[ioni], chemical_symbols[ionj]),
@@ -108,6 +129,10 @@ class DBuckingham(Forces):
                                 math.exp(-1.0*dist/rho) + 6*C/dist**7
                             forces[ioni] += (rij/dist) * csum
 
+                        ################### PRINTS ####################
+                        # print("-- from ion {}{} of {} eV".format(self.potential.chemical_symbols[ionj],ionj,-(rij/dist) * csum))
+                        ###############################################
+
                         # Check interactions with neighbouring cells
                         cutoff = self.potential.get_cutoff(
                             vects, self.potential.buck[pair]['hi'])
@@ -115,15 +140,21 @@ class DBuckingham(Forces):
                             cutoff, vects)
                         for shift in shifts: # this has to be for different i,j 
                                              # or it's constant
-                            rij = pos[ioni] + \
-                                shift - pos[ionj]
+                            rij = pos[ioni] + shift - pos[ionj]
                             dist = np.linalg.norm(rij)
                             # Check if distance of ions allows interaction
                             if (dist < self.potential.buck[pair]['hi']):
                                 csum = - (A/rho) * \
                                     math.exp(-1.0*dist/rho) + 6*C/dist**7
                                 forces[ioni] += (rij/dist) * csum
-        return forces/2
+
+                                ################### PRINTS ####################
+                            # print("-- in image {} of {} eV".format(shift,-(rij/dist) * csum))
+        # print("----> Total buck:")
+        # print(-forces/2)
+        ###############################################################
+        forces = -forces/2
+        return forces
 
 
 if __name__ == "__main__":

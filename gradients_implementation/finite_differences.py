@@ -7,7 +7,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.ticker import (MultipleLocator, FormatStrFormatter,
                                AutoMinorLocator)
-import calculate_energy as calc
+import potential as pt
 
 def stepsize_energy_change(foldr, filename, atoms):
 	"""Move ion with different stepsize to check 
@@ -38,8 +38,7 @@ def stepsize_energy_change(foldr, filename, atoms):
 	plt.show()
 
 
-def finite_diff_grad(atoms, initial_energy, displacement, \
-							accuracy,alpha,real_cut,recip_cut):
+def finite_diff_grad(atoms, ions, coords, initial_energy, displacement, **kwargs):
 	"""Defining local slope using finite differences 
 	(like the derivative limit). 
 
@@ -50,32 +49,33 @@ def finite_diff_grad(atoms, initial_energy, displacement, \
 	for each one of x iterations (trials).
 
 	"""
-	dims = 3
+	dims = len(coords)
 	grad = np.zeros((len(atoms.positions),3))
 	h = np.zeros(3)
-	for ioni in range(len(atoms.positions)):
-		for coord in range(dims):
+
+	for ioni in ions:
+		for coord in coords:
 			h[:dims] = 0
 			h[coord] = displacement
-			vects_coords = [vect[coord] for vect in atoms.get_cell()]
 			# try not to move ioni out of unit cell 
 			# in the affected direction
+			vects_coords = [vect[coord] for vect in atoms.get_cell()]
 			assert(abs(atoms.positions[ioni][coord]+h[coord]) \
 												<= max(vects_coords))
 			# add perturbation to one ion coordinate
 			init_pos = atoms.positions[ioni][coord]
-			atoms.positions[ioni] += h
-			new_pos = atoms.positions[ioni][coord]
-			print("\n--- Ion {}{} moved {} in dimension {}".format(\
+			positions_cp = atoms.positions.copy()
+			positions_cp[ioni] += h
+			new_pos = positions_cp[ioni][coord]
+
+			print("\n-- Ion {}{} moved {} in dimension {}".format(\
 				atoms.get_chemical_symbols()[ioni],ioni,displacement,coord))
-			print("--- {} --> {}".format(\
+			print("-- {} --> {}".format(\
 				init_pos,new_pos))
+
 			# calculate (f(x+h)-f(x))/h
-			grad[ioni][coord] = ( calc.calculate_energies(\
-				atoms,accuracy,alpha,real_cut,recip_cut)['energy']\
+			grad[ioni][coord] = ( pt.buckingham_coulomb(positions_cp, **kwargs)
 													-initial_energy )/h[coord]
-			# restore initial coordinates
-			atoms.positions[ioni] -= h
 	return grad
 
 

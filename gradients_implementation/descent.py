@@ -32,7 +32,7 @@ class Descent:
 			energy = potentials['Coulomb'].calc(atoms)['Electrostatic'] + \
 							potentials['Buckingham'].calc(atoms)
 			if energy>x_energy:
-				step = step/2
+				step = step/4
 			x_energy = energy
 			count += 1
 			print("Iter: {} \tEnergy: {} \tDirection: {} \tStep: {}".format(\

@@ -66,6 +66,7 @@ class Coulomb(Potential):
 		self.alpha = alpha
 		self.made_const = 0
 		self.charges = [charge_dict[x] for x in chemical_symbols]
+		self.chemical_symbols = chemical_symbols
 
 		if filename:
 			try:
@@ -173,7 +174,7 @@ class Coulomb(Potential):
 					dist = np.linalg.norm(pos[ioni, ] - pos[ionj, ])
 					esum += (self.get_charges_mult(ioni, ionj)
 							 * self.made_const / dist)
-		esum *= 14.399645351950543 / 2  # electrostatic constant
+		esum *= 14.399645351950543 / 2  # Coulomb constant
 		return esum
 
 	def calc(self, atoms):
