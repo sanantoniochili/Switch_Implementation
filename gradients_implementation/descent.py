@@ -12,12 +12,16 @@ class Descent:
 		pass
 
 	def calculate_direction(self, atoms, potentials):
+		pos = atoms.positions
+		vects = atoms.get_cell()
+		N = len(pos)
+
 		dcoul = DCoulomb(potentials['Coulomb'])
-		grad_coul = dcoul.calc_real(atoms)
-		grad_coul += dcoul.calc_recip(atoms)
+		grad_coul = dcoul.calc_real(pos, vects, N)
+		grad_coul += dcoul.calc_recip(pos , vects, N)
 
 		dbuck = DBuckingham(potentials['Buckingham'])
-		grad_buck = dbuck.calc(atoms)
+		grad_buck = dbuck.calc(pos, vects, N)
 		grad = grad_coul+grad_buck
 
 		return -grad
@@ -28,14 +32,28 @@ class Descent:
 		count = 0
 		for x in range(100):
 			p = self.calculate_direction(atoms, potentials)
-			atoms.positions = atoms.positions + step*p
-			energy = potentials['Coulomb'].calc(atoms)['Electrostatic'] + \
-							potentials['Buckingham'].calc(atoms)
-			if energy>x_energy:
-				step = step/4
-			x_energy = energy
-			count += 1
 			print("Iter: {} \tEnergy: {} \tDirection: {} \tStep: {}".format(\
+				count,x_energy,np.linalg.norm(p),step),flush=True)
+
+			# Move ions and calculate temporary positions
+			pos_temp = np.copy(atoms.positions + step*p)
+			vects = atoms.get_cell()
+			N = len(atoms.positions)
+			energy = \
+			potentials['Coulomb'].calc(\
+				None, positions=pos_temp, vects=vects, N=N)['Electrostatic'] + \
+							potentials['Buckingham'].calc_real(pos_temp, vects, N)
+
+			# If new energy is lower, keep it
+			if energy<x_energy:
+				atoms.positions = pos_temp
+				x_energy = energy
+				count += 1
+				continue
+
+			step = step/4
+			count += 1
+		print("Iter: {} \tEnergy: {} \tDirection: {} \tStep: {}".format(\
 				count,energy,np.linalg.norm(p),step),flush=True)
 			
 

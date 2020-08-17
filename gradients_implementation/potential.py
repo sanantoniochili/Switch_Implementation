@@ -177,12 +177,21 @@ class Coulomb(Potential):
 		esum *= 14.399645351950543 / 2  # Coulomb constant
 		return esum
 
-	def calc(self, atoms):
-		positions = atoms.positions
-		vects = atoms.get_cell()
-		N = len(positions)
+	def calc(self, atoms, **kwargs):
+		"""This function needs either the whole Atoms object or
+		named arguments for positions (ion positions), vects (unit cell vectors)
+		and N (number of atoms in unit cell)
+
+		"""
+		if atoms:
+			positions = atoms.positions
+			vects = atoms.get_cell()
+			N = len(positions)
+		else:
+			positions = kwargs['positions']
+			vects = kwargs['vects']
+			N = kwargs['N']		
 		energies = {}
-		
 		Er_array = self.calc_real(positions, vects, N)
 		Erc_array = self.calc_recip(positions, vects, N)
 		Es_array = self.calc_self(N)
@@ -232,7 +241,7 @@ class Buckingham(Potential):
 		cutoff = math.ceil(hi/min(vects[vects != 0]))
 		return cutoff
 
-	def calc(self, atoms, esum=0):
+	def calc(self, atoms):
 		"""Interatomic potential
 		
 		"""

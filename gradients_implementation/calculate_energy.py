@@ -258,14 +258,14 @@ if __name__ == "__main__":
 	# view(atoms)
 
 	######################### FIN DIFFS ##############################
-	# np.set_printoptions(precision=10,suppress=True)
-	diffs = finite_diff_grad(atoms=atoms, ions=range(N), coords=range(3), \
+	np.set_printoptions(precision=10,suppress=True)
+	diffs = finite_diff_grad(atoms=atoms, ions=range(1), coords=range(1), \
 							 initial_energy=potentials['energy'],\
 							 displacement=0.01, Coulomb=potentials['Coulomb'],\
 							 Buckingham=potentials['Buckingham'], N=N, vects=vects)
 	print("---Finite differences:")
 	print(diffs)
-	diffs_ = finite_diff_grad(atoms=atoms, ions=range(N), coords=range(3), \
+	diffs_ = finite_diff_grad(atoms=atoms, ions=range(1), coords=range(1), \
 							 initial_energy=potentials['energy'],\
 							 displacement=-0.01, Coulomb=potentials['Coulomb'],\
 							 Buckingham=potentials['Buckingham'], N=N, vects=vects)
@@ -276,21 +276,21 @@ if __name__ == "__main__":
 	print("----> f(x+h)-f(x-h)")
 	print(abs(diffs_)-abs(diffs))
 
-	######################### FORCES #################################
-	forces = calculate_forces(atoms, potentials)['grad']
-	print("---Analytical gradient")
-	print(forces)
+	# ######################### FORCES #################################
+	# forces = calculate_forces(atoms, potentials)['grad']
+	# print("---Analytical gradient")
+	# print(forces)
 
-	atoms.positions[0] += [0.01,0,0]
-	print("---New atom positions")
-	print(atoms.positions)
+	# atoms.positions[0] += [0.01,0,0]
+	# print("---New atom positions")
+	# print(atoms.positions)
 
-	forces_ = calculate_forces(atoms, potentials)['grad']
-	print("---New analytical gradient")
-	print(forces_)
+	# forces_ = calculate_forces(atoms, potentials)['grad']
+	# print("---New analytical gradient")
+	# print(forces_)
 
-	print("---Difference of initial gradient vs moved ion gradient")
-	print(forces-forces_)
+	# print("---Difference of initial gradient vs moved ion gradient")
+	# print(forces-forces_)
 	
 	######################### ANGLE #################################
 	# print(np.round(forces['grad'],decimals=10))
