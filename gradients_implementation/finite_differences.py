@@ -5,6 +5,7 @@ import fileinput
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+from ase.visualize import view
 from matplotlib.ticker import (MultipleLocator, FormatStrFormatter,
                                AutoMinorLocator)
 import potential as pt
@@ -76,6 +77,7 @@ def finite_diff_grad(atoms, ions, coords, initial_energy, displacement, **kwargs
 			# calculate (f(x+h)-f(x))/h
 			grad[ioni][coord] = ( pt.buckingham_coulomb(positions_cp, **kwargs)
 													-initial_energy )/h[coord]
+
 	return grad
 
 
