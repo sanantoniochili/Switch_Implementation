@@ -40,8 +40,10 @@ class DCoulomb(Forces):
                     rnorm = np.linalg.norm(rij)
                     csum = a2pi*math.exp(-alpha**2 * rnorm**2) + \
                         (math.erfc(alpha*rnorm) / rnorm)
-                    forces[ioni, ] -= self.potential.get_charges_mult(ioni, ionj) *\
+                    fx = self.potential.get_charges_mult(ioni, ionj) *\
                         (rij/(rnorm**2)) * csum  # partial derivative for ion i
+                    forces[ioni, ] -= fx
+
 
                     ################### PRINTS ####################
                     # print("-- from ion {}{}{} of {} eV".format(self.potential.charges[ionj],self.potential.chemical_symbols[ionj],ionj,-self.potential.get_charges_mult(ioni, ionj) *\
@@ -54,8 +56,10 @@ class DCoulomb(Forces):
                         rnorm = np.linalg.norm(rij)
                         csum = a2pi*math.exp(-alpha**2 * rnorm**2) + \
                             (math.erfc(alpha*rnorm) / rnorm)
-                        forces[ioni, ] -= self.potential.get_charges_mult(ioni, ionj) *\
+                        fx = self.potential.get_charges_mult(ioni, ionj) *\
                             (rij/(rnorm**2)) * csum  # partial derivative for ion i
+                        forces[ioni, ] -= fx
+
 
                         ################### PRINTS ####################
                         # print("-- in IMAGE {} of {} eV".format(shift,-self.potential.get_charges_mult(ioni, ionj) *\
@@ -85,8 +89,10 @@ class DCoulomb(Forces):
                     numerator = 4 * (pi**2) * (math.exp(po)) * \
                         k * math.sin(np.dot(k, rij))
                     denominator = np.dot(k, k) * pi * volume
-                    forces[ioni, ] -= ((self.potential.get_charges_mult(ioni, ionj)) *
+                    fx = ((self.potential.get_charges_mult(ioni, ionj)) *
                                        (numerator/denominator))
+                    forces[ioni, ] -= fx
+
 
         # print("----> Total recip:")
         # print(-forces/2)
@@ -127,7 +133,9 @@ class DBuckingham(Forces):
                         if (dist < self.potential.buck[pair]['hi']):
                             csum = -  (A/rho) * \
                                 math.exp(-1.0*dist/rho) + 6*C/dist**7
-                            forces[ioni] += (rij/dist) * csum
+                            fx = (rij/dist) * csum
+                            forces[ioni, ] += fx
+
 
                         ################### PRINTS ####################
                         # print("-- from ion {}{} of {} eV".format(self.potential.chemical_symbols[ionj],ionj,-(rij/dist) * csum))
@@ -146,7 +154,8 @@ class DBuckingham(Forces):
                             if (dist < self.potential.buck[pair]['hi']):
                                 csum = - (A/rho) * \
                                     math.exp(-1.0*dist/rho) + 6*C/dist**7
-                                forces[ioni] += (rij/dist) * csum
+                                fx = (rij/dist) * csum
+                                forces[ioni, ] += fx
 
                                 ################### PRINTS ####################
                             # print("-- in image {} of {} eV".format(shift,-(rij/dist) * csum))

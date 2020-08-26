@@ -276,10 +276,10 @@ if __name__ == "__main__":
 	# print("----> f(x+h)-f(x-h)")
 	# print(abs(diffs_)-abs(diffs))
 
-	######################### FORCES #################################
-	# forces = calculate_forces(atoms, potentials)['grad']
-	# print("---Analytical gradient")
-	# print(forces)
+	######################## FORCES #################################
+	forces = calculate_forces(atoms, potentials)['grad']
+	print("---Analytical gradient")
+	print(forces)
 
 	# atoms.positions[0] += [1,0,0]
 	# print("---New atom positions")
