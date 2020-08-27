@@ -23,7 +23,7 @@ class DCoulomb(Forces):
         """
         alpha = self.potential.alpha
         a2pi = 2*alpha/pi**(1/2)  # 2a/sqrt(pi)
-        forces = np.zeros((N, 3))
+        grad = np.zeros((N, 3))
         shifts = self.potential.get_shifts(
             self.potential.real_cut_off, vects)
 
@@ -40,9 +40,11 @@ class DCoulomb(Forces):
                     rnorm = np.linalg.norm(rij)
                     csum = a2pi*math.exp(-alpha**2 * rnorm**2) + \
                         (math.erfc(alpha*rnorm) / rnorm)
-                    fx = self.potential.get_charges_mult(ioni, ionj) *\
+                    drv = -self.potential.get_charges_mult(ioni, ionj) *\
                         (rij/(rnorm**2)) * csum  # partial derivative for ion i
-                    forces[ioni, ] -= fx
+                    
+                    grad[ioni, ] += -drv
+                    grad[ionj, ] -= -drv
 
 
                     ################### PRINTS ####################
@@ -56,10 +58,11 @@ class DCoulomb(Forces):
                         rnorm = np.linalg.norm(rij)
                         csum = a2pi*math.exp(-alpha**2 * rnorm**2) + \
                             (math.erfc(alpha*rnorm) / rnorm)
-                        fx = self.potential.get_charges_mult(ioni, ionj) *\
+                        drv = -self.potential.get_charges_mult(ioni, ionj) *\
                             (rij/(rnorm**2)) * csum  # partial derivative for ion i
-                        forces[ioni, ] -= fx
-
+                        
+                        grad[ioni, ] += drv
+                        grad[ionj, ] -= drv
 
                         ################### PRINTS ####################
                         # print("-- in IMAGE {} of {} eV".format(shift,-self.potential.get_charges_mult(ioni, ionj) *\
@@ -67,8 +70,8 @@ class DCoulomb(Forces):
         # print("----> Total real:")
         # print(-forces/2)
         ###############################################################
-        forces = -(forces/2) * 14.399645351950543  # Coulomb constant
-        return forces
+        grad = grad/2 * 14.399645351950543  # Coulomb constant
+        return grad
 
     def calc_recip(self, pos, vects, N):
         """Calculate long range forces
@@ -76,7 +79,7 @@ class DCoulomb(Forces):
         """
         alpha = self.potential.alpha
         volume = abs(np.linalg.det(vects))
-        forces = np.zeros((N, 3))
+        grad = np.zeros((N, 3))
         recip_vects = self.potential.get_reciprocal_vects(volume, vects)
         shifts = self.potential.get_shifts(
             self.potential.recip_cut_off, recip_vects)
@@ -89,16 +92,18 @@ class DCoulomb(Forces):
                     numerator = 4 * (pi**2) * (math.exp(po)) * \
                         k * math.sin(np.dot(k, rij))
                     denominator = np.dot(k, k) * pi * volume
-                    fx = ((self.potential.get_charges_mult(ioni, ionj)) *
+                    drv = -((self.potential.get_charges_mult(ioni, ionj)) *
                                        (numerator/denominator))
-                    forces[ioni, ] -= fx
+                    
+                    grad[ioni, ] += drv
+                    grad[ionj, ] -= drv
 
 
         # print("----> Total recip:")
         # print(-forces/2)
         ###############################################################
-        forces = -(forces/2) * 14.399645351950543  # Coulomb constant
-        return forces
+        grad = grad/2 * 14.399645351950543  # Coulomb constant
+        return grad
 
 
 class DBuckingham(Forces):
@@ -108,7 +113,7 @@ class DBuckingham(Forces):
         """
         chemical_symbols = self.potential.chemical_symbols
 
-        forces = np.zeros((N, 3))
+        grad = np.zeros((N, 3))
         for ioni in range(N):
 
             ################### PRINTS ####################
@@ -116,7 +121,7 @@ class DBuckingham(Forces):
             ###############################################
 
 
-            for ionj in range(N):
+            for ionj in range(0, N):
                 # Find the pair we are examining
                 pair = (min(chemical_symbols[ioni], chemical_symbols[ionj]),
                         max(chemical_symbols[ioni], chemical_symbols[ionj]))
@@ -133,8 +138,10 @@ class DBuckingham(Forces):
                         if (dist < self.potential.buck[pair]['hi']):
                             csum = -  (A/rho) * \
                                 math.exp(-1.0*dist/rho) + 6*C/dist**7
-                            fx = (rij/dist) * csum
-                            forces[ioni, ] += fx
+                            drv = (rij/dist) * csum
+                            
+                            grad[ioni, ] += drv
+                            grad[ionj, ] -= drv
 
 
                         ################### PRINTS ####################
@@ -154,16 +161,18 @@ class DBuckingham(Forces):
                             if (dist < self.potential.buck[pair]['hi']):
                                 csum = - (A/rho) * \
                                     math.exp(-1.0*dist/rho) + 6*C/dist**7
-                                fx = (rij/dist) * csum
-                                forces[ioni, ] += fx
+                                drv = (rij/dist) * csum
+                                
+                                grad[ioni, ] += drv
+                                grad[ionj, ] -= drv
 
                                 ################### PRINTS ####################
                             # print("-- in image {} of {} eV".format(shift,-(rij/dist) * csum))
         # print("----> Total buck:")
         # print(-forces/2)
         ###############################################################
-        forces = -forces/2
-        return forces
+        grad = grad/2
+        return grad
 
 
 if __name__ == "__main__":

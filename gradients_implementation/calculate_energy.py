@@ -191,10 +191,10 @@ def calculate_forces(atoms, potentials):
 	grad_recip = dcoul.calc_recip(pos,vects, N)
 	grad_coul = grad_real + grad_recip
 
-	# dbuck = DBuckingham(potentials['Buckingham'])
-	# grad_buck = dbuck.calc(pos, vects, N)
-	# grad = grad_coul+grad_buck
-	grad = grad_coul
+	dbuck = DBuckingham(potentials['Buckingham'])
+	grad_buck = dbuck.calc(pos, vects, N)
+	grad = grad_coul+grad_buck
+	# grad = grad_coul
 	gnorm = np.linalg.norm(grad)
 	return {'grad': grad, 'gnorm': gnorm}
 
@@ -298,8 +298,8 @@ if __name__ == "__main__":
 	acos = np.dot(fforces,fdiffs) / (np.linalg.norm(fforces)*np.linalg.norm(fdiffs))
 	print("---Diffs and analytical gradient angle:")
 	print(acos)
-	print("---Diffs and analytical gradient difference:")
-	print(forces-diffs)
+	# print("---Diffs and analytical gradient difference:")
+	# print(forces-diffs)
 
 	######################### RELAXATION #############################
 	# GDescent = Descent()
