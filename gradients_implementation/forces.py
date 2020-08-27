@@ -28,11 +28,6 @@ class DCoulomb(Forces):
             self.potential.real_cut_off, vects)
 
         for ioni in range(0, N):
-
-            ################### PRINTS ####################
-            # print("----> Ion: {}{}{} gets the real forces:".format(self.potential.charges[ioni],self.potential.chemical_symbols[ioni],ioni))
-            ###############################################
-
             for ionj in range(0, N):
                 if ioni != ionj:  # skip in case it's the same atom or it is constant
                     # direction matters
@@ -43,14 +38,8 @@ class DCoulomb(Forces):
                     drv = -self.potential.get_charges_mult(ioni, ionj) *\
                         (rij/(rnorm**2)) * csum  # partial derivative for ion i
                     
-                    grad[ioni, ] += -drv
-                    grad[ionj, ] -= -drv
-
-
-                    ################### PRINTS ####################
-                    # print("-- from ion {}{}{} of {} eV".format(self.potential.charges[ionj],self.potential.chemical_symbols[ionj],ionj,-self.potential.get_charges_mult(ioni, ionj) *\
-                    #             (rij/(rnorm**2)) * csum))
-                    ###############################################
+                    grad[ioni, ] += drv
+                    grad[ionj, ] -= drv
 
                     # take care of the rest lattice (+ Ln)
                     for shift in shifts:
@@ -64,12 +53,6 @@ class DCoulomb(Forces):
                         grad[ioni, ] += drv
                         grad[ionj, ] -= drv
 
-                        ################### PRINTS ####################
-                        # print("-- in IMAGE {} of {} eV".format(shift,-self.potential.get_charges_mult(ioni, ionj) *\
-                        # (rij/(rnorm**2)) * csum))
-        # print("----> Total real:")
-        # print(-forces/2)
-        ###############################################################
         grad = grad/2 * 14.399645351950543  # Coulomb constant
         return grad
 
@@ -98,10 +81,6 @@ class DCoulomb(Forces):
                     grad[ioni, ] += drv
                     grad[ionj, ] -= drv
 
-
-        # print("----> Total recip:")
-        # print(-forces/2)
-        ###############################################################
         grad = grad/2 * 14.399645351950543  # Coulomb constant
         return grad
 
@@ -115,12 +94,6 @@ class DBuckingham(Forces):
 
         grad = np.zeros((N, 3))
         for ioni in range(N):
-
-            ################### PRINTS ####################
-            # print("----> Ion: {}{} gets the interatomic forces:".format(self.potential.chemical_symbols[ioni],ioni))
-            ###############################################
-
-
             for ionj in range(0, N):
                 # Find the pair we are examining
                 pair = (min(chemical_symbols[ioni], chemical_symbols[ionj]),
@@ -143,11 +116,6 @@ class DBuckingham(Forces):
                             grad[ioni, ] += drv
                             grad[ionj, ] -= drv
 
-
-                        ################### PRINTS ####################
-                        # print("-- from ion {}{} of {} eV".format(self.potential.chemical_symbols[ionj],ionj,-(rij/dist) * csum))
-                        ###############################################
-
                         # Check interactions with neighbouring cells
                         cutoff = self.potential.get_cutoff(
                             vects, self.potential.buck[pair]['hi'])
@@ -166,11 +134,6 @@ class DBuckingham(Forces):
                                 grad[ioni, ] += drv
                                 grad[ionj, ] -= drv
 
-                                ################### PRINTS ####################
-                            # print("-- in image {} of {} eV".format(shift,-(rij/dist) * csum))
-        # print("----> Total buck:")
-        # print(-forces/2)
-        ###############################################################
         grad = grad/2
         return grad
 
