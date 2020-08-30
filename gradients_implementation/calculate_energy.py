@@ -258,13 +258,13 @@ if __name__ == "__main__":
 	# view(atoms)
 
 	# ######################### FIN DIFFS ##############################
-	np.set_printoptions(precision=10,suppress=True)
-	diffs = finite_diff_grad(atoms=atoms, ions=range(N), coords=range(3), \
-							 initial_energy=potentials['energy'],\
-							 displacement=0.01, Coulomb=potentials['Coulomb'],\
-							 Buckingham=potentials['Buckingham'], N=N, vects=vects)
-	print("---Finite differences:")
-	print(diffs)
+	# np.set_printoptions(precision=10,suppress=True)
+	# diffs = finite_diff_grad(atoms=atoms, ions=range(N), coords=range(3), \
+	# 						 initial_energy=potentials['energy'],\
+	# 						 displacement=0.01, Coulomb=potentials['Coulomb'],\
+	# 						 Buckingham=potentials['Buckingham'], N=N, vects=vects)
+	# print("---Finite differences:")
+	# print(diffs)
 	# diffs_ = finite_diff_grad(atoms=atoms, ions=range(N), coords=range(3), \
 	# 						 initial_energy=potentials['energy'],\
 	# 						 displacement=-0.01, Coulomb=potentials['Coulomb'],\
@@ -293,11 +293,11 @@ if __name__ == "__main__":
 	# print(forces-forces_)
 	
 	######################### ANGLE #################################
-	fforces = flatten(forces)
-	fdiffs = flatten(diffs)
-	acos = np.dot(fforces,fdiffs) / (np.linalg.norm(fforces)*np.linalg.norm(fdiffs))
-	print("---Diffs and analytical gradient angle:")
-	print(acos)
+	# fforces = flatten(forces)
+	# fdiffs = flatten(diffs)
+	# acos = np.dot(fforces,fdiffs) / (np.linalg.norm(fforces)*np.linalg.norm(fdiffs))
+	# print("---Diffs and analytical gradient angle:")
+	# print(acos)
 	# print("---Diffs and analytical gradient difference:")
 	# print(forces-diffs)
 

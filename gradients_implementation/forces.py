@@ -18,7 +18,8 @@ class Forces:
 
 class DCoulomb(Forces):
     def calc_real(self, pos, vects, N):
-        """Calculate short range forces
+        """Calculate short range electrostatic forces. Instead of using a double N loop,
+        the derivatives of i and j ions are updated concurrently.
         
         """
         alpha = self.potential.alpha
@@ -27,8 +28,8 @@ class DCoulomb(Forces):
         shifts = self.potential.get_shifts(
             self.potential.real_cut_off, vects)
 
-        for ioni in range(0, N):
-            for ionj in range(0, N):
+        for ioni in range(N):
+            for ionj in range(ioni, N):
                 if ioni != ionj:  # skip in case it's the same atom or it is constant
                     # direction matters
                     rij = pos[ioni, ] - pos[ionj, ]
@@ -38,8 +39,8 @@ class DCoulomb(Forces):
                     drv = -self.potential.get_charges_mult(ioni, ionj) *\
                         (rij/(rnorm**2)) * csum  # partial derivative for ion i
                     
-                    grad[ioni, ] += drv
-                    grad[ionj, ] -= drv
+                    grad[ioni, ] += drv 
+                    grad[ionj, ] -= drv 
 
                     # take care of the rest lattice (+ Ln)
                     for shift in shifts:
@@ -53,11 +54,12 @@ class DCoulomb(Forces):
                         grad[ioni, ] += drv
                         grad[ionj, ] -= drv
 
-        grad = grad/2 * 14.399645351950543  # Coulomb constant
+        grad = grad * 14.399645351950543  # Coulomb constant
         return grad
 
     def calc_recip(self, pos, vects, N):
-        """Calculate long range forces
+        """Calculate long range electrostatic forces. Instead of using a double N loop,
+        the derivatives of i and j ions are updated concurrently.
         
         """
         alpha = self.potential.alpha
@@ -67,8 +69,8 @@ class DCoulomb(Forces):
         shifts = self.potential.get_shifts(
             self.potential.recip_cut_off, recip_vects)
 
-        for ioni in range(0, N):
-            for ionj in range(0, N):
+        for ioni in range(N):
+            for ionj in range(ioni, N):
                 rij = pos[ioni, ] - pos[ionj, ]
                 for k in shifts:
                     po = -np.dot(k, k)/(4*alpha**2)
@@ -78,8 +80,8 @@ class DCoulomb(Forces):
                     drv = -((self.potential.get_charges_mult(ioni, ionj)) *
                                        (numerator/denominator))
                     
-                    grad[ioni, ] += drv
-                    grad[ionj, ] -= drv
+                    grad[ioni, ] += 2*drv
+                    grad[ionj, ] -= 2*drv
 
         grad = grad/2 * 14.399645351950543  # Coulomb constant
         return grad
@@ -87,14 +89,15 @@ class DCoulomb(Forces):
 
 class DBuckingham(Forces):
     def calc(self, pos, vects, N):
-        """Interatomic forces
+        """Interatomic forces. Instead of using a double N loop,
+        the derivatives of i and j ions are updated concurrently.
         
         """
         chemical_symbols = self.potential.chemical_symbols
 
         grad = np.zeros((N, 3))
         for ioni in range(N):
-            for ionj in range(0, N):
+            for ionj in range(ioni, N):
                 # Find the pair we are examining
                 pair = (min(chemical_symbols[ioni], chemical_symbols[ionj]),
                         max(chemical_symbols[ioni], chemical_symbols[ionj]))
@@ -113,8 +116,8 @@ class DBuckingham(Forces):
                                 math.exp(-1.0*dist/rho) + 6*C/dist**7
                             drv = (rij/dist) * csum
                             
-                            grad[ioni, ] += drv
-                            grad[ionj, ] -= drv
+                            grad[ioni, ] += 2*drv
+                            grad[ionj, ] -= 2*drv
 
                         # Check interactions with neighbouring cells
                         cutoff = self.potential.get_cutoff(
@@ -131,8 +134,8 @@ class DBuckingham(Forces):
                                     math.exp(-1.0*dist/rho) + 6*C/dist**7
                                 drv = (rij/dist) * csum
                                 
-                                grad[ioni, ] += drv
-                                grad[ionj, ] -= drv
+                                grad[ioni, ] += 2*drv
+                                grad[ionj, ] -= 2*drv
 
         grad = grad/2
         return grad
