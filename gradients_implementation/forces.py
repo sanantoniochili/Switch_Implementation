@@ -18,8 +18,10 @@ class Forces:
 
 class DCoulomb(Forces):
     def calc_real(self, pos, vects, N):
-        """Calculate short range electrostatic forces. Instead of using a double N loop,
-        the derivatives of i and j ions are updated concurrently.
+        """Calculate short range electrostatic forces in form of the
+        energy function's gradient (forces = -gradient). Instead of 
+        using a double N loop, the derivatives of i and j ions are
+        updated concurrently.
         
         """
         alpha = self.potential.alpha
@@ -58,8 +60,10 @@ class DCoulomb(Forces):
         return grad
 
     def calc_recip(self, pos, vects, N):
-        """Calculate long range electrostatic forces. Instead of using a double N loop,
-        the derivatives of i and j ions are updated concurrently.
+        """Calculate long range electrostatic forces in form of the
+        energy function's gradient (forces = -gradient). Instead of using 
+        a double N loop, the derivatives of i and j ions are 
+        updated concurrently.
         
         """
         alpha = self.potential.alpha
@@ -89,7 +93,9 @@ class DCoulomb(Forces):
 
 class DBuckingham(Forces):
     def calc(self, pos, vects, N):
-        """Interatomic forces. Instead of using a double N loop,
+        """Interatomic forces in form of the
+        energy function's gradient (forces = -gradient). 
+        Instead of using a double N loop,
         the derivatives of i and j ions are updated concurrently.
         
         """

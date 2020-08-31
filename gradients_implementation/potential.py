@@ -11,7 +11,6 @@ from ase.visualize import view
 from ase.geometry import Cell
 from ase.io import read as aread
 
-
 class Potential:
 	def set_parameters(self):
 		pass
@@ -56,6 +55,9 @@ class Coulomb(Potential):
 		alpha			: Constant in erfc that controls balance 
 		between reciprocal and real space term contribution
 		made_const		: Madelung constant if it is to be used
+		charges 		: List of ions' charges in respective positions
+		chemical_symbols: Ions' chemical symbols in resp. positions
+
 		
 		also:
 		filename		: Library file for Madelung way potential

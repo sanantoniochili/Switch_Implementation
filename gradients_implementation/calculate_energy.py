@@ -27,6 +27,8 @@ from forces import *
 from descent import *
 from finite_differences import *
 
+import timeit
+
 DATAPATH = "../../Data/"
 
 charge_dict = {
@@ -277,9 +279,13 @@ if __name__ == "__main__":
 	# print(abs(diffs_)-abs(diffs))
 
 	######################## FORCES #################################
-	forces = calculate_forces(atoms, potentials)['grad']
-	print("---Analytical gradient")
-	print(forces)
+	# forces = calculate_forces(atoms, potentials)['grad']
+	# print("---Analytical gradient")
+	# print(forces)
+
+	print("Time to calculate gradient in python: {}".format(\
+		timeit.timeit('calculate_forces(atoms, potentials)',\
+		globals=globals(),number=1)))
 
 	# atoms.positions[0] += [1,0,0]
 	# print("---New atom positions")
@@ -305,9 +311,6 @@ if __name__ == "__main__":
 	# GDescent = Descent()
 	# GDescent.repeat(atoms, potentials, 0.1)
 
-
-# https://github.com/SINGROUP/Pysic/blob/master/fortran/Geometry.f90
-# https://github.com/vlgusev/IPCSP/blob/master/tools/matrix_generator.py?
 
 def flatten(positions):
 	vector = []
