@@ -1,1 +1,0 @@
-Here lie the cutoff values normalized by the third root of the volume of the cell. The final cutoffs used are not normalized, therefore it is sure that at least one unit cell is considered in the calculations.

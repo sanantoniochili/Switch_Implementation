@@ -1,1 +1,0 @@
-Adding displacement to first ion first coordinate. This is done to identify at which order of displacement the energy shows insignificant change, so that we can then determine the slope of the gradient.
