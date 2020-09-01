@@ -8,9 +8,7 @@ This repo is intended to hold all necessary parts of a crystal structure relaxat
 Includes a *Potential* superclass and *Coulomb*, *Buckingham* as subclasses. One can set the respective required parameters with 
 
 ```
-set_parameters(self, alpha, real_cut_off, \
-			recip_cut_off, chemical_symbols, charge_dict,
-			filename)
+set_parameters(self, alpha, real_cut_off, recip_cut_off, chemical_symbols, charge_dict, filename)
 ```
 for Coulomb and 
 ```
