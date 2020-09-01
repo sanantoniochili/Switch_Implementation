@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 from ase.visualize import view
 from matplotlib.ticker import (MultipleLocator, FormatStrFormatter,
                                AutoMinorLocator)
-import potential as pt
+import pysrc.potential as pt
 
 def stepsize_energy_change(foldr, filename, atoms):
 	"""Move ion with different stepsize to check 

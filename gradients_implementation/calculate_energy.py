@@ -22,8 +22,8 @@ from ase.calculators.gulp import GULP
 from ase.calculators.lammpslib import LAMMPSlib
 from ase.visualize.plot import plot_atoms
 
-from potential import *
-from forces import *
+from pysrc.potential import *
+from pysrc.forces import *
 from descent import *
 from finite_differences import *
 

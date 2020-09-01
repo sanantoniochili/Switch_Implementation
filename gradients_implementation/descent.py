@@ -4,8 +4,8 @@ import pandas as pd
 
 from ase.io import read as aread
 
-from potential import *
-from forces import *
+from pysrc.potential import *
+from pysrc.forces import *
 
 class Descent:
 	def __init__(self):
