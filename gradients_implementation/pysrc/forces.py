@@ -84,10 +84,10 @@ class DCoulomb(Forces):
                     drv = -((self.potential.get_charges_mult(ioni, ionj)) *
                                        (numerator/denominator))
                     
-                    grad[ioni, ] += 2*drv
-                    grad[ionj, ] -= 2*drv
+                    grad[ioni, ] += drv
+                    grad[ionj, ] -= drv
 
-        grad = grad/2 * 14.399645351950543  # Coulomb constant
+        grad = grad * 14.399645351950543  # Coulomb constant
         return grad
 
 
@@ -122,8 +122,8 @@ class DBuckingham(Forces):
                                 math.exp(-1.0*dist/rho) + 6*C/dist**7
                             drv = (rij/dist) * csum
                             
-                            grad[ioni, ] += 2*drv
-                            grad[ionj, ] -= 2*drv
+                            grad[ioni, ] += drv
+                            grad[ionj, ] -= drv
 
                         # Check interactions with neighbouring cells
                         cutoff = self.potential.get_cutoff(
@@ -140,10 +140,10 @@ class DBuckingham(Forces):
                                     math.exp(-1.0*dist/rho) + 6*C/dist**7
                                 drv = (rij/dist) * csum
                                 
-                                grad[ioni, ] += 2*drv
-                                grad[ionj, ] -= 2*drv
+                                grad[ioni, ] += drv
+                                grad[ionj, ] -= drv
 
-        grad = grad/2
+        grad = grad
         return grad
 
 

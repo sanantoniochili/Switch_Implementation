@@ -1,5 +1,3 @@
-import timeit
-
 # cy = timeit.timeit('''example_cy.test(5)''',setup='import example_cy',number=100)
 # pi = timeit.timeit('''example_cy.pi_test(5)''',setup='import example_cy', number=100)
 # cpi = timeit.timeit('''example_cy.cpi_test(5)''',setup='import example_cy', number=100)
@@ -11,8 +9,20 @@ import timeit
 # print('cPi_Test is %f' % (cpi))
 # print('Py_Test is %f' % (py))
 
-pt = timeit.timeit('''p.set_parameters()''', setup='from example_cy import Potential;p = Potential()',number=1)
-ppt = timeit.timeit('''pp.set_parameters()''', setup='from potential import Potential as PPot;pp=PPot()',number=1)
+import sys
+import numpy as np
+sys.path.append('/home/sanantoniochili/Desktop/PhD/Scripts/Switch_Implementation/gradients_implementation/pysrc')
+from example import Potential
+from potential import Potential as PPot
+
+p = Potential()
+pp = PPot()
+cutoff = 1
+vects = np.array([[1,1,1],[1,1,1],[1,1,1]], dtype=np.double)
+
+import timeit
+pt = timeit.timeit('''shifts = np.array(p.get_shifts(cutoff, vects));print(shifts)''', globals=globals(), number=1)
+ppt = timeit.timeit('''shifts = np.array(pp.get_shifts(cutoff, vects));print(shifts)''', globals=globals(), number=1)
 
 print('Cython Potential: %f' % pt)
 print('Python Potential: %f' % ppt)

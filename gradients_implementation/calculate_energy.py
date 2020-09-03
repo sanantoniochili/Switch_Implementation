@@ -279,13 +279,9 @@ if __name__ == "__main__":
 	# print(abs(diffs_)-abs(diffs))
 
 	######################## FORCES #################################
-	# forces = calculate_forces(atoms, potentials)['grad']
-	# print("---Analytical gradient")
-	# print(forces)
-
-	print("Time to calculate gradient in python: {}".format(\
-		timeit.timeit('calculate_forces(atoms, potentials)',\
-		globals=globals(),number=1)))
+	forces = calculate_forces(atoms, potentials)['grad']
+	print("---Analytical gradient")
+	print(forces)
 
 	# atoms.positions[0] += [1,0,0]
 	# print("---New atom positions")
@@ -297,6 +293,20 @@ if __name__ == "__main__":
 
 	# print("---Difference of initial gradient vs moved ion gradient")
 	# print(forces-forces_)
+
+	######################## TIMING #################################
+
+	# import cProfile
+	# import re
+	# import pstats
+	# from pstats import SortKey
+	# cProfile.run('calculate_forces(atoms, potentials)', 'profiling.log')
+	# p = pstats.Stats('profiling.log')
+	# p.sort_stats(SortKey.TIME).print_stats(10)
+	# print("Time to calculate gradient in python: {}".format(\
+	# 	timeit.timeit('calculate_forces(atoms, potentials)',\
+	# 	globals=globals(),number=1)))
+
 	
 	######################### ANGLE #################################
 	# fforces = flatten(forces)
