@@ -21,8 +21,8 @@ cutoff = 1
 vects = np.array([[1,1,1],[1,1,1],[1,1,1]], dtype=np.double)
 
 import timeit
-pt = timeit.timeit('''shifts = np.array(p.get_shifts(cutoff, vects));print(shifts)''', globals=globals(), number=1)
-ppt = timeit.timeit('''shifts = np.array(pp.get_shifts(cutoff, vects));print(shifts)''', globals=globals(), number=1)
+pt = timeit.timeit('''shifts = np.array(p.get_shifts(cutoff, vects))''', globals=globals(), number=1)
+ppt = timeit.timeit('''shifts = np.array(pp.get_shifts(cutoff, vects))''', globals=globals(), number=1)
 
 print('Cython Potential: %f' % pt)
 print('Python Potential: %f' % ppt)

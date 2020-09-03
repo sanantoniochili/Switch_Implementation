@@ -300,9 +300,24 @@ if __name__ == "__main__":
 	# import re
 	# import pstats
 	# from pstats import SortKey
+	# cProfile.run(\
+	# 	'calculate_energies(atoms,accuracy,alpha,real_cut,recip_cut)',\
+	# 	 'profiling.log')
+	# p = pstats.Stats('profiling.log')
+	# print("\nStats for potentials:")
+	# print("Cumulative stats:")
+	# p.sort_stats(SortKey.CUMULATIVE).print_stats(10)
+	# print("Total time stats:")
+	# p.sort_stats(SortKey.TIME).print_stats(10)
+
 	# cProfile.run('calculate_forces(atoms, potentials)', 'profiling.log')
 	# p = pstats.Stats('profiling.log')
+	# print("Stats for derivatives:")
+	# print("Cumulative stats:")	
+	# p.sort_stats(SortKey.CUMULATIVE).print_stats(10)
+	# print("Total time stats:")
 	# p.sort_stats(SortKey.TIME).print_stats(10)
+	
 	# print("Time to calculate gradient in python: {}".format(\
 	# 	timeit.timeit('calculate_forces(atoms, potentials)',\
 	# 	globals=globals(),number=1)))
