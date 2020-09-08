@@ -3,7 +3,8 @@ from Cython.Build import cythonize
 
 extensions = [
 	Extension("example", ["example_cy.pyx"],
-		define_macros=[("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")]),
+		define_macros=[("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")],
+		),
 ]
 
 setup(

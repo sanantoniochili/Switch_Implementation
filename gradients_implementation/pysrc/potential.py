@@ -14,7 +14,7 @@ from ase.io import read as aread
 class Potential:
 	def set_parameters(self):
 		pass
-		
+
 	def get_shifts(self, cut_off, vects):
 		"""Get all possible lattice positions:   
 		 (2cut_off+1)^3 - {case of (cut_off,cut_off,cut_off)}
