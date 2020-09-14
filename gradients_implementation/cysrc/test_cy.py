@@ -104,9 +104,12 @@ if __name__=="__main__":
 	Bpot = Buckingham()
 	Bpot.set_parameters(libfile, np.array(atoms.get_chemical_symbols()))
 
-	# import timeit
-	# pt = timeit.timeit('''print(p.calc(atoms)['Electrostatic'])''', globals=globals(), number=1)
-	# ppt = timeit.timeit('''print(pp.calc(atoms)['Electrostatic'])''', globals=globals(), number=1)
+	PBpot = BP()
+	PBpot.set_parameters(libfile, np.array(atoms.get_chemical_symbols()))
 
-	# print('Cython: %f' % pt)
-	# print('Python: %f' % ppt)
+	import timeit
+	pt = timeit.timeit('''print(Bpot.calc(atoms)+p.calc(atoms)['Electrostatic'])''', globals=globals(), number=1)
+	ppt = timeit.timeit('''print(PBpot.calc(atoms)+pp.calc(atoms)['Electrostatic'])''', globals=globals(), number=1)
+
+	print('Cython: %f' % pt)
+	print('Python: %f' % ppt)
