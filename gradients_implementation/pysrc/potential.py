@@ -150,6 +150,10 @@ class Coulomb(Potential):
 					po = -np.dot(k, k)/(4*self.alpha**2)
 					numerator = 4 * (pi**2) * (math.exp(po)) * \
 						math.cos(np.dot(k, rij))
+
+					# print(np.dot(k,k))
+					# print(np.dot(k, rij))
+
 					denominator = np.dot(k, k) * 2 * pi * volume
 					esum[ioni, ionj] += ((self.get_charges_mult(ioni, ionj)) *
 										 (numerator/denominator))
