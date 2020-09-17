@@ -279,9 +279,9 @@ if __name__ == "__main__":
 	# print(abs(diffs_)-abs(diffs))
 
 	######################## FORCES #################################
-	forces = calculate_forces(atoms, potentials)['grad']
-	print("---Analytical gradient")
-	print(forces)
+	# forces = calculate_forces(atoms, potentials)['grad']
+	# print("---Analytical gradient")
+	# print(forces)
 
 	# atoms.positions[0] += [1,0,0]
 	# print("---New atom positions")
@@ -296,27 +296,27 @@ if __name__ == "__main__":
 
 	######################## TIMING #################################
 
-	# import cProfile
-	# import re
-	# import pstats
-	# from pstats import SortKey
-	# cProfile.run(\
-	# 	'calculate_energies(atoms,accuracy,alpha,real_cut,recip_cut)',\
-	# 	 'profiling.log')
-	# p = pstats.Stats('profiling.log')
-	# print("\nStats for potentials:")
-	# print("Cumulative stats:")
-	# p.sort_stats(SortKey.CUMULATIVE).print_stats(10)
-	# print("Total time stats:")
-	# p.sort_stats(SortKey.TIME).print_stats(10)
+	import cProfile
+	import re
+	import pstats
+	from pstats import SortKey
+	cProfile.run(\
+		'calculate_energies(atoms,accuracy,alpha,real_cut,recip_cut)',\
+		 'profiling_energy.log')
+	p = pstats.Stats('profiling_energy.log')
+	print("\nStats for potentials:")
+	print("Cumulative stats:")
+	p.sort_stats(SortKey.CUMULATIVE).print_stats(11)
+	print("Total time stats:")
+	p.sort_stats(SortKey.TIME).print_stats(10)
 
-	# cProfile.run('calculate_forces(atoms, potentials)', 'profiling.log')
-	# p = pstats.Stats('profiling.log')
-	# print("Stats for derivatives:")
-	# print("Cumulative stats:")	
-	# p.sort_stats(SortKey.CUMULATIVE).print_stats(10)
-	# print("Total time stats:")
-	# p.sort_stats(SortKey.TIME).print_stats(10)
+	cProfile.run('calculate_forces(atoms, potentials)', 'profiling_dervs.log')
+	p = pstats.Stats('profiling_dervs.log')
+	print("Stats for derivatives:")
+	print("Cumulative stats:")	
+	p.sort_stats(SortKey.CUMULATIVE).print_stats(11)
+	print("Total time stats:")
+	p.sort_stats(SortKey.TIME).print_stats(10)
 	
 	# print("Time to calculate gradient in python: {}".format(\
 	# 	timeit.timeit('calculate_forces(atoms, potentials)',\

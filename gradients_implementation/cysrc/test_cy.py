@@ -3,6 +3,8 @@ from cmath import pi
 
 import sys
 import numpy as np
+from ase.io import read as aread
+
 sys.path.append('/home/sanantoniochili/Desktop/PhD/Scripts/Switch_Implementation/gradients_implementation/pysrc')
 from example import Potential, Coulomb, Buckingham
 from potential import Coulomb as PCoulomb
