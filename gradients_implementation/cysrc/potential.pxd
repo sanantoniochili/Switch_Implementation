@@ -1,4 +1,3 @@
-# from cmath import pi
 from libc.math cimport pi
 
 

@@ -2,7 +2,7 @@ from distutils.core import Extension,setup
 from Cython.Build import cythonize
 
 extensions = [
-	Extension("example", ["example_cy.pyx"],
+	Extension("potential", ["potential.pyx"],
 		define_macros=[("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")],
 		),
 ]

@@ -9,6 +9,9 @@ sys.path.append('/home/sanantoniochili/Desktop/PhD/Scripts/Switch_Implementation
 from example import Potential, Coulomb, Buckingham
 from potential import Coulomb as PCoulomb
 from potential import Buckingham as BP
+from forces import DCoulomb as DC
+from forces import DBuckingham as DB
+
 
 DATAPATH = "/home/sanantoniochili/Desktop/PhD/Data/"
 
@@ -84,15 +87,15 @@ if __name__=="__main__":
 	real_cut = (-np.log(accuracy))**(1/2)/alpha
 	recip_cut = 2*alpha*(-np.log(accuracy))**(1/2)
 
-	p = Coulomb()
-	pp = PCoulomb()
+	CyCoul = Coulomb()
+	PyCoul = PCoulomb() # Python
 
-	p.set_parameters(alpha=alpha, real_cut_off=real_cut,
+	CyCoul.set_parameters(alpha=alpha, real_cut_off=real_cut,
 							recip_cut_off=recip_cut, 
 							chemical_symbols=np.array(atoms.get_chemical_symbols()),
 							charge_dict=charge_dict, N=N,
 							filename=None)
-	pp.set_parameters(alpha=alpha, real_cut_off=real_cut,
+	PyCoul.set_parameters(alpha=alpha, real_cut_off=real_cut,
 							recip_cut_off=recip_cut, 
 							chemical_symbols=atoms.get_chemical_symbols(),
 							charge_dict=charge_dict,
@@ -101,17 +104,22 @@ if __name__=="__main__":
 	# pos = np.array([[1,1,1,1],[1,1,1,1],[1,1,1,1],[1,1,1,1],[1,1,1,1]], dtype=np.double)
 	# vects=np.array([[1,1,1,1],[1,1,1,1],[1,1,1,1]], dtype=np.double)
 
-
 	libfile = DATAPATH+"Libraries/buck.lib"
-	Bpot = Buckingham()
-	Bpot.set_parameters(libfile, np.array(atoms.get_chemical_symbols()))
+	CyBuck = Buckingham()
+	CyBuck.set_parameters(libfile, np.array(atoms.get_chemical_symbols()))
 
-	PBpot = BP()
-	PBpot.set_parameters(libfile, np.array(atoms.get_chemical_symbols()))
+	PyBuck = BP()
+	PyBuck.set_parameters(libfile, np.array(atoms.get_chemical_symbols()))
+
+	PygradC = DC(PyCoul)
+	PygradB = DB(PyBuck)
+
 
 	import timeit
-	pt = timeit.timeit('''print(Bpot.calc(atoms)+p.calc(atoms)['Electrostatic'])''', globals=globals(), number=1)
-	ppt = timeit.timeit('''print(PBpot.calc(atoms)+pp.calc(atoms)['Electrostatic'])''', globals=globals(), number=1)
+	cy = timeit.timeit('''print(np.array(CyBuck.calc_drv(atoms))+np.array(CyCoul.calc_drv(atoms)))''', globals=globals(), number=1)
+	py = timeit.timeit('''print(PygradB.calc(atoms.positions,vects,N)+\
+		PygradC.calc_real(atoms.positions,vects,N)+\
+		PygradC.calc_recip(atoms.positions,vects,N))''', globals=globals(), number=1)
 
-	print('Cython: %f' % pt)
-	print('Python: %f' % ppt)
+	print('Cython: %f' % cy)
+	print('Python: %f' % py)
