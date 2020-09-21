@@ -71,13 +71,13 @@ cdef class Coulomb(Potential):
 		chemical_symbols: Ions' chemical symbols in resp. positions 
 
 	"""
-	cdef double alpha, made_const
-	cdef double eself, ereal, erecip
-	cdef double[:,:] grad
-	cdef cnp.ndarray chemical_symbols
-	cdef int real_cut_off, recip_cut_off
-	cdef int[:] charges
-	cdef bint param_flag
+	# cdef double alpha, made_const
+	# cdef double eself, ereal, erecip
+	# cdef double[:,:] grad
+	# cdef cnp.ndarray chemical_symbols
+	# cdef int real_cut_off, recip_cut_off
+	# cdef int[:] charges
+	# cdef bint param_flag
 
 	def __init__(self):
 		self.alpha = 0
@@ -494,10 +494,10 @@ cdef class Buckingham(Potential):
 	corresponds to the interatomic forces exercised among entities.
 	
 	"""
-	cdef cnp.ndarray chemical_symbols
-	cdef bint param_flag
-	cdef double e
-	cdef double[:,:] grad
+	# cdef cnp.ndarray chemical_symbols
+	# cdef bint param_flag
+	# cdef double e
+	# cdef double[:,:] grad
 
 	def __init__(self):
 		self.chemical_symbols = None

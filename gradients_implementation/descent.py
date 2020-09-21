@@ -3,9 +3,7 @@ import numpy as np
 import pandas as pd
 
 from ase.io import read as aread
-
-from pysrc.potential import *
-from pysrc.forces import *
+from cysrc.potential import *
 
 class Descent:
 	def __init__(self):

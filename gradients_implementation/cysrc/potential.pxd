@@ -1,16 +1,48 @@
-from libc.math cimport pi
+import numpy as np
+cimport numpy as cnp
+
+cdef class Potential:
+	cdef double[:,:] get_shifts(self, int cut_off, double[:,:] vects)
 
 
-cdef class Potential
-cdef class Coulomb:
-	cpdef void set_parameters(self, double alpha, double real_cut_off, double recip_cut_off, \
-		numpy.ndarray chemical_symbols, charge_dict, str filename)
+cdef class Coulomb(Potential):
+	cdef double alpha, made_const
+	cdef double eself, ereal, erecip
+	cdef double[:,:] grad
+	cdef cnp.ndarray chemical_symbols
+	cdef int real_cut_off, recip_cut_off
+	cdef int[:] charges
+	cdef bint param_flag
+
+	cpdef set_parameters(self, double alpha, \
+		double real_cut_off, double recip_cut_off, \
+		cnp.ndarray chemical_symbols, int N, 
+		charge_dict, str filename=*)			
+	cdef double[:,:] get_reciprocal_vects(self, double[:,:] vects, double volume)
+	cdef double calc_self(self, int N)
+	cdef double calc_real(self, double[:,:] pos, double[:,:] vects, int N) except? -1
+	cdef double calc_recip(self, double[:,:] pos, double[:,:] vects, int N) except? -1
 	cpdef calc_madelung(self, double[:,:] pos, int N)
 	cpdef calc(self, atoms)
-	cpdef double[:,:] calc_real_drv(self, double[:,:] pos, double[:,:] vects, int N)
+	cdef double[:,:] calc_real_drv(self, double[:,:] pos, double[:,:] vects, int N)
+	cdef double[:,:] calc_recip_drv(self, double[:,:] pos, double[:,:] vects, int N)
+	cpdef double[:,:] calc_drv(self, atoms)
 
-cdef class Buckingham:
-	cpdef void set_parameters(self, str filename, cnp.ndarray chemical_symbols)
-	cpdef int get_cutoff(self, double[:,:] vects, float hi)
+
+cdef class Buckingham(Potential):
+	"""Calculations for the Buckingham energy contribution. It
+	corresponds to the interatomic forces exercised among entities.
+	
+	"""
+	cdef cnp.ndarray chemical_symbols
+	cdef bint param_flag
+	cdef double e
+	cdef double[:,:] grad
+
+	cpdef void set_parameters(self, str filename, 
+								cnp.ndarray chemical_symbols)
+	cdef int get_cutoff(self, double[:,:] vects, float hi)
 	cpdef calc(self, atoms)
+	cdef double calc_real(self, double[:,:] pos, double[:,:] vects, int N) except? -1
+	cdef double[:,:] calc_drv_(self, double[:,:] pos, double[:,:] vects, int N)
 	cpdef double[:,:] calc_drv(self, atoms)
