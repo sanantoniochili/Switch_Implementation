@@ -22,8 +22,7 @@ from ase.calculators.gulp import GULP
 from ase.calculators.lammpslib import LAMMPSlib
 from ase.visualize.plot import plot_atoms
 
-from cysrc.potential import Coulomb
-# from pysrc.potential import Buckingham
+from cysrc.potential import *
 from descent import *
 from finite_differences import *
 

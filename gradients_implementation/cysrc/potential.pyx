@@ -91,7 +91,6 @@ cdef class Coulomb(Potential):
 
 		self.param_flag = False
 
-
 	@cython.boundscheck(False)
 	@cython.wraparound(False)
 	cpdef set_parameters(self, double alpha, \
