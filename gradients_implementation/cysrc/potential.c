@@ -1393,7 +1393,7 @@ struct __pyx_vtabstruct_array {
 static struct __pyx_vtabstruct_array *__pyx_vtabptr_array;
 
 
-/* "potential.pyx":28
+/* "potential.pyx":29
  * 	return det
  * 
  * cdef class Potential:             # <<<<<<<<<<<<<<
@@ -1407,7 +1407,7 @@ struct __pyx_vtabstruct_9potential_Potential {
 static struct __pyx_vtabstruct_9potential_Potential *__pyx_vtabptr_9potential_Potential;
 
 
-/* "potential.pyx":55
+/* "potential.pyx":56
  * 		return shifts_view
  * 
  * cdef class Coulomb(Potential):             # <<<<<<<<<<<<<<
@@ -1431,7 +1431,7 @@ struct __pyx_vtabstruct_9potential_Coulomb {
 static struct __pyx_vtabstruct_9potential_Coulomb *__pyx_vtabptr_9potential_Coulomb;
 
 
-/* "potential.pyx":491
+/* "potential.pyx":484
  * 
  * buck = {}
  * cdef class Buckingham(Potential):             # <<<<<<<<<<<<<<
@@ -1442,6 +1442,7 @@ static struct __pyx_vtabstruct_9potential_Coulomb *__pyx_vtabptr_9potential_Coul
 struct __pyx_vtabstruct_9potential_Buckingham {
   struct __pyx_vtabstruct_9potential_Potential __pyx_base;
   void (*set_parameters)(struct __pyx_obj_9potential_Buckingham *, PyObject *, PyArrayObject *, int __pyx_skip_dispatch);
+  int (*catastrophe_check)(struct __pyx_obj_9potential_Buckingham *, __Pyx_memviewslice, double, PyObject *, int __pyx_skip_dispatch);
   int (*get_cutoff)(struct __pyx_obj_9potential_Buckingham *, __Pyx_memviewslice, float);
   PyObject *(*calc)(struct __pyx_obj_9potential_Buckingham *, PyObject *, int __pyx_skip_dispatch);
   double (*calc_real)(struct __pyx_obj_9potential_Buckingham *, __Pyx_memviewslice, __Pyx_memviewslice, int);
@@ -2324,6 +2325,7 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_real_drv(struct __pyx
 static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_recip_drv(struct __pyx_obj_9potential_Coulomb *__pyx_v_self, __Pyx_memviewslice __pyx_v_pos, __Pyx_memviewslice __pyx_v_vects, int __pyx_v_N); /* proto*/
 static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_drv(struct __pyx_obj_9potential_Coulomb *__pyx_v_self, PyObject *__pyx_v_atoms, int __pyx_skip_dispatch); /* proto*/
 static void __pyx_f_9potential_10Buckingham_set_parameters(struct __pyx_obj_9potential_Buckingham *__pyx_v_self, PyObject *__pyx_v_filename, PyArrayObject *__pyx_v_chemical_symbols, int __pyx_skip_dispatch); /* proto*/
+static int __pyx_f_9potential_10Buckingham_catastrophe_check(struct __pyx_obj_9potential_Buckingham *__pyx_v_self, __Pyx_memviewslice __pyx_v_pos, double __pyx_v_fraction, PyObject *__pyx_v_radius_dict, int __pyx_skip_dispatch); /* proto*/
 static int __pyx_f_9potential_10Buckingham_get_cutoff(CYTHON_UNUSED struct __pyx_obj_9potential_Buckingham *__pyx_v_self, __Pyx_memviewslice __pyx_v_vects, float __pyx_v_hi); /* proto*/
 static PyObject *__pyx_f_9potential_10Buckingham_calc(struct __pyx_obj_9potential_Buckingham *__pyx_v_self, PyObject *__pyx_v_atoms, int __pyx_skip_dispatch); /* proto*/
 static double __pyx_f_9potential_10Buckingham_calc_real(struct __pyx_obj_9potential_Buckingham *__pyx_v_self, __Pyx_memviewslice __pyx_v_pos, __Pyx_memviewslice __pyx_v_vects, int __pyx_v_N); /* proto*/
@@ -2490,6 +2492,7 @@ static const char __pyx_k_size[] = "size";
 static const char __pyx_k_step[] = "step";
 static const char __pyx_k_stop[] = "stop";
 static const char __pyx_k_test[] = "__test__";
+static const char __pyx_k_warn[] = "warn";
 static const char __pyx_k_ASCII[] = "ASCII";
 static const char __pyx_k_alpha[] = "alpha";
 static const char __pyx_k_array[] = "array";
@@ -2520,11 +2523,13 @@ static const char __pyx_k_memview[] = "memview";
 static const char __pyx_k_Ellipsis[] = "Ellipsis";
 static const char __pyx_k_calc_drv[] = "calc_drv";
 static const char __pyx_k_filename[] = "filename";
+static const char __pyx_k_fraction[] = "fraction";
 static const char __pyx_k_get_cell[] = "get_cell";
 static const char __pyx_k_getstate[] = "__getstate__";
 static const char __pyx_k_itemsize[] = "itemsize";
 static const char __pyx_k_pyx_type[] = "__pyx_type";
 static const char __pyx_k_setstate[] = "__setstate__";
+static const char __pyx_k_warnings[] = "warnings";
 static const char __pyx_k_Potential[] = "Potential";
 static const char __pyx_k_TypeError[] = "TypeError";
 static const char __pyx_k_enumerate[] = "enumerate";
@@ -2542,6 +2547,7 @@ static const char __pyx_k_ImportError[] = "ImportError";
 static const char __pyx_k_MemoryError[] = "MemoryError";
 static const char __pyx_k_PickleError[] = "PickleError";
 static const char __pyx_k_charge_dict[] = "charge_dict";
+static const char __pyx_k_radius_dict[] = "radius_dict";
 static const char __pyx_k_RuntimeError[] = "RuntimeError";
 static const char __pyx_k_pyx_checksum[] = "__pyx_checksum";
 static const char __pyx_k_real_cut_off[] = "real_cut_off";
@@ -2559,6 +2565,7 @@ static const char __pyx_k_dtype_is_object[] = "dtype_is_object";
 static const char __pyx_k_pyx_PickleError[] = "__pyx_PickleError";
 static const char __pyx_k_setstate_cython[] = "__setstate_cython__";
 static const char __pyx_k_chemical_symbols[] = "chemical_symbols";
+static const char __pyx_k_catastrophe_check[] = "catastrophe_check";
 static const char __pyx_k_pyx_unpickle_Enum[] = "__pyx_unpickle_Enum";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
 static const char __pyx_k_strided_and_direct[] = "<strided and direct>";
@@ -2588,6 +2595,7 @@ static const char __pyx_k_Cannot_create_writable_memory_vi[] = "Cannot create wr
 static const char __pyx_k_Coulomb_potential_parameters_are[] = "Coulomb potential parameters are not set.";
 static const char __pyx_k_Empty_shape_tuple_for_cython_arr[] = "Empty shape tuple for cython.array";
 static const char __pyx_k_Format_string_allocated_too_shor[] = "Format string allocated too short, see comment in numpy.pxd";
+static const char __pyx_k_Found_elements_closer_than_Angst[] = "Found elements {}{}, {}{} closer than {} Angstroms";
 static const char __pyx_k_Incompatible_checksums_s_vs_0xb0[] = "Incompatible checksums (%s vs 0xb068931 = (name))";
 static const char __pyx_k_Incompatible_checksums_s_vs_0xb8[] = "Incompatible checksums (%s vs 0xb8c9869 = (chemical_symbols, e, grad, param_flag))";
 static const char __pyx_k_Incompatible_checksums_s_vs_0xd4[] = "Incompatible checksums (%s vs 0xd41d8cd = ())";
@@ -2619,6 +2627,7 @@ static PyObject *__pyx_n_s_Ellipsis;
 static PyObject *__pyx_kp_s_Empty_shape_tuple_for_cython_arr;
 static PyObject *__pyx_kp_u_Format_string_allocated_too_shor;
 static PyObject *__pyx_kp_u_Format_string_allocated_too_shor_2;
+static PyObject *__pyx_kp_u_Found_elements_closer_than_Angst;
 static PyObject *__pyx_n_s_IOError;
 static PyObject *__pyx_n_s_ImportError;
 static PyObject *__pyx_kp_s_Incompatible_checksums_s_vs_0xb0;
@@ -2659,6 +2668,7 @@ static PyObject *__pyx_n_u_c;
 static PyObject *__pyx_n_s_calc;
 static PyObject *__pyx_n_s_calc_drv;
 static PyObject *__pyx_n_s_calc_madelung;
+static PyObject *__pyx_n_s_catastrophe_check;
 static PyObject *__pyx_n_s_charge_dict;
 static PyObject *__pyx_n_s_chemical_symbols;
 static PyObject *__pyx_n_s_class;
@@ -2681,6 +2691,7 @@ static PyObject *__pyx_n_s_flags;
 static PyObject *__pyx_n_s_format;
 static PyObject *__pyx_n_s_fortran;
 static PyObject *__pyx_n_u_fortran;
+static PyObject *__pyx_n_s_fraction;
 static PyObject *__pyx_n_s_get_cell;
 static PyObject *__pyx_n_s_get_positions;
 static PyObject *__pyx_n_s_getstate;
@@ -2728,6 +2739,7 @@ static PyObject *__pyx_n_s_pyx_unpickle_Enum;
 static PyObject *__pyx_n_s_pyx_unpickle_Potential;
 static PyObject *__pyx_n_s_pyx_vtable;
 static PyObject *__pyx_n_u_r;
+static PyObject *__pyx_n_s_radius_dict;
 static PyObject *__pyx_n_s_range;
 static PyObject *__pyx_n_s_real_cut_off;
 static PyObject *__pyx_n_s_recip_cut_off;
@@ -2754,6 +2766,8 @@ static PyObject *__pyx_kp_s_unable_to_allocate_shape_and_str;
 static PyObject *__pyx_kp_u_unknown_dtype_code_in_numpy_pxd;
 static PyObject *__pyx_n_s_unpack;
 static PyObject *__pyx_n_s_update;
+static PyObject *__pyx_n_s_warn;
+static PyObject *__pyx_n_s_warnings;
 static PyObject *__pyx_pf_9potential_9Potential___reduce_cython__(struct __pyx_obj_9potential_Potential *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_9potential_9Potential_2__setstate_cython__(struct __pyx_obj_9potential_Potential *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
 static int __pyx_pf_9potential_7Coulomb___init__(struct __pyx_obj_9potential_Coulomb *__pyx_v_self); /* proto */
@@ -2765,10 +2779,11 @@ static PyObject *__pyx_pf_9potential_7Coulomb_10__reduce_cython__(struct __pyx_o
 static PyObject *__pyx_pf_9potential_7Coulomb_12__setstate_cython__(struct __pyx_obj_9potential_Coulomb *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
 static int __pyx_pf_9potential_10Buckingham___init__(struct __pyx_obj_9potential_Buckingham *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_9potential_10Buckingham_2set_parameters(struct __pyx_obj_9potential_Buckingham *__pyx_v_self, PyObject *__pyx_v_filename, PyArrayObject *__pyx_v_chemical_symbols); /* proto */
-static PyObject *__pyx_pf_9potential_10Buckingham_4calc(struct __pyx_obj_9potential_Buckingham *__pyx_v_self, PyObject *__pyx_v_atoms); /* proto */
-static PyObject *__pyx_pf_9potential_10Buckingham_6calc_drv(struct __pyx_obj_9potential_Buckingham *__pyx_v_self, PyObject *__pyx_v_atoms); /* proto */
-static PyObject *__pyx_pf_9potential_10Buckingham_8__reduce_cython__(struct __pyx_obj_9potential_Buckingham *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_9potential_10Buckingham_10__setstate_cython__(struct __pyx_obj_9potential_Buckingham *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_9potential_10Buckingham_4catastrophe_check(struct __pyx_obj_9potential_Buckingham *__pyx_v_self, __Pyx_memviewslice __pyx_v_pos, double __pyx_v_fraction, PyObject *__pyx_v_radius_dict); /* proto */
+static PyObject *__pyx_pf_9potential_10Buckingham_6calc(struct __pyx_obj_9potential_Buckingham *__pyx_v_self, PyObject *__pyx_v_atoms); /* proto */
+static PyObject *__pyx_pf_9potential_10Buckingham_8calc_drv(struct __pyx_obj_9potential_Buckingham *__pyx_v_self, PyObject *__pyx_v_atoms); /* proto */
+static PyObject *__pyx_pf_9potential_10Buckingham_10__reduce_cython__(struct __pyx_obj_9potential_Buckingham *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_9potential_10Buckingham_12__setstate_cython__(struct __pyx_obj_9potential_Buckingham *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_pf_9potential___pyx_unpickle_Potential(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_pf_9potential_2__pyx_unpickle_Coulomb(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_pf_9potential_4__pyx_unpickle_Buckingham(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
@@ -2883,7 +2898,7 @@ static PyObject *__pyx_codeobj__39;
 static PyObject *__pyx_codeobj__46;
 /* Late includes */
 
-/* "potential.pyx":17
+/* "potential.pyx":18
  * 
  * 
  * cdef double det3_3(double[:,:] arr):             # <<<<<<<<<<<<<<
@@ -2931,7 +2946,7 @@ static double __pyx_f_9potential_det3_3(__Pyx_memviewslice __pyx_v_arr) {
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("det3_3", 0);
 
-  /* "potential.pyx":22
+  /* "potential.pyx":23
  * 	"""
  * 	cdef double det
  * 	det = arr[0,0]*(arr[1,1]*arr[2,2]-arr[1,2]*arr[2,1])- \             # <<<<<<<<<<<<<<
@@ -2951,7 +2966,7 @@ static double __pyx_f_9potential_det3_3(__Pyx_memviewslice __pyx_v_arr) {
   } else if (unlikely(__pyx_t_2 >= __pyx_v_arr.shape[1])) __pyx_t_3 = 1;
   if (unlikely(__pyx_t_3 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_3);
-    __PYX_ERR(0, 22, __pyx_L1_error)
+    __PYX_ERR(0, 23, __pyx_L1_error)
   }
   __pyx_t_4 = 1;
   __pyx_t_5 = 1;
@@ -2966,7 +2981,7 @@ static double __pyx_f_9potential_det3_3(__Pyx_memviewslice __pyx_v_arr) {
   } else if (unlikely(__pyx_t_5 >= __pyx_v_arr.shape[1])) __pyx_t_3 = 1;
   if (unlikely(__pyx_t_3 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_3);
-    __PYX_ERR(0, 22, __pyx_L1_error)
+    __PYX_ERR(0, 23, __pyx_L1_error)
   }
   __pyx_t_6 = 2;
   __pyx_t_7 = 2;
@@ -2981,7 +2996,7 @@ static double __pyx_f_9potential_det3_3(__Pyx_memviewslice __pyx_v_arr) {
   } else if (unlikely(__pyx_t_7 >= __pyx_v_arr.shape[1])) __pyx_t_3 = 1;
   if (unlikely(__pyx_t_3 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_3);
-    __PYX_ERR(0, 22, __pyx_L1_error)
+    __PYX_ERR(0, 23, __pyx_L1_error)
   }
   __pyx_t_8 = 1;
   __pyx_t_9 = 2;
@@ -2996,7 +3011,7 @@ static double __pyx_f_9potential_det3_3(__Pyx_memviewslice __pyx_v_arr) {
   } else if (unlikely(__pyx_t_9 >= __pyx_v_arr.shape[1])) __pyx_t_3 = 1;
   if (unlikely(__pyx_t_3 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_3);
-    __PYX_ERR(0, 22, __pyx_L1_error)
+    __PYX_ERR(0, 23, __pyx_L1_error)
   }
   __pyx_t_10 = 2;
   __pyx_t_11 = 1;
@@ -3011,10 +3026,10 @@ static double __pyx_f_9potential_det3_3(__Pyx_memviewslice __pyx_v_arr) {
   } else if (unlikely(__pyx_t_11 >= __pyx_v_arr.shape[1])) __pyx_t_3 = 1;
   if (unlikely(__pyx_t_3 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_3);
-    __PYX_ERR(0, 22, __pyx_L1_error)
+    __PYX_ERR(0, 23, __pyx_L1_error)
   }
 
-  /* "potential.pyx":23
+  /* "potential.pyx":24
  * 	cdef double det
  * 	det = arr[0,0]*(arr[1,1]*arr[2,2]-arr[1,2]*arr[2,1])- \
  * 			arr[0,1]*(arr[1,0]*arr[2,2]-arr[1,2]*arr[2,0])+ \             # <<<<<<<<<<<<<<
@@ -3034,7 +3049,7 @@ static double __pyx_f_9potential_det3_3(__Pyx_memviewslice __pyx_v_arr) {
   } else if (unlikely(__pyx_t_13 >= __pyx_v_arr.shape[1])) __pyx_t_3 = 1;
   if (unlikely(__pyx_t_3 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_3);
-    __PYX_ERR(0, 23, __pyx_L1_error)
+    __PYX_ERR(0, 24, __pyx_L1_error)
   }
   __pyx_t_14 = 1;
   __pyx_t_15 = 0;
@@ -3049,7 +3064,7 @@ static double __pyx_f_9potential_det3_3(__Pyx_memviewslice __pyx_v_arr) {
   } else if (unlikely(__pyx_t_15 >= __pyx_v_arr.shape[1])) __pyx_t_3 = 1;
   if (unlikely(__pyx_t_3 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_3);
-    __PYX_ERR(0, 23, __pyx_L1_error)
+    __PYX_ERR(0, 24, __pyx_L1_error)
   }
   __pyx_t_16 = 2;
   __pyx_t_17 = 2;
@@ -3064,7 +3079,7 @@ static double __pyx_f_9potential_det3_3(__Pyx_memviewslice __pyx_v_arr) {
   } else if (unlikely(__pyx_t_17 >= __pyx_v_arr.shape[1])) __pyx_t_3 = 1;
   if (unlikely(__pyx_t_3 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_3);
-    __PYX_ERR(0, 23, __pyx_L1_error)
+    __PYX_ERR(0, 24, __pyx_L1_error)
   }
   __pyx_t_18 = 1;
   __pyx_t_19 = 2;
@@ -3079,7 +3094,7 @@ static double __pyx_f_9potential_det3_3(__Pyx_memviewslice __pyx_v_arr) {
   } else if (unlikely(__pyx_t_19 >= __pyx_v_arr.shape[1])) __pyx_t_3 = 1;
   if (unlikely(__pyx_t_3 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_3);
-    __PYX_ERR(0, 23, __pyx_L1_error)
+    __PYX_ERR(0, 24, __pyx_L1_error)
   }
   __pyx_t_20 = 2;
   __pyx_t_21 = 0;
@@ -3094,10 +3109,10 @@ static double __pyx_f_9potential_det3_3(__Pyx_memviewslice __pyx_v_arr) {
   } else if (unlikely(__pyx_t_21 >= __pyx_v_arr.shape[1])) __pyx_t_3 = 1;
   if (unlikely(__pyx_t_3 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_3);
-    __PYX_ERR(0, 23, __pyx_L1_error)
+    __PYX_ERR(0, 24, __pyx_L1_error)
   }
 
-  /* "potential.pyx":24
+  /* "potential.pyx":25
  * 	det = arr[0,0]*(arr[1,1]*arr[2,2]-arr[1,2]*arr[2,1])- \
  * 			arr[0,1]*(arr[1,0]*arr[2,2]-arr[1,2]*arr[2,0])+ \
  * 			arr[0,2]*(arr[1,0]*arr[2,1]-arr[1,1]*arr[2,0])             # <<<<<<<<<<<<<<
@@ -3117,7 +3132,7 @@ static double __pyx_f_9potential_det3_3(__Pyx_memviewslice __pyx_v_arr) {
   } else if (unlikely(__pyx_t_23 >= __pyx_v_arr.shape[1])) __pyx_t_3 = 1;
   if (unlikely(__pyx_t_3 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_3);
-    __PYX_ERR(0, 24, __pyx_L1_error)
+    __PYX_ERR(0, 25, __pyx_L1_error)
   }
   __pyx_t_24 = 1;
   __pyx_t_25 = 0;
@@ -3132,7 +3147,7 @@ static double __pyx_f_9potential_det3_3(__Pyx_memviewslice __pyx_v_arr) {
   } else if (unlikely(__pyx_t_25 >= __pyx_v_arr.shape[1])) __pyx_t_3 = 1;
   if (unlikely(__pyx_t_3 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_3);
-    __PYX_ERR(0, 24, __pyx_L1_error)
+    __PYX_ERR(0, 25, __pyx_L1_error)
   }
   __pyx_t_26 = 2;
   __pyx_t_27 = 1;
@@ -3147,7 +3162,7 @@ static double __pyx_f_9potential_det3_3(__Pyx_memviewslice __pyx_v_arr) {
   } else if (unlikely(__pyx_t_27 >= __pyx_v_arr.shape[1])) __pyx_t_3 = 1;
   if (unlikely(__pyx_t_3 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_3);
-    __PYX_ERR(0, 24, __pyx_L1_error)
+    __PYX_ERR(0, 25, __pyx_L1_error)
   }
   __pyx_t_28 = 1;
   __pyx_t_29 = 1;
@@ -3162,7 +3177,7 @@ static double __pyx_f_9potential_det3_3(__Pyx_memviewslice __pyx_v_arr) {
   } else if (unlikely(__pyx_t_29 >= __pyx_v_arr.shape[1])) __pyx_t_3 = 1;
   if (unlikely(__pyx_t_3 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_3);
-    __PYX_ERR(0, 24, __pyx_L1_error)
+    __PYX_ERR(0, 25, __pyx_L1_error)
   }
   __pyx_t_30 = 2;
   __pyx_t_31 = 0;
@@ -3177,10 +3192,10 @@ static double __pyx_f_9potential_det3_3(__Pyx_memviewslice __pyx_v_arr) {
   } else if (unlikely(__pyx_t_31 >= __pyx_v_arr.shape[1])) __pyx_t_3 = 1;
   if (unlikely(__pyx_t_3 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_3);
-    __PYX_ERR(0, 24, __pyx_L1_error)
+    __PYX_ERR(0, 25, __pyx_L1_error)
   }
 
-  /* "potential.pyx":23
+  /* "potential.pyx":24
  * 	cdef double det
  * 	det = arr[0,0]*(arr[1,1]*arr[2,2]-arr[1,2]*arr[2,1])- \
  * 			arr[0,1]*(arr[1,0]*arr[2,2]-arr[1,2]*arr[2,0])+ \             # <<<<<<<<<<<<<<
@@ -3189,7 +3204,7 @@ static double __pyx_f_9potential_det3_3(__Pyx_memviewslice __pyx_v_arr) {
  */
   __pyx_v_det = ((((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_arr.data + __pyx_t_1 * __pyx_v_arr.strides[0]) ) + __pyx_t_2 * __pyx_v_arr.strides[1]) ))) * (((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_arr.data + __pyx_t_4 * __pyx_v_arr.strides[0]) ) + __pyx_t_5 * __pyx_v_arr.strides[1]) ))) * (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_arr.data + __pyx_t_6 * __pyx_v_arr.strides[0]) ) + __pyx_t_7 * __pyx_v_arr.strides[1]) )))) - ((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_arr.data + __pyx_t_8 * __pyx_v_arr.strides[0]) ) + __pyx_t_9 * __pyx_v_arr.strides[1]) ))) * (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_arr.data + __pyx_t_10 * __pyx_v_arr.strides[0]) ) + __pyx_t_11 * __pyx_v_arr.strides[1]) )))))) - ((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_arr.data + __pyx_t_12 * __pyx_v_arr.strides[0]) ) + __pyx_t_13 * __pyx_v_arr.strides[1]) ))) * (((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_arr.data + __pyx_t_14 * __pyx_v_arr.strides[0]) ) + __pyx_t_15 * __pyx_v_arr.strides[1]) ))) * (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_arr.data + __pyx_t_16 * __pyx_v_arr.strides[0]) ) + __pyx_t_17 * __pyx_v_arr.strides[1]) )))) - ((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_arr.data + __pyx_t_18 * __pyx_v_arr.strides[0]) ) + __pyx_t_19 * __pyx_v_arr.strides[1]) ))) * (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_arr.data + __pyx_t_20 * __pyx_v_arr.strides[0]) ) + __pyx_t_21 * __pyx_v_arr.strides[1]) ))))))) + ((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_arr.data + __pyx_t_22 * __pyx_v_arr.strides[0]) ) + __pyx_t_23 * __pyx_v_arr.strides[1]) ))) * (((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_arr.data + __pyx_t_24 * __pyx_v_arr.strides[0]) ) + __pyx_t_25 * __pyx_v_arr.strides[1]) ))) * (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_arr.data + __pyx_t_26 * __pyx_v_arr.strides[0]) ) + __pyx_t_27 * __pyx_v_arr.strides[1]) )))) - ((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_arr.data + __pyx_t_28 * __pyx_v_arr.strides[0]) ) + __pyx_t_29 * __pyx_v_arr.strides[1]) ))) * (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_arr.data + __pyx_t_30 * __pyx_v_arr.strides[0]) ) + __pyx_t_31 * __pyx_v_arr.strides[1]) )))))));
 
-  /* "potential.pyx":26
+  /* "potential.pyx":27
  * 			arr[0,2]*(arr[1,0]*arr[2,1]-arr[1,1]*arr[2,0])
  * 
  * 	return det             # <<<<<<<<<<<<<<
@@ -3199,7 +3214,7 @@ static double __pyx_f_9potential_det3_3(__Pyx_memviewslice __pyx_v_arr) {
   __pyx_r = __pyx_v_det;
   goto __pyx_L0;
 
-  /* "potential.pyx":17
+  /* "potential.pyx":18
  * 
  * 
  * cdef double det3_3(double[:,:] arr):             # <<<<<<<<<<<<<<
@@ -3216,7 +3231,7 @@ static double __pyx_f_9potential_det3_3(__Pyx_memviewslice __pyx_v_arr) {
   return __pyx_r;
 }
 
-/* "potential.pyx":30
+/* "potential.pyx":31
  * cdef class Potential:
  * 
  * 	cdef double[:,:] get_shifts(self, int cut_off, double[:,:] vects):             # <<<<<<<<<<<<<<
@@ -3264,7 +3279,7 @@ static __Pyx_memviewslice __pyx_f_9potential_9Potential_get_shifts(CYTHON_UNUSED
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get_shifts", 0);
 
-  /* "potential.pyx":36
+  /* "potential.pyx":37
  * 
  * 		"""
  * 		cdef int dim = (2*cut_off+1)**3 - 1             # <<<<<<<<<<<<<<
@@ -3273,18 +3288,18 @@ static __Pyx_memviewslice __pyx_f_9potential_9Potential_get_shifts(CYTHON_UNUSED
  */
   __pyx_v_dim = (__Pyx_pow_long(((2 * __pyx_v_cut_off) + 1), 3) - 1);
 
-  /* "potential.pyx":37
+  /* "potential.pyx":38
  * 		"""
  * 		cdef int dim = (2*cut_off+1)**3 - 1
  * 		shifts = cvarray(shape=(dim, 3), itemsize=sizeof(double), format="d")             # <<<<<<<<<<<<<<
  * 		cdef double [:,:] shifts_view = shifts
  * 		cdef int i = 0
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 37, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 38, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_dim); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 37, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_dim); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 38, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 37, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 38, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2);
@@ -3292,32 +3307,32 @@ static __Pyx_memviewslice __pyx_f_9potential_9Potential_get_shifts(CYTHON_UNUSED
   __Pyx_GIVEREF(__pyx_int_3);
   PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_int_3);
   __pyx_t_2 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_shape, __pyx_t_3) < 0) __PYX_ERR(0, 37, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_shape, __pyx_t_3) < 0) __PYX_ERR(0, 38, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyInt_FromSize_t((sizeof(double))); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 37, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_FromSize_t((sizeof(double))); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 38, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_itemsize, __pyx_t_3) < 0) __PYX_ERR(0, 37, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_itemsize, __pyx_t_3) < 0) __PYX_ERR(0, 38, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_format, __pyx_n_u_d) < 0) __PYX_ERR(0, 37, __pyx_L1_error)
-  __pyx_t_3 = __Pyx_PyObject_Call(((PyObject *)__pyx_array_type), __pyx_empty_tuple, __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 37, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_format, __pyx_n_u_d) < 0) __PYX_ERR(0, 38, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(((PyObject *)__pyx_array_type), __pyx_empty_tuple, __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 38, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_shifts = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "potential.pyx":38
+  /* "potential.pyx":39
  * 		cdef int dim = (2*cut_off+1)**3 - 1
  * 		shifts = cvarray(shape=(dim, 3), itemsize=sizeof(double), format="d")
  * 		cdef double [:,:] shifts_view = shifts             # <<<<<<<<<<<<<<
  * 		cdef int i = 0
  * 
  */
-  __pyx_t_4 = __Pyx_PyObject_to_MemoryviewSlice_dsds_double(__pyx_v_shifts, PyBUF_WRITABLE); if (unlikely(!__pyx_t_4.memview)) __PYX_ERR(0, 38, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_to_MemoryviewSlice_dsds_double(__pyx_v_shifts, PyBUF_WRITABLE); if (unlikely(!__pyx_t_4.memview)) __PYX_ERR(0, 39, __pyx_L1_error)
   __pyx_v_shifts_view = __pyx_t_4;
   __pyx_t_4.memview = NULL;
   __pyx_t_4.data = NULL;
 
-  /* "potential.pyx":39
+  /* "potential.pyx":40
  * 		shifts = cvarray(shape=(dim, 3), itemsize=sizeof(double), format="d")
  * 		cdef double [:,:] shifts_view = shifts
  * 		cdef int i = 0             # <<<<<<<<<<<<<<
@@ -3326,7 +3341,7 @@ static __Pyx_memviewslice __pyx_f_9potential_9Potential_get_shifts(CYTHON_UNUSED
  */
   __pyx_v_i = 0;
 
-  /* "potential.pyx":42
+  /* "potential.pyx":43
  * 
  * 
  * 		for no1 in range(2*cut_off+1):             # <<<<<<<<<<<<<<
@@ -3338,7 +3353,7 @@ static __Pyx_memviewslice __pyx_f_9potential_9Potential_get_shifts(CYTHON_UNUSED
   for (__pyx_t_7 = 0; __pyx_t_7 < __pyx_t_6; __pyx_t_7+=1) {
     __pyx_v_no1 = __pyx_t_7;
 
-    /* "potential.pyx":43
+    /* "potential.pyx":44
  * 
  * 		for no1 in range(2*cut_off+1):
  * 			for no2 in range(2*cut_off+1):             # <<<<<<<<<<<<<<
@@ -3350,7 +3365,7 @@ static __Pyx_memviewslice __pyx_f_9potential_9Potential_get_shifts(CYTHON_UNUSED
     for (__pyx_t_10 = 0; __pyx_t_10 < __pyx_t_9; __pyx_t_10+=1) {
       __pyx_v_no2 = __pyx_t_10;
 
-      /* "potential.pyx":44
+      /* "potential.pyx":45
  * 		for no1 in range(2*cut_off+1):
  * 			for no2 in range(2*cut_off+1):
  * 				for no3 in range(2*cut_off+1):             # <<<<<<<<<<<<<<
@@ -3362,7 +3377,7 @@ static __Pyx_memviewslice __pyx_f_9potential_9Potential_get_shifts(CYTHON_UNUSED
       for (__pyx_t_13 = 0; __pyx_t_13 < __pyx_t_12; __pyx_t_13+=1) {
         __pyx_v_no3 = __pyx_t_13;
 
-        /* "potential.pyx":45
+        /* "potential.pyx":46
  * 			for no2 in range(2*cut_off+1):
  * 				for no3 in range(2*cut_off+1):
  * 					if (no1!=cut_off) or (no2!=cut_off) or (no3!=cut_off):             # <<<<<<<<<<<<<<
@@ -3386,7 +3401,7 @@ static __Pyx_memviewslice __pyx_f_9potential_9Potential_get_shifts(CYTHON_UNUSED
         __pyx_L10_bool_binop_done:;
         if (__pyx_t_14) {
 
-          /* "potential.pyx":46
+          /* "potential.pyx":47
  * 				for no3 in range(2*cut_off+1):
  * 					if (no1!=cut_off) or (no2!=cut_off) or (no3!=cut_off):
  * 						shifts_view[i, 0] = no1             # <<<<<<<<<<<<<<
@@ -3406,11 +3421,11 @@ static __Pyx_memviewslice __pyx_f_9potential_9Potential_get_shifts(CYTHON_UNUSED
           } else if (unlikely(__pyx_t_17 >= __pyx_v_shifts_view.shape[1])) __pyx_t_18 = 1;
           if (unlikely(__pyx_t_18 != -1)) {
             __Pyx_RaiseBufferIndexError(__pyx_t_18);
-            __PYX_ERR(0, 46, __pyx_L1_error)
+            __PYX_ERR(0, 47, __pyx_L1_error)
           }
           *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_shifts_view.data + __pyx_t_16 * __pyx_v_shifts_view.strides[0]) ) + __pyx_t_17 * __pyx_v_shifts_view.strides[1]) )) = __pyx_v_no1;
 
-          /* "potential.pyx":47
+          /* "potential.pyx":48
  * 					if (no1!=cut_off) or (no2!=cut_off) or (no3!=cut_off):
  * 						shifts_view[i, 0] = no1
  * 						shifts_view[i, 1] = no2             # <<<<<<<<<<<<<<
@@ -3430,11 +3445,11 @@ static __Pyx_memviewslice __pyx_f_9potential_9Potential_get_shifts(CYTHON_UNUSED
           } else if (unlikely(__pyx_t_16 >= __pyx_v_shifts_view.shape[1])) __pyx_t_18 = 1;
           if (unlikely(__pyx_t_18 != -1)) {
             __Pyx_RaiseBufferIndexError(__pyx_t_18);
-            __PYX_ERR(0, 47, __pyx_L1_error)
+            __PYX_ERR(0, 48, __pyx_L1_error)
           }
           *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_shifts_view.data + __pyx_t_17 * __pyx_v_shifts_view.strides[0]) ) + __pyx_t_16 * __pyx_v_shifts_view.strides[1]) )) = __pyx_v_no2;
 
-          /* "potential.pyx":48
+          /* "potential.pyx":49
  * 						shifts_view[i, 0] = no1
  * 						shifts_view[i, 1] = no2
  * 						shifts_view[i, 2] = no3             # <<<<<<<<<<<<<<
@@ -3454,11 +3469,11 @@ static __Pyx_memviewslice __pyx_f_9potential_9Potential_get_shifts(CYTHON_UNUSED
           } else if (unlikely(__pyx_t_17 >= __pyx_v_shifts_view.shape[1])) __pyx_t_18 = 1;
           if (unlikely(__pyx_t_18 != -1)) {
             __Pyx_RaiseBufferIndexError(__pyx_t_18);
-            __PYX_ERR(0, 48, __pyx_L1_error)
+            __PYX_ERR(0, 49, __pyx_L1_error)
           }
           *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_shifts_view.data + __pyx_t_16 * __pyx_v_shifts_view.strides[0]) ) + __pyx_t_17 * __pyx_v_shifts_view.strides[1]) )) = __pyx_v_no3;
 
-          /* "potential.pyx":49
+          /* "potential.pyx":50
  * 						shifts_view[i, 1] = no2
  * 						shifts_view[i, 2] = no3
  * 						for item in range(3):             # <<<<<<<<<<<<<<
@@ -3468,7 +3483,7 @@ static __Pyx_memviewslice __pyx_f_9potential_9Potential_get_shifts(CYTHON_UNUSED
           for (__pyx_t_19 = 0; __pyx_t_19 < 3; __pyx_t_19+=1) {
             __pyx_v_item = __pyx_t_19;
 
-            /* "potential.pyx":50
+            /* "potential.pyx":51
  * 						shifts_view[i, 2] = no3
  * 						for item in range(3):
  * 							shifts_view[i, item] = shifts_view[i, item] - cut_off             # <<<<<<<<<<<<<<
@@ -3488,7 +3503,7 @@ static __Pyx_memviewslice __pyx_f_9potential_9Potential_get_shifts(CYTHON_UNUSED
             } else if (unlikely(__pyx_t_16 >= __pyx_v_shifts_view.shape[1])) __pyx_t_18 = 1;
             if (unlikely(__pyx_t_18 != -1)) {
               __Pyx_RaiseBufferIndexError(__pyx_t_18);
-              __PYX_ERR(0, 50, __pyx_L1_error)
+              __PYX_ERR(0, 51, __pyx_L1_error)
             }
             __pyx_t_20 = __pyx_v_i;
             __pyx_t_21 = __pyx_v_item;
@@ -3503,12 +3518,12 @@ static __Pyx_memviewslice __pyx_f_9potential_9Potential_get_shifts(CYTHON_UNUSED
             } else if (unlikely(__pyx_t_21 >= __pyx_v_shifts_view.shape[1])) __pyx_t_18 = 1;
             if (unlikely(__pyx_t_18 != -1)) {
               __Pyx_RaiseBufferIndexError(__pyx_t_18);
-              __PYX_ERR(0, 50, __pyx_L1_error)
+              __PYX_ERR(0, 51, __pyx_L1_error)
             }
             *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_shifts_view.data + __pyx_t_20 * __pyx_v_shifts_view.strides[0]) ) + __pyx_t_21 * __pyx_v_shifts_view.strides[1]) )) = ((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_shifts_view.data + __pyx_t_17 * __pyx_v_shifts_view.strides[0]) ) + __pyx_t_16 * __pyx_v_shifts_view.strides[1]) ))) - __pyx_v_cut_off);
           }
 
-          /* "potential.pyx":51
+          /* "potential.pyx":52
  * 						for item in range(3):
  * 							shifts_view[i, item] = shifts_view[i, item] - cut_off
  * 						i = i+1             # <<<<<<<<<<<<<<
@@ -3517,7 +3532,7 @@ static __Pyx_memviewslice __pyx_f_9potential_9Potential_get_shifts(CYTHON_UNUSED
  */
           __pyx_v_i = (__pyx_v_i + 1);
 
-          /* "potential.pyx":45
+          /* "potential.pyx":46
  * 			for no2 in range(2*cut_off+1):
  * 				for no3 in range(2*cut_off+1):
  * 					if (no1!=cut_off) or (no2!=cut_off) or (no3!=cut_off):             # <<<<<<<<<<<<<<
@@ -3529,21 +3544,21 @@ static __Pyx_memviewslice __pyx_f_9potential_9Potential_get_shifts(CYTHON_UNUSED
     }
   }
 
-  /* "potential.pyx":52
+  /* "potential.pyx":53
  * 							shifts_view[i, item] = shifts_view[i, item] - cut_off
  * 						i = i+1
  * 		shifts_view = np.dot(shifts_view,vects)             # <<<<<<<<<<<<<<
  * 		return shifts_view
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 52, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 53, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_dot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 52, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_dot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 53, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_shifts_view, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 52, __pyx_L1_error)
+  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_shifts_view, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 53, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_22 = __pyx_memoryview_fromslice(__pyx_v_vects, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_22)) __PYX_ERR(0, 52, __pyx_L1_error)
+  __pyx_t_22 = __pyx_memoryview_fromslice(__pyx_v_vects, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_22)) __PYX_ERR(0, 53, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_22);
   __pyx_t_23 = NULL;
   __pyx_t_18 = 0;
@@ -3560,7 +3575,7 @@ static __Pyx_memviewslice __pyx_f_9potential_9Potential_get_shifts(CYTHON_UNUSED
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_2)) {
     PyObject *__pyx_temp[3] = {__pyx_t_23, __pyx_t_1, __pyx_t_22};
-    __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_18, 2+__pyx_t_18); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 52, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_18, 2+__pyx_t_18); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 53, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_23); __pyx_t_23 = 0;
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -3570,7 +3585,7 @@ static __Pyx_memviewslice __pyx_f_9potential_9Potential_get_shifts(CYTHON_UNUSED
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
     PyObject *__pyx_temp[3] = {__pyx_t_23, __pyx_t_1, __pyx_t_22};
-    __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_18, 2+__pyx_t_18); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 52, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_18, 2+__pyx_t_18); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 53, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_23); __pyx_t_23 = 0;
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -3578,7 +3593,7 @@ static __Pyx_memviewslice __pyx_f_9potential_9Potential_get_shifts(CYTHON_UNUSED
   } else
   #endif
   {
-    __pyx_t_24 = PyTuple_New(2+__pyx_t_18); if (unlikely(!__pyx_t_24)) __PYX_ERR(0, 52, __pyx_L1_error)
+    __pyx_t_24 = PyTuple_New(2+__pyx_t_18); if (unlikely(!__pyx_t_24)) __PYX_ERR(0, 53, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_24);
     if (__pyx_t_23) {
       __Pyx_GIVEREF(__pyx_t_23); PyTuple_SET_ITEM(__pyx_t_24, 0, __pyx_t_23); __pyx_t_23 = NULL;
@@ -3589,19 +3604,19 @@ static __Pyx_memviewslice __pyx_f_9potential_9Potential_get_shifts(CYTHON_UNUSED
     PyTuple_SET_ITEM(__pyx_t_24, 1+__pyx_t_18, __pyx_t_22);
     __pyx_t_1 = 0;
     __pyx_t_22 = 0;
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_24, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 52, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_24, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 53, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_24); __pyx_t_24 = 0;
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_4 = __Pyx_PyObject_to_MemoryviewSlice_dsds_double(__pyx_t_3, PyBUF_WRITABLE); if (unlikely(!__pyx_t_4.memview)) __PYX_ERR(0, 52, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_to_MemoryviewSlice_dsds_double(__pyx_t_3, PyBUF_WRITABLE); if (unlikely(!__pyx_t_4.memview)) __PYX_ERR(0, 53, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __PYX_XDEC_MEMVIEW(&__pyx_v_shifts_view, 1);
   __pyx_v_shifts_view = __pyx_t_4;
   __pyx_t_4.memview = NULL;
   __pyx_t_4.data = NULL;
 
-  /* "potential.pyx":53
+  /* "potential.pyx":54
  * 						i = i+1
  * 		shifts_view = np.dot(shifts_view,vects)
  * 		return shifts_view             # <<<<<<<<<<<<<<
@@ -3612,7 +3627,7 @@ static __Pyx_memviewslice __pyx_f_9potential_9Potential_get_shifts(CYTHON_UNUSED
   __pyx_r = __pyx_v_shifts_view;
   goto __pyx_L0;
 
-  /* "potential.pyx":30
+  /* "potential.pyx":31
  * cdef class Potential:
  * 
  * 	cdef double[:,:] get_shifts(self, int cut_off, double[:,:] vects):             # <<<<<<<<<<<<<<
@@ -3931,9 +3946,9 @@ static PyObject *__pyx_pf_9potential_9Potential_2__setstate_cython__(struct __py
   return __pyx_r;
 }
 
-/* "potential.pyx":82
- * 	# cdef bint param_flag
+/* "potential.pyx":75
  * 
+ * 	"""
  * 	def __init__(self):             # <<<<<<<<<<<<<<
  * 		self.alpha = 0
  * 		self.real_cut_off = 0
@@ -3965,8 +3980,8 @@ static int __pyx_pf_9potential_7Coulomb___init__(struct __pyx_obj_9potential_Cou
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "potential.pyx":83
- * 
+  /* "potential.pyx":76
+ * 	"""
  * 	def __init__(self):
  * 		self.alpha = 0             # <<<<<<<<<<<<<<
  * 		self.real_cut_off = 0
@@ -3974,7 +3989,7 @@ static int __pyx_pf_9potential_7Coulomb___init__(struct __pyx_obj_9potential_Cou
  */
   __pyx_v_self->alpha = 0.0;
 
-  /* "potential.pyx":84
+  /* "potential.pyx":77
  * 	def __init__(self):
  * 		self.alpha = 0
  * 		self.real_cut_off = 0             # <<<<<<<<<<<<<<
@@ -3983,7 +3998,7 @@ static int __pyx_pf_9potential_7Coulomb___init__(struct __pyx_obj_9potential_Cou
  */
   __pyx_v_self->real_cut_off = 0;
 
-  /* "potential.pyx":85
+  /* "potential.pyx":78
  * 		self.alpha = 0
  * 		self.real_cut_off = 0
  * 		self.recip_cut_off = 0             # <<<<<<<<<<<<<<
@@ -3992,7 +4007,7 @@ static int __pyx_pf_9potential_7Coulomb___init__(struct __pyx_obj_9potential_Cou
  */
   __pyx_v_self->recip_cut_off = 0;
 
-  /* "potential.pyx":86
+  /* "potential.pyx":79
  * 		self.real_cut_off = 0
  * 		self.recip_cut_off = 0
  * 		self.made_const = 0             # <<<<<<<<<<<<<<
@@ -4001,7 +4016,7 @@ static int __pyx_pf_9potential_7Coulomb___init__(struct __pyx_obj_9potential_Cou
  */
   __pyx_v_self->made_const = 0.0;
 
-  /* "potential.pyx":88
+  /* "potential.pyx":81
  * 		self.made_const = 0
  * 
  * 		self.chemical_symbols = None             # <<<<<<<<<<<<<<
@@ -4014,33 +4029,33 @@ static int __pyx_pf_9potential_7Coulomb___init__(struct __pyx_obj_9potential_Cou
   __Pyx_DECREF(((PyObject *)__pyx_v_self->chemical_symbols));
   __pyx_v_self->chemical_symbols = ((PyArrayObject *)Py_None);
 
-  /* "potential.pyx":89
+  /* "potential.pyx":82
  * 
  * 		self.chemical_symbols = None
  * 		self.charges = None             # <<<<<<<<<<<<<<
  * 		self.grad = None
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_ds_int(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(0, 89, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_ds_int(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(0, 82, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->charges, 0);
   __pyx_v_self->charges = __pyx_t_1;
   __pyx_t_1.memview = NULL;
   __pyx_t_1.data = NULL;
 
-  /* "potential.pyx":90
+  /* "potential.pyx":83
  * 		self.chemical_symbols = None
  * 		self.charges = None
  * 		self.grad = None             # <<<<<<<<<<<<<<
  * 
  * 		self.param_flag = False
  */
-  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dsds_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(0, 90, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dsds_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(0, 83, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->grad, 0);
   __pyx_v_self->grad = __pyx_t_2;
   __pyx_t_2.memview = NULL;
   __pyx_t_2.data = NULL;
 
-  /* "potential.pyx":92
+  /* "potential.pyx":85
  * 		self.grad = None
  * 
  * 		self.param_flag = False             # <<<<<<<<<<<<<<
@@ -4049,9 +4064,9 @@ static int __pyx_pf_9potential_7Coulomb___init__(struct __pyx_obj_9potential_Cou
  */
   __pyx_v_self->param_flag = 0;
 
-  /* "potential.pyx":82
- * 	# cdef bint param_flag
+  /* "potential.pyx":75
  * 
+ * 	"""
  * 	def __init__(self):             # <<<<<<<<<<<<<<
  * 		self.alpha = 0
  * 		self.real_cut_off = 0
@@ -4070,7 +4085,7 @@ static int __pyx_pf_9potential_7Coulomb___init__(struct __pyx_obj_9potential_Cou
   return __pyx_r;
 }
 
-/* "potential.pyx":96
+/* "potential.pyx":89
  * 	@cython.boundscheck(False)
  * 	@cython.wraparound(False)
  * 	cpdef set_parameters(self, double alpha, \             # <<<<<<<<<<<<<<
@@ -4081,7 +4096,7 @@ static int __pyx_pf_9potential_7Coulomb___init__(struct __pyx_obj_9potential_Cou
 static PyObject *__pyx_pw_9potential_7Coulomb_3set_parameters(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static PyObject *__pyx_f_9potential_7Coulomb_set_parameters(struct __pyx_obj_9potential_Coulomb *__pyx_v_self, double __pyx_v_alpha, double __pyx_v_real_cut_off, double __pyx_v_recip_cut_off, PyArrayObject *__pyx_v_chemical_symbols, int __pyx_v_N, PyObject *__pyx_v_charge_dict, int __pyx_skip_dispatch, struct __pyx_opt_args_9potential_7Coulomb_set_parameters *__pyx_optional_args) {
 
-  /* "potential.pyx":99
+  /* "potential.pyx":92
  * 		double real_cut_off, double recip_cut_off, \
  * 		cnp.ndarray chemical_symbols, int N,
  * 		charge_dict, str filename=None):             # <<<<<<<<<<<<<<
@@ -4135,7 +4150,7 @@ static PyObject *__pyx_f_9potential_7Coulomb_set_parameters(struct __pyx_obj_9po
     }
   }
 
-  /* "potential.pyx":96
+  /* "potential.pyx":89
  * 	@cython.boundscheck(False)
  * 	@cython.wraparound(False)
  * 	cpdef set_parameters(self, double alpha, \             # <<<<<<<<<<<<<<
@@ -4151,17 +4166,17 @@ static PyObject *__pyx_f_9potential_7Coulomb_set_parameters(struct __pyx_obj_9po
     if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
       PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
       #endif
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_set_parameters); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 96, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_set_parameters); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 89, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_9potential_7Coulomb_3set_parameters)) {
         __Pyx_XDECREF(__pyx_r);
-        __pyx_t_3 = PyFloat_FromDouble(__pyx_v_alpha); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 96, __pyx_L1_error)
+        __pyx_t_3 = PyFloat_FromDouble(__pyx_v_alpha); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 89, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
-        __pyx_t_4 = PyFloat_FromDouble(__pyx_v_real_cut_off); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 96, __pyx_L1_error)
+        __pyx_t_4 = PyFloat_FromDouble(__pyx_v_real_cut_off); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 89, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
-        __pyx_t_5 = PyFloat_FromDouble(__pyx_v_recip_cut_off); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 96, __pyx_L1_error)
+        __pyx_t_5 = PyFloat_FromDouble(__pyx_v_recip_cut_off); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 89, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
-        __pyx_t_6 = __Pyx_PyInt_From_int(__pyx_v_N); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 96, __pyx_L1_error)
+        __pyx_t_6 = __Pyx_PyInt_From_int(__pyx_v_N); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 89, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_6);
         __Pyx_INCREF(__pyx_t_1);
         __pyx_t_7 = __pyx_t_1; __pyx_t_8 = NULL;
@@ -4179,7 +4194,7 @@ static PyObject *__pyx_f_9potential_7Coulomb_set_parameters(struct __pyx_obj_9po
         #if CYTHON_FAST_PYCALL
         if (PyFunction_Check(__pyx_t_7)) {
           PyObject *__pyx_temp[8] = {__pyx_t_8, __pyx_t_3, __pyx_t_4, __pyx_t_5, ((PyObject *)__pyx_v_chemical_symbols), __pyx_t_6, __pyx_v_charge_dict, __pyx_v_filename};
-          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_9, 7+__pyx_t_9); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 96, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_9, 7+__pyx_t_9); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 89, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -4191,7 +4206,7 @@ static PyObject *__pyx_f_9potential_7Coulomb_set_parameters(struct __pyx_obj_9po
         #if CYTHON_FAST_PYCCALL
         if (__Pyx_PyFastCFunction_Check(__pyx_t_7)) {
           PyObject *__pyx_temp[8] = {__pyx_t_8, __pyx_t_3, __pyx_t_4, __pyx_t_5, ((PyObject *)__pyx_v_chemical_symbols), __pyx_t_6, __pyx_v_charge_dict, __pyx_v_filename};
-          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_9, 7+__pyx_t_9); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 96, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_9, 7+__pyx_t_9); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 89, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -4201,7 +4216,7 @@ static PyObject *__pyx_f_9potential_7Coulomb_set_parameters(struct __pyx_obj_9po
         } else
         #endif
         {
-          __pyx_t_10 = PyTuple_New(7+__pyx_t_9); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 96, __pyx_L1_error)
+          __pyx_t_10 = PyTuple_New(7+__pyx_t_9); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 89, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_10);
           if (__pyx_t_8) {
             __Pyx_GIVEREF(__pyx_t_8); PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_t_8); __pyx_t_8 = NULL;
@@ -4227,7 +4242,7 @@ static PyObject *__pyx_f_9potential_7Coulomb_set_parameters(struct __pyx_obj_9po
           __pyx_t_4 = 0;
           __pyx_t_5 = 0;
           __pyx_t_6 = 0;
-          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_10, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 96, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_10, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 89, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
         }
@@ -4250,7 +4265,7 @@ static PyObject *__pyx_f_9potential_7Coulomb_set_parameters(struct __pyx_obj_9po
     #endif
   }
 
-  /* "potential.pyx":105
+  /* "potential.pyx":98
  * 
  * 		"""
  * 		self.real_cut_off = int(ceil(real_cut_off))             # <<<<<<<<<<<<<<
@@ -4259,7 +4274,7 @@ static PyObject *__pyx_f_9potential_7Coulomb_set_parameters(struct __pyx_obj_9po
  */
   __pyx_v_self->real_cut_off = ((int)ceil(__pyx_v_real_cut_off));
 
-  /* "potential.pyx":106
+  /* "potential.pyx":99
  * 		"""
  * 		self.real_cut_off = int(ceil(real_cut_off))
  * 		self.recip_cut_off = int(ceil(recip_cut_off))             # <<<<<<<<<<<<<<
@@ -4268,7 +4283,7 @@ static PyObject *__pyx_f_9potential_7Coulomb_set_parameters(struct __pyx_obj_9po
  */
   __pyx_v_self->recip_cut_off = ((int)ceil(__pyx_v_recip_cut_off));
 
-  /* "potential.pyx":107
+  /* "potential.pyx":100
  * 		self.real_cut_off = int(ceil(real_cut_off))
  * 		self.recip_cut_off = int(ceil(recip_cut_off))
  * 		self.alpha = alpha             # <<<<<<<<<<<<<<
@@ -4277,7 +4292,7 @@ static PyObject *__pyx_f_9potential_7Coulomb_set_parameters(struct __pyx_obj_9po
  */
   __pyx_v_self->alpha = __pyx_v_alpha;
 
-  /* "potential.pyx":108
+  /* "potential.pyx":101
  * 		self.recip_cut_off = int(ceil(recip_cut_off))
  * 		self.alpha = alpha
  * 		self.made_const = 0             # <<<<<<<<<<<<<<
@@ -4286,14 +4301,14 @@ static PyObject *__pyx_f_9potential_7Coulomb_set_parameters(struct __pyx_obj_9po
  */
   __pyx_v_self->made_const = 0.0;
 
-  /* "potential.pyx":109
+  /* "potential.pyx":102
  * 		self.alpha = alpha
  * 		self.made_const = 0
  * 		self.chemical_symbols = chemical_symbols.copy()             # <<<<<<<<<<<<<<
  * 
  * 		self.eself = 0
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_chemical_symbols), __pyx_n_s_copy); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 109, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_chemical_symbols), __pyx_n_s_copy); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 102, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_7 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -4307,17 +4322,17 @@ static PyObject *__pyx_f_9potential_7Coulomb_set_parameters(struct __pyx_obj_9po
   }
   __pyx_t_1 = (__pyx_t_7) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_7) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 109, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 102, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 109, __pyx_L1_error)
+  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 102, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v_self->chemical_symbols);
   __Pyx_DECREF(((PyObject *)__pyx_v_self->chemical_symbols));
   __pyx_v_self->chemical_symbols = ((PyArrayObject *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "potential.pyx":111
+  /* "potential.pyx":104
  * 		self.chemical_symbols = chemical_symbols.copy()
  * 
  * 		self.eself = 0             # <<<<<<<<<<<<<<
@@ -4326,7 +4341,7 @@ static PyObject *__pyx_f_9potential_7Coulomb_set_parameters(struct __pyx_obj_9po
  */
   __pyx_v_self->eself = 0.0;
 
-  /* "potential.pyx":112
+  /* "potential.pyx":105
  * 
  * 		self.eself = 0
  * 		self.ereal = 0             # <<<<<<<<<<<<<<
@@ -4335,7 +4350,7 @@ static PyObject *__pyx_f_9potential_7Coulomb_set_parameters(struct __pyx_obj_9po
  */
   __pyx_v_self->ereal = 0.0;
 
-  /* "potential.pyx":113
+  /* "potential.pyx":106
  * 		self.eself = 0
  * 		self.ereal = 0
  * 		self.erecip = 0             # <<<<<<<<<<<<<<
@@ -4344,18 +4359,18 @@ static PyObject *__pyx_f_9potential_7Coulomb_set_parameters(struct __pyx_obj_9po
  */
   __pyx_v_self->erecip = 0.0;
 
-  /* "potential.pyx":114
+  /* "potential.pyx":107
  * 		self.ereal = 0
  * 		self.erecip = 0
  * 		self.grad = cvarray(shape=(N,3), \             # <<<<<<<<<<<<<<
  * 								itemsize=sizeof(double), format="d")
  * 
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 114, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 107, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_N); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 114, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_N); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 107, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_7 = PyTuple_New(2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 114, __pyx_L1_error)
+  __pyx_t_7 = PyTuple_New(2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 107, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_2);
@@ -4363,40 +4378,40 @@ static PyObject *__pyx_f_9potential_7Coulomb_set_parameters(struct __pyx_obj_9po
   __Pyx_GIVEREF(__pyx_int_3);
   PyTuple_SET_ITEM(__pyx_t_7, 1, __pyx_int_3);
   __pyx_t_2 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_shape, __pyx_t_7) < 0) __PYX_ERR(0, 114, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_shape, __pyx_t_7) < 0) __PYX_ERR(0, 107, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-  /* "potential.pyx":115
+  /* "potential.pyx":108
  * 		self.erecip = 0
  * 		self.grad = cvarray(shape=(N,3), \
  * 								itemsize=sizeof(double), format="d")             # <<<<<<<<<<<<<<
  * 
  * 		cdef int count = 0
  */
-  __pyx_t_7 = __Pyx_PyInt_FromSize_t((sizeof(double))); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 115, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyInt_FromSize_t((sizeof(double))); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 108, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_itemsize, __pyx_t_7) < 0) __PYX_ERR(0, 114, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_itemsize, __pyx_t_7) < 0) __PYX_ERR(0, 107, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_format, __pyx_n_u_d) < 0) __PYX_ERR(0, 114, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_format, __pyx_n_u_d) < 0) __PYX_ERR(0, 107, __pyx_L1_error)
 
-  /* "potential.pyx":114
+  /* "potential.pyx":107
  * 		self.ereal = 0
  * 		self.erecip = 0
  * 		self.grad = cvarray(shape=(N,3), \             # <<<<<<<<<<<<<<
  * 								itemsize=sizeof(double), format="d")
  * 
  */
-  __pyx_t_7 = __Pyx_PyObject_Call(((PyObject *)__pyx_array_type), __pyx_empty_tuple, __pyx_t_1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 114, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_Call(((PyObject *)__pyx_array_type), __pyx_empty_tuple, __pyx_t_1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 107, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_11 = __Pyx_PyObject_to_MemoryviewSlice_dsds_double(__pyx_t_7, PyBUF_WRITABLE); if (unlikely(!__pyx_t_11.memview)) __PYX_ERR(0, 114, __pyx_L1_error)
+  __pyx_t_11 = __Pyx_PyObject_to_MemoryviewSlice_dsds_double(__pyx_t_7, PyBUF_WRITABLE); if (unlikely(!__pyx_t_11.memview)) __PYX_ERR(0, 107, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->grad, 0);
   __pyx_v_self->grad = __pyx_t_11;
   __pyx_t_11.memview = NULL;
   __pyx_t_11.data = NULL;
 
-  /* "potential.pyx":117
+  /* "potential.pyx":110
  * 								itemsize=sizeof(double), format="d")
  * 
  * 		cdef int count = 0             # <<<<<<<<<<<<<<
@@ -4405,56 +4420,56 @@ static PyObject *__pyx_f_9potential_7Coulomb_set_parameters(struct __pyx_obj_9po
  */
   __pyx_v_count = 0;
 
-  /* "potential.pyx":118
+  /* "potential.pyx":111
  * 
  * 		cdef int count = 0
  * 		self.charges = cvarray(shape=(N,), \             # <<<<<<<<<<<<<<
  * 								itemsize=sizeof(int), format="i")
  * 		for elem in chemical_symbols: # for every ion get its ch.symbol "elem"
  */
-  __pyx_t_7 = __Pyx_PyDict_NewPresized(3); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 118, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyDict_NewPresized(3); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 111, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_N); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 118, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_N); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 111, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 118, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 111, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1);
   __pyx_t_1 = 0;
-  if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_shape, __pyx_t_2) < 0) __PYX_ERR(0, 118, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_shape, __pyx_t_2) < 0) __PYX_ERR(0, 111, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "potential.pyx":119
+  /* "potential.pyx":112
  * 		cdef int count = 0
  * 		self.charges = cvarray(shape=(N,), \
  * 								itemsize=sizeof(int), format="i")             # <<<<<<<<<<<<<<
  * 		for elem in chemical_symbols: # for every ion get its ch.symbol "elem"
  * 			self.charges[count] = charge_dict[elem]
  */
-  __pyx_t_2 = __Pyx_PyInt_FromSize_t((sizeof(int))); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 119, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_FromSize_t((sizeof(int))); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 112, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_itemsize, __pyx_t_2) < 0) __PYX_ERR(0, 118, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_itemsize, __pyx_t_2) < 0) __PYX_ERR(0, 111, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_format, __pyx_n_u_i) < 0) __PYX_ERR(0, 118, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_format, __pyx_n_u_i) < 0) __PYX_ERR(0, 111, __pyx_L1_error)
 
-  /* "potential.pyx":118
+  /* "potential.pyx":111
  * 
  * 		cdef int count = 0
  * 		self.charges = cvarray(shape=(N,), \             # <<<<<<<<<<<<<<
  * 								itemsize=sizeof(int), format="i")
  * 		for elem in chemical_symbols: # for every ion get its ch.symbol "elem"
  */
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_array_type), __pyx_empty_tuple, __pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 118, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_array_type), __pyx_empty_tuple, __pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 111, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_t_12 = __Pyx_PyObject_to_MemoryviewSlice_ds_int(__pyx_t_2, PyBUF_WRITABLE); if (unlikely(!__pyx_t_12.memview)) __PYX_ERR(0, 118, __pyx_L1_error)
+  __pyx_t_12 = __Pyx_PyObject_to_MemoryviewSlice_ds_int(__pyx_t_2, PyBUF_WRITABLE); if (unlikely(!__pyx_t_12.memview)) __PYX_ERR(0, 111, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->charges, 0);
   __pyx_v_self->charges = __pyx_t_12;
   __pyx_t_12.memview = NULL;
   __pyx_t_12.data = NULL;
 
-  /* "potential.pyx":120
+  /* "potential.pyx":113
  * 		self.charges = cvarray(shape=(N,), \
  * 								itemsize=sizeof(int), format="i")
  * 		for elem in chemical_symbols: # for every ion get its ch.symbol "elem"             # <<<<<<<<<<<<<<
@@ -4465,26 +4480,26 @@ static PyObject *__pyx_f_9potential_7Coulomb_set_parameters(struct __pyx_obj_9po
     __pyx_t_2 = ((PyObject *)__pyx_v_chemical_symbols); __Pyx_INCREF(__pyx_t_2); __pyx_t_13 = 0;
     __pyx_t_14 = NULL;
   } else {
-    __pyx_t_13 = -1; __pyx_t_2 = PyObject_GetIter(((PyObject *)__pyx_v_chemical_symbols)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 120, __pyx_L1_error)
+    __pyx_t_13 = -1; __pyx_t_2 = PyObject_GetIter(((PyObject *)__pyx_v_chemical_symbols)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 113, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_14 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 120, __pyx_L1_error)
+    __pyx_t_14 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 113, __pyx_L1_error)
   }
   for (;;) {
     if (likely(!__pyx_t_14)) {
       if (likely(PyList_CheckExact(__pyx_t_2))) {
         if (__pyx_t_13 >= PyList_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_7 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_13); __Pyx_INCREF(__pyx_t_7); __pyx_t_13++; if (unlikely(0 < 0)) __PYX_ERR(0, 120, __pyx_L1_error)
+        __pyx_t_7 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_13); __Pyx_INCREF(__pyx_t_7); __pyx_t_13++; if (unlikely(0 < 0)) __PYX_ERR(0, 113, __pyx_L1_error)
         #else
-        __pyx_t_7 = PySequence_ITEM(__pyx_t_2, __pyx_t_13); __pyx_t_13++; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 120, __pyx_L1_error)
+        __pyx_t_7 = PySequence_ITEM(__pyx_t_2, __pyx_t_13); __pyx_t_13++; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 113, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
         #endif
       } else {
         if (__pyx_t_13 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_7 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_13); __Pyx_INCREF(__pyx_t_7); __pyx_t_13++; if (unlikely(0 < 0)) __PYX_ERR(0, 120, __pyx_L1_error)
+        __pyx_t_7 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_13); __Pyx_INCREF(__pyx_t_7); __pyx_t_13++; if (unlikely(0 < 0)) __PYX_ERR(0, 113, __pyx_L1_error)
         #else
-        __pyx_t_7 = PySequence_ITEM(__pyx_t_2, __pyx_t_13); __pyx_t_13++; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 120, __pyx_L1_error)
+        __pyx_t_7 = PySequence_ITEM(__pyx_t_2, __pyx_t_13); __pyx_t_13++; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 113, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
         #endif
       }
@@ -4494,7 +4509,7 @@ static PyObject *__pyx_f_9potential_7Coulomb_set_parameters(struct __pyx_obj_9po
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 120, __pyx_L1_error)
+          else __PYX_ERR(0, 113, __pyx_L1_error)
         }
         break;
       }
@@ -4503,22 +4518,22 @@ static PyObject *__pyx_f_9potential_7Coulomb_set_parameters(struct __pyx_obj_9po
     __Pyx_XDECREF_SET(__pyx_v_elem, __pyx_t_7);
     __pyx_t_7 = 0;
 
-    /* "potential.pyx":121
+    /* "potential.pyx":114
  * 								itemsize=sizeof(int), format="i")
  * 		for elem in chemical_symbols: # for every ion get its ch.symbol "elem"
  * 			self.charges[count] = charge_dict[elem]             # <<<<<<<<<<<<<<
  * 			count += 1
  * 
  */
-    __pyx_t_7 = __Pyx_PyObject_GetItem(__pyx_v_charge_dict, __pyx_v_elem); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 121, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_GetItem(__pyx_v_charge_dict, __pyx_v_elem); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 114, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_9 = __Pyx_PyInt_As_int(__pyx_t_7); if (unlikely((__pyx_t_9 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 121, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyInt_As_int(__pyx_t_7); if (unlikely((__pyx_t_9 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 114, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    if (unlikely(!__pyx_v_self->charges.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 121, __pyx_L1_error)}
+    if (unlikely(!__pyx_v_self->charges.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 114, __pyx_L1_error)}
     __pyx_t_15 = __pyx_v_count;
     *((int *) ( /* dim=0 */ (__pyx_v_self->charges.data + __pyx_t_15 * __pyx_v_self->charges.strides[0]) )) = __pyx_t_9;
 
-    /* "potential.pyx":122
+    /* "potential.pyx":115
  * 		for elem in chemical_symbols: # for every ion get its ch.symbol "elem"
  * 			self.charges[count] = charge_dict[elem]
  * 			count += 1             # <<<<<<<<<<<<<<
@@ -4527,7 +4542,7 @@ static PyObject *__pyx_f_9potential_7Coulomb_set_parameters(struct __pyx_obj_9po
  */
     __pyx_v_count = (__pyx_v_count + 1);
 
-    /* "potential.pyx":120
+    /* "potential.pyx":113
  * 		self.charges = cvarray(shape=(N,), \
  * 								itemsize=sizeof(int), format="i")
  * 		for elem in chemical_symbols: # for every ion get its ch.symbol "elem"             # <<<<<<<<<<<<<<
@@ -4537,7 +4552,7 @@ static PyObject *__pyx_f_9potential_7Coulomb_set_parameters(struct __pyx_obj_9po
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "potential.pyx":124
+  /* "potential.pyx":117
  * 			count += 1
  * 
  * 		if filename:             # <<<<<<<<<<<<<<
@@ -4547,7 +4562,7 @@ static PyObject *__pyx_f_9potential_7Coulomb_set_parameters(struct __pyx_obj_9po
   __pyx_t_16 = (__pyx_v_filename != Py_None)&&(__Pyx_PyUnicode_IS_TRUE(__pyx_v_filename) != 0);
   if (__pyx_t_16) {
 
-    /* "potential.pyx":125
+    /* "potential.pyx":118
  * 
  * 		if filename:
  * 			try:             # <<<<<<<<<<<<<<
@@ -4563,7 +4578,7 @@ static PyObject *__pyx_f_9potential_7Coulomb_set_parameters(struct __pyx_obj_9po
       __Pyx_XGOTREF(__pyx_t_19);
       /*try:*/ {
 
-        /* "potential.pyx":126
+        /* "potential.pyx":119
  * 		if filename:
  * 			try:
  * 				with open(filename,"r") as fin:             # <<<<<<<<<<<<<<
@@ -4571,7 +4586,7 @@ static PyObject *__pyx_f_9potential_7Coulomb_set_parameters(struct __pyx_obj_9po
  * 						line = line.split()
  */
         /*with:*/ {
-          __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 126, __pyx_L6_error)
+          __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 119, __pyx_L6_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_INCREF(__pyx_v_filename);
           __Pyx_GIVEREF(__pyx_v_filename);
@@ -4579,12 +4594,12 @@ static PyObject *__pyx_f_9potential_7Coulomb_set_parameters(struct __pyx_obj_9po
           __Pyx_INCREF(__pyx_n_u_r);
           __Pyx_GIVEREF(__pyx_n_u_r);
           PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_n_u_r);
-          __pyx_t_7 = __Pyx_PyObject_Call(__pyx_builtin_open, __pyx_t_2, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 126, __pyx_L6_error)
+          __pyx_t_7 = __Pyx_PyObject_Call(__pyx_builtin_open, __pyx_t_2, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 119, __pyx_L6_error)
           __Pyx_GOTREF(__pyx_t_7);
           __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-          __pyx_t_20 = __Pyx_PyObject_LookupSpecial(__pyx_t_7, __pyx_n_s_exit); if (unlikely(!__pyx_t_20)) __PYX_ERR(0, 126, __pyx_L6_error)
+          __pyx_t_20 = __Pyx_PyObject_LookupSpecial(__pyx_t_7, __pyx_n_s_exit); if (unlikely(!__pyx_t_20)) __PYX_ERR(0, 119, __pyx_L6_error)
           __Pyx_GOTREF(__pyx_t_20);
-          __pyx_t_1 = __Pyx_PyObject_LookupSpecial(__pyx_t_7, __pyx_n_s_enter); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 126, __pyx_L12_error)
+          __pyx_t_1 = __Pyx_PyObject_LookupSpecial(__pyx_t_7, __pyx_n_s_enter); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 119, __pyx_L12_error)
           __Pyx_GOTREF(__pyx_t_1);
           __pyx_t_10 = NULL;
           if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_1))) {
@@ -4598,7 +4613,7 @@ static PyObject *__pyx_f_9potential_7Coulomb_set_parameters(struct __pyx_obj_9po
           }
           __pyx_t_2 = (__pyx_t_10) ? __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_10) : __Pyx_PyObject_CallNoArg(__pyx_t_1);
           __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
-          if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 126, __pyx_L12_error)
+          if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 119, __pyx_L12_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
           __pyx_t_1 = __pyx_t_2;
@@ -4616,7 +4631,7 @@ static PyObject *__pyx_f_9potential_7Coulomb_set_parameters(struct __pyx_obj_9po
                 __pyx_v_fin = __pyx_t_1;
                 __pyx_t_1 = 0;
 
-                /* "potential.pyx":127
+                /* "potential.pyx":120
  * 			try:
  * 				with open(filename,"r") as fin:
  * 					for line in fin:             # <<<<<<<<<<<<<<
@@ -4627,26 +4642,26 @@ static PyObject *__pyx_f_9potential_7Coulomb_set_parameters(struct __pyx_obj_9po
                   __pyx_t_1 = __pyx_v_fin; __Pyx_INCREF(__pyx_t_1); __pyx_t_13 = 0;
                   __pyx_t_14 = NULL;
                 } else {
-                  __pyx_t_13 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_fin); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 127, __pyx_L16_error)
+                  __pyx_t_13 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_fin); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 120, __pyx_L16_error)
                   __Pyx_GOTREF(__pyx_t_1);
-                  __pyx_t_14 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 127, __pyx_L16_error)
+                  __pyx_t_14 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 120, __pyx_L16_error)
                 }
                 for (;;) {
                   if (likely(!__pyx_t_14)) {
                     if (likely(PyList_CheckExact(__pyx_t_1))) {
                       if (__pyx_t_13 >= PyList_GET_SIZE(__pyx_t_1)) break;
                       #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-                      __pyx_t_7 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_13); __Pyx_INCREF(__pyx_t_7); __pyx_t_13++; if (unlikely(0 < 0)) __PYX_ERR(0, 127, __pyx_L16_error)
+                      __pyx_t_7 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_13); __Pyx_INCREF(__pyx_t_7); __pyx_t_13++; if (unlikely(0 < 0)) __PYX_ERR(0, 120, __pyx_L16_error)
                       #else
-                      __pyx_t_7 = PySequence_ITEM(__pyx_t_1, __pyx_t_13); __pyx_t_13++; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 127, __pyx_L16_error)
+                      __pyx_t_7 = PySequence_ITEM(__pyx_t_1, __pyx_t_13); __pyx_t_13++; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 120, __pyx_L16_error)
                       __Pyx_GOTREF(__pyx_t_7);
                       #endif
                     } else {
                       if (__pyx_t_13 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
                       #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-                      __pyx_t_7 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_13); __Pyx_INCREF(__pyx_t_7); __pyx_t_13++; if (unlikely(0 < 0)) __PYX_ERR(0, 127, __pyx_L16_error)
+                      __pyx_t_7 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_13); __Pyx_INCREF(__pyx_t_7); __pyx_t_13++; if (unlikely(0 < 0)) __PYX_ERR(0, 120, __pyx_L16_error)
                       #else
-                      __pyx_t_7 = PySequence_ITEM(__pyx_t_1, __pyx_t_13); __pyx_t_13++; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 127, __pyx_L16_error)
+                      __pyx_t_7 = PySequence_ITEM(__pyx_t_1, __pyx_t_13); __pyx_t_13++; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 120, __pyx_L16_error)
                       __Pyx_GOTREF(__pyx_t_7);
                       #endif
                     }
@@ -4656,7 +4671,7 @@ static PyObject *__pyx_f_9potential_7Coulomb_set_parameters(struct __pyx_obj_9po
                       PyObject* exc_type = PyErr_Occurred();
                       if (exc_type) {
                         if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-                        else __PYX_ERR(0, 127, __pyx_L16_error)
+                        else __PYX_ERR(0, 120, __pyx_L16_error)
                       }
                       break;
                     }
@@ -4665,14 +4680,14 @@ static PyObject *__pyx_f_9potential_7Coulomb_set_parameters(struct __pyx_obj_9po
                   __Pyx_XDECREF_SET(__pyx_v_line, __pyx_t_7);
                   __pyx_t_7 = 0;
 
-                  /* "potential.pyx":128
+                  /* "potential.pyx":121
  * 				with open(filename,"r") as fin:
  * 					for line in fin:
  * 						line = line.split()             # <<<<<<<<<<<<<<
  * 						found = True
  * 						for symbol in chemical_symbols:
  */
-                  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_line, __pyx_n_s_split); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 128, __pyx_L16_error)
+                  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_line, __pyx_n_s_split); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 121, __pyx_L16_error)
                   __Pyx_GOTREF(__pyx_t_2);
                   __pyx_t_10 = NULL;
                   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -4686,13 +4701,13 @@ static PyObject *__pyx_f_9potential_7Coulomb_set_parameters(struct __pyx_obj_9po
                   }
                   __pyx_t_7 = (__pyx_t_10) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_10) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
                   __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
-                  if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 128, __pyx_L16_error)
+                  if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 121, __pyx_L16_error)
                   __Pyx_GOTREF(__pyx_t_7);
                   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
                   __Pyx_DECREF_SET(__pyx_v_line, __pyx_t_7);
                   __pyx_t_7 = 0;
 
-                  /* "potential.pyx":129
+                  /* "potential.pyx":122
  * 					for line in fin:
  * 						line = line.split()
  * 						found = True             # <<<<<<<<<<<<<<
@@ -4701,7 +4716,7 @@ static PyObject *__pyx_f_9potential_7Coulomb_set_parameters(struct __pyx_obj_9po
  */
                   __pyx_v_found = 1;
 
-                  /* "potential.pyx":130
+                  /* "potential.pyx":123
  * 						line = line.split()
  * 						found = True
  * 						for symbol in chemical_symbols:             # <<<<<<<<<<<<<<
@@ -4712,26 +4727,26 @@ static PyObject *__pyx_f_9potential_7Coulomb_set_parameters(struct __pyx_obj_9po
                     __pyx_t_7 = ((PyObject *)__pyx_v_chemical_symbols); __Pyx_INCREF(__pyx_t_7); __pyx_t_24 = 0;
                     __pyx_t_25 = NULL;
                   } else {
-                    __pyx_t_24 = -1; __pyx_t_7 = PyObject_GetIter(((PyObject *)__pyx_v_chemical_symbols)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 130, __pyx_L16_error)
+                    __pyx_t_24 = -1; __pyx_t_7 = PyObject_GetIter(((PyObject *)__pyx_v_chemical_symbols)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 123, __pyx_L16_error)
                     __Pyx_GOTREF(__pyx_t_7);
-                    __pyx_t_25 = Py_TYPE(__pyx_t_7)->tp_iternext; if (unlikely(!__pyx_t_25)) __PYX_ERR(0, 130, __pyx_L16_error)
+                    __pyx_t_25 = Py_TYPE(__pyx_t_7)->tp_iternext; if (unlikely(!__pyx_t_25)) __PYX_ERR(0, 123, __pyx_L16_error)
                   }
                   for (;;) {
                     if (likely(!__pyx_t_25)) {
                       if (likely(PyList_CheckExact(__pyx_t_7))) {
                         if (__pyx_t_24 >= PyList_GET_SIZE(__pyx_t_7)) break;
                         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-                        __pyx_t_2 = PyList_GET_ITEM(__pyx_t_7, __pyx_t_24); __Pyx_INCREF(__pyx_t_2); __pyx_t_24++; if (unlikely(0 < 0)) __PYX_ERR(0, 130, __pyx_L16_error)
+                        __pyx_t_2 = PyList_GET_ITEM(__pyx_t_7, __pyx_t_24); __Pyx_INCREF(__pyx_t_2); __pyx_t_24++; if (unlikely(0 < 0)) __PYX_ERR(0, 123, __pyx_L16_error)
                         #else
-                        __pyx_t_2 = PySequence_ITEM(__pyx_t_7, __pyx_t_24); __pyx_t_24++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 130, __pyx_L16_error)
+                        __pyx_t_2 = PySequence_ITEM(__pyx_t_7, __pyx_t_24); __pyx_t_24++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 123, __pyx_L16_error)
                         __Pyx_GOTREF(__pyx_t_2);
                         #endif
                       } else {
                         if (__pyx_t_24 >= PyTuple_GET_SIZE(__pyx_t_7)) break;
                         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-                        __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_7, __pyx_t_24); __Pyx_INCREF(__pyx_t_2); __pyx_t_24++; if (unlikely(0 < 0)) __PYX_ERR(0, 130, __pyx_L16_error)
+                        __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_7, __pyx_t_24); __Pyx_INCREF(__pyx_t_2); __pyx_t_24++; if (unlikely(0 < 0)) __PYX_ERR(0, 123, __pyx_L16_error)
                         #else
-                        __pyx_t_2 = PySequence_ITEM(__pyx_t_7, __pyx_t_24); __pyx_t_24++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 130, __pyx_L16_error)
+                        __pyx_t_2 = PySequence_ITEM(__pyx_t_7, __pyx_t_24); __pyx_t_24++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 123, __pyx_L16_error)
                         __Pyx_GOTREF(__pyx_t_2);
                         #endif
                       }
@@ -4741,7 +4756,7 @@ static PyObject *__pyx_f_9potential_7Coulomb_set_parameters(struct __pyx_obj_9po
                         PyObject* exc_type = PyErr_Occurred();
                         if (exc_type) {
                           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-                          else __PYX_ERR(0, 130, __pyx_L16_error)
+                          else __PYX_ERR(0, 123, __pyx_L16_error)
                         }
                         break;
                       }
@@ -4750,18 +4765,18 @@ static PyObject *__pyx_f_9potential_7Coulomb_set_parameters(struct __pyx_obj_9po
                     __Pyx_XDECREF_SET(__pyx_v_symbol, __pyx_t_2);
                     __pyx_t_2 = 0;
 
-                    /* "potential.pyx":131
+                    /* "potential.pyx":124
  * 						found = True
  * 						for symbol in chemical_symbols:
  * 							if symbol not in line: # chemical formula does not match             # <<<<<<<<<<<<<<
  * 								found = False
  * 								break
  */
-                    __pyx_t_16 = (__Pyx_PySequence_ContainsTF(__pyx_v_symbol, __pyx_v_line, Py_NE)); if (unlikely(__pyx_t_16 < 0)) __PYX_ERR(0, 131, __pyx_L16_error)
+                    __pyx_t_16 = (__Pyx_PySequence_ContainsTF(__pyx_v_symbol, __pyx_v_line, Py_NE)); if (unlikely(__pyx_t_16 < 0)) __PYX_ERR(0, 124, __pyx_L16_error)
                     __pyx_t_26 = (__pyx_t_16 != 0);
                     if (__pyx_t_26) {
 
-                      /* "potential.pyx":132
+                      /* "potential.pyx":125
  * 						for symbol in chemical_symbols:
  * 							if symbol not in line: # chemical formula does not match
  * 								found = False             # <<<<<<<<<<<<<<
@@ -4770,7 +4785,7 @@ static PyObject *__pyx_f_9potential_7Coulomb_set_parameters(struct __pyx_obj_9po
  */
                       __pyx_v_found = 0;
 
-                      /* "potential.pyx":133
+                      /* "potential.pyx":126
  * 							if symbol not in line: # chemical formula does not match
  * 								found = False
  * 								break             # <<<<<<<<<<<<<<
@@ -4779,7 +4794,7 @@ static PyObject *__pyx_f_9potential_7Coulomb_set_parameters(struct __pyx_obj_9po
  */
                       goto __pyx_L25_break;
 
-                      /* "potential.pyx":131
+                      /* "potential.pyx":124
  * 						found = True
  * 						for symbol in chemical_symbols:
  * 							if symbol not in line: # chemical formula does not match             # <<<<<<<<<<<<<<
@@ -4788,7 +4803,7 @@ static PyObject *__pyx_f_9potential_7Coulomb_set_parameters(struct __pyx_obj_9po
  */
                     }
 
-                    /* "potential.pyx":134
+                    /* "potential.pyx":127
  * 								found = False
  * 								break
  * 							if found == True:  # correct formula             # <<<<<<<<<<<<<<
@@ -4798,26 +4813,26 @@ static PyObject *__pyx_f_9potential_7Coulomb_set_parameters(struct __pyx_obj_9po
                     __pyx_t_26 = ((__pyx_v_found == 1) != 0);
                     if (__pyx_t_26) {
 
-                      /* "potential.pyx":135
+                      /* "potential.pyx":128
  * 								break
  * 							if found == True:  # correct formula
  * 								self.made_const = float(line.shape[0]-2)             # <<<<<<<<<<<<<<
  * 			except IOError:
  * 				print("No Madelung library file found.")
  */
-                      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_line, __pyx_n_s_shape); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 135, __pyx_L16_error)
+                      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_line, __pyx_n_s_shape); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 128, __pyx_L16_error)
                       __Pyx_GOTREF(__pyx_t_2);
-                      __pyx_t_10 = __Pyx_GetItemInt(__pyx_t_2, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 135, __pyx_L16_error)
+                      __pyx_t_10 = __Pyx_GetItemInt(__pyx_t_2, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 128, __pyx_L16_error)
                       __Pyx_GOTREF(__pyx_t_10);
                       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-                      __pyx_t_2 = __Pyx_PyInt_SubtractObjC(__pyx_t_10, __pyx_int_2, 2, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 135, __pyx_L16_error)
+                      __pyx_t_2 = __Pyx_PyInt_SubtractObjC(__pyx_t_10, __pyx_int_2, 2, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 128, __pyx_L16_error)
                       __Pyx_GOTREF(__pyx_t_2);
                       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-                      __pyx_t_27 = __Pyx_PyObject_AsDouble(__pyx_t_2); if (unlikely(__pyx_t_27 == ((double)((double)-1)) && PyErr_Occurred())) __PYX_ERR(0, 135, __pyx_L16_error)
+                      __pyx_t_27 = __Pyx_PyObject_AsDouble(__pyx_t_2); if (unlikely(__pyx_t_27 == ((double)((double)-1)) && PyErr_Occurred())) __PYX_ERR(0, 128, __pyx_L16_error)
                       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
                       __pyx_v_self->made_const = __pyx_t_27;
 
-                      /* "potential.pyx":134
+                      /* "potential.pyx":127
  * 								found = False
  * 								break
  * 							if found == True:  # correct formula             # <<<<<<<<<<<<<<
@@ -4826,7 +4841,7 @@ static PyObject *__pyx_f_9potential_7Coulomb_set_parameters(struct __pyx_obj_9po
  */
                     }
 
-                    /* "potential.pyx":130
+                    /* "potential.pyx":123
  * 						line = line.split()
  * 						found = True
  * 						for symbol in chemical_symbols:             # <<<<<<<<<<<<<<
@@ -4837,7 +4852,7 @@ static PyObject *__pyx_f_9potential_7Coulomb_set_parameters(struct __pyx_obj_9po
                   __pyx_L25_break:;
                   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-                  /* "potential.pyx":127
+                  /* "potential.pyx":120
  * 			try:
  * 				with open(filename,"r") as fin:
  * 					for line in fin:             # <<<<<<<<<<<<<<
@@ -4847,7 +4862,7 @@ static PyObject *__pyx_f_9potential_7Coulomb_set_parameters(struct __pyx_obj_9po
                 }
                 __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-                /* "potential.pyx":126
+                /* "potential.pyx":119
  * 		if filename:
  * 			try:
  * 				with open(filename,"r") as fin:             # <<<<<<<<<<<<<<
@@ -4873,20 +4888,20 @@ static PyObject *__pyx_f_9potential_7Coulomb_set_parameters(struct __pyx_obj_9po
               __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
               /*except:*/ {
                 __Pyx_AddTraceback("potential.Coulomb.set_parameters", __pyx_clineno, __pyx_lineno, __pyx_filename);
-                if (__Pyx_GetException(&__pyx_t_1, &__pyx_t_7, &__pyx_t_2) < 0) __PYX_ERR(0, 126, __pyx_L18_except_error)
+                if (__Pyx_GetException(&__pyx_t_1, &__pyx_t_7, &__pyx_t_2) < 0) __PYX_ERR(0, 119, __pyx_L18_except_error)
                 __Pyx_GOTREF(__pyx_t_1);
                 __Pyx_GOTREF(__pyx_t_7);
                 __Pyx_GOTREF(__pyx_t_2);
-                __pyx_t_10 = PyTuple_Pack(3, __pyx_t_1, __pyx_t_7, __pyx_t_2); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 126, __pyx_L18_except_error)
+                __pyx_t_10 = PyTuple_Pack(3, __pyx_t_1, __pyx_t_7, __pyx_t_2); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 119, __pyx_L18_except_error)
                 __Pyx_GOTREF(__pyx_t_10);
                 __pyx_t_28 = __Pyx_PyObject_Call(__pyx_t_20, __pyx_t_10, NULL);
                 __Pyx_DECREF(__pyx_t_20); __pyx_t_20 = 0;
                 __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-                if (unlikely(!__pyx_t_28)) __PYX_ERR(0, 126, __pyx_L18_except_error)
+                if (unlikely(!__pyx_t_28)) __PYX_ERR(0, 119, __pyx_L18_except_error)
                 __Pyx_GOTREF(__pyx_t_28);
                 __pyx_t_26 = __Pyx_PyObject_IsTrue(__pyx_t_28);
                 __Pyx_DECREF(__pyx_t_28); __pyx_t_28 = 0;
-                if (__pyx_t_26 < 0) __PYX_ERR(0, 126, __pyx_L18_except_error)
+                if (__pyx_t_26 < 0) __PYX_ERR(0, 119, __pyx_L18_except_error)
                 __pyx_t_16 = ((!(__pyx_t_26 != 0)) != 0);
                 if (__pyx_t_16) {
                   __Pyx_GIVEREF(__pyx_t_1);
@@ -4894,7 +4909,7 @@ static PyObject *__pyx_f_9potential_7Coulomb_set_parameters(struct __pyx_obj_9po
                   __Pyx_XGIVEREF(__pyx_t_2);
                   __Pyx_ErrRestoreWithState(__pyx_t_1, __pyx_t_7, __pyx_t_2);
                   __pyx_t_1 = 0; __pyx_t_7 = 0; __pyx_t_2 = 0; 
-                  __PYX_ERR(0, 126, __pyx_L18_except_error)
+                  __PYX_ERR(0, 119, __pyx_L18_except_error)
                 }
                 __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
                 __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -4920,7 +4935,7 @@ static PyObject *__pyx_f_9potential_7Coulomb_set_parameters(struct __pyx_obj_9po
               if (__pyx_t_20) {
                 __pyx_t_23 = __Pyx_PyObject_Call(__pyx_t_20, __pyx_tuple_, NULL);
                 __Pyx_DECREF(__pyx_t_20); __pyx_t_20 = 0;
-                if (unlikely(!__pyx_t_23)) __PYX_ERR(0, 126, __pyx_L6_error)
+                if (unlikely(!__pyx_t_23)) __PYX_ERR(0, 119, __pyx_L6_error)
                 __Pyx_GOTREF(__pyx_t_23);
                 __Pyx_DECREF(__pyx_t_23); __pyx_t_23 = 0;
               }
@@ -4935,7 +4950,7 @@ static PyObject *__pyx_f_9potential_7Coulomb_set_parameters(struct __pyx_obj_9po
           __pyx_L31:;
         }
 
-        /* "potential.pyx":125
+        /* "potential.pyx":118
  * 
  * 		if filename:
  * 			try:             # <<<<<<<<<<<<<<
@@ -4960,7 +4975,7 @@ static PyObject *__pyx_f_9potential_7Coulomb_set_parameters(struct __pyx_obj_9po
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-      /* "potential.pyx":136
+      /* "potential.pyx":129
  * 							if found == True:  # correct formula
  * 								self.made_const = float(line.shape[0]-2)
  * 			except IOError:             # <<<<<<<<<<<<<<
@@ -4970,19 +4985,19 @@ static PyObject *__pyx_f_9potential_7Coulomb_set_parameters(struct __pyx_obj_9po
       __pyx_t_9 = __Pyx_PyErr_ExceptionMatches(__pyx_builtin_IOError);
       if (__pyx_t_9) {
         __Pyx_AddTraceback("potential.Coulomb.set_parameters", __pyx_clineno, __pyx_lineno, __pyx_filename);
-        if (__Pyx_GetException(&__pyx_t_2, &__pyx_t_7, &__pyx_t_1) < 0) __PYX_ERR(0, 136, __pyx_L8_except_error)
+        if (__Pyx_GetException(&__pyx_t_2, &__pyx_t_7, &__pyx_t_1) < 0) __PYX_ERR(0, 129, __pyx_L8_except_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_GOTREF(__pyx_t_7);
         __Pyx_GOTREF(__pyx_t_1);
 
-        /* "potential.pyx":137
+        /* "potential.pyx":130
  * 								self.made_const = float(line.shape[0]-2)
  * 			except IOError:
  * 				print("No Madelung library file found.")             # <<<<<<<<<<<<<<
  * 		self.param_flag = True
  * 
  */
-        __pyx_t_10 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__2, NULL); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 137, __pyx_L8_except_error)
+        __pyx_t_10 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__2, NULL); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 130, __pyx_L8_except_error)
         __Pyx_GOTREF(__pyx_t_10);
         __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
         __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -4993,7 +5008,7 @@ static PyObject *__pyx_f_9potential_7Coulomb_set_parameters(struct __pyx_obj_9po
       goto __pyx_L8_except_error;
       __pyx_L8_except_error:;
 
-      /* "potential.pyx":125
+      /* "potential.pyx":118
  * 
  * 		if filename:
  * 			try:             # <<<<<<<<<<<<<<
@@ -5013,7 +5028,7 @@ static PyObject *__pyx_f_9potential_7Coulomb_set_parameters(struct __pyx_obj_9po
       __pyx_L11_try_end:;
     }
 
-    /* "potential.pyx":124
+    /* "potential.pyx":117
  * 			count += 1
  * 
  * 		if filename:             # <<<<<<<<<<<<<<
@@ -5022,7 +5037,7 @@ static PyObject *__pyx_f_9potential_7Coulomb_set_parameters(struct __pyx_obj_9po
  */
   }
 
-  /* "potential.pyx":138
+  /* "potential.pyx":131
  * 			except IOError:
  * 				print("No Madelung library file found.")
  * 		self.param_flag = True             # <<<<<<<<<<<<<<
@@ -5031,7 +5046,7 @@ static PyObject *__pyx_f_9potential_7Coulomb_set_parameters(struct __pyx_obj_9po
  */
   __pyx_v_self->param_flag = 1;
 
-  /* "potential.pyx":96
+  /* "potential.pyx":89
  * 	@cython.boundscheck(False)
  * 	@cython.wraparound(False)
  * 	cpdef set_parameters(self, double alpha, \             # <<<<<<<<<<<<<<
@@ -5087,7 +5102,7 @@ static PyObject *__pyx_pw_9potential_7Coulomb_3set_parameters(PyObject *__pyx_v_
     static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_alpha,&__pyx_n_s_real_cut_off,&__pyx_n_s_recip_cut_off,&__pyx_n_s_chemical_symbols,&__pyx_n_s_N,&__pyx_n_s_charge_dict,&__pyx_n_s_filename,0};
     PyObject* values[7] = {0,0,0,0,0,0,0};
 
-    /* "potential.pyx":99
+    /* "potential.pyx":92
  * 		double real_cut_off, double recip_cut_off, \
  * 		cnp.ndarray chemical_symbols, int N,
  * 		charge_dict, str filename=None):             # <<<<<<<<<<<<<<
@@ -5125,31 +5140,31 @@ static PyObject *__pyx_pw_9potential_7Coulomb_3set_parameters(PyObject *__pyx_v_
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_real_cut_off)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("set_parameters", 0, 6, 7, 1); __PYX_ERR(0, 96, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("set_parameters", 0, 6, 7, 1); __PYX_ERR(0, 89, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_recip_cut_off)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("set_parameters", 0, 6, 7, 2); __PYX_ERR(0, 96, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("set_parameters", 0, 6, 7, 2); __PYX_ERR(0, 89, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
         if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_chemical_symbols)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("set_parameters", 0, 6, 7, 3); __PYX_ERR(0, 96, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("set_parameters", 0, 6, 7, 3); __PYX_ERR(0, 89, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  4:
         if (likely((values[4] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_N)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("set_parameters", 0, 6, 7, 4); __PYX_ERR(0, 96, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("set_parameters", 0, 6, 7, 4); __PYX_ERR(0, 89, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  5:
         if (likely((values[5] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_charge_dict)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("set_parameters", 0, 6, 7, 5); __PYX_ERR(0, 96, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("set_parameters", 0, 6, 7, 5); __PYX_ERR(0, 89, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  6:
@@ -5159,7 +5174,7 @@ static PyObject *__pyx_pw_9potential_7Coulomb_3set_parameters(PyObject *__pyx_v_
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "set_parameters") < 0)) __PYX_ERR(0, 96, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "set_parameters") < 0)) __PYX_ERR(0, 89, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -5175,27 +5190,27 @@ static PyObject *__pyx_pw_9potential_7Coulomb_3set_parameters(PyObject *__pyx_v_
         default: goto __pyx_L5_argtuple_error;
       }
     }
-    __pyx_v_alpha = __pyx_PyFloat_AsDouble(values[0]); if (unlikely((__pyx_v_alpha == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 96, __pyx_L3_error)
-    __pyx_v_real_cut_off = __pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_real_cut_off == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 97, __pyx_L3_error)
-    __pyx_v_recip_cut_off = __pyx_PyFloat_AsDouble(values[2]); if (unlikely((__pyx_v_recip_cut_off == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 97, __pyx_L3_error)
+    __pyx_v_alpha = __pyx_PyFloat_AsDouble(values[0]); if (unlikely((__pyx_v_alpha == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 89, __pyx_L3_error)
+    __pyx_v_real_cut_off = __pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_real_cut_off == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 90, __pyx_L3_error)
+    __pyx_v_recip_cut_off = __pyx_PyFloat_AsDouble(values[2]); if (unlikely((__pyx_v_recip_cut_off == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 90, __pyx_L3_error)
     __pyx_v_chemical_symbols = ((PyArrayObject *)values[3]);
-    __pyx_v_N = __Pyx_PyInt_As_int(values[4]); if (unlikely((__pyx_v_N == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 98, __pyx_L3_error)
+    __pyx_v_N = __Pyx_PyInt_As_int(values[4]); if (unlikely((__pyx_v_N == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 91, __pyx_L3_error)
     __pyx_v_charge_dict = values[5];
     __pyx_v_filename = ((PyObject*)values[6]);
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("set_parameters", 0, 6, 7, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 96, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("set_parameters", 0, 6, 7, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 89, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("potential.Coulomb.set_parameters", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_chemical_symbols), __pyx_ptype_5numpy_ndarray, 1, "chemical_symbols", 0))) __PYX_ERR(0, 98, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_filename), (&PyUnicode_Type), 1, "filename", 1))) __PYX_ERR(0, 99, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_chemical_symbols), __pyx_ptype_5numpy_ndarray, 1, "chemical_symbols", 0))) __PYX_ERR(0, 91, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_filename), (&PyUnicode_Type), 1, "filename", 1))) __PYX_ERR(0, 92, __pyx_L1_error)
   __pyx_r = __pyx_pf_9potential_7Coulomb_2set_parameters(((struct __pyx_obj_9potential_Coulomb *)__pyx_v_self), __pyx_v_alpha, __pyx_v_real_cut_off, __pyx_v_recip_cut_off, __pyx_v_chemical_symbols, __pyx_v_N, __pyx_v_charge_dict, __pyx_v_filename);
 
-  /* "potential.pyx":96
+  /* "potential.pyx":89
  * 	@cython.boundscheck(False)
  * 	@cython.wraparound(False)
  * 	cpdef set_parameters(self, double alpha, \             # <<<<<<<<<<<<<<
@@ -5224,7 +5239,7 @@ static PyObject *__pyx_pf_9potential_7Coulomb_2set_parameters(struct __pyx_obj_9
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_2.__pyx_n = 1;
   __pyx_t_2.filename = __pyx_v_filename;
-  __pyx_t_1 = __pyx_vtabptr_9potential_Coulomb->set_parameters(__pyx_v_self, __pyx_v_alpha, __pyx_v_real_cut_off, __pyx_v_recip_cut_off, __pyx_v_chemical_symbols, __pyx_v_N, __pyx_v_charge_dict, 1, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 96, __pyx_L1_error)
+  __pyx_t_1 = __pyx_vtabptr_9potential_Coulomb->set_parameters(__pyx_v_self, __pyx_v_alpha, __pyx_v_real_cut_off, __pyx_v_recip_cut_off, __pyx_v_chemical_symbols, __pyx_v_N, __pyx_v_charge_dict, 1, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 89, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -5241,7 +5256,7 @@ static PyObject *__pyx_pf_9potential_7Coulomb_2set_parameters(struct __pyx_obj_9
   return __pyx_r;
 }
 
-/* "potential.pyx":142
+/* "potential.pyx":135
  * 	@cython.boundscheck(False)
  * 	@cython.wraparound(False)
  * 	cdef double[:,:] get_reciprocal_vects(self, double[:,:] vects, double volume):             # <<<<<<<<<<<<<<
@@ -5272,44 +5287,44 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_get_reciprocal_vects(CYTHO
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get_reciprocal_vects", 0);
 
-  /* "potential.pyx":147
+  /* "potential.pyx":140
  * 		"""
  * 		cdef int i,a,b
  * 		rvects = cvarray(shape=(3,3), \             # <<<<<<<<<<<<<<
  * 						itemsize=sizeof(double), format="d")
  * 		for i in range(3):
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 147, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 140, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_shape, __pyx_tuple__3) < 0) __PYX_ERR(0, 147, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_shape, __pyx_tuple__3) < 0) __PYX_ERR(0, 140, __pyx_L1_error)
 
-  /* "potential.pyx":148
+  /* "potential.pyx":141
  * 		cdef int i,a,b
  * 		rvects = cvarray(shape=(3,3), \
  * 						itemsize=sizeof(double), format="d")             # <<<<<<<<<<<<<<
  * 		for i in range(3):
  * 			a = (1+i) % 3
  */
-  __pyx_t_2 = __Pyx_PyInt_FromSize_t((sizeof(double))); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 148, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_FromSize_t((sizeof(double))); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 141, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_itemsize, __pyx_t_2) < 0) __PYX_ERR(0, 147, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_itemsize, __pyx_t_2) < 0) __PYX_ERR(0, 140, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_format, __pyx_n_u_d) < 0) __PYX_ERR(0, 147, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_format, __pyx_n_u_d) < 0) __PYX_ERR(0, 140, __pyx_L1_error)
 
-  /* "potential.pyx":147
+  /* "potential.pyx":140
  * 		"""
  * 		cdef int i,a,b
  * 		rvects = cvarray(shape=(3,3), \             # <<<<<<<<<<<<<<
  * 						itemsize=sizeof(double), format="d")
  * 		for i in range(3):
  */
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_array_type), __pyx_empty_tuple, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 147, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_array_type), __pyx_empty_tuple, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 140, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_rvects = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "potential.pyx":149
+  /* "potential.pyx":142
  * 		rvects = cvarray(shape=(3,3), \
  * 						itemsize=sizeof(double), format="d")
  * 		for i in range(3):             # <<<<<<<<<<<<<<
@@ -5319,7 +5334,7 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_get_reciprocal_vects(CYTHO
   for (__pyx_t_3 = 0; __pyx_t_3 < 3; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
 
-    /* "potential.pyx":150
+    /* "potential.pyx":143
  * 						itemsize=sizeof(double), format="d")
  * 		for i in range(3):
  * 			a = (1+i) % 3             # <<<<<<<<<<<<<<
@@ -5328,7 +5343,7 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_get_reciprocal_vects(CYTHO
  */
     __pyx_v_a = __Pyx_mod_long((1 + __pyx_v_i), 3);
 
-    /* "potential.pyx":151
+    /* "potential.pyx":144
  * 		for i in range(3):
  * 			a = (1+i) % 3
  * 			b = (2+i) % 3             # <<<<<<<<<<<<<<
@@ -5337,18 +5352,18 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_get_reciprocal_vects(CYTHO
  */
     __pyx_v_b = __Pyx_mod_long((2 + __pyx_v_i), 3);
 
-    /* "potential.pyx":152
+    /* "potential.pyx":145
  * 			a = (1+i) % 3
  * 			b = (2+i) % 3
  * 			rvects[i, ] = 2*pi*np.cross(vects[a, ],             # <<<<<<<<<<<<<<
  * 										vects[b, ]) / volume
  * 		return rvects
  */
-    __pyx_t_2 = PyFloat_FromDouble((2.0 * M_PI)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 152, __pyx_L1_error)
+    __pyx_t_2 = PyFloat_FromDouble((2.0 * M_PI)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 145, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 152, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 145, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_cross); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 152, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_cross); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 145, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_t_6.data = __pyx_v_vects.data;
@@ -5364,13 +5379,13 @@ __pyx_t_6.shape[0] = __pyx_v_vects.shape[1];
 __pyx_t_6.strides[0] = __pyx_v_vects.strides[1];
     __pyx_t_6.suboffsets[0] = -1;
 
-__pyx_t_4 = __pyx_memoryview_fromslice(__pyx_t_6, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 152, __pyx_L1_error)
+__pyx_t_4 = __pyx_memoryview_fromslice(__pyx_t_6, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 145, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __PYX_XDEC_MEMVIEW(&__pyx_t_6, 1);
     __pyx_t_6.memview = NULL;
     __pyx_t_6.data = NULL;
 
-    /* "potential.pyx":153
+    /* "potential.pyx":146
  * 			b = (2+i) % 3
  * 			rvects[i, ] = 2*pi*np.cross(vects[a, ],
  * 										vects[b, ]) / volume             # <<<<<<<<<<<<<<
@@ -5390,7 +5405,7 @@ __pyx_t_6.shape[0] = __pyx_v_vects.shape[1];
 __pyx_t_6.strides[0] = __pyx_v_vects.strides[1];
     __pyx_t_6.suboffsets[0] = -1;
 
-__pyx_t_7 = __pyx_memoryview_fromslice(__pyx_t_6, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 153, __pyx_L1_error)
+__pyx_t_7 = __pyx_memoryview_fromslice(__pyx_t_6, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 146, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __PYX_XDEC_MEMVIEW(&__pyx_t_6, 1);
     __pyx_t_6.memview = NULL;
@@ -5410,7 +5425,7 @@ __pyx_t_7 = __pyx_memoryview_fromslice(__pyx_t_6, 1, (PyObject *(*)(char *)) __p
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[3] = {__pyx_t_8, __pyx_t_4, __pyx_t_7};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 152, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 145, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -5420,7 +5435,7 @@ __pyx_t_7 = __pyx_memoryview_fromslice(__pyx_t_6, 1, (PyObject *(*)(char *)) __p
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[3] = {__pyx_t_8, __pyx_t_4, __pyx_t_7};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 152, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 145, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -5428,7 +5443,7 @@ __pyx_t_7 = __pyx_memoryview_fromslice(__pyx_t_6, 1, (PyObject *(*)(char *)) __p
     } else
     #endif
     {
-      __pyx_t_10 = PyTuple_New(2+__pyx_t_9); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 152, __pyx_L1_error)
+      __pyx_t_10 = PyTuple_New(2+__pyx_t_9); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 145, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_10);
       if (__pyx_t_8) {
         __Pyx_GIVEREF(__pyx_t_8); PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_t_8); __pyx_t_8 = NULL;
@@ -5439,71 +5454,71 @@ __pyx_t_7 = __pyx_memoryview_fromslice(__pyx_t_6, 1, (PyObject *(*)(char *)) __p
       PyTuple_SET_ITEM(__pyx_t_10, 1+__pyx_t_9, __pyx_t_7);
       __pyx_t_4 = 0;
       __pyx_t_7 = 0;
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_10, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 152, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_10, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 145, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     }
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "potential.pyx":152
+    /* "potential.pyx":145
  * 			a = (1+i) % 3
  * 			b = (2+i) % 3
  * 			rvects[i, ] = 2*pi*np.cross(vects[a, ],             # <<<<<<<<<<<<<<
  * 										vects[b, ]) / volume
  * 		return rvects
  */
-    __pyx_t_5 = PyNumber_Multiply(__pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 152, __pyx_L1_error)
+    __pyx_t_5 = PyNumber_Multiply(__pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 145, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "potential.pyx":153
+    /* "potential.pyx":146
  * 			b = (2+i) % 3
  * 			rvects[i, ] = 2*pi*np.cross(vects[a, ],
  * 										vects[b, ]) / volume             # <<<<<<<<<<<<<<
  * 		return rvects
  * 
  */
-    __pyx_t_1 = PyFloat_FromDouble(__pyx_v_volume); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 153, __pyx_L1_error)
+    __pyx_t_1 = PyFloat_FromDouble(__pyx_v_volume); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 146, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_2 = __Pyx_PyNumber_Divide(__pyx_t_5, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 153, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyNumber_Divide(__pyx_t_5, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 146, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "potential.pyx":152
+    /* "potential.pyx":145
  * 			a = (1+i) % 3
  * 			b = (2+i) % 3
  * 			rvects[i, ] = 2*pi*np.cross(vects[a, ],             # <<<<<<<<<<<<<<
  * 										vects[b, ]) / volume
  * 		return rvects
  */
-    __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_i); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 152, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_i); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 145, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 152, __pyx_L1_error)
+    __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 145, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_GIVEREF(__pyx_t_1);
     PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_1);
     __pyx_t_1 = 0;
-    if (unlikely(PyObject_SetItem(__pyx_v_rvects, __pyx_t_5, __pyx_t_2) < 0)) __PYX_ERR(0, 152, __pyx_L1_error)
+    if (unlikely(PyObject_SetItem(__pyx_v_rvects, __pyx_t_5, __pyx_t_2) < 0)) __PYX_ERR(0, 145, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   }
 
-  /* "potential.pyx":154
+  /* "potential.pyx":147
  * 			rvects[i, ] = 2*pi*np.cross(vects[a, ],
  * 										vects[b, ]) / volume
  * 		return rvects             # <<<<<<<<<<<<<<
  * 
  * 	@cython.boundscheck(False)
  */
-  __pyx_t_11 = __Pyx_PyObject_to_MemoryviewSlice_dsds_double(__pyx_v_rvects, PyBUF_WRITABLE); if (unlikely(!__pyx_t_11.memview)) __PYX_ERR(0, 154, __pyx_L1_error)
+  __pyx_t_11 = __Pyx_PyObject_to_MemoryviewSlice_dsds_double(__pyx_v_rvects, PyBUF_WRITABLE); if (unlikely(!__pyx_t_11.memview)) __PYX_ERR(0, 147, __pyx_L1_error)
   __pyx_r = __pyx_t_11;
   __pyx_t_11.memview = NULL;
   __pyx_t_11.data = NULL;
   goto __pyx_L0;
 
-  /* "potential.pyx":142
+  /* "potential.pyx":135
  * 	@cython.boundscheck(False)
  * 	@cython.wraparound(False)
  * 	cdef double[:,:] get_reciprocal_vects(self, double[:,:] vects, double volume):             # <<<<<<<<<<<<<<
@@ -5536,7 +5551,7 @@ __pyx_t_7 = __pyx_memoryview_fromslice(__pyx_t_6, 1, (PyObject *(*)(char *)) __p
   return __pyx_r;
 }
 
-/* "potential.pyx":158
+/* "potential.pyx":151
  * 	@cython.boundscheck(False)
  * 	@cython.wraparound(False)
  * 	cdef double calc_self(self, int N):             # <<<<<<<<<<<<<<
@@ -5560,7 +5575,7 @@ static double __pyx_f_9potential_7Coulomb_calc_self(struct __pyx_obj_9potential_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("calc_self", 0);
 
-  /* "potential.pyx":163
+  /* "potential.pyx":156
  * 		"""
  * 		cdef int i
  * 		cdef double eself = 0             # <<<<<<<<<<<<<<
@@ -5569,7 +5584,7 @@ static double __pyx_f_9potential_7Coulomb_calc_self(struct __pyx_obj_9potential_
  */
   __pyx_v_eself = 0.0;
 
-  /* "potential.pyx":165
+  /* "potential.pyx":158
  * 		cdef double eself = 0
  * 
  * 		self.eself= 0             # <<<<<<<<<<<<<<
@@ -5578,7 +5593,7 @@ static double __pyx_f_9potential_7Coulomb_calc_self(struct __pyx_obj_9potential_
  */
   __pyx_v_self->eself = 0.0;
 
-  /* "potential.pyx":166
+  /* "potential.pyx":159
  * 
  * 		self.eself= 0
  * 		for i in range(N):             # <<<<<<<<<<<<<<
@@ -5590,19 +5605,19 @@ static double __pyx_f_9potential_7Coulomb_calc_self(struct __pyx_obj_9potential_
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
 
-    /* "potential.pyx":167
+    /* "potential.pyx":160
  * 		self.eself= 0
  * 		for i in range(N):
  * 			eself -= (self.charges[i]*self.charges[i] *             # <<<<<<<<<<<<<<
  * 						   (self.alpha / sqrt(pi)))
  * 		self.eself = eself*14.399645351950543  # electrostatic constant
  */
-    if (unlikely(!__pyx_v_self->charges.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 167, __pyx_L1_error)}
+    if (unlikely(!__pyx_v_self->charges.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 160, __pyx_L1_error)}
     __pyx_t_4 = __pyx_v_i;
-    if (unlikely(!__pyx_v_self->charges.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 167, __pyx_L1_error)}
+    if (unlikely(!__pyx_v_self->charges.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 160, __pyx_L1_error)}
     __pyx_t_5 = __pyx_v_i;
 
-    /* "potential.pyx":168
+    /* "potential.pyx":161
  * 		for i in range(N):
  * 			eself -= (self.charges[i]*self.charges[i] *
  * 						   (self.alpha / sqrt(pi)))             # <<<<<<<<<<<<<<
@@ -5612,10 +5627,10 @@ static double __pyx_f_9potential_7Coulomb_calc_self(struct __pyx_obj_9potential_
     __pyx_t_6 = sqrt(M_PI);
     if (unlikely(__pyx_t_6 == 0)) {
       PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-      __PYX_ERR(0, 168, __pyx_L1_error)
+      __PYX_ERR(0, 161, __pyx_L1_error)
     }
 
-    /* "potential.pyx":167
+    /* "potential.pyx":160
  * 		self.eself= 0
  * 		for i in range(N):
  * 			eself -= (self.charges[i]*self.charges[i] *             # <<<<<<<<<<<<<<
@@ -5625,7 +5640,7 @@ static double __pyx_f_9potential_7Coulomb_calc_self(struct __pyx_obj_9potential_
     __pyx_v_eself = (__pyx_v_eself - (((*((int *) ( /* dim=0 */ (__pyx_v_self->charges.data + __pyx_t_4 * __pyx_v_self->charges.strides[0]) ))) * (*((int *) ( /* dim=0 */ (__pyx_v_self->charges.data + __pyx_t_5 * __pyx_v_self->charges.strides[0]) )))) * (__pyx_v_self->alpha / __pyx_t_6)));
   }
 
-  /* "potential.pyx":169
+  /* "potential.pyx":162
  * 			eself -= (self.charges[i]*self.charges[i] *
  * 						   (self.alpha / sqrt(pi)))
  * 		self.eself = eself*14.399645351950543  # electrostatic constant             # <<<<<<<<<<<<<<
@@ -5634,7 +5649,7 @@ static double __pyx_f_9potential_7Coulomb_calc_self(struct __pyx_obj_9potential_
  */
   __pyx_v_self->eself = (__pyx_v_eself * 14.399645351950543);
 
-  /* "potential.pyx":170
+  /* "potential.pyx":163
  * 						   (self.alpha / sqrt(pi)))
  * 		self.eself = eself*14.399645351950543  # electrostatic constant
  * 		return eself             # <<<<<<<<<<<<<<
@@ -5644,7 +5659,7 @@ static double __pyx_f_9potential_7Coulomb_calc_self(struct __pyx_obj_9potential_
   __pyx_r = __pyx_v_eself;
   goto __pyx_L0;
 
-  /* "potential.pyx":158
+  /* "potential.pyx":151
  * 	@cython.boundscheck(False)
  * 	@cython.wraparound(False)
  * 	cdef double calc_self(self, int N):             # <<<<<<<<<<<<<<
@@ -5661,7 +5676,7 @@ static double __pyx_f_9potential_7Coulomb_calc_self(struct __pyx_obj_9potential_
   return __pyx_r;
 }
 
-/* "potential.pyx":174
+/* "potential.pyx":167
  * 	@cython.boundscheck(False)
  * 	@cython.wraparound(False)
  * 	cdef double calc_real(self, double[:,:] pos, double[:,:] vects, int N) except? -1:             # <<<<<<<<<<<<<<
@@ -5738,7 +5753,7 @@ static double __pyx_f_9potential_7Coulomb_calc_real(struct __pyx_obj_9potential_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("calc_real", 0);
 
-  /* "potential.pyx":178
+  /* "potential.pyx":171
  * 
  * 		"""
  * 		if pos.shape[1]!=3 or vects.shape[1]!=3:             # <<<<<<<<<<<<<<
@@ -5756,20 +5771,20 @@ static double __pyx_f_9potential_7Coulomb_calc_real(struct __pyx_obj_9potential_
   __pyx_L4_bool_binop_done:;
   if (unlikely(__pyx_t_1)) {
 
-    /* "potential.pyx":179
+    /* "potential.pyx":172
  * 		"""
  * 		if pos.shape[1]!=3 or vects.shape[1]!=3:
  * 			raise IndexError("Points are not 3-dimensional.")             # <<<<<<<<<<<<<<
  * 
  * 		cdef double dist, ereal = 0
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_IndexError, __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 179, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_IndexError, __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 172, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(0, 179, __pyx_L1_error)
+    __PYX_ERR(0, 172, __pyx_L1_error)
 
-    /* "potential.pyx":178
+    /* "potential.pyx":171
  * 
  * 		"""
  * 		if pos.shape[1]!=3 or vects.shape[1]!=3:             # <<<<<<<<<<<<<<
@@ -5778,7 +5793,7 @@ static double __pyx_f_9potential_7Coulomb_calc_real(struct __pyx_obj_9potential_
  */
   }
 
-  /* "potential.pyx":181
+  /* "potential.pyx":174
  * 			raise IndexError("Points are not 3-dimensional.")
  * 
  * 		cdef double dist, ereal = 0             # <<<<<<<<<<<<<<
@@ -5787,19 +5802,19 @@ static double __pyx_f_9potential_7Coulomb_calc_real(struct __pyx_obj_9potential_
  */
   __pyx_v_ereal = 0.0;
 
-  /* "potential.pyx":184
+  /* "potential.pyx":177
  * 		cdef double** esum
  * 		cdef int ioni, ionj, shift
  * 		cdef double[:,:] shifts = self.get_shifts(self.real_cut_off, vects)             # <<<<<<<<<<<<<<
  * 		cdef int no_shifts = shifts.shape[0] # number of unit cell images-1
  * 
  */
-  __pyx_t_4 = ((struct __pyx_vtabstruct_9potential_Coulomb *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.get_shifts(((struct __pyx_obj_9potential_Potential *)__pyx_v_self), __pyx_v_self->real_cut_off, __pyx_v_vects); if (unlikely(!__pyx_t_4.memview)) __PYX_ERR(0, 184, __pyx_L1_error)
+  __pyx_t_4 = ((struct __pyx_vtabstruct_9potential_Coulomb *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.get_shifts(((struct __pyx_obj_9potential_Potential *)__pyx_v_self), __pyx_v_self->real_cut_off, __pyx_v_vects); if (unlikely(!__pyx_t_4.memview)) __PYX_ERR(0, 177, __pyx_L1_error)
   __pyx_v_shifts = __pyx_t_4;
   __pyx_t_4.memview = NULL;
   __pyx_t_4.data = NULL;
 
-  /* "potential.pyx":185
+  /* "potential.pyx":178
  * 		cdef int ioni, ionj, shift
  * 		cdef double[:,:] shifts = self.get_shifts(self.real_cut_off, vects)
  * 		cdef int no_shifts = shifts.shape[0] # number of unit cell images-1             # <<<<<<<<<<<<<<
@@ -5808,7 +5823,7 @@ static double __pyx_f_9potential_7Coulomb_calc_real(struct __pyx_obj_9potential_
  */
   __pyx_v_no_shifts = (__pyx_v_shifts.shape[0]);
 
-  /* "potential.pyx":187
+  /* "potential.pyx":180
  * 		cdef int no_shifts = shifts.shape[0] # number of unit cell images-1
  * 
  * 		self.ereal = 0             # <<<<<<<<<<<<<<
@@ -5817,7 +5832,7 @@ static double __pyx_f_9potential_7Coulomb_calc_real(struct __pyx_obj_9potential_
  */
   __pyx_v_self->ereal = 0.0;
 
-  /* "potential.pyx":190
+  /* "potential.pyx":183
  * 
  * 		# create array with sums for each N*N position
  * 		esum = <double **> malloc(sizeof(double *) * N)             # <<<<<<<<<<<<<<
@@ -5826,7 +5841,7 @@ static double __pyx_f_9potential_7Coulomb_calc_real(struct __pyx_obj_9potential_
  */
   __pyx_v_esum = ((double **)malloc(((sizeof(double *)) * __pyx_v_N)));
 
-  /* "potential.pyx":191
+  /* "potential.pyx":184
  * 		# create array with sums for each N*N position
  * 		esum = <double **> malloc(sizeof(double *) * N)
  * 		for ioni in range(N):             # <<<<<<<<<<<<<<
@@ -5838,7 +5853,7 @@ static double __pyx_f_9potential_7Coulomb_calc_real(struct __pyx_obj_9potential_
   for (__pyx_t_7 = 0; __pyx_t_7 < __pyx_t_6; __pyx_t_7+=1) {
     __pyx_v_ioni = __pyx_t_7;
 
-    /* "potential.pyx":192
+    /* "potential.pyx":185
  * 		esum = <double **> malloc(sizeof(double *) * N)
  * 		for ioni in range(N):
  * 			esum[ioni] = <double *> malloc(sizeof(double) * N)             # <<<<<<<<<<<<<<
@@ -5847,7 +5862,7 @@ static double __pyx_f_9potential_7Coulomb_calc_real(struct __pyx_obj_9potential_
  */
     (__pyx_v_esum[__pyx_v_ioni]) = ((double *)malloc(((sizeof(double)) * __pyx_v_N)));
 
-    /* "potential.pyx":193
+    /* "potential.pyx":186
  * 		for ioni in range(N):
  * 			esum[ioni] = <double *> malloc(sizeof(double) * N)
  * 			for ionj in range(N):             # <<<<<<<<<<<<<<
@@ -5859,7 +5874,7 @@ static double __pyx_f_9potential_7Coulomb_calc_real(struct __pyx_obj_9potential_
     for (__pyx_t_10 = 0; __pyx_t_10 < __pyx_t_9; __pyx_t_10+=1) {
       __pyx_v_ionj = __pyx_t_10;
 
-      /* "potential.pyx":194
+      /* "potential.pyx":187
  * 			esum[ioni] = <double *> malloc(sizeof(double) * N)
  * 			for ionj in range(N):
  * 				esum[ioni][ionj] = 0             # <<<<<<<<<<<<<<
@@ -5870,7 +5885,7 @@ static double __pyx_f_9potential_7Coulomb_calc_real(struct __pyx_obj_9potential_
     }
   }
 
-  /* "potential.pyx":196
+  /* "potential.pyx":189
  * 				esum[ioni][ionj] = 0
  * 
  * 		for ioni in prange(N, nogil=True, schedule='static'):             # <<<<<<<<<<<<<<
@@ -5926,7 +5941,7 @@ static double __pyx_f_9potential_7Coulomb_calc_real(struct __pyx_obj_9potential_
                             __pyx_v_ionj = ((int)0xbad0bad0);
                             __pyx_v_shift = ((int)0xbad0bad0);
 
-                            /* "potential.pyx":197
+                            /* "potential.pyx":190
  * 
  * 		for ioni in prange(N, nogil=True, schedule='static'):
  * 			for ionj in range(ioni, N):             # <<<<<<<<<<<<<<
@@ -5938,7 +5953,7 @@ static double __pyx_f_9potential_7Coulomb_calc_real(struct __pyx_obj_9potential_
                             for (__pyx_t_10 = __pyx_v_ioni; __pyx_t_10 < __pyx_t_9; __pyx_t_10+=1) {
                               __pyx_v_ionj = __pyx_t_10;
 
-                              /* "potential.pyx":198
+                              /* "potential.pyx":191
  * 		for ioni in prange(N, nogil=True, schedule='static'):
  * 			for ionj in range(ioni, N):
  * 				if ioni != ionj:  # skip in case it's the same ion in original unit cell             # <<<<<<<<<<<<<<
@@ -5948,7 +5963,7 @@ static double __pyx_f_9potential_7Coulomb_calc_real(struct __pyx_obj_9potential_
                               __pyx_t_1 = ((__pyx_v_ioni != __pyx_v_ionj) != 0);
                               if (__pyx_t_1) {
 
-                                /* "potential.pyx":199
+                                /* "potential.pyx":192
  * 			for ionj in range(ioni, N):
  * 				if ioni != ionj:  # skip in case it's the same ion in original unit cell
  * 					dist = (pos[ioni, 0]-pos[ionj, 0])*(pos[ioni, 0]-pos[ionj, 0])+ \             # <<<<<<<<<<<<<<
@@ -5964,7 +5979,7 @@ static double __pyx_f_9potential_7Coulomb_calc_real(struct __pyx_obj_9potential_
                                 __pyx_t_17 = __pyx_v_ionj;
                                 __pyx_t_18 = 0;
 
-                                /* "potential.pyx":200
+                                /* "potential.pyx":193
  * 				if ioni != ionj:  # skip in case it's the same ion in original unit cell
  * 					dist = (pos[ioni, 0]-pos[ionj, 0])*(pos[ioni, 0]-pos[ionj, 0])+ \
  * 							(pos[ioni, 1]-pos[ionj, 1])*(pos[ioni, 1]-pos[ionj, 1])+ \             # <<<<<<<<<<<<<<
@@ -5980,7 +5995,7 @@ static double __pyx_f_9potential_7Coulomb_calc_real(struct __pyx_obj_9potential_
                                 __pyx_t_25 = __pyx_v_ionj;
                                 __pyx_t_26 = 1;
 
-                                /* "potential.pyx":201
+                                /* "potential.pyx":194
  * 					dist = (pos[ioni, 0]-pos[ionj, 0])*(pos[ioni, 0]-pos[ionj, 0])+ \
  * 							(pos[ioni, 1]-pos[ionj, 1])*(pos[ioni, 1]-pos[ionj, 1])+ \
  * 							(pos[ioni, 2]-pos[ionj, 2])*(pos[ioni, 2]-pos[ionj, 2])             # <<<<<<<<<<<<<<
@@ -5996,7 +6011,7 @@ static double __pyx_f_9potential_7Coulomb_calc_real(struct __pyx_obj_9potential_
                                 __pyx_t_33 = __pyx_v_ionj;
                                 __pyx_t_34 = 2;
 
-                                /* "potential.pyx":200
+                                /* "potential.pyx":193
  * 				if ioni != ionj:  # skip in case it's the same ion in original unit cell
  * 					dist = (pos[ioni, 0]-pos[ionj, 0])*(pos[ioni, 0]-pos[ionj, 0])+ \
  * 							(pos[ioni, 1]-pos[ionj, 1])*(pos[ioni, 1]-pos[ionj, 1])+ \             # <<<<<<<<<<<<<<
@@ -6005,7 +6020,7 @@ static double __pyx_f_9potential_7Coulomb_calc_real(struct __pyx_obj_9potential_
  */
                                 __pyx_v_dist = (((((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_11 * __pyx_v_pos.strides[0]) ) + __pyx_t_12 * __pyx_v_pos.strides[1]) ))) - (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_13 * __pyx_v_pos.strides[0]) ) + __pyx_t_14 * __pyx_v_pos.strides[1]) )))) * ((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_15 * __pyx_v_pos.strides[0]) ) + __pyx_t_16 * __pyx_v_pos.strides[1]) ))) - (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_17 * __pyx_v_pos.strides[0]) ) + __pyx_t_18 * __pyx_v_pos.strides[1]) ))))) + (((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_19 * __pyx_v_pos.strides[0]) ) + __pyx_t_20 * __pyx_v_pos.strides[1]) ))) - (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_21 * __pyx_v_pos.strides[0]) ) + __pyx_t_22 * __pyx_v_pos.strides[1]) )))) * ((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_23 * __pyx_v_pos.strides[0]) ) + __pyx_t_24 * __pyx_v_pos.strides[1]) ))) - (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_25 * __pyx_v_pos.strides[0]) ) + __pyx_t_26 * __pyx_v_pos.strides[1]) )))))) + (((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_27 * __pyx_v_pos.strides[0]) ) + __pyx_t_28 * __pyx_v_pos.strides[1]) ))) - (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_29 * __pyx_v_pos.strides[0]) ) + __pyx_t_30 * __pyx_v_pos.strides[1]) )))) * ((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_31 * __pyx_v_pos.strides[0]) ) + __pyx_t_32 * __pyx_v_pos.strides[1]) ))) - (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_33 * __pyx_v_pos.strides[0]) ) + __pyx_t_34 * __pyx_v_pos.strides[1]) ))))));
 
-                                /* "potential.pyx":202
+                                /* "potential.pyx":195
  * 							(pos[ioni, 1]-pos[ionj, 1])*(pos[ioni, 1]-pos[ionj, 1])+ \
  * 							(pos[ioni, 2]-pos[ionj, 2])*(pos[ioni, 2]-pos[ionj, 2])
  * 					dist = sqrt(dist)             # <<<<<<<<<<<<<<
@@ -6014,7 +6029,7 @@ static double __pyx_f_9potential_7Coulomb_calc_real(struct __pyx_obj_9potential_
  */
                                 __pyx_v_dist = sqrt(__pyx_v_dist);
 
-                                /* "potential.pyx":203
+                                /* "potential.pyx":196
  * 							(pos[ioni, 2]-pos[ionj, 2])*(pos[ioni, 2]-pos[ionj, 2])
  * 					dist = sqrt(dist)
  * 					esum[ioni][ionj] += (self.charges[ioni]*self.charges[ionj] *             # <<<<<<<<<<<<<<
@@ -6023,12 +6038,12 @@ static double __pyx_f_9potential_7Coulomb_calc_real(struct __pyx_obj_9potential_
  */
                                 __pyx_t_35 = __pyx_v_ioni;
                                 __pyx_t_36 = __pyx_v_ionj;
-                                if (unlikely(!__pyx_v_self->charges.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 203, __pyx_L15_error)}
+                                if (unlikely(!__pyx_v_self->charges.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 196, __pyx_L15_error)}
                                 __pyx_t_34 = __pyx_v_ioni;
-                                if (unlikely(!__pyx_v_self->charges.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 203, __pyx_L15_error)}
+                                if (unlikely(!__pyx_v_self->charges.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 196, __pyx_L15_error)}
                                 __pyx_t_33 = __pyx_v_ionj;
 
-                                /* "potential.pyx":204
+                                /* "potential.pyx":197
  * 					dist = sqrt(dist)
  * 					esum[ioni][ionj] += (self.charges[ioni]*self.charges[ionj] *
  * 											erfc(self.alpha*dist)/(2*dist))             # <<<<<<<<<<<<<<
@@ -6045,10 +6060,10 @@ static double __pyx_f_9potential_7Coulomb_calc_real(struct __pyx_obj_9potential_
                                   #ifdef WITH_THREAD
                                   __Pyx_PyGILState_Release(__pyx_gilstate_save);
                                   #endif
-                                  __PYX_ERR(0, 204, __pyx_L15_error)
+                                  __PYX_ERR(0, 197, __pyx_L15_error)
                                 }
 
-                                /* "potential.pyx":203
+                                /* "potential.pyx":196
  * 							(pos[ioni, 2]-pos[ionj, 2])*(pos[ioni, 2]-pos[ionj, 2])
  * 					dist = sqrt(dist)
  * 					esum[ioni][ionj] += (self.charges[ioni]*self.charges[ionj] *             # <<<<<<<<<<<<<<
@@ -6057,7 +6072,7 @@ static double __pyx_f_9potential_7Coulomb_calc_real(struct __pyx_obj_9potential_
  */
                                 ((__pyx_v_esum[__pyx_t_35])[__pyx_t_36]) = (((__pyx_v_esum[__pyx_t_35])[__pyx_t_36]) + (__pyx_t_37 / __pyx_t_38));
 
-                                /* "potential.pyx":198
+                                /* "potential.pyx":191
  * 		for ioni in prange(N, nogil=True, schedule='static'):
  * 			for ionj in range(ioni, N):
  * 				if ioni != ionj:  # skip in case it's the same ion in original unit cell             # <<<<<<<<<<<<<<
@@ -6066,7 +6081,7 @@ static double __pyx_f_9potential_7Coulomb_calc_real(struct __pyx_obj_9potential_
  */
                               }
 
-                              /* "potential.pyx":206
+                              /* "potential.pyx":199
  * 											erfc(self.alpha*dist)/(2*dist))
  * 				# take care of the rest lattice (+ Ln)
  * 				for shift in range(no_shifts):             # <<<<<<<<<<<<<<
@@ -6078,7 +6093,7 @@ static double __pyx_f_9potential_7Coulomb_calc_real(struct __pyx_obj_9potential_
                               for (__pyx_t_39 = 0; __pyx_t_39 < __pyx_t_36; __pyx_t_39+=1) {
                                 __pyx_v_shift = __pyx_t_39;
 
-                                /* "potential.pyx":207
+                                /* "potential.pyx":200
  * 				# take care of the rest lattice (+ Ln)
  * 				for shift in range(no_shifts):
  * 					dist = (pos[ioni, 0]+shifts[shift, 0]-pos[ionj, 0])*(pos[ioni, 0]+shifts[shift, 0]-pos[ionj, 0])+ \             # <<<<<<<<<<<<<<
@@ -6098,7 +6113,7 @@ static double __pyx_f_9potential_7Coulomb_calc_real(struct __pyx_obj_9potential_
                                 __pyx_t_24 = __pyx_v_ionj;
                                 __pyx_t_23 = 0;
 
-                                /* "potential.pyx":208
+                                /* "potential.pyx":201
  * 				for shift in range(no_shifts):
  * 					dist = (pos[ioni, 0]+shifts[shift, 0]-pos[ionj, 0])*(pos[ioni, 0]+shifts[shift, 0]-pos[ionj, 0])+ \
  * 							(pos[ioni, 1]+shifts[shift, 1]-pos[ionj, 1])*(pos[ioni, 1]+shifts[shift, 1]-pos[ionj, 1])+ \             # <<<<<<<<<<<<<<
@@ -6118,7 +6133,7 @@ static double __pyx_f_9potential_7Coulomb_calc_real(struct __pyx_obj_9potential_
                                 __pyx_t_12 = __pyx_v_ionj;
                                 __pyx_t_11 = 1;
 
-                                /* "potential.pyx":209
+                                /* "potential.pyx":202
  * 					dist = (pos[ioni, 0]+shifts[shift, 0]-pos[ionj, 0])*(pos[ioni, 0]+shifts[shift, 0]-pos[ionj, 0])+ \
  * 							(pos[ioni, 1]+shifts[shift, 1]-pos[ionj, 1])*(pos[ioni, 1]+shifts[shift, 1]-pos[ionj, 1])+ \
  * 							(pos[ioni, 2]+shifts[shift, 2]-pos[ionj, 2])*(pos[ioni, 2]+shifts[shift, 2]-pos[ionj, 2])             # <<<<<<<<<<<<<<
@@ -6138,7 +6153,7 @@ static double __pyx_f_9potential_7Coulomb_calc_real(struct __pyx_obj_9potential_
                                 __pyx_t_50 = __pyx_v_ionj;
                                 __pyx_t_51 = 2;
 
-                                /* "potential.pyx":208
+                                /* "potential.pyx":201
  * 				for shift in range(no_shifts):
  * 					dist = (pos[ioni, 0]+shifts[shift, 0]-pos[ionj, 0])*(pos[ioni, 0]+shifts[shift, 0]-pos[ionj, 0])+ \
  * 							(pos[ioni, 1]+shifts[shift, 1]-pos[ionj, 1])*(pos[ioni, 1]+shifts[shift, 1]-pos[ionj, 1])+ \             # <<<<<<<<<<<<<<
@@ -6147,7 +6162,7 @@ static double __pyx_f_9potential_7Coulomb_calc_real(struct __pyx_obj_9potential_
  */
                                 __pyx_v_dist = ((((((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_33 * __pyx_v_pos.strides[0]) ) + __pyx_t_34 * __pyx_v_pos.strides[1]) ))) + (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_shifts.data + __pyx_t_32 * __pyx_v_shifts.strides[0]) ) + __pyx_t_31 * __pyx_v_shifts.strides[1]) )))) - (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_30 * __pyx_v_pos.strides[0]) ) + __pyx_t_29 * __pyx_v_pos.strides[1]) )))) * (((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_28 * __pyx_v_pos.strides[0]) ) + __pyx_t_27 * __pyx_v_pos.strides[1]) ))) + (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_shifts.data + __pyx_t_26 * __pyx_v_shifts.strides[0]) ) + __pyx_t_25 * __pyx_v_shifts.strides[1]) )))) - (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_24 * __pyx_v_pos.strides[0]) ) + __pyx_t_23 * __pyx_v_pos.strides[1]) ))))) + ((((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_22 * __pyx_v_pos.strides[0]) ) + __pyx_t_21 * __pyx_v_pos.strides[1]) ))) + (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_shifts.data + __pyx_t_20 * __pyx_v_shifts.strides[0]) ) + __pyx_t_19 * __pyx_v_shifts.strides[1]) )))) - (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_18 * __pyx_v_pos.strides[0]) ) + __pyx_t_17 * __pyx_v_pos.strides[1]) )))) * (((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_16 * __pyx_v_pos.strides[0]) ) + __pyx_t_15 * __pyx_v_pos.strides[1]) ))) + (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_shifts.data + __pyx_t_14 * __pyx_v_shifts.strides[0]) ) + __pyx_t_13 * __pyx_v_shifts.strides[1]) )))) - (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_12 * __pyx_v_pos.strides[0]) ) + __pyx_t_11 * __pyx_v_pos.strides[1]) )))))) + ((((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_40 * __pyx_v_pos.strides[0]) ) + __pyx_t_41 * __pyx_v_pos.strides[1]) ))) + (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_shifts.data + __pyx_t_42 * __pyx_v_shifts.strides[0]) ) + __pyx_t_43 * __pyx_v_shifts.strides[1]) )))) - (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_44 * __pyx_v_pos.strides[0]) ) + __pyx_t_45 * __pyx_v_pos.strides[1]) )))) * (((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_46 * __pyx_v_pos.strides[0]) ) + __pyx_t_47 * __pyx_v_pos.strides[1]) ))) + (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_shifts.data + __pyx_t_48 * __pyx_v_shifts.strides[0]) ) + __pyx_t_49 * __pyx_v_shifts.strides[1]) )))) - (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_50 * __pyx_v_pos.strides[0]) ) + __pyx_t_51 * __pyx_v_pos.strides[1]) ))))));
 
-                                /* "potential.pyx":210
+                                /* "potential.pyx":203
  * 							(pos[ioni, 1]+shifts[shift, 1]-pos[ionj, 1])*(pos[ioni, 1]+shifts[shift, 1]-pos[ionj, 1])+ \
  * 							(pos[ioni, 2]+shifts[shift, 2]-pos[ionj, 2])*(pos[ioni, 2]+shifts[shift, 2]-pos[ionj, 2])
  * 					dist = sqrt(dist)             # <<<<<<<<<<<<<<
@@ -6156,7 +6171,7 @@ static double __pyx_f_9potential_7Coulomb_calc_real(struct __pyx_obj_9potential_
  */
                                 __pyx_v_dist = sqrt(__pyx_v_dist);
 
-                                /* "potential.pyx":211
+                                /* "potential.pyx":204
  * 							(pos[ioni, 2]+shifts[shift, 2]-pos[ionj, 2])*(pos[ioni, 2]+shifts[shift, 2]-pos[ionj, 2])
  * 					dist = sqrt(dist)
  * 					esum[ioni][ionj] += (self.charges[ioni]*self.charges[ionj] *             # <<<<<<<<<<<<<<
@@ -6165,12 +6180,12 @@ static double __pyx_f_9potential_7Coulomb_calc_real(struct __pyx_obj_9potential_
  */
                                 __pyx_t_52 = __pyx_v_ioni;
                                 __pyx_t_53 = __pyx_v_ionj;
-                                if (unlikely(!__pyx_v_self->charges.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 211, __pyx_L15_error)}
+                                if (unlikely(!__pyx_v_self->charges.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 204, __pyx_L15_error)}
                                 __pyx_t_51 = __pyx_v_ioni;
-                                if (unlikely(!__pyx_v_self->charges.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 211, __pyx_L15_error)}
+                                if (unlikely(!__pyx_v_self->charges.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 204, __pyx_L15_error)}
                                 __pyx_t_50 = __pyx_v_ionj;
 
-                                /* "potential.pyx":212
+                                /* "potential.pyx":205
  * 					dist = sqrt(dist)
  * 					esum[ioni][ionj] += (self.charges[ioni]*self.charges[ionj] *
  * 												erfc(self.alpha*dist)/(2*dist))             # <<<<<<<<<<<<<<
@@ -6187,10 +6202,10 @@ static double __pyx_f_9potential_7Coulomb_calc_real(struct __pyx_obj_9potential_
                                   #ifdef WITH_THREAD
                                   __Pyx_PyGILState_Release(__pyx_gilstate_save);
                                   #endif
-                                  __PYX_ERR(0, 212, __pyx_L15_error)
+                                  __PYX_ERR(0, 205, __pyx_L15_error)
                                 }
 
-                                /* "potential.pyx":211
+                                /* "potential.pyx":204
  * 							(pos[ioni, 2]+shifts[shift, 2]-pos[ionj, 2])*(pos[ioni, 2]+shifts[shift, 2]-pos[ionj, 2])
  * 					dist = sqrt(dist)
  * 					esum[ioni][ionj] += (self.charges[ioni]*self.charges[ionj] *             # <<<<<<<<<<<<<<
@@ -6287,7 +6302,7 @@ static double __pyx_f_9potential_7Coulomb_calc_real(struct __pyx_obj_9potential_
         #endif
       }
 
-      /* "potential.pyx":196
+      /* "potential.pyx":189
  * 				esum[ioni][ionj] = 0
  * 
  * 		for ioni in prange(N, nogil=True, schedule='static'):             # <<<<<<<<<<<<<<
@@ -6313,7 +6328,7 @@ static double __pyx_f_9potential_7Coulomb_calc_real(struct __pyx_obj_9potential_
       }
   }
 
-  /* "potential.pyx":214
+  /* "potential.pyx":207
  * 												erfc(self.alpha*dist)/(2*dist))
  * 		# Deallocation
  * 		for ioni in prange(N, nogil=True, schedule='static'):             # <<<<<<<<<<<<<<
@@ -6352,7 +6367,7 @@ static double __pyx_f_9potential_7Coulomb_calc_real(struct __pyx_obj_9potential_
                             /* Initialize private variables to invalid values */
                             __pyx_v_ionj = ((int)0xbad0bad0);
 
-                            /* "potential.pyx":215
+                            /* "potential.pyx":208
  * 		# Deallocation
  * 		for ioni in prange(N, nogil=True, schedule='static'):
  * 			for ionj in range(0, ioni):             # <<<<<<<<<<<<<<
@@ -6364,7 +6379,7 @@ static double __pyx_f_9potential_7Coulomb_calc_real(struct __pyx_obj_9potential_
                             for (__pyx_t_10 = 0; __pyx_t_10 < __pyx_t_9; __pyx_t_10+=1) {
                               __pyx_v_ionj = __pyx_t_10;
 
-                              /* "potential.pyx":216
+                              /* "potential.pyx":209
  * 		for ioni in prange(N, nogil=True, schedule='static'):
  * 			for ionj in range(0, ioni):
  * 				esum[ioni][ionj] = esum[ionj][ioni] # complete lower triangular             # <<<<<<<<<<<<<<
@@ -6374,7 +6389,7 @@ static double __pyx_f_9potential_7Coulomb_calc_real(struct __pyx_obj_9potential_
                               ((__pyx_v_esum[__pyx_v_ioni])[__pyx_v_ionj]) = ((__pyx_v_esum[__pyx_v_ionj])[__pyx_v_ioni]);
                             }
 
-                            /* "potential.pyx":217
+                            /* "potential.pyx":210
  * 			for ionj in range(0, ioni):
  * 				esum[ioni][ionj] = esum[ionj][ioni] # complete lower triangular
  * 			for ionj in range(N):             # <<<<<<<<<<<<<<
@@ -6386,7 +6401,7 @@ static double __pyx_f_9potential_7Coulomb_calc_real(struct __pyx_obj_9potential_
                             for (__pyx_t_10 = 0; __pyx_t_10 < __pyx_t_9; __pyx_t_10+=1) {
                               __pyx_v_ionj = __pyx_t_10;
 
-                              /* "potential.pyx":218
+                              /* "potential.pyx":211
  * 				esum[ioni][ionj] = esum[ionj][ioni] # complete lower triangular
  * 			for ionj in range(N):
  * 				ereal += esum[ioni][ionj]             # <<<<<<<<<<<<<<
@@ -6396,7 +6411,7 @@ static double __pyx_f_9potential_7Coulomb_calc_real(struct __pyx_obj_9potential_
                               __pyx_v_ereal = (__pyx_v_ereal + ((__pyx_v_esum[__pyx_v_ioni])[__pyx_v_ionj]));
                             }
 
-                            /* "potential.pyx":219
+                            /* "potential.pyx":212
  * 			for ionj in range(N):
  * 				ereal += esum[ioni][ionj]
  * 			free(esum[ioni])             # <<<<<<<<<<<<<<
@@ -6417,7 +6432,7 @@ static double __pyx_f_9potential_7Coulomb_calc_real(struct __pyx_obj_9potential_
         #endif
       }
 
-      /* "potential.pyx":214
+      /* "potential.pyx":207
  * 												erfc(self.alpha*dist)/(2*dist))
  * 		# Deallocation
  * 		for ioni in prange(N, nogil=True, schedule='static'):             # <<<<<<<<<<<<<<
@@ -6436,7 +6451,7 @@ static double __pyx_f_9potential_7Coulomb_calc_real(struct __pyx_obj_9potential_
       }
   }
 
-  /* "potential.pyx":220
+  /* "potential.pyx":213
  * 				ereal += esum[ioni][ionj]
  * 			free(esum[ioni])
  * 		free(esum)             # <<<<<<<<<<<<<<
@@ -6445,7 +6460,7 @@ static double __pyx_f_9potential_7Coulomb_calc_real(struct __pyx_obj_9potential_
  */
   free(__pyx_v_esum);
 
-  /* "potential.pyx":222
+  /* "potential.pyx":215
  * 		free(esum)
  * 
  * 		ereal = ereal*14.399645351950543  # electrostatic constant             # <<<<<<<<<<<<<<
@@ -6454,7 +6469,7 @@ static double __pyx_f_9potential_7Coulomb_calc_real(struct __pyx_obj_9potential_
  */
   __pyx_v_ereal = (__pyx_v_ereal * 14.399645351950543);
 
-  /* "potential.pyx":223
+  /* "potential.pyx":216
  * 
  * 		ereal = ereal*14.399645351950543  # electrostatic constant
  * 		self.ereal = ereal             # <<<<<<<<<<<<<<
@@ -6463,7 +6478,7 @@ static double __pyx_f_9potential_7Coulomb_calc_real(struct __pyx_obj_9potential_
  */
   __pyx_v_self->ereal = __pyx_v_ereal;
 
-  /* "potential.pyx":224
+  /* "potential.pyx":217
  * 		ereal = ereal*14.399645351950543  # electrostatic constant
  * 		self.ereal = ereal
  * 		return ereal             # <<<<<<<<<<<<<<
@@ -6473,7 +6488,7 @@ static double __pyx_f_9potential_7Coulomb_calc_real(struct __pyx_obj_9potential_
   __pyx_r = __pyx_v_ereal;
   goto __pyx_L0;
 
-  /* "potential.pyx":174
+  /* "potential.pyx":167
  * 	@cython.boundscheck(False)
  * 	@cython.wraparound(False)
  * 	cdef double calc_real(self, double[:,:] pos, double[:,:] vects, int N) except? -1:             # <<<<<<<<<<<<<<
@@ -6493,7 +6508,7 @@ static double __pyx_f_9potential_7Coulomb_calc_real(struct __pyx_obj_9potential_
   return __pyx_r;
 }
 
-/* "potential.pyx":228
+/* "potential.pyx":221
  * 	@cython.boundscheck(False)
  * 	@cython.wraparound(False)
  * 	cdef double calc_recip(self, double[:,:] pos, double[:,:] vects, int N) except? -1:             # <<<<<<<<<<<<<<
@@ -6553,7 +6568,7 @@ static double __pyx_f_9potential_7Coulomb_calc_recip(struct __pyx_obj_9potential
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("calc_recip", 0);
 
-  /* "potential.pyx":232
+  /* "potential.pyx":225
  * 
  * 		"""
  * 		if pos.shape[1]!=3 or vects.shape[1]!=3:             # <<<<<<<<<<<<<<
@@ -6571,20 +6586,20 @@ static double __pyx_f_9potential_7Coulomb_calc_recip(struct __pyx_obj_9potential
   __pyx_L4_bool_binop_done:;
   if (unlikely(__pyx_t_1)) {
 
-    /* "potential.pyx":233
+    /* "potential.pyx":226
  * 		"""
  * 		if pos.shape[1]!=3 or vects.shape[1]!=3:
  * 			raise IndexError("Points are not 3-dimensional.")             # <<<<<<<<<<<<<<
  * 
  * 		cdef double* rij
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_IndexError, __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 233, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_IndexError, __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 226, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(0, 233, __pyx_L1_error)
+    __PYX_ERR(0, 226, __pyx_L1_error)
 
-    /* "potential.pyx":232
+    /* "potential.pyx":225
  * 
  * 		"""
  * 		if pos.shape[1]!=3 or vects.shape[1]!=3:             # <<<<<<<<<<<<<<
@@ -6593,7 +6608,7 @@ static double __pyx_f_9potential_7Coulomb_calc_recip(struct __pyx_obj_9potential
  */
   }
 
-  /* "potential.pyx":238
+  /* "potential.pyx":231
  * 		cdef double** esum
  * 		cdef int ioni, ionj, shift
  * 		cdef double volume = abs(det3_3(vects))             # <<<<<<<<<<<<<<
@@ -6602,31 +6617,31 @@ static double __pyx_f_9potential_7Coulomb_calc_recip(struct __pyx_obj_9potential
  */
   __pyx_v_volume = fabs(__pyx_f_9potential_det3_3(__pyx_v_vects));
 
-  /* "potential.pyx":239
+  /* "potential.pyx":232
  * 		cdef int ioni, ionj, shift
  * 		cdef double volume = abs(det3_3(vects))
  * 		cdef double[:,:] rvects = self.get_reciprocal_vects(vects, volume)             # <<<<<<<<<<<<<<
  * 		cdef double[:,:] shifts = self.get_shifts(self.recip_cut_off, rvects)
  * 		cdef int no_shifts = shifts.shape[0] # number of unit cell images-1
  */
-  __pyx_t_4 = ((struct __pyx_vtabstruct_9potential_Coulomb *)__pyx_v_self->__pyx_base.__pyx_vtab)->get_reciprocal_vects(__pyx_v_self, __pyx_v_vects, __pyx_v_volume); if (unlikely(!__pyx_t_4.memview)) __PYX_ERR(0, 239, __pyx_L1_error)
+  __pyx_t_4 = ((struct __pyx_vtabstruct_9potential_Coulomb *)__pyx_v_self->__pyx_base.__pyx_vtab)->get_reciprocal_vects(__pyx_v_self, __pyx_v_vects, __pyx_v_volume); if (unlikely(!__pyx_t_4.memview)) __PYX_ERR(0, 232, __pyx_L1_error)
   __pyx_v_rvects = __pyx_t_4;
   __pyx_t_4.memview = NULL;
   __pyx_t_4.data = NULL;
 
-  /* "potential.pyx":240
+  /* "potential.pyx":233
  * 		cdef double volume = abs(det3_3(vects))
  * 		cdef double[:,:] rvects = self.get_reciprocal_vects(vects, volume)
  * 		cdef double[:,:] shifts = self.get_shifts(self.recip_cut_off, rvects)             # <<<<<<<<<<<<<<
  * 		cdef int no_shifts = shifts.shape[0] # number of unit cell images-1
  * 		cdef double k_2, krij, frac, term, alpha = self.alpha
  */
-  __pyx_t_4 = ((struct __pyx_vtabstruct_9potential_Coulomb *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.get_shifts(((struct __pyx_obj_9potential_Potential *)__pyx_v_self), __pyx_v_self->recip_cut_off, __pyx_v_rvects); if (unlikely(!__pyx_t_4.memview)) __PYX_ERR(0, 240, __pyx_L1_error)
+  __pyx_t_4 = ((struct __pyx_vtabstruct_9potential_Coulomb *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.get_shifts(((struct __pyx_obj_9potential_Potential *)__pyx_v_self), __pyx_v_self->recip_cut_off, __pyx_v_rvects); if (unlikely(!__pyx_t_4.memview)) __PYX_ERR(0, 233, __pyx_L1_error)
   __pyx_v_shifts = __pyx_t_4;
   __pyx_t_4.memview = NULL;
   __pyx_t_4.data = NULL;
 
-  /* "potential.pyx":241
+  /* "potential.pyx":234
  * 		cdef double[:,:] rvects = self.get_reciprocal_vects(vects, volume)
  * 		cdef double[:,:] shifts = self.get_shifts(self.recip_cut_off, rvects)
  * 		cdef int no_shifts = shifts.shape[0] # number of unit cell images-1             # <<<<<<<<<<<<<<
@@ -6635,7 +6650,7 @@ static double __pyx_f_9potential_7Coulomb_calc_recip(struct __pyx_obj_9potential
  */
   __pyx_v_no_shifts = (__pyx_v_shifts.shape[0]);
 
-  /* "potential.pyx":242
+  /* "potential.pyx":235
  * 		cdef double[:,:] shifts = self.get_shifts(self.recip_cut_off, rvects)
  * 		cdef int no_shifts = shifts.shape[0] # number of unit cell images-1
  * 		cdef double k_2, krij, frac, term, alpha = self.alpha             # <<<<<<<<<<<<<<
@@ -6645,7 +6660,7 @@ static double __pyx_f_9potential_7Coulomb_calc_recip(struct __pyx_obj_9potential
   __pyx_t_5 = __pyx_v_self->alpha;
   __pyx_v_alpha = __pyx_t_5;
 
-  /* "potential.pyx":243
+  /* "potential.pyx":236
  * 		cdef int no_shifts = shifts.shape[0] # number of unit cell images-1
  * 		cdef double k_2, krij, frac, term, alpha = self.alpha
  * 		cdef double erecip = 0             # <<<<<<<<<<<<<<
@@ -6654,7 +6669,7 @@ static double __pyx_f_9potential_7Coulomb_calc_recip(struct __pyx_obj_9potential
  */
   __pyx_v_erecip = 0.0;
 
-  /* "potential.pyx":245
+  /* "potential.pyx":238
  * 		cdef double erecip = 0
  * 
  * 		self.erecip = 0             # <<<<<<<<<<<<<<
@@ -6663,7 +6678,7 @@ static double __pyx_f_9potential_7Coulomb_calc_recip(struct __pyx_obj_9potential
  */
   __pyx_v_self->erecip = 0.0;
 
-  /* "potential.pyx":248
+  /* "potential.pyx":241
  * 
  * 		# create array with sums for each N*N position
  * 		esum = <double **> malloc(sizeof(double *) * N)             # <<<<<<<<<<<<<<
@@ -6672,7 +6687,7 @@ static double __pyx_f_9potential_7Coulomb_calc_recip(struct __pyx_obj_9potential
  */
   __pyx_v_esum = ((double **)malloc(((sizeof(double *)) * __pyx_v_N)));
 
-  /* "potential.pyx":249
+  /* "potential.pyx":242
  * 		# create array with sums for each N*N position
  * 		esum = <double **> malloc(sizeof(double *) * N)
  * 		for ioni in range(N):             # <<<<<<<<<<<<<<
@@ -6684,7 +6699,7 @@ static double __pyx_f_9potential_7Coulomb_calc_recip(struct __pyx_obj_9potential
   for (__pyx_t_8 = 0; __pyx_t_8 < __pyx_t_7; __pyx_t_8+=1) {
     __pyx_v_ioni = __pyx_t_8;
 
-    /* "potential.pyx":250
+    /* "potential.pyx":243
  * 		esum = <double **> malloc(sizeof(double *) * N)
  * 		for ioni in range(N):
  * 			esum[ioni] = <double *> malloc(sizeof(double) * N)             # <<<<<<<<<<<<<<
@@ -6693,7 +6708,7 @@ static double __pyx_f_9potential_7Coulomb_calc_recip(struct __pyx_obj_9potential
  */
     (__pyx_v_esum[__pyx_v_ioni]) = ((double *)malloc(((sizeof(double)) * __pyx_v_N)));
 
-    /* "potential.pyx":251
+    /* "potential.pyx":244
  * 		for ioni in range(N):
  * 			esum[ioni] = <double *> malloc(sizeof(double) * N)
  * 			for ionj in range(N):             # <<<<<<<<<<<<<<
@@ -6705,7 +6720,7 @@ static double __pyx_f_9potential_7Coulomb_calc_recip(struct __pyx_obj_9potential
     for (__pyx_t_11 = 0; __pyx_t_11 < __pyx_t_10; __pyx_t_11+=1) {
       __pyx_v_ionj = __pyx_t_11;
 
-      /* "potential.pyx":252
+      /* "potential.pyx":245
  * 			esum[ioni] = <double *> malloc(sizeof(double) * N)
  * 			for ionj in range(N):
  * 				esum[ioni][ionj] = 0             # <<<<<<<<<<<<<<
@@ -6716,7 +6731,7 @@ static double __pyx_f_9potential_7Coulomb_calc_recip(struct __pyx_obj_9potential
     }
   }
 
-  /* "potential.pyx":254
+  /* "potential.pyx":247
  * 				esum[ioni][ionj] = 0
  * 
  * 		with nogil, parallel():             # <<<<<<<<<<<<<<
@@ -6754,7 +6769,7 @@ static double __pyx_f_9potential_7Coulomb_calc_recip(struct __pyx_obj_9potential
                 /* Initialize private variables to invalid values */
                 __pyx_v_rij = ((double *)1);
 
-                /* "potential.pyx":256
+                /* "potential.pyx":249
  * 		with nogil, parallel():
  * 			# allocate memory for distance vector
  * 			rij = <double *> malloc(sizeof(double) * 3)             # <<<<<<<<<<<<<<
@@ -6763,7 +6778,7 @@ static double __pyx_f_9potential_7Coulomb_calc_recip(struct __pyx_obj_9potential
  */
                 __pyx_v_rij = ((double *)malloc(((sizeof(double)) * 3)));
 
-                /* "potential.pyx":257
+                /* "potential.pyx":250
  * 			# allocate memory for distance vector
  * 			rij = <double *> malloc(sizeof(double) * 3)
  * 			for ioni in prange(N, schedule='static'):             # <<<<<<<<<<<<<<
@@ -6802,7 +6817,7 @@ static double __pyx_f_9potential_7Coulomb_calc_recip(struct __pyx_obj_9potential
                                 __pyx_v_shift = ((int)0xbad0bad0);
                                 __pyx_v_term = ((double)__PYX_NAN());
 
-                                /* "potential.pyx":258
+                                /* "potential.pyx":251
  * 			rij = <double *> malloc(sizeof(double) * 3)
  * 			for ioni in prange(N, schedule='static'):
  * 				for ionj in range(ioni, N):             # <<<<<<<<<<<<<<
@@ -6814,7 +6829,7 @@ static double __pyx_f_9potential_7Coulomb_calc_recip(struct __pyx_obj_9potential
                                 for (__pyx_t_11 = __pyx_v_ioni; __pyx_t_11 < __pyx_t_10; __pyx_t_11+=1) {
                                   __pyx_v_ionj = __pyx_t_11;
 
-                                  /* "potential.pyx":259
+                                  /* "potential.pyx":252
  * 			for ioni in prange(N, schedule='static'):
  * 				for ionj in range(ioni, N):
  * 					rij[0] = pos[ioni,0]-pos[ionj,0] # distance vector             # <<<<<<<<<<<<<<
@@ -6827,7 +6842,7 @@ static double __pyx_f_9potential_7Coulomb_calc_recip(struct __pyx_obj_9potential
                                   __pyx_t_15 = 0;
                                   (__pyx_v_rij[0]) = ((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_12 * __pyx_v_pos.strides[0]) ) + __pyx_t_13 * __pyx_v_pos.strides[1]) ))) - (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_14 * __pyx_v_pos.strides[0]) ) + __pyx_t_15 * __pyx_v_pos.strides[1]) ))));
 
-                                  /* "potential.pyx":260
+                                  /* "potential.pyx":253
  * 				for ionj in range(ioni, N):
  * 					rij[0] = pos[ioni,0]-pos[ionj,0] # distance vector
  * 					rij[1] = pos[ioni,1]-pos[ionj,1]             # <<<<<<<<<<<<<<
@@ -6840,7 +6855,7 @@ static double __pyx_f_9potential_7Coulomb_calc_recip(struct __pyx_obj_9potential
                                   __pyx_t_12 = 1;
                                   (__pyx_v_rij[1]) = ((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_15 * __pyx_v_pos.strides[0]) ) + __pyx_t_14 * __pyx_v_pos.strides[1]) ))) - (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_13 * __pyx_v_pos.strides[0]) ) + __pyx_t_12 * __pyx_v_pos.strides[1]) ))));
 
-                                  /* "potential.pyx":261
+                                  /* "potential.pyx":254
  * 					rij[0] = pos[ioni,0]-pos[ionj,0] # distance vector
  * 					rij[1] = pos[ioni,1]-pos[ionj,1]
  * 					rij[2] = pos[ioni,2]-pos[ionj,2]             # <<<<<<<<<<<<<<
@@ -6853,7 +6868,7 @@ static double __pyx_f_9potential_7Coulomb_calc_recip(struct __pyx_obj_9potential
                                   __pyx_t_15 = 2;
                                   (__pyx_v_rij[2]) = ((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_12 * __pyx_v_pos.strides[0]) ) + __pyx_t_13 * __pyx_v_pos.strides[1]) ))) - (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_14 * __pyx_v_pos.strides[0]) ) + __pyx_t_15 * __pyx_v_pos.strides[1]) ))));
 
-                                  /* "potential.pyx":262
+                                  /* "potential.pyx":255
  * 					rij[1] = pos[ioni,1]-pos[ionj,1]
  * 					rij[2] = pos[ioni,2]-pos[ionj,2]
  * 					for shift in range(no_shifts):             # <<<<<<<<<<<<<<
@@ -6865,7 +6880,7 @@ static double __pyx_f_9potential_7Coulomb_calc_recip(struct __pyx_obj_9potential
                                   for (__pyx_t_18 = 0; __pyx_t_18 < __pyx_t_17; __pyx_t_18+=1) {
                                     __pyx_v_shift = __pyx_t_18;
 
-                                    /* "potential.pyx":264
+                                    /* "potential.pyx":257
  * 					for shift in range(no_shifts):
  * 						# shift on 2nd power
  * 						k_2 = shifts[shift, 0]*shifts[shift, 0]+ \             # <<<<<<<<<<<<<<
@@ -6877,7 +6892,7 @@ static double __pyx_f_9potential_7Coulomb_calc_recip(struct __pyx_obj_9potential
                                     __pyx_t_13 = __pyx_v_shift;
                                     __pyx_t_12 = 0;
 
-                                    /* "potential.pyx":265
+                                    /* "potential.pyx":258
  * 						# shift on 2nd power
  * 						k_2 = shifts[shift, 0]*shifts[shift, 0]+ \
  * 								shifts[shift, 1]*shifts[shift, 1]+ \             # <<<<<<<<<<<<<<
@@ -6889,7 +6904,7 @@ static double __pyx_f_9potential_7Coulomb_calc_recip(struct __pyx_obj_9potential
                                     __pyx_t_21 = __pyx_v_shift;
                                     __pyx_t_22 = 1;
 
-                                    /* "potential.pyx":266
+                                    /* "potential.pyx":259
  * 						k_2 = shifts[shift, 0]*shifts[shift, 0]+ \
  * 								shifts[shift, 1]*shifts[shift, 1]+ \
  * 								shifts[shift, 2]*shifts[shift, 2]             # <<<<<<<<<<<<<<
@@ -6901,7 +6916,7 @@ static double __pyx_f_9potential_7Coulomb_calc_recip(struct __pyx_obj_9potential
                                     __pyx_t_25 = __pyx_v_shift;
                                     __pyx_t_26 = 2;
 
-                                    /* "potential.pyx":265
+                                    /* "potential.pyx":258
  * 						# shift on 2nd power
  * 						k_2 = shifts[shift, 0]*shifts[shift, 0]+ \
  * 								shifts[shift, 1]*shifts[shift, 1]+ \             # <<<<<<<<<<<<<<
@@ -6910,7 +6925,7 @@ static double __pyx_f_9potential_7Coulomb_calc_recip(struct __pyx_obj_9potential
  */
                                     __pyx_v_k_2 = ((((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_shifts.data + __pyx_t_15 * __pyx_v_shifts.strides[0]) ) + __pyx_t_14 * __pyx_v_shifts.strides[1]) ))) * (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_shifts.data + __pyx_t_13 * __pyx_v_shifts.strides[0]) ) + __pyx_t_12 * __pyx_v_shifts.strides[1]) )))) + ((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_shifts.data + __pyx_t_19 * __pyx_v_shifts.strides[0]) ) + __pyx_t_20 * __pyx_v_shifts.strides[1]) ))) * (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_shifts.data + __pyx_t_21 * __pyx_v_shifts.strides[0]) ) + __pyx_t_22 * __pyx_v_shifts.strides[1]) ))))) + ((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_shifts.data + __pyx_t_23 * __pyx_v_shifts.strides[0]) ) + __pyx_t_24 * __pyx_v_shifts.strides[1]) ))) * (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_shifts.data + __pyx_t_25 * __pyx_v_shifts.strides[0]) ) + __pyx_t_26 * __pyx_v_shifts.strides[1]) )))));
 
-                                    /* "potential.pyx":269
+                                    /* "potential.pyx":262
  * 
  * 						# dot product to find image
  * 						krij = shifts[shift, 0]*rij[0]+ \             # <<<<<<<<<<<<<<
@@ -6920,7 +6935,7 @@ static double __pyx_f_9potential_7Coulomb_calc_recip(struct __pyx_obj_9potential
                                     __pyx_t_26 = __pyx_v_shift;
                                     __pyx_t_25 = 0;
 
-                                    /* "potential.pyx":270
+                                    /* "potential.pyx":263
  * 						# dot product to find image
  * 						krij = shifts[shift, 0]*rij[0]+ \
  * 								shifts[shift, 1]*rij[1]+ \             # <<<<<<<<<<<<<<
@@ -6930,7 +6945,7 @@ static double __pyx_f_9potential_7Coulomb_calc_recip(struct __pyx_obj_9potential
                                     __pyx_t_24 = __pyx_v_shift;
                                     __pyx_t_23 = 1;
 
-                                    /* "potential.pyx":271
+                                    /* "potential.pyx":264
  * 						krij = shifts[shift, 0]*rij[0]+ \
  * 								shifts[shift, 1]*rij[1]+ \
  * 								shifts[shift, 2]*rij[2]             # <<<<<<<<<<<<<<
@@ -6940,7 +6955,7 @@ static double __pyx_f_9potential_7Coulomb_calc_recip(struct __pyx_obj_9potential
                                     __pyx_t_22 = __pyx_v_shift;
                                     __pyx_t_21 = 2;
 
-                                    /* "potential.pyx":270
+                                    /* "potential.pyx":263
  * 						# dot product to find image
  * 						krij = shifts[shift, 0]*rij[0]+ \
  * 								shifts[shift, 1]*rij[1]+ \             # <<<<<<<<<<<<<<
@@ -6949,7 +6964,7 @@ static double __pyx_f_9potential_7Coulomb_calc_recip(struct __pyx_obj_9potential
  */
                                     __pyx_v_krij = ((((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_shifts.data + __pyx_t_26 * __pyx_v_shifts.strides[0]) ) + __pyx_t_25 * __pyx_v_shifts.strides[1]) ))) * (__pyx_v_rij[0])) + ((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_shifts.data + __pyx_t_24 * __pyx_v_shifts.strides[0]) ) + __pyx_t_23 * __pyx_v_shifts.strides[1]) ))) * (__pyx_v_rij[1]))) + ((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_shifts.data + __pyx_t_22 * __pyx_v_shifts.strides[0]) ) + __pyx_t_21 * __pyx_v_shifts.strides[1]) ))) * (__pyx_v_rij[2])));
 
-                                    /* "potential.pyx":274
+                                    /* "potential.pyx":267
  * 
  * 						# avoid underflow
  * 						if k_2>-log(DBL_EPSILON):             # <<<<<<<<<<<<<<
@@ -6959,7 +6974,7 @@ static double __pyx_f_9potential_7Coulomb_calc_recip(struct __pyx_obj_9potential
                                     __pyx_t_1 = ((__pyx_v_k_2 > (-log(DBL_EPSILON))) != 0);
                                     if (__pyx_t_1) {
 
-                                      /* "potential.pyx":275
+                                      /* "potential.pyx":268
  * 						# avoid underflow
  * 						if k_2>-log(DBL_EPSILON):
  * 							term = DBL_EPSILON             # <<<<<<<<<<<<<<
@@ -6968,7 +6983,7 @@ static double __pyx_f_9potential_7Coulomb_calc_recip(struct __pyx_obj_9potential
  */
                                       __pyx_v_term = DBL_EPSILON;
 
-                                      /* "potential.pyx":274
+                                      /* "potential.pyx":267
  * 
  * 						# avoid underflow
  * 						if k_2>-log(DBL_EPSILON):             # <<<<<<<<<<<<<<
@@ -6978,7 +6993,7 @@ static double __pyx_f_9potential_7Coulomb_calc_recip(struct __pyx_obj_9potential
                                       goto __pyx_L25;
                                     }
 
-                                    /* "potential.pyx":277
+                                    /* "potential.pyx":270
  * 							term = DBL_EPSILON
  * 						else:
  * 							term = exp(-k_2/(4*alpha**2))             # <<<<<<<<<<<<<<
@@ -6996,13 +7011,13 @@ static double __pyx_f_9potential_7Coulomb_calc_recip(struct __pyx_obj_9potential
                                         #ifdef WITH_THREAD
                                         __Pyx_PyGILState_Release(__pyx_gilstate_save);
                                         #endif
-                                        __PYX_ERR(0, 277, __pyx_L19_error)
+                                        __PYX_ERR(0, 270, __pyx_L19_error)
                                       }
                                       __pyx_v_term = exp((__pyx_t_5 / __pyx_t_27));
                                     }
                                     __pyx_L25:;
 
-                                    /* "potential.pyx":279
+                                    /* "potential.pyx":272
  * 							term = exp(-k_2/(4*alpha**2))
  * 						# actual calculation
  * 						frac = 4*(pi**2)*term*cos(krij) / (k_2*2*pi*volume)             # <<<<<<<<<<<<<<
@@ -7019,11 +7034,11 @@ static double __pyx_f_9potential_7Coulomb_calc_recip(struct __pyx_obj_9potential
                                       #ifdef WITH_THREAD
                                       __Pyx_PyGILState_Release(__pyx_gilstate_save);
                                       #endif
-                                      __PYX_ERR(0, 279, __pyx_L19_error)
+                                      __PYX_ERR(0, 272, __pyx_L19_error)
                                     }
                                     __pyx_v_frac = (__pyx_t_27 / __pyx_t_5);
 
-                                    /* "potential.pyx":280
+                                    /* "potential.pyx":273
  * 						# actual calculation
  * 						frac = 4*(pi**2)*term*cos(krij) / (k_2*2*pi*volume)
  * 						esum[ioni][ionj] += self.charges[ioni]*self.charges[ionj]*frac             # <<<<<<<<<<<<<<
@@ -7032,9 +7047,9 @@ static double __pyx_f_9potential_7Coulomb_calc_recip(struct __pyx_obj_9potential
  */
                                     __pyx_t_28 = __pyx_v_ioni;
                                     __pyx_t_29 = __pyx_v_ionj;
-                                    if (unlikely(!__pyx_v_self->charges.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 280, __pyx_L19_error)}
+                                    if (unlikely(!__pyx_v_self->charges.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 273, __pyx_L19_error)}
                                     __pyx_t_21 = __pyx_v_ioni;
-                                    if (unlikely(!__pyx_v_self->charges.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 280, __pyx_L19_error)}
+                                    if (unlikely(!__pyx_v_self->charges.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 273, __pyx_L19_error)}
                                     __pyx_t_22 = __pyx_v_ionj;
                                     ((__pyx_v_esum[__pyx_t_28])[__pyx_t_29]) = (((__pyx_v_esum[__pyx_t_28])[__pyx_t_29]) + (((*((int *) ( /* dim=0 */ (__pyx_v_self->charges.data + __pyx_t_21 * __pyx_v_self->charges.strides[0]) ))) * (*((int *) ( /* dim=0 */ (__pyx_v_self->charges.data + __pyx_t_22 * __pyx_v_self->charges.strides[0]) )))) * __pyx_v_frac));
                                   }
@@ -7109,7 +7124,7 @@ static double __pyx_f_9potential_7Coulomb_calc_recip(struct __pyx_obj_9potential
                     }
                 }
 
-                /* "potential.pyx":281
+                /* "potential.pyx":274
  * 						frac = 4*(pi**2)*term*cos(krij) / (k_2*2*pi*volume)
  * 						esum[ioni][ionj] += self.charges[ioni]*self.charges[ionj]*frac
  * 			free(rij)             # <<<<<<<<<<<<<<
@@ -7184,7 +7199,7 @@ static double __pyx_f_9potential_7Coulomb_calc_recip(struct __pyx_obj_9potential
         #endif
       }
 
-      /* "potential.pyx":254
+      /* "potential.pyx":247
  * 				esum[ioni][ionj] = 0
  * 
  * 		with nogil, parallel():             # <<<<<<<<<<<<<<
@@ -7210,7 +7225,7 @@ static double __pyx_f_9potential_7Coulomb_calc_recip(struct __pyx_obj_9potential
       }
   }
 
-  /* "potential.pyx":284
+  /* "potential.pyx":277
  * 
  * 		# Deallocation
  * 		for ioni in prange(N, nogil=True, schedule='static'):             # <<<<<<<<<<<<<<
@@ -7249,7 +7264,7 @@ static double __pyx_f_9potential_7Coulomb_calc_recip(struct __pyx_obj_9potential
                             /* Initialize private variables to invalid values */
                             __pyx_v_ionj = ((int)0xbad0bad0);
 
-                            /* "potential.pyx":285
+                            /* "potential.pyx":278
  * 		# Deallocation
  * 		for ioni in prange(N, nogil=True, schedule='static'):
  * 			for ionj in range(0, ioni):             # <<<<<<<<<<<<<<
@@ -7261,7 +7276,7 @@ static double __pyx_f_9potential_7Coulomb_calc_recip(struct __pyx_obj_9potential
                             for (__pyx_t_11 = 0; __pyx_t_11 < __pyx_t_10; __pyx_t_11+=1) {
                               __pyx_v_ionj = __pyx_t_11;
 
-                              /* "potential.pyx":286
+                              /* "potential.pyx":279
  * 		for ioni in prange(N, nogil=True, schedule='static'):
  * 			for ionj in range(0, ioni):
  * 				esum[ioni][ionj] = esum[ionj][ioni] # complete lower triangular             # <<<<<<<<<<<<<<
@@ -7271,7 +7286,7 @@ static double __pyx_f_9potential_7Coulomb_calc_recip(struct __pyx_obj_9potential
                               ((__pyx_v_esum[__pyx_v_ioni])[__pyx_v_ionj]) = ((__pyx_v_esum[__pyx_v_ionj])[__pyx_v_ioni]);
                             }
 
-                            /* "potential.pyx":287
+                            /* "potential.pyx":280
  * 			for ionj in range(0, ioni):
  * 				esum[ioni][ionj] = esum[ionj][ioni] # complete lower triangular
  * 			for ionj in range(N):             # <<<<<<<<<<<<<<
@@ -7283,7 +7298,7 @@ static double __pyx_f_9potential_7Coulomb_calc_recip(struct __pyx_obj_9potential
                             for (__pyx_t_11 = 0; __pyx_t_11 < __pyx_t_10; __pyx_t_11+=1) {
                               __pyx_v_ionj = __pyx_t_11;
 
-                              /* "potential.pyx":288
+                              /* "potential.pyx":281
  * 				esum[ioni][ionj] = esum[ionj][ioni] # complete lower triangular
  * 			for ionj in range(N):
  * 				erecip += esum[ioni][ionj]             # <<<<<<<<<<<<<<
@@ -7293,7 +7308,7 @@ static double __pyx_f_9potential_7Coulomb_calc_recip(struct __pyx_obj_9potential
                               __pyx_v_erecip = (__pyx_v_erecip + ((__pyx_v_esum[__pyx_v_ioni])[__pyx_v_ionj]));
                             }
 
-                            /* "potential.pyx":289
+                            /* "potential.pyx":282
  * 			for ionj in range(N):
  * 				erecip += esum[ioni][ionj]
  * 			free(esum[ioni])             # <<<<<<<<<<<<<<
@@ -7314,7 +7329,7 @@ static double __pyx_f_9potential_7Coulomb_calc_recip(struct __pyx_obj_9potential
         #endif
       }
 
-      /* "potential.pyx":284
+      /* "potential.pyx":277
  * 
  * 		# Deallocation
  * 		for ioni in prange(N, nogil=True, schedule='static'):             # <<<<<<<<<<<<<<
@@ -7333,7 +7348,7 @@ static double __pyx_f_9potential_7Coulomb_calc_recip(struct __pyx_obj_9potential
       }
   }
 
-  /* "potential.pyx":290
+  /* "potential.pyx":283
  * 				erecip += esum[ioni][ionj]
  * 			free(esum[ioni])
  * 		free(esum)             # <<<<<<<<<<<<<<
@@ -7342,7 +7357,7 @@ static double __pyx_f_9potential_7Coulomb_calc_recip(struct __pyx_obj_9potential
  */
   free(__pyx_v_esum);
 
-  /* "potential.pyx":292
+  /* "potential.pyx":285
  * 		free(esum)
  * 
  * 		erecip = erecip*14.399645351950543  # electrostatic constant             # <<<<<<<<<<<<<<
@@ -7351,7 +7366,7 @@ static double __pyx_f_9potential_7Coulomb_calc_recip(struct __pyx_obj_9potential
  */
   __pyx_v_erecip = (__pyx_v_erecip * 14.399645351950543);
 
-  /* "potential.pyx":293
+  /* "potential.pyx":286
  * 
  * 		erecip = erecip*14.399645351950543  # electrostatic constant
  * 		self.erecip = erecip             # <<<<<<<<<<<<<<
@@ -7360,7 +7375,7 @@ static double __pyx_f_9potential_7Coulomb_calc_recip(struct __pyx_obj_9potential
  */
   __pyx_v_self->erecip = __pyx_v_erecip;
 
-  /* "potential.pyx":294
+  /* "potential.pyx":287
  * 		erecip = erecip*14.399645351950543  # electrostatic constant
  * 		self.erecip = erecip
  * 		return erecip             # <<<<<<<<<<<<<<
@@ -7370,7 +7385,7 @@ static double __pyx_f_9potential_7Coulomb_calc_recip(struct __pyx_obj_9potential
   __pyx_r = __pyx_v_erecip;
   goto __pyx_L0;
 
-  /* "potential.pyx":228
+  /* "potential.pyx":221
  * 	@cython.boundscheck(False)
  * 	@cython.wraparound(False)
  * 	cdef double calc_recip(self, double[:,:] pos, double[:,:] vects, int N) except? -1:             # <<<<<<<<<<<<<<
@@ -7391,7 +7406,7 @@ static double __pyx_f_9potential_7Coulomb_calc_recip(struct __pyx_obj_9potential
   return __pyx_r;
 }
 
-/* "potential.pyx":297
+/* "potential.pyx":290
  * 
  * 	@cython.boundscheck(False)
  * 	cpdef calc_madelung(self, double[:,:] pos, int N):             # <<<<<<<<<<<<<<
@@ -7459,14 +7474,14 @@ static PyObject *__pyx_f_9potential_7Coulomb_calc_madelung(struct __pyx_obj_9pot
     if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
       PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
       #endif
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_calc_madelung); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 297, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_calc_madelung); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 290, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_9potential_7Coulomb_5calc_madelung)) {
         __Pyx_XDECREF(__pyx_r);
-        if (unlikely(!__pyx_v_pos.memview)) { __Pyx_RaiseUnboundLocalError("pos"); __PYX_ERR(0, 297, __pyx_L1_error) }
-        __pyx_t_3 = __pyx_memoryview_fromslice(__pyx_v_pos, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 297, __pyx_L1_error)
+        if (unlikely(!__pyx_v_pos.memview)) { __Pyx_RaiseUnboundLocalError("pos"); __PYX_ERR(0, 290, __pyx_L1_error) }
+        __pyx_t_3 = __pyx_memoryview_fromslice(__pyx_v_pos, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 290, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
-        __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_N); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 297, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_N); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 290, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_INCREF(__pyx_t_1);
         __pyx_t_5 = __pyx_t_1; __pyx_t_6 = NULL;
@@ -7484,7 +7499,7 @@ static PyObject *__pyx_f_9potential_7Coulomb_calc_madelung(struct __pyx_obj_9pot
         #if CYTHON_FAST_PYCALL
         if (PyFunction_Check(__pyx_t_5)) {
           PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_t_3, __pyx_t_4};
-          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 297, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 290, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -7494,7 +7509,7 @@ static PyObject *__pyx_f_9potential_7Coulomb_calc_madelung(struct __pyx_obj_9pot
         #if CYTHON_FAST_PYCCALL
         if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
           PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_t_3, __pyx_t_4};
-          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 297, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 290, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -7502,7 +7517,7 @@ static PyObject *__pyx_f_9potential_7Coulomb_calc_madelung(struct __pyx_obj_9pot
         } else
         #endif
         {
-          __pyx_t_8 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 297, __pyx_L1_error)
+          __pyx_t_8 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 290, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_8);
           if (__pyx_t_6) {
             __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_6); __pyx_t_6 = NULL;
@@ -7513,7 +7528,7 @@ static PyObject *__pyx_f_9potential_7Coulomb_calc_madelung(struct __pyx_obj_9pot
           PyTuple_SET_ITEM(__pyx_t_8, 1+__pyx_t_7, __pyx_t_4);
           __pyx_t_3 = 0;
           __pyx_t_4 = 0;
-          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_8, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 297, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_8, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 290, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
         }
@@ -7536,7 +7551,7 @@ static PyObject *__pyx_f_9potential_7Coulomb_calc_madelung(struct __pyx_obj_9pot
     #endif
   }
 
-  /* "potential.pyx":298
+  /* "potential.pyx":291
  * 	@cython.boundscheck(False)
  * 	cpdef calc_madelung(self, double[:,:] pos, int N):
  * 		if not self.made_const:             # <<<<<<<<<<<<<<
@@ -7546,7 +7561,7 @@ static PyObject *__pyx_f_9potential_7Coulomb_calc_madelung(struct __pyx_obj_9pot
   __pyx_t_9 = ((!(__pyx_v_self->made_const != 0)) != 0);
   if (__pyx_t_9) {
 
-    /* "potential.pyx":299
+    /* "potential.pyx":292
  * 	cpdef calc_madelung(self, double[:,:] pos, int N):
  * 		if not self.made_const:
  * 			return None             # <<<<<<<<<<<<<<
@@ -7557,7 +7572,7 @@ static PyObject *__pyx_f_9potential_7Coulomb_calc_madelung(struct __pyx_obj_9pot
     __pyx_r = Py_None; __Pyx_INCREF(Py_None);
     goto __pyx_L0;
 
-    /* "potential.pyx":298
+    /* "potential.pyx":291
  * 	@cython.boundscheck(False)
  * 	cpdef calc_madelung(self, double[:,:] pos, int N):
  * 		if not self.made_const:             # <<<<<<<<<<<<<<
@@ -7566,7 +7581,7 @@ static PyObject *__pyx_f_9potential_7Coulomb_calc_madelung(struct __pyx_obj_9pot
  */
   }
 
-  /* "potential.pyx":300
+  /* "potential.pyx":293
  * 		if not self.made_const:
  * 			return None
  * 		cdef double dist, esum = 0             # <<<<<<<<<<<<<<
@@ -7575,7 +7590,7 @@ static PyObject *__pyx_f_9potential_7Coulomb_calc_madelung(struct __pyx_obj_9pot
  */
   __pyx_v_esum = 0.0;
 
-  /* "potential.pyx":303
+  /* "potential.pyx":296
  * 		cdef int ioni, ionj
  * 
  * 		for ioni in prange(N, nogil=True, schedule='static'):             # <<<<<<<<<<<<<<
@@ -7630,7 +7645,7 @@ static PyObject *__pyx_f_9potential_7Coulomb_calc_madelung(struct __pyx_obj_9pot
                             __pyx_v_dist = ((double)__PYX_NAN());
                             __pyx_v_ionj = ((int)0xbad0bad0);
 
-                            /* "potential.pyx":304
+                            /* "potential.pyx":297
  * 
  * 		for ioni in prange(N, nogil=True, schedule='static'):
  * 			for ionj in range(N):             # <<<<<<<<<<<<<<
@@ -7642,7 +7657,7 @@ static PyObject *__pyx_f_9potential_7Coulomb_calc_madelung(struct __pyx_obj_9pot
                             for (__pyx_t_14 = 0; __pyx_t_14 < __pyx_t_13; __pyx_t_14+=1) {
                               __pyx_v_ionj = __pyx_t_14;
 
-                              /* "potential.pyx":305
+                              /* "potential.pyx":298
  * 		for ioni in prange(N, nogil=True, schedule='static'):
  * 			for ionj in range(N):
  * 				if ioni != ionj:  # skip in case it's the same atom             # <<<<<<<<<<<<<<
@@ -7652,7 +7667,7 @@ static PyObject *__pyx_f_9potential_7Coulomb_calc_madelung(struct __pyx_obj_9pot
                               __pyx_t_9 = ((__pyx_v_ioni != __pyx_v_ionj) != 0);
                               if (__pyx_t_9) {
 
-                                /* "potential.pyx":307
+                                /* "potential.pyx":300
  * 				if ioni != ionj:  # skip in case it's the same atom
  * 												  # in original unit cell
  * 					dist = (pos[ioni, 0]-pos[ionj, 0])*(pos[ioni, 0]-pos[ionj, 0])+ \             # <<<<<<<<<<<<<<
@@ -7676,7 +7691,7 @@ static PyObject *__pyx_f_9potential_7Coulomb_calc_madelung(struct __pyx_obj_9pot
                                 if (__pyx_t_21 < 0) __pyx_t_21 += __pyx_v_pos.shape[0];
                                 if (__pyx_t_22 < 0) __pyx_t_22 += __pyx_v_pos.shape[1];
 
-                                /* "potential.pyx":308
+                                /* "potential.pyx":301
  * 												  # in original unit cell
  * 					dist = (pos[ioni, 0]-pos[ionj, 0])*(pos[ioni, 0]-pos[ionj, 0])+ \
  * 							(pos[ioni, 1]-pos[ionj, 1])*(pos[ioni, 1]-pos[ionj, 1])+ \             # <<<<<<<<<<<<<<
@@ -7700,7 +7715,7 @@ static PyObject *__pyx_f_9potential_7Coulomb_calc_madelung(struct __pyx_obj_9pot
                                 if (__pyx_t_29 < 0) __pyx_t_29 += __pyx_v_pos.shape[0];
                                 if (__pyx_t_30 < 0) __pyx_t_30 += __pyx_v_pos.shape[1];
 
-                                /* "potential.pyx":309
+                                /* "potential.pyx":302
  * 					dist = (pos[ioni, 0]-pos[ionj, 0])*(pos[ioni, 0]-pos[ionj, 0])+ \
  * 							(pos[ioni, 1]-pos[ionj, 1])*(pos[ioni, 1]-pos[ionj, 1])+ \
  * 							(pos[ioni, 2]-pos[ionj, 2])*(pos[ioni, 2]-pos[ionj, 2])             # <<<<<<<<<<<<<<
@@ -7724,7 +7739,7 @@ static PyObject *__pyx_f_9potential_7Coulomb_calc_madelung(struct __pyx_obj_9pot
                                 if (__pyx_t_37 < 0) __pyx_t_37 += __pyx_v_pos.shape[0];
                                 if (__pyx_t_38 < 0) __pyx_t_38 += __pyx_v_pos.shape[1];
 
-                                /* "potential.pyx":308
+                                /* "potential.pyx":301
  * 												  # in original unit cell
  * 					dist = (pos[ioni, 0]-pos[ionj, 0])*(pos[ioni, 0]-pos[ionj, 0])+ \
  * 							(pos[ioni, 1]-pos[ionj, 1])*(pos[ioni, 1]-pos[ionj, 1])+ \             # <<<<<<<<<<<<<<
@@ -7733,21 +7748,21 @@ static PyObject *__pyx_f_9potential_7Coulomb_calc_madelung(struct __pyx_obj_9pot
  */
                                 __pyx_v_dist = (((((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_15 * __pyx_v_pos.strides[0]) ) + __pyx_t_16 * __pyx_v_pos.strides[1]) ))) - (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_17 * __pyx_v_pos.strides[0]) ) + __pyx_t_18 * __pyx_v_pos.strides[1]) )))) * ((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_19 * __pyx_v_pos.strides[0]) ) + __pyx_t_20 * __pyx_v_pos.strides[1]) ))) - (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_21 * __pyx_v_pos.strides[0]) ) + __pyx_t_22 * __pyx_v_pos.strides[1]) ))))) + (((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_23 * __pyx_v_pos.strides[0]) ) + __pyx_t_24 * __pyx_v_pos.strides[1]) ))) - (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_25 * __pyx_v_pos.strides[0]) ) + __pyx_t_26 * __pyx_v_pos.strides[1]) )))) * ((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_27 * __pyx_v_pos.strides[0]) ) + __pyx_t_28 * __pyx_v_pos.strides[1]) ))) - (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_29 * __pyx_v_pos.strides[0]) ) + __pyx_t_30 * __pyx_v_pos.strides[1]) )))))) + (((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_31 * __pyx_v_pos.strides[0]) ) + __pyx_t_32 * __pyx_v_pos.strides[1]) ))) - (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_33 * __pyx_v_pos.strides[0]) ) + __pyx_t_34 * __pyx_v_pos.strides[1]) )))) * ((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_35 * __pyx_v_pos.strides[0]) ) + __pyx_t_36 * __pyx_v_pos.strides[1]) ))) - (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_37 * __pyx_v_pos.strides[0]) ) + __pyx_t_38 * __pyx_v_pos.strides[1]) ))))));
 
-                                /* "potential.pyx":310
+                                /* "potential.pyx":303
  * 							(pos[ioni, 1]-pos[ionj, 1])*(pos[ioni, 1]-pos[ionj, 1])+ \
  * 							(pos[ioni, 2]-pos[ionj, 2])*(pos[ioni, 2]-pos[ionj, 2])
  * 					esum += (self.charges[ioni]*self.charges[ionj]* \             # <<<<<<<<<<<<<<
  * 								self.made_const / dist)
  * 		esum *= 14.399645351950543 / 2  # Coulomb constant
  */
-                                if (unlikely(!__pyx_v_self->charges.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 310, __pyx_L9_error)}
+                                if (unlikely(!__pyx_v_self->charges.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 303, __pyx_L9_error)}
                                 __pyx_t_38 = __pyx_v_ioni;
                                 if (__pyx_t_38 < 0) __pyx_t_38 += __pyx_v_self->charges.shape[0];
-                                if (unlikely(!__pyx_v_self->charges.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 310, __pyx_L9_error)}
+                                if (unlikely(!__pyx_v_self->charges.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 303, __pyx_L9_error)}
                                 __pyx_t_37 = __pyx_v_ionj;
                                 if (__pyx_t_37 < 0) __pyx_t_37 += __pyx_v_self->charges.shape[0];
 
-                                /* "potential.pyx":311
+                                /* "potential.pyx":304
  * 							(pos[ioni, 2]-pos[ionj, 2])*(pos[ioni, 2]-pos[ionj, 2])
  * 					esum += (self.charges[ioni]*self.charges[ionj]* \
  * 								self.made_const / dist)             # <<<<<<<<<<<<<<
@@ -7763,10 +7778,10 @@ static PyObject *__pyx_f_9potential_7Coulomb_calc_madelung(struct __pyx_obj_9pot
                                   #ifdef WITH_THREAD
                                   __Pyx_PyGILState_Release(__pyx_gilstate_save);
                                   #endif
-                                  __PYX_ERR(0, 311, __pyx_L9_error)
+                                  __PYX_ERR(0, 304, __pyx_L9_error)
                                 }
 
-                                /* "potential.pyx":310
+                                /* "potential.pyx":303
  * 							(pos[ioni, 1]-pos[ionj, 1])*(pos[ioni, 1]-pos[ionj, 1])+ \
  * 							(pos[ioni, 2]-pos[ionj, 2])*(pos[ioni, 2]-pos[ionj, 2])
  * 					esum += (self.charges[ioni]*self.charges[ionj]* \             # <<<<<<<<<<<<<<
@@ -7775,7 +7790,7 @@ static PyObject *__pyx_f_9potential_7Coulomb_calc_madelung(struct __pyx_obj_9pot
  */
                                 __pyx_v_esum = (__pyx_v_esum + (__pyx_t_39 / __pyx_v_dist));
 
-                                /* "potential.pyx":305
+                                /* "potential.pyx":298
  * 		for ioni in prange(N, nogil=True, schedule='static'):
  * 			for ionj in range(N):
  * 				if ioni != ionj:  # skip in case it's the same atom             # <<<<<<<<<<<<<<
@@ -7871,7 +7886,7 @@ static PyObject *__pyx_f_9potential_7Coulomb_calc_madelung(struct __pyx_obj_9pot
         #endif
       }
 
-      /* "potential.pyx":303
+      /* "potential.pyx":296
  * 		cdef int ioni, ionj
  * 
  * 		for ioni in prange(N, nogil=True, schedule='static'):             # <<<<<<<<<<<<<<
@@ -7897,7 +7912,7 @@ static PyObject *__pyx_f_9potential_7Coulomb_calc_madelung(struct __pyx_obj_9pot
       }
   }
 
-  /* "potential.pyx":312
+  /* "potential.pyx":305
  * 					esum += (self.charges[ioni]*self.charges[ionj]* \
  * 								self.made_const / dist)
  * 		esum *= 14.399645351950543 / 2  # Coulomb constant             # <<<<<<<<<<<<<<
@@ -7906,7 +7921,7 @@ static PyObject *__pyx_f_9potential_7Coulomb_calc_madelung(struct __pyx_obj_9pot
  */
   __pyx_v_esum = (__pyx_v_esum * (14.399645351950543 / 2.0));
 
-  /* "potential.pyx":313
+  /* "potential.pyx":306
  * 								self.made_const / dist)
  * 		esum *= 14.399645351950543 / 2  # Coulomb constant
  * 		return esum             # <<<<<<<<<<<<<<
@@ -7914,13 +7929,13 @@ static PyObject *__pyx_f_9potential_7Coulomb_calc_madelung(struct __pyx_obj_9pot
  * 	cpdef calc(self, atoms):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_esum); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 313, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_esum); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 306, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "potential.pyx":297
+  /* "potential.pyx":290
  * 
  * 	@cython.boundscheck(False)
  * 	cpdef calc_madelung(self, double[:,:] pos, int N):             # <<<<<<<<<<<<<<
@@ -7979,11 +7994,11 @@ static PyObject *__pyx_pw_9potential_7Coulomb_5calc_madelung(PyObject *__pyx_v_s
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_N)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("calc_madelung", 1, 2, 2, 1); __PYX_ERR(0, 297, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("calc_madelung", 1, 2, 2, 1); __PYX_ERR(0, 290, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "calc_madelung") < 0)) __PYX_ERR(0, 297, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "calc_madelung") < 0)) __PYX_ERR(0, 290, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -7991,12 +8006,12 @@ static PyObject *__pyx_pw_9potential_7Coulomb_5calc_madelung(PyObject *__pyx_v_s
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
     }
-    __pyx_v_pos = __Pyx_PyObject_to_MemoryviewSlice_dsds_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_pos.memview)) __PYX_ERR(0, 297, __pyx_L3_error)
-    __pyx_v_N = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_N == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 297, __pyx_L3_error)
+    __pyx_v_pos = __Pyx_PyObject_to_MemoryviewSlice_dsds_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_pos.memview)) __PYX_ERR(0, 290, __pyx_L3_error)
+    __pyx_v_N = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_N == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 290, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("calc_madelung", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 297, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("calc_madelung", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 290, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("potential.Coulomb.calc_madelung", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -8018,8 +8033,8 @@ static PyObject *__pyx_pf_9potential_7Coulomb_4calc_madelung(struct __pyx_obj_9p
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("calc_madelung", 0);
   __Pyx_XDECREF(__pyx_r);
-  if (unlikely(!__pyx_v_pos.memview)) { __Pyx_RaiseUnboundLocalError("pos"); __PYX_ERR(0, 297, __pyx_L1_error) }
-  __pyx_t_1 = __pyx_f_9potential_7Coulomb_calc_madelung(__pyx_v_self, __pyx_v_pos, __pyx_v_N, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 297, __pyx_L1_error)
+  if (unlikely(!__pyx_v_pos.memview)) { __Pyx_RaiseUnboundLocalError("pos"); __PYX_ERR(0, 290, __pyx_L1_error) }
+  __pyx_t_1 = __pyx_f_9potential_7Coulomb_calc_madelung(__pyx_v_self, __pyx_v_pos, __pyx_v_N, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 290, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -8037,7 +8052,7 @@ static PyObject *__pyx_pf_9potential_7Coulomb_4calc_madelung(struct __pyx_obj_9p
   return __pyx_r;
 }
 
-/* "potential.pyx":315
+/* "potential.pyx":308
  * 		return esum
  * 
  * 	cpdef calc(self, atoms):             # <<<<<<<<<<<<<<
@@ -8075,7 +8090,7 @@ static PyObject *__pyx_f_9potential_7Coulomb_calc(struct __pyx_obj_9potential_Co
     if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
       PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
       #endif
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_calc); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 315, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_calc); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 308, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_9potential_7Coulomb_7calc)) {
         __Pyx_XDECREF(__pyx_r);
@@ -8092,7 +8107,7 @@ static PyObject *__pyx_f_9potential_7Coulomb_calc(struct __pyx_obj_9potential_Co
         }
         __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, __pyx_v_atoms) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_atoms);
         __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 315, __pyx_L1_error)
+        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 308, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         __pyx_r = __pyx_t_2;
@@ -8113,34 +8128,34 @@ static PyObject *__pyx_f_9potential_7Coulomb_calc(struct __pyx_obj_9potential_Co
     #endif
   }
 
-  /* "potential.pyx":321
+  /* "potential.pyx":314
  * 
  * 		"""
  * 		cdef double[:,:] positions = atoms.positions             # <<<<<<<<<<<<<<
  * 		cdef double[:,:] vects = np.array(atoms.get_cell())
  * 		cdef int N = len(positions)
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_atoms, __pyx_n_s_positions); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 321, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_atoms, __pyx_n_s_positions); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 314, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_5 = __Pyx_PyObject_to_MemoryviewSlice_dsds_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_5.memview)) __PYX_ERR(0, 321, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_to_MemoryviewSlice_dsds_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_5.memview)) __PYX_ERR(0, 314, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_positions = __pyx_t_5;
   __pyx_t_5.memview = NULL;
   __pyx_t_5.data = NULL;
 
-  /* "potential.pyx":322
+  /* "potential.pyx":315
  * 		"""
  * 		cdef double[:,:] positions = atoms.positions
  * 		cdef double[:,:] vects = np.array(atoms.get_cell())             # <<<<<<<<<<<<<<
  * 		cdef int N = len(positions)
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 322, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 315, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_array); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 322, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_array); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 315, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_atoms, __pyx_n_s_get_cell); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 322, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_atoms, __pyx_n_s_get_cell); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 315, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_6 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
@@ -8154,7 +8169,7 @@ static PyObject *__pyx_f_9potential_7Coulomb_calc(struct __pyx_obj_9potential_Co
   }
   __pyx_t_2 = (__pyx_t_6) ? __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_6) : __Pyx_PyObject_CallNoArg(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 322, __pyx_L1_error)
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 315, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_4 = NULL;
@@ -8170,16 +8185,16 @@ static PyObject *__pyx_f_9potential_7Coulomb_calc(struct __pyx_obj_9potential_Co
   __pyx_t_1 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, __pyx_t_2) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2);
   __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 322, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 315, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_5 = __Pyx_PyObject_to_MemoryviewSlice_dsds_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_5.memview)) __PYX_ERR(0, 322, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_to_MemoryviewSlice_dsds_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_5.memview)) __PYX_ERR(0, 315, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_vects = __pyx_t_5;
   __pyx_t_5.memview = NULL;
   __pyx_t_5.data = NULL;
 
-  /* "potential.pyx":323
+  /* "potential.pyx":316
  * 		cdef double[:,:] positions = atoms.positions
  * 		cdef double[:,:] vects = np.array(atoms.get_cell())
  * 		cdef int N = len(positions)             # <<<<<<<<<<<<<<
@@ -8189,7 +8204,7 @@ static PyObject *__pyx_f_9potential_7Coulomb_calc(struct __pyx_obj_9potential_Co
   __pyx_t_7 = __Pyx_MemoryView_Len(__pyx_v_positions); 
   __pyx_v_N = __pyx_t_7;
 
-  /* "potential.pyx":325
+  /* "potential.pyx":318
  * 		cdef int N = len(positions)
  * 
  * 		if not self.param_flag:             # <<<<<<<<<<<<<<
@@ -8199,20 +8214,20 @@ static PyObject *__pyx_f_9potential_7Coulomb_calc(struct __pyx_obj_9potential_Co
   __pyx_t_8 = ((!(__pyx_v_self->param_flag != 0)) != 0);
   if (unlikely(__pyx_t_8)) {
 
-    /* "potential.pyx":326
+    /* "potential.pyx":319
  * 
  * 		if not self.param_flag:
  * 			raise ValueError("Coulomb potential parameters are not set.")             # <<<<<<<<<<<<<<
  * 
  * 		self.calc_real(positions,vects,N)
  */
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 326, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 319, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_Raise(__pyx_t_1, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __PYX_ERR(0, 326, __pyx_L1_error)
+    __PYX_ERR(0, 319, __pyx_L1_error)
 
-    /* "potential.pyx":325
+    /* "potential.pyx":318
  * 		cdef int N = len(positions)
  * 
  * 		if not self.param_flag:             # <<<<<<<<<<<<<<
@@ -8221,25 +8236,25 @@ static PyObject *__pyx_f_9potential_7Coulomb_calc(struct __pyx_obj_9potential_Co
  */
   }
 
-  /* "potential.pyx":328
+  /* "potential.pyx":321
  * 			raise ValueError("Coulomb potential parameters are not set.")
  * 
  * 		self.calc_real(positions,vects,N)             # <<<<<<<<<<<<<<
  * 		self.calc_recip(positions,vects,N)
  * 		self.calc_self(N)
  */
-  __pyx_t_9 = ((struct __pyx_vtabstruct_9potential_Coulomb *)__pyx_v_self->__pyx_base.__pyx_vtab)->calc_real(__pyx_v_self, __pyx_v_positions, __pyx_v_vects, __pyx_v_N); if (unlikely(__pyx_t_9 == ((double)-1.0) && PyErr_Occurred())) __PYX_ERR(0, 328, __pyx_L1_error)
+  __pyx_t_9 = ((struct __pyx_vtabstruct_9potential_Coulomb *)__pyx_v_self->__pyx_base.__pyx_vtab)->calc_real(__pyx_v_self, __pyx_v_positions, __pyx_v_vects, __pyx_v_N); if (unlikely(__pyx_t_9 == ((double)-1.0) && PyErr_Occurred())) __PYX_ERR(0, 321, __pyx_L1_error)
 
-  /* "potential.pyx":329
+  /* "potential.pyx":322
  * 
  * 		self.calc_real(positions,vects,N)
  * 		self.calc_recip(positions,vects,N)             # <<<<<<<<<<<<<<
  * 		self.calc_self(N)
  * 
  */
-  __pyx_t_9 = ((struct __pyx_vtabstruct_9potential_Coulomb *)__pyx_v_self->__pyx_base.__pyx_vtab)->calc_recip(__pyx_v_self, __pyx_v_positions, __pyx_v_vects, __pyx_v_N); if (unlikely(__pyx_t_9 == ((double)-1.0) && PyErr_Occurred())) __PYX_ERR(0, 329, __pyx_L1_error)
+  __pyx_t_9 = ((struct __pyx_vtabstruct_9potential_Coulomb *)__pyx_v_self->__pyx_base.__pyx_vtab)->calc_recip(__pyx_v_self, __pyx_v_positions, __pyx_v_vects, __pyx_v_N); if (unlikely(__pyx_t_9 == ((double)-1.0) && PyErr_Occurred())) __PYX_ERR(0, 322, __pyx_L1_error)
 
-  /* "potential.pyx":330
+  /* "potential.pyx":323
  * 		self.calc_real(positions,vects,N)
  * 		self.calc_recip(positions,vects,N)
  * 		self.calc_self(N)             # <<<<<<<<<<<<<<
@@ -8248,67 +8263,67 @@ static PyObject *__pyx_f_9potential_7Coulomb_calc(struct __pyx_obj_9potential_Co
  */
   (void)(((struct __pyx_vtabstruct_9potential_Coulomb *)__pyx_v_self->__pyx_base.__pyx_vtab)->calc_self(__pyx_v_self, __pyx_v_N));
 
-  /* "potential.pyx":332
+  /* "potential.pyx":325
  * 		self.calc_self(N)
  * 
  * 		energies = {}             # <<<<<<<<<<<<<<
  * 		energies['Real'] = self.ereal
  * 		energies['Self'] = self.eself
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 332, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 325, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_energies = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "potential.pyx":333
+  /* "potential.pyx":326
  * 
  * 		energies = {}
  * 		energies['Real'] = self.ereal             # <<<<<<<<<<<<<<
  * 		energies['Self'] = self.eself
  * 		energies['Reciprocal'] = self.erecip
  */
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->ereal); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 333, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->ereal); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 326, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (unlikely(PyDict_SetItem(__pyx_v_energies, __pyx_n_u_Real, __pyx_t_1) < 0)) __PYX_ERR(0, 333, __pyx_L1_error)
+  if (unlikely(PyDict_SetItem(__pyx_v_energies, __pyx_n_u_Real, __pyx_t_1) < 0)) __PYX_ERR(0, 326, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "potential.pyx":334
+  /* "potential.pyx":327
  * 		energies = {}
  * 		energies['Real'] = self.ereal
  * 		energies['Self'] = self.eself             # <<<<<<<<<<<<<<
  * 		energies['Reciprocal'] = self.erecip
  * 		energies['Electrostatic'] = self.ereal+self.erecip+self.eself
  */
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->eself); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 334, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->eself); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 327, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (unlikely(PyDict_SetItem(__pyx_v_energies, __pyx_n_u_Self, __pyx_t_1) < 0)) __PYX_ERR(0, 334, __pyx_L1_error)
+  if (unlikely(PyDict_SetItem(__pyx_v_energies, __pyx_n_u_Self, __pyx_t_1) < 0)) __PYX_ERR(0, 327, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "potential.pyx":335
+  /* "potential.pyx":328
  * 		energies['Real'] = self.ereal
  * 		energies['Self'] = self.eself
  * 		energies['Reciprocal'] = self.erecip             # <<<<<<<<<<<<<<
  * 		energies['Electrostatic'] = self.ereal+self.erecip+self.eself
  * 		return energies
  */
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->erecip); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 335, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->erecip); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 328, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (unlikely(PyDict_SetItem(__pyx_v_energies, __pyx_n_u_Reciprocal, __pyx_t_1) < 0)) __PYX_ERR(0, 335, __pyx_L1_error)
+  if (unlikely(PyDict_SetItem(__pyx_v_energies, __pyx_n_u_Reciprocal, __pyx_t_1) < 0)) __PYX_ERR(0, 328, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "potential.pyx":336
+  /* "potential.pyx":329
  * 		energies['Self'] = self.eself
  * 		energies['Reciprocal'] = self.erecip
  * 		energies['Electrostatic'] = self.ereal+self.erecip+self.eself             # <<<<<<<<<<<<<<
  * 		return energies
  * 
  */
-  __pyx_t_1 = PyFloat_FromDouble(((__pyx_v_self->ereal + __pyx_v_self->erecip) + __pyx_v_self->eself)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 336, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(((__pyx_v_self->ereal + __pyx_v_self->erecip) + __pyx_v_self->eself)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 329, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (unlikely(PyDict_SetItem(__pyx_v_energies, __pyx_n_u_Electrostatic, __pyx_t_1) < 0)) __PYX_ERR(0, 336, __pyx_L1_error)
+  if (unlikely(PyDict_SetItem(__pyx_v_energies, __pyx_n_u_Electrostatic, __pyx_t_1) < 0)) __PYX_ERR(0, 329, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "potential.pyx":337
+  /* "potential.pyx":330
  * 		energies['Reciprocal'] = self.erecip
  * 		energies['Electrostatic'] = self.ereal+self.erecip+self.eself
  * 		return energies             # <<<<<<<<<<<<<<
@@ -8320,7 +8335,7 @@ static PyObject *__pyx_f_9potential_7Coulomb_calc(struct __pyx_obj_9potential_Co
   __pyx_r = __pyx_v_energies;
   goto __pyx_L0;
 
-  /* "potential.pyx":315
+  /* "potential.pyx":308
  * 		return esum
  * 
  * 	cpdef calc(self, atoms):             # <<<<<<<<<<<<<<
@@ -8370,7 +8385,7 @@ static PyObject *__pyx_pf_9potential_7Coulomb_6calc(struct __pyx_obj_9potential_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("calc", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_9potential_7Coulomb_calc(__pyx_v_self, __pyx_v_atoms, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 315, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_9potential_7Coulomb_calc(__pyx_v_self, __pyx_v_atoms, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 308, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -8387,7 +8402,7 @@ static PyObject *__pyx_pf_9potential_7Coulomb_6calc(struct __pyx_obj_9potential_
   return __pyx_r;
 }
 
-/* "potential.pyx":341
+/* "potential.pyx":334
  * 	@cython.boundscheck(False)
  * 	@cython.wraparound(False)
  * 	cdef double[:,:] calc_real_drv(self, double[:,:] pos, double[:,:] vects, int N):             # <<<<<<<<<<<<<<
@@ -8436,7 +8451,7 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_real_drv(struct __pyx
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("calc_real_drv", 0);
 
-  /* "potential.pyx":348
+  /* "potential.pyx":341
  * 
  * 		"""
  * 		if pos.shape[1]!=3 or vects.shape[1]!=3:             # <<<<<<<<<<<<<<
@@ -8454,20 +8469,20 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_real_drv(struct __pyx
   __pyx_L4_bool_binop_done:;
   if (unlikely(__pyx_t_1)) {
 
-    /* "potential.pyx":349
+    /* "potential.pyx":342
  * 		"""
  * 		if pos.shape[1]!=3 or vects.shape[1]!=3:
  * 			raise IndexError("Points are not 3-dimensional.")             # <<<<<<<<<<<<<<
  * 
  * 		cdef double dist, dist_2, a2pi, drv, term, alpha = self.alpha
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_IndexError, __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 349, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_IndexError, __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 342, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(0, 349, __pyx_L1_error)
+    __PYX_ERR(0, 342, __pyx_L1_error)
 
-    /* "potential.pyx":348
+    /* "potential.pyx":341
  * 
  * 		"""
  * 		if pos.shape[1]!=3 or vects.shape[1]!=3:             # <<<<<<<<<<<<<<
@@ -8476,7 +8491,7 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_real_drv(struct __pyx
  */
   }
 
-  /* "potential.pyx":351
+  /* "potential.pyx":344
  * 			raise IndexError("Points are not 3-dimensional.")
  * 
  * 		cdef double dist, dist_2, a2pi, drv, term, alpha = self.alpha             # <<<<<<<<<<<<<<
@@ -8486,19 +8501,19 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_real_drv(struct __pyx
   __pyx_t_4 = __pyx_v_self->alpha;
   __pyx_v_alpha = __pyx_t_4;
 
-  /* "potential.pyx":354
+  /* "potential.pyx":347
  * 		cdef double* rij
  * 		cdef int ioni, ionj, dim, shift
  * 		cdef double[:,:] shifts = self.get_shifts(self.real_cut_off, vects)             # <<<<<<<<<<<<<<
  * 		cdef int no_shifts = shifts.shape[0] # number of unit cell images-1
  * 
  */
-  __pyx_t_5 = ((struct __pyx_vtabstruct_9potential_Coulomb *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.get_shifts(((struct __pyx_obj_9potential_Potential *)__pyx_v_self), __pyx_v_self->real_cut_off, __pyx_v_vects); if (unlikely(!__pyx_t_5.memview)) __PYX_ERR(0, 354, __pyx_L1_error)
+  __pyx_t_5 = ((struct __pyx_vtabstruct_9potential_Coulomb *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.get_shifts(((struct __pyx_obj_9potential_Potential *)__pyx_v_self), __pyx_v_self->real_cut_off, __pyx_v_vects); if (unlikely(!__pyx_t_5.memview)) __PYX_ERR(0, 347, __pyx_L1_error)
   __pyx_v_shifts = __pyx_t_5;
   __pyx_t_5.memview = NULL;
   __pyx_t_5.data = NULL;
 
-  /* "potential.pyx":355
+  /* "potential.pyx":348
  * 		cdef int ioni, ionj, dim, shift
  * 		cdef double[:,:] shifts = self.get_shifts(self.real_cut_off, vects)
  * 		cdef int no_shifts = shifts.shape[0] # number of unit cell images-1             # <<<<<<<<<<<<<<
@@ -8507,7 +8522,7 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_real_drv(struct __pyx
  */
   __pyx_v_no_shifts = (__pyx_v_shifts.shape[0]);
 
-  /* "potential.pyx":357
+  /* "potential.pyx":350
  * 		cdef int no_shifts = shifts.shape[0] # number of unit cell images-1
  * 
  * 		a2pi = 2*alpha/sqrt(pi)             # <<<<<<<<<<<<<<
@@ -8518,11 +8533,11 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_real_drv(struct __pyx
   __pyx_t_6 = sqrt(M_PI);
   if (unlikely(__pyx_t_6 == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(0, 357, __pyx_L1_error)
+    __PYX_ERR(0, 350, __pyx_L1_error)
   }
   __pyx_v_a2pi = (__pyx_t_4 / __pyx_t_6);
 
-  /* "potential.pyx":359
+  /* "potential.pyx":352
  * 		a2pi = 2*alpha/sqrt(pi)
  * 
  * 		with nogil, parallel():             # <<<<<<<<<<<<<<
@@ -8560,7 +8575,7 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_real_drv(struct __pyx
                 /* Initialize private variables to invalid values */
                 __pyx_v_rij = ((double *)1);
 
-                /* "potential.pyx":361
+                /* "potential.pyx":354
  * 		with nogil, parallel():
  * 			# allocate memory for distance vector
  * 			rij = <double *> malloc(sizeof(double) * 3)             # <<<<<<<<<<<<<<
@@ -8569,7 +8584,7 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_real_drv(struct __pyx
  */
                 __pyx_v_rij = ((double *)malloc(((sizeof(double)) * 3)));
 
-                /* "potential.pyx":362
+                /* "potential.pyx":355
  * 			# allocate memory for distance vector
  * 			rij = <double *> malloc(sizeof(double) * 3)
  * 			for ioni in prange(N, schedule='static'):             # <<<<<<<<<<<<<<
@@ -8606,7 +8621,7 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_real_drv(struct __pyx
                                 __pyx_v_ionj = ((int)0xbad0bad0);
                                 __pyx_v_shift = ((int)0xbad0bad0);
 
-                                /* "potential.pyx":363
+                                /* "potential.pyx":356
  * 			rij = <double *> malloc(sizeof(double) * 3)
  * 			for ioni in prange(N, schedule='static'):
  * 				for ionj in range(ioni, N):             # <<<<<<<<<<<<<<
@@ -8618,7 +8633,7 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_real_drv(struct __pyx
                                 for (__pyx_t_12 = __pyx_v_ioni; __pyx_t_12 < __pyx_t_11; __pyx_t_12+=1) {
                                   __pyx_v_ionj = __pyx_t_12;
 
-                                  /* "potential.pyx":364
+                                  /* "potential.pyx":357
  * 			for ioni in prange(N, schedule='static'):
  * 				for ionj in range(ioni, N):
  * 					if ioni != ionj:  # skip in case it's the same atom or it is constant             # <<<<<<<<<<<<<<
@@ -8628,7 +8643,7 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_real_drv(struct __pyx
                                   __pyx_t_1 = ((__pyx_v_ioni != __pyx_v_ionj) != 0);
                                   if (__pyx_t_1) {
 
-                                    /* "potential.pyx":365
+                                    /* "potential.pyx":358
  * 				for ionj in range(ioni, N):
  * 					if ioni != ionj:  # skip in case it's the same atom or it is constant
  * 						rij[0] = pos[ioni,0]-pos[ionj,0] # distance vector             # <<<<<<<<<<<<<<
@@ -8641,7 +8656,7 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_real_drv(struct __pyx
                                     __pyx_t_16 = 0;
                                     (__pyx_v_rij[0]) = ((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_13 * __pyx_v_pos.strides[0]) ) + __pyx_t_14 * __pyx_v_pos.strides[1]) ))) - (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_15 * __pyx_v_pos.strides[0]) ) + __pyx_t_16 * __pyx_v_pos.strides[1]) ))));
 
-                                    /* "potential.pyx":366
+                                    /* "potential.pyx":359
  * 					if ioni != ionj:  # skip in case it's the same atom or it is constant
  * 						rij[0] = pos[ioni,0]-pos[ionj,0] # distance vector
  * 						rij[1] = pos[ioni,1]-pos[ionj,1]             # <<<<<<<<<<<<<<
@@ -8654,7 +8669,7 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_real_drv(struct __pyx
                                     __pyx_t_13 = 1;
                                     (__pyx_v_rij[1]) = ((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_16 * __pyx_v_pos.strides[0]) ) + __pyx_t_15 * __pyx_v_pos.strides[1]) ))) - (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_14 * __pyx_v_pos.strides[0]) ) + __pyx_t_13 * __pyx_v_pos.strides[1]) ))));
 
-                                    /* "potential.pyx":367
+                                    /* "potential.pyx":360
  * 						rij[0] = pos[ioni,0]-pos[ionj,0] # distance vector
  * 						rij[1] = pos[ioni,1]-pos[ionj,1]
  * 						rij[2] = pos[ioni,2]-pos[ionj,2]             # <<<<<<<<<<<<<<
@@ -8667,7 +8682,7 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_real_drv(struct __pyx
                                     __pyx_t_16 = 2;
                                     (__pyx_v_rij[2]) = ((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_13 * __pyx_v_pos.strides[0]) ) + __pyx_t_14 * __pyx_v_pos.strides[1]) ))) - (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_15 * __pyx_v_pos.strides[0]) ) + __pyx_t_16 * __pyx_v_pos.strides[1]) ))));
 
-                                    /* "potential.pyx":368
+                                    /* "potential.pyx":361
  * 						rij[1] = pos[ioni,1]-pos[ionj,1]
  * 						rij[2] = pos[ioni,2]-pos[ionj,2]
  * 						dist_2 = rij[0]*rij[0] + rij[1]*rij[1] + rij[2]*rij[2]             # <<<<<<<<<<<<<<
@@ -8676,7 +8691,7 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_real_drv(struct __pyx
  */
                                     __pyx_v_dist_2 = ((((__pyx_v_rij[0]) * (__pyx_v_rij[0])) + ((__pyx_v_rij[1]) * (__pyx_v_rij[1]))) + ((__pyx_v_rij[2]) * (__pyx_v_rij[2])));
 
-                                    /* "potential.pyx":369
+                                    /* "potential.pyx":362
  * 						rij[2] = pos[ioni,2]-pos[ionj,2]
  * 						dist_2 = rij[0]*rij[0] + rij[1]*rij[1] + rij[2]*rij[2]
  * 						dist = sqrt(dist_2)             # <<<<<<<<<<<<<<
@@ -8685,19 +8700,19 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_real_drv(struct __pyx
  */
                                     __pyx_v_dist = sqrt(__pyx_v_dist_2);
 
-                                    /* "potential.pyx":370
+                                    /* "potential.pyx":363
  * 						dist_2 = rij[0]*rij[0] + rij[1]*rij[1] + rij[2]*rij[2]
  * 						dist = sqrt(dist_2)
  * 						drv = -self.charges[ioni]*self.charges[ionj] * \             # <<<<<<<<<<<<<<
  * 							(
  * 								a2pi*exp(-alpha*alpha*dist_2) / dist_2 + \
  */
-                                    if (unlikely(!__pyx_v_self->charges.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 370, __pyx_L15_error)}
+                                    if (unlikely(!__pyx_v_self->charges.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 363, __pyx_L15_error)}
                                     __pyx_t_16 = __pyx_v_ioni;
-                                    if (unlikely(!__pyx_v_self->charges.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 370, __pyx_L15_error)}
+                                    if (unlikely(!__pyx_v_self->charges.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 363, __pyx_L15_error)}
                                     __pyx_t_15 = __pyx_v_ionj;
 
-                                    /* "potential.pyx":372
+                                    /* "potential.pyx":365
  * 						drv = -self.charges[ioni]*self.charges[ionj] * \
  * 							(
  * 								a2pi*exp(-alpha*alpha*dist_2) / dist_2 + \             # <<<<<<<<<<<<<<
@@ -8713,10 +8728,10 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_real_drv(struct __pyx
                                       #ifdef WITH_THREAD
                                       __Pyx_PyGILState_Release(__pyx_gilstate_save);
                                       #endif
-                                      __PYX_ERR(0, 372, __pyx_L15_error)
+                                      __PYX_ERR(0, 365, __pyx_L15_error)
                                     }
 
-                                    /* "potential.pyx":373
+                                    /* "potential.pyx":366
  * 							(
  * 								a2pi*exp(-alpha*alpha*dist_2) / dist_2 + \
  * 								erfc(alpha*dist) / (dist_2*dist)             # <<<<<<<<<<<<<<
@@ -8733,10 +8748,10 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_real_drv(struct __pyx
                                       #ifdef WITH_THREAD
                                       __Pyx_PyGILState_Release(__pyx_gilstate_save);
                                       #endif
-                                      __PYX_ERR(0, 373, __pyx_L15_error)
+                                      __PYX_ERR(0, 366, __pyx_L15_error)
                                     }
 
-                                    /* "potential.pyx":370
+                                    /* "potential.pyx":363
  * 						dist_2 = rij[0]*rij[0] + rij[1]*rij[1] + rij[2]*rij[2]
  * 						dist = sqrt(dist_2)
  * 						drv = -self.charges[ioni]*self.charges[ionj] * \             # <<<<<<<<<<<<<<
@@ -8745,79 +8760,79 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_real_drv(struct __pyx
  */
                                     __pyx_v_drv = (((-(*((int *) ( /* dim=0 */ (__pyx_v_self->charges.data + __pyx_t_16 * __pyx_v_self->charges.strides[0]) )))) * (*((int *) ( /* dim=0 */ (__pyx_v_self->charges.data + __pyx_t_15 * __pyx_v_self->charges.strides[0]) )))) * ((__pyx_t_6 / __pyx_v_dist_2) + (__pyx_t_4 / __pyx_t_17)));
 
-                                    /* "potential.pyx":377
+                                    /* "potential.pyx":370
  * 
  * 						# partial deriv with respect to ioni
  * 						self.grad[ioni][0] += drv*rij[0]*14.399645351950543  # Coulomb constant             # <<<<<<<<<<<<<<
  * 						self.grad[ioni][1] += drv*rij[1]*14.399645351950543
  * 						self.grad[ioni][2] += drv*rij[2]*14.399645351950543
  */
-                                    if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 377, __pyx_L15_error)}
+                                    if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 370, __pyx_L15_error)}
                                     __pyx_t_15 = __pyx_v_ioni;
                                     __pyx_t_16 = 0;
                                     *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_self->grad.data + __pyx_t_15 * __pyx_v_self->grad.strides[0]) ) + __pyx_t_16 * __pyx_v_self->grad.strides[1]) )) += ((__pyx_v_drv * (__pyx_v_rij[0])) * 14.399645351950543);
 
-                                    /* "potential.pyx":378
+                                    /* "potential.pyx":371
  * 						# partial deriv with respect to ioni
  * 						self.grad[ioni][0] += drv*rij[0]*14.399645351950543  # Coulomb constant
  * 						self.grad[ioni][1] += drv*rij[1]*14.399645351950543             # <<<<<<<<<<<<<<
  * 						self.grad[ioni][2] += drv*rij[2]*14.399645351950543
  * 
  */
-                                    if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 378, __pyx_L15_error)}
+                                    if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 371, __pyx_L15_error)}
                                     __pyx_t_16 = __pyx_v_ioni;
                                     __pyx_t_15 = 1;
                                     *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_self->grad.data + __pyx_t_16 * __pyx_v_self->grad.strides[0]) ) + __pyx_t_15 * __pyx_v_self->grad.strides[1]) )) += ((__pyx_v_drv * (__pyx_v_rij[1])) * 14.399645351950543);
 
-                                    /* "potential.pyx":379
+                                    /* "potential.pyx":372
  * 						self.grad[ioni][0] += drv*rij[0]*14.399645351950543  # Coulomb constant
  * 						self.grad[ioni][1] += drv*rij[1]*14.399645351950543
  * 						self.grad[ioni][2] += drv*rij[2]*14.399645351950543             # <<<<<<<<<<<<<<
  * 
  * 						# partial deriv with respect to ionj
  */
-                                    if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 379, __pyx_L15_error)}
+                                    if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 372, __pyx_L15_error)}
                                     __pyx_t_15 = __pyx_v_ioni;
                                     __pyx_t_16 = 2;
                                     *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_self->grad.data + __pyx_t_15 * __pyx_v_self->grad.strides[0]) ) + __pyx_t_16 * __pyx_v_self->grad.strides[1]) )) += ((__pyx_v_drv * (__pyx_v_rij[2])) * 14.399645351950543);
 
-                                    /* "potential.pyx":382
+                                    /* "potential.pyx":375
  * 
  * 						# partial deriv with respect to ionj
  * 						self.grad[ionj][0] -= drv*rij[0]*14.399645351950543             # <<<<<<<<<<<<<<
  * 						self.grad[ionj][1] -= drv*rij[1]*14.399645351950543
  * 						self.grad[ionj][2] -= drv*rij[2]*14.399645351950543
  */
-                                    if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 382, __pyx_L15_error)}
+                                    if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 375, __pyx_L15_error)}
                                     __pyx_t_16 = __pyx_v_ionj;
                                     __pyx_t_15 = 0;
                                     *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_self->grad.data + __pyx_t_16 * __pyx_v_self->grad.strides[0]) ) + __pyx_t_15 * __pyx_v_self->grad.strides[1]) )) -= ((__pyx_v_drv * (__pyx_v_rij[0])) * 14.399645351950543);
 
-                                    /* "potential.pyx":383
+                                    /* "potential.pyx":376
  * 						# partial deriv with respect to ionj
  * 						self.grad[ionj][0] -= drv*rij[0]*14.399645351950543
  * 						self.grad[ionj][1] -= drv*rij[1]*14.399645351950543             # <<<<<<<<<<<<<<
  * 						self.grad[ionj][2] -= drv*rij[2]*14.399645351950543
  * 
  */
-                                    if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 383, __pyx_L15_error)}
+                                    if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 376, __pyx_L15_error)}
                                     __pyx_t_15 = __pyx_v_ionj;
                                     __pyx_t_16 = 1;
                                     *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_self->grad.data + __pyx_t_15 * __pyx_v_self->grad.strides[0]) ) + __pyx_t_16 * __pyx_v_self->grad.strides[1]) )) -= ((__pyx_v_drv * (__pyx_v_rij[1])) * 14.399645351950543);
 
-                                    /* "potential.pyx":384
+                                    /* "potential.pyx":377
  * 						self.grad[ionj][0] -= drv*rij[0]*14.399645351950543
  * 						self.grad[ionj][1] -= drv*rij[1]*14.399645351950543
  * 						self.grad[ionj][2] -= drv*rij[2]*14.399645351950543             # <<<<<<<<<<<<<<
  * 
  * 						# take care of the rest lattice (+ Ln)
  */
-                                    if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 384, __pyx_L15_error)}
+                                    if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 377, __pyx_L15_error)}
                                     __pyx_t_16 = __pyx_v_ionj;
                                     __pyx_t_15 = 2;
                                     *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_self->grad.data + __pyx_t_16 * __pyx_v_self->grad.strides[0]) ) + __pyx_t_15 * __pyx_v_self->grad.strides[1]) )) -= ((__pyx_v_drv * (__pyx_v_rij[2])) * 14.399645351950543);
 
-                                    /* "potential.pyx":387
+                                    /* "potential.pyx":380
  * 
  * 						# take care of the rest lattice (+ Ln)
  * 						for shift in range(no_shifts):             # <<<<<<<<<<<<<<
@@ -8829,7 +8844,7 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_real_drv(struct __pyx
                                     for (__pyx_t_20 = 0; __pyx_t_20 < __pyx_t_19; __pyx_t_20+=1) {
                                       __pyx_v_shift = __pyx_t_20;
 
-                                      /* "potential.pyx":388
+                                      /* "potential.pyx":381
  * 						# take care of the rest lattice (+ Ln)
  * 						for shift in range(no_shifts):
  * 							rij[0] = pos[ioni,0]+shifts[shift,0]-pos[ionj,0] # distance vector             # <<<<<<<<<<<<<<
@@ -8844,7 +8859,7 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_real_drv(struct __pyx
                                       __pyx_t_22 = 0;
                                       (__pyx_v_rij[0]) = (((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_15 * __pyx_v_pos.strides[0]) ) + __pyx_t_16 * __pyx_v_pos.strides[1]) ))) + (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_shifts.data + __pyx_t_14 * __pyx_v_shifts.strides[0]) ) + __pyx_t_13 * __pyx_v_shifts.strides[1]) )))) - (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_21 * __pyx_v_pos.strides[0]) ) + __pyx_t_22 * __pyx_v_pos.strides[1]) ))));
 
-                                      /* "potential.pyx":389
+                                      /* "potential.pyx":382
  * 						for shift in range(no_shifts):
  * 							rij[0] = pos[ioni,0]+shifts[shift,0]-pos[ionj,0] # distance vector
  * 							rij[1] = pos[ioni,1]+shifts[shift,1]-pos[ionj,1]             # <<<<<<<<<<<<<<
@@ -8859,7 +8874,7 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_real_drv(struct __pyx
                                       __pyx_t_15 = 1;
                                       (__pyx_v_rij[1]) = (((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_22 * __pyx_v_pos.strides[0]) ) + __pyx_t_21 * __pyx_v_pos.strides[1]) ))) + (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_shifts.data + __pyx_t_13 * __pyx_v_shifts.strides[0]) ) + __pyx_t_14 * __pyx_v_shifts.strides[1]) )))) - (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_16 * __pyx_v_pos.strides[0]) ) + __pyx_t_15 * __pyx_v_pos.strides[1]) ))));
 
-                                      /* "potential.pyx":390
+                                      /* "potential.pyx":383
  * 							rij[0] = pos[ioni,0]+shifts[shift,0]-pos[ionj,0] # distance vector
  * 							rij[1] = pos[ioni,1]+shifts[shift,1]-pos[ionj,1]
  * 							rij[2] = pos[ioni,2]+shifts[shift,2]-pos[ionj,2]             # <<<<<<<<<<<<<<
@@ -8874,7 +8889,7 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_real_drv(struct __pyx
                                       __pyx_t_22 = 2;
                                       (__pyx_v_rij[2]) = (((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_15 * __pyx_v_pos.strides[0]) ) + __pyx_t_16 * __pyx_v_pos.strides[1]) ))) + (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_shifts.data + __pyx_t_14 * __pyx_v_shifts.strides[0]) ) + __pyx_t_13 * __pyx_v_shifts.strides[1]) )))) - (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_21 * __pyx_v_pos.strides[0]) ) + __pyx_t_22 * __pyx_v_pos.strides[1]) ))));
 
-                                      /* "potential.pyx":391
+                                      /* "potential.pyx":384
  * 							rij[1] = pos[ioni,1]+shifts[shift,1]-pos[ionj,1]
  * 							rij[2] = pos[ioni,2]+shifts[shift,2]-pos[ionj,2]
  * 							dist_2 = rij[0]*rij[0] + rij[1]*rij[1] + rij[2]*rij[2]             # <<<<<<<<<<<<<<
@@ -8883,7 +8898,7 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_real_drv(struct __pyx
  */
                                       __pyx_v_dist_2 = ((((__pyx_v_rij[0]) * (__pyx_v_rij[0])) + ((__pyx_v_rij[1]) * (__pyx_v_rij[1]))) + ((__pyx_v_rij[2]) * (__pyx_v_rij[2])));
 
-                                      /* "potential.pyx":392
+                                      /* "potential.pyx":385
  * 							rij[2] = pos[ioni,2]+shifts[shift,2]-pos[ionj,2]
  * 							dist_2 = rij[0]*rij[0] + rij[1]*rij[1] + rij[2]*rij[2]
  * 							dist = sqrt(dist_2)             # <<<<<<<<<<<<<<
@@ -8892,19 +8907,19 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_real_drv(struct __pyx
  */
                                       __pyx_v_dist = sqrt(__pyx_v_dist_2);
 
-                                      /* "potential.pyx":393
+                                      /* "potential.pyx":386
  * 							dist_2 = rij[0]*rij[0] + rij[1]*rij[1] + rij[2]*rij[2]
  * 							dist = sqrt(dist_2)
  * 							drv = - self.charges[ioni]*self.charges[ionj] * \             # <<<<<<<<<<<<<<
  * 								(
  * 									a2pi*exp(-alpha*alpha*dist_2) / dist_2 + \
  */
-                                      if (unlikely(!__pyx_v_self->charges.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 393, __pyx_L15_error)}
+                                      if (unlikely(!__pyx_v_self->charges.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 386, __pyx_L15_error)}
                                       __pyx_t_22 = __pyx_v_ioni;
-                                      if (unlikely(!__pyx_v_self->charges.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 393, __pyx_L15_error)}
+                                      if (unlikely(!__pyx_v_self->charges.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 386, __pyx_L15_error)}
                                       __pyx_t_21 = __pyx_v_ionj;
 
-                                      /* "potential.pyx":395
+                                      /* "potential.pyx":388
  * 							drv = - self.charges[ioni]*self.charges[ionj] * \
  * 								(
  * 									a2pi*exp(-alpha*alpha*dist_2) / dist_2 + \             # <<<<<<<<<<<<<<
@@ -8920,10 +8935,10 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_real_drv(struct __pyx
                                         #ifdef WITH_THREAD
                                         __Pyx_PyGILState_Release(__pyx_gilstate_save);
                                         #endif
-                                        __PYX_ERR(0, 395, __pyx_L15_error)
+                                        __PYX_ERR(0, 388, __pyx_L15_error)
                                       }
 
-                                      /* "potential.pyx":396
+                                      /* "potential.pyx":389
  * 								(
  * 									a2pi*exp(-alpha*alpha*dist_2) / dist_2 + \
  * 									erfc(alpha*dist) / (dist_2*dist)             # <<<<<<<<<<<<<<
@@ -8940,10 +8955,10 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_real_drv(struct __pyx
                                         #ifdef WITH_THREAD
                                         __Pyx_PyGILState_Release(__pyx_gilstate_save);
                                         #endif
-                                        __PYX_ERR(0, 396, __pyx_L15_error)
+                                        __PYX_ERR(0, 389, __pyx_L15_error)
                                       }
 
-                                      /* "potential.pyx":393
+                                      /* "potential.pyx":386
  * 							dist_2 = rij[0]*rij[0] + rij[1]*rij[1] + rij[2]*rij[2]
  * 							dist = sqrt(dist_2)
  * 							drv = - self.charges[ioni]*self.charges[ionj] * \             # <<<<<<<<<<<<<<
@@ -8952,80 +8967,80 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_real_drv(struct __pyx
  */
                                       __pyx_v_drv = (((-(*((int *) ( /* dim=0 */ (__pyx_v_self->charges.data + __pyx_t_22 * __pyx_v_self->charges.strides[0]) )))) * (*((int *) ( /* dim=0 */ (__pyx_v_self->charges.data + __pyx_t_21 * __pyx_v_self->charges.strides[0]) )))) * ((__pyx_t_17 / __pyx_v_dist_2) + (__pyx_t_4 / __pyx_t_6)));
 
-                                      /* "potential.pyx":400
+                                      /* "potential.pyx":393
  * 
  * 							# partial deriv with respect to ioni
  * 							self.grad[ioni][0] += drv*rij[0]*14.399645351950543  # Coulomb constant             # <<<<<<<<<<<<<<
  * 							self.grad[ioni][1] += drv*rij[1]*14.399645351950543
  * 							self.grad[ioni][2] += drv*rij[2]*14.399645351950543
  */
-                                      if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 400, __pyx_L15_error)}
+                                      if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 393, __pyx_L15_error)}
                                       __pyx_t_21 = __pyx_v_ioni;
                                       __pyx_t_22 = 0;
                                       *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_self->grad.data + __pyx_t_21 * __pyx_v_self->grad.strides[0]) ) + __pyx_t_22 * __pyx_v_self->grad.strides[1]) )) += ((__pyx_v_drv * (__pyx_v_rij[0])) * 14.399645351950543);
 
-                                      /* "potential.pyx":401
+                                      /* "potential.pyx":394
  * 							# partial deriv with respect to ioni
  * 							self.grad[ioni][0] += drv*rij[0]*14.399645351950543  # Coulomb constant
  * 							self.grad[ioni][1] += drv*rij[1]*14.399645351950543             # <<<<<<<<<<<<<<
  * 							self.grad[ioni][2] += drv*rij[2]*14.399645351950543
  * 
  */
-                                      if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 401, __pyx_L15_error)}
+                                      if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 394, __pyx_L15_error)}
                                       __pyx_t_22 = __pyx_v_ioni;
                                       __pyx_t_21 = 1;
                                       *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_self->grad.data + __pyx_t_22 * __pyx_v_self->grad.strides[0]) ) + __pyx_t_21 * __pyx_v_self->grad.strides[1]) )) += ((__pyx_v_drv * (__pyx_v_rij[1])) * 14.399645351950543);
 
-                                      /* "potential.pyx":402
+                                      /* "potential.pyx":395
  * 							self.grad[ioni][0] += drv*rij[0]*14.399645351950543  # Coulomb constant
  * 							self.grad[ioni][1] += drv*rij[1]*14.399645351950543
  * 							self.grad[ioni][2] += drv*rij[2]*14.399645351950543             # <<<<<<<<<<<<<<
  * 
  * 							# partial deriv with respect to ionj
  */
-                                      if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 402, __pyx_L15_error)}
+                                      if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 395, __pyx_L15_error)}
                                       __pyx_t_21 = __pyx_v_ioni;
                                       __pyx_t_22 = 2;
                                       *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_self->grad.data + __pyx_t_21 * __pyx_v_self->grad.strides[0]) ) + __pyx_t_22 * __pyx_v_self->grad.strides[1]) )) += ((__pyx_v_drv * (__pyx_v_rij[2])) * 14.399645351950543);
 
-                                      /* "potential.pyx":405
+                                      /* "potential.pyx":398
  * 
  * 							# partial deriv with respect to ionj
  * 							self.grad[ionj][0] -= drv*rij[0]*14.399645351950543             # <<<<<<<<<<<<<<
  * 							self.grad[ionj][1] -= drv*rij[1]*14.399645351950543
  * 							self.grad[ionj][2] -= drv*rij[2]*14.399645351950543
  */
-                                      if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 405, __pyx_L15_error)}
+                                      if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 398, __pyx_L15_error)}
                                       __pyx_t_22 = __pyx_v_ionj;
                                       __pyx_t_21 = 0;
                                       *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_self->grad.data + __pyx_t_22 * __pyx_v_self->grad.strides[0]) ) + __pyx_t_21 * __pyx_v_self->grad.strides[1]) )) -= ((__pyx_v_drv * (__pyx_v_rij[0])) * 14.399645351950543);
 
-                                      /* "potential.pyx":406
+                                      /* "potential.pyx":399
  * 							# partial deriv with respect to ionj
  * 							self.grad[ionj][0] -= drv*rij[0]*14.399645351950543
  * 							self.grad[ionj][1] -= drv*rij[1]*14.399645351950543             # <<<<<<<<<<<<<<
  * 							self.grad[ionj][2] -= drv*rij[2]*14.399645351950543
  * 			free(rij)
  */
-                                      if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 406, __pyx_L15_error)}
+                                      if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 399, __pyx_L15_error)}
                                       __pyx_t_21 = __pyx_v_ionj;
                                       __pyx_t_22 = 1;
                                       *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_self->grad.data + __pyx_t_21 * __pyx_v_self->grad.strides[0]) ) + __pyx_t_22 * __pyx_v_self->grad.strides[1]) )) -= ((__pyx_v_drv * (__pyx_v_rij[1])) * 14.399645351950543);
 
-                                      /* "potential.pyx":407
+                                      /* "potential.pyx":400
  * 							self.grad[ionj][0] -= drv*rij[0]*14.399645351950543
  * 							self.grad[ionj][1] -= drv*rij[1]*14.399645351950543
  * 							self.grad[ionj][2] -= drv*rij[2]*14.399645351950543             # <<<<<<<<<<<<<<
  * 			free(rij)
  * 		return self.grad
  */
-                                      if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 407, __pyx_L15_error)}
+                                      if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 400, __pyx_L15_error)}
                                       __pyx_t_22 = __pyx_v_ionj;
                                       __pyx_t_21 = 2;
                                       *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_self->grad.data + __pyx_t_22 * __pyx_v_self->grad.strides[0]) ) + __pyx_t_21 * __pyx_v_self->grad.strides[1]) )) -= ((__pyx_v_drv * (__pyx_v_rij[2])) * 14.399645351950543);
                                     }
 
-                                    /* "potential.pyx":364
+                                    /* "potential.pyx":357
  * 			for ioni in prange(N, schedule='static'):
  * 				for ionj in range(ioni, N):
  * 					if ioni != ionj:  # skip in case it's the same atom or it is constant             # <<<<<<<<<<<<<<
@@ -9102,7 +9117,7 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_real_drv(struct __pyx
                     }
                 }
 
-                /* "potential.pyx":408
+                /* "potential.pyx":401
  * 							self.grad[ionj][1] -= drv*rij[1]*14.399645351950543
  * 							self.grad[ionj][2] -= drv*rij[2]*14.399645351950543
  * 			free(rij)             # <<<<<<<<<<<<<<
@@ -9177,7 +9192,7 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_real_drv(struct __pyx
         #endif
       }
 
-      /* "potential.pyx":359
+      /* "potential.pyx":352
  * 		a2pi = 2*alpha/sqrt(pi)
  * 
  * 		with nogil, parallel():             # <<<<<<<<<<<<<<
@@ -9203,19 +9218,19 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_real_drv(struct __pyx
       }
   }
 
-  /* "potential.pyx":409
+  /* "potential.pyx":402
  * 							self.grad[ionj][2] -= drv*rij[2]*14.399645351950543
  * 			free(rij)
  * 		return self.grad             # <<<<<<<<<<<<<<
  * 
  * 	@cython.boundscheck(False)
  */
-  if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 409, __pyx_L1_error)}
+  if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 402, __pyx_L1_error)}
   __PYX_INC_MEMVIEW(&__pyx_v_self->grad, 0);
   __pyx_r = __pyx_v_self->grad;
   goto __pyx_L0;
 
-  /* "potential.pyx":341
+  /* "potential.pyx":334
  * 	@cython.boundscheck(False)
  * 	@cython.wraparound(False)
  * 	cdef double[:,:] calc_real_drv(self, double[:,:] pos, double[:,:] vects, int N):             # <<<<<<<<<<<<<<
@@ -9241,7 +9256,7 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_real_drv(struct __pyx
   return __pyx_r;
 }
 
-/* "potential.pyx":413
+/* "potential.pyx":406
  * 	@cython.boundscheck(False)
  * 	@cython.wraparound(False)
  * 	cdef double[:,:] calc_recip_drv(self, double[:,:] pos, double[:,:] vects, int N):             # <<<<<<<<<<<<<<
@@ -9295,7 +9310,7 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_recip_drv(struct __py
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("calc_recip_drv", 0);
 
-  /* "potential.pyx":421
+  /* "potential.pyx":414
  * 		"""
  * 		cdef int ioni, ionj, dim, shift
  * 		cdef double drv, k_2, krij, term, alpha = self.alpha             # <<<<<<<<<<<<<<
@@ -9305,7 +9320,7 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_recip_drv(struct __py
   __pyx_t_1 = __pyx_v_self->alpha;
   __pyx_v_alpha = __pyx_t_1;
 
-  /* "potential.pyx":422
+  /* "potential.pyx":415
  * 		cdef int ioni, ionj, dim, shift
  * 		cdef double drv, k_2, krij, term, alpha = self.alpha
  * 		cdef double volume = abs(det3_3(vects))             # <<<<<<<<<<<<<<
@@ -9314,31 +9329,31 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_recip_drv(struct __py
  */
   __pyx_v_volume = fabs(__pyx_f_9potential_det3_3(__pyx_v_vects));
 
-  /* "potential.pyx":424
+  /* "potential.pyx":417
  * 		cdef double volume = abs(det3_3(vects))
  * 		cdef double* rij
  * 		cdef double[:,:] recip_vects = self.get_reciprocal_vects(vects, volume)             # <<<<<<<<<<<<<<
  * 		cdef double[:,:] shifts = self.get_shifts(
  * 			self.recip_cut_off, recip_vects)
  */
-  __pyx_t_2 = ((struct __pyx_vtabstruct_9potential_Coulomb *)__pyx_v_self->__pyx_base.__pyx_vtab)->get_reciprocal_vects(__pyx_v_self, __pyx_v_vects, __pyx_v_volume); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(0, 424, __pyx_L1_error)
+  __pyx_t_2 = ((struct __pyx_vtabstruct_9potential_Coulomb *)__pyx_v_self->__pyx_base.__pyx_vtab)->get_reciprocal_vects(__pyx_v_self, __pyx_v_vects, __pyx_v_volume); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(0, 417, __pyx_L1_error)
   __pyx_v_recip_vects = __pyx_t_2;
   __pyx_t_2.memview = NULL;
   __pyx_t_2.data = NULL;
 
-  /* "potential.pyx":425
+  /* "potential.pyx":418
  * 		cdef double* rij
  * 		cdef double[:,:] recip_vects = self.get_reciprocal_vects(vects, volume)
  * 		cdef double[:,:] shifts = self.get_shifts(             # <<<<<<<<<<<<<<
  * 			self.recip_cut_off, recip_vects)
  * 		cdef int no_shifts = shifts.shape[0] # number of unit cell images-1
  */
-  __pyx_t_2 = ((struct __pyx_vtabstruct_9potential_Coulomb *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.get_shifts(((struct __pyx_obj_9potential_Potential *)__pyx_v_self), __pyx_v_self->recip_cut_off, __pyx_v_recip_vects); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(0, 425, __pyx_L1_error)
+  __pyx_t_2 = ((struct __pyx_vtabstruct_9potential_Coulomb *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.get_shifts(((struct __pyx_obj_9potential_Potential *)__pyx_v_self), __pyx_v_self->recip_cut_off, __pyx_v_recip_vects); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(0, 418, __pyx_L1_error)
   __pyx_v_shifts = __pyx_t_2;
   __pyx_t_2.memview = NULL;
   __pyx_t_2.data = NULL;
 
-  /* "potential.pyx":427
+  /* "potential.pyx":420
  * 		cdef double[:,:] shifts = self.get_shifts(
  * 			self.recip_cut_off, recip_vects)
  * 		cdef int no_shifts = shifts.shape[0] # number of unit cell images-1             # <<<<<<<<<<<<<<
@@ -9347,7 +9362,7 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_recip_drv(struct __py
  */
   __pyx_v_no_shifts = (__pyx_v_shifts.shape[0]);
 
-  /* "potential.pyx":429
+  /* "potential.pyx":422
  * 		cdef int no_shifts = shifts.shape[0] # number of unit cell images-1
  * 
  * 		with nogil, parallel():             # <<<<<<<<<<<<<<
@@ -9385,7 +9400,7 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_recip_drv(struct __py
                 /* Initialize private variables to invalid values */
                 __pyx_v_rij = ((double *)1);
 
-                /* "potential.pyx":431
+                /* "potential.pyx":424
  * 		with nogil, parallel():
  * 			# allocate memory for distance vector
  * 			rij = <double *> malloc(sizeof(double) * 3)             # <<<<<<<<<<<<<<
@@ -9394,7 +9409,7 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_recip_drv(struct __py
  */
                 __pyx_v_rij = ((double *)malloc(((sizeof(double)) * 3)));
 
-                /* "potential.pyx":432
+                /* "potential.pyx":425
  * 			# allocate memory for distance vector
  * 			rij = <double *> malloc(sizeof(double) * 3)
  * 			for ioni in prange(N, schedule='static'):             # <<<<<<<<<<<<<<
@@ -9433,7 +9448,7 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_recip_drv(struct __py
                                 __pyx_v_shift = ((int)0xbad0bad0);
                                 __pyx_v_term = ((double)__PYX_NAN());
 
-                                /* "potential.pyx":433
+                                /* "potential.pyx":426
  * 			rij = <double *> malloc(sizeof(double) * 3)
  * 			for ioni in prange(N, schedule='static'):
  * 				for ionj in range(ioni, N):             # <<<<<<<<<<<<<<
@@ -9445,7 +9460,7 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_recip_drv(struct __py
                                 for (__pyx_t_8 = __pyx_v_ioni; __pyx_t_8 < __pyx_t_7; __pyx_t_8+=1) {
                                   __pyx_v_ionj = __pyx_t_8;
 
-                                  /* "potential.pyx":434
+                                  /* "potential.pyx":427
  * 			for ioni in prange(N, schedule='static'):
  * 				for ionj in range(ioni, N):
  * 					rij[0] = pos[ioni,0]-pos[ionj,0] # distance vector             # <<<<<<<<<<<<<<
@@ -9458,7 +9473,7 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_recip_drv(struct __py
                                   __pyx_t_12 = 0;
                                   (__pyx_v_rij[0]) = ((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_9 * __pyx_v_pos.strides[0]) ) + __pyx_t_10 * __pyx_v_pos.strides[1]) ))) - (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_11 * __pyx_v_pos.strides[0]) ) + __pyx_t_12 * __pyx_v_pos.strides[1]) ))));
 
-                                  /* "potential.pyx":435
+                                  /* "potential.pyx":428
  * 				for ionj in range(ioni, N):
  * 					rij[0] = pos[ioni,0]-pos[ionj,0] # distance vector
  * 					rij[1] = pos[ioni,1]-pos[ionj,1]             # <<<<<<<<<<<<<<
@@ -9471,7 +9486,7 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_recip_drv(struct __py
                                   __pyx_t_9 = 1;
                                   (__pyx_v_rij[1]) = ((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_12 * __pyx_v_pos.strides[0]) ) + __pyx_t_11 * __pyx_v_pos.strides[1]) ))) - (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_10 * __pyx_v_pos.strides[0]) ) + __pyx_t_9 * __pyx_v_pos.strides[1]) ))));
 
-                                  /* "potential.pyx":436
+                                  /* "potential.pyx":429
  * 					rij[0] = pos[ioni,0]-pos[ionj,0] # distance vector
  * 					rij[1] = pos[ioni,1]-pos[ionj,1]
  * 					rij[2] = pos[ioni,2]-pos[ionj,2]             # <<<<<<<<<<<<<<
@@ -9484,7 +9499,7 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_recip_drv(struct __py
                                   __pyx_t_12 = 2;
                                   (__pyx_v_rij[2]) = ((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_9 * __pyx_v_pos.strides[0]) ) + __pyx_t_10 * __pyx_v_pos.strides[1]) ))) - (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_11 * __pyx_v_pos.strides[0]) ) + __pyx_t_12 * __pyx_v_pos.strides[1]) ))));
 
-                                  /* "potential.pyx":437
+                                  /* "potential.pyx":430
  * 					rij[1] = pos[ioni,1]-pos[ionj,1]
  * 					rij[2] = pos[ioni,2]-pos[ionj,2]
  * 					for shift in range(no_shifts):             # <<<<<<<<<<<<<<
@@ -9496,7 +9511,7 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_recip_drv(struct __py
                                   for (__pyx_t_15 = 0; __pyx_t_15 < __pyx_t_14; __pyx_t_15+=1) {
                                     __pyx_v_shift = __pyx_t_15;
 
-                                    /* "potential.pyx":439
+                                    /* "potential.pyx":432
  * 					for shift in range(no_shifts):
  * 						# shift on 2nd power
  * 						k_2 = shifts[shift, 0]*shifts[shift, 0]+ \             # <<<<<<<<<<<<<<
@@ -9508,7 +9523,7 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_recip_drv(struct __py
                                     __pyx_t_10 = __pyx_v_shift;
                                     __pyx_t_9 = 0;
 
-                                    /* "potential.pyx":440
+                                    /* "potential.pyx":433
  * 						# shift on 2nd power
  * 						k_2 = shifts[shift, 0]*shifts[shift, 0]+ \
  * 								shifts[shift, 1]*shifts[shift, 1]+ \             # <<<<<<<<<<<<<<
@@ -9520,7 +9535,7 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_recip_drv(struct __py
                                     __pyx_t_18 = __pyx_v_shift;
                                     __pyx_t_19 = 1;
 
-                                    /* "potential.pyx":441
+                                    /* "potential.pyx":434
  * 						k_2 = shifts[shift, 0]*shifts[shift, 0]+ \
  * 								shifts[shift, 1]*shifts[shift, 1]+ \
  * 								shifts[shift, 2]*shifts[shift, 2]             # <<<<<<<<<<<<<<
@@ -9532,7 +9547,7 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_recip_drv(struct __py
                                     __pyx_t_22 = __pyx_v_shift;
                                     __pyx_t_23 = 2;
 
-                                    /* "potential.pyx":440
+                                    /* "potential.pyx":433
  * 						# shift on 2nd power
  * 						k_2 = shifts[shift, 0]*shifts[shift, 0]+ \
  * 								shifts[shift, 1]*shifts[shift, 1]+ \             # <<<<<<<<<<<<<<
@@ -9541,7 +9556,7 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_recip_drv(struct __py
  */
                                     __pyx_v_k_2 = ((((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_shifts.data + __pyx_t_12 * __pyx_v_shifts.strides[0]) ) + __pyx_t_11 * __pyx_v_shifts.strides[1]) ))) * (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_shifts.data + __pyx_t_10 * __pyx_v_shifts.strides[0]) ) + __pyx_t_9 * __pyx_v_shifts.strides[1]) )))) + ((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_shifts.data + __pyx_t_16 * __pyx_v_shifts.strides[0]) ) + __pyx_t_17 * __pyx_v_shifts.strides[1]) ))) * (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_shifts.data + __pyx_t_18 * __pyx_v_shifts.strides[0]) ) + __pyx_t_19 * __pyx_v_shifts.strides[1]) ))))) + ((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_shifts.data + __pyx_t_20 * __pyx_v_shifts.strides[0]) ) + __pyx_t_21 * __pyx_v_shifts.strides[1]) ))) * (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_shifts.data + __pyx_t_22 * __pyx_v_shifts.strides[0]) ) + __pyx_t_23 * __pyx_v_shifts.strides[1]) )))));
 
-                                    /* "potential.pyx":444
+                                    /* "potential.pyx":437
  * 
  * 						# dot product to find image
  * 						krij = shifts[shift, 0]*rij[0]+ \             # <<<<<<<<<<<<<<
@@ -9551,7 +9566,7 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_recip_drv(struct __py
                                     __pyx_t_23 = __pyx_v_shift;
                                     __pyx_t_22 = 0;
 
-                                    /* "potential.pyx":445
+                                    /* "potential.pyx":438
  * 						# dot product to find image
  * 						krij = shifts[shift, 0]*rij[0]+ \
  * 								shifts[shift, 1]*rij[1]+ \             # <<<<<<<<<<<<<<
@@ -9561,7 +9576,7 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_recip_drv(struct __py
                                     __pyx_t_21 = __pyx_v_shift;
                                     __pyx_t_20 = 1;
 
-                                    /* "potential.pyx":446
+                                    /* "potential.pyx":439
  * 						krij = shifts[shift, 0]*rij[0]+ \
  * 								shifts[shift, 1]*rij[1]+ \
  * 								shifts[shift, 2]*rij[2]             # <<<<<<<<<<<<<<
@@ -9571,7 +9586,7 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_recip_drv(struct __py
                                     __pyx_t_19 = __pyx_v_shift;
                                     __pyx_t_18 = 2;
 
-                                    /* "potential.pyx":445
+                                    /* "potential.pyx":438
  * 						# dot product to find image
  * 						krij = shifts[shift, 0]*rij[0]+ \
  * 								shifts[shift, 1]*rij[1]+ \             # <<<<<<<<<<<<<<
@@ -9580,7 +9595,7 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_recip_drv(struct __py
  */
                                     __pyx_v_krij = ((((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_shifts.data + __pyx_t_23 * __pyx_v_shifts.strides[0]) ) + __pyx_t_22 * __pyx_v_shifts.strides[1]) ))) * (__pyx_v_rij[0])) + ((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_shifts.data + __pyx_t_21 * __pyx_v_shifts.strides[0]) ) + __pyx_t_20 * __pyx_v_shifts.strides[1]) ))) * (__pyx_v_rij[1]))) + ((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_shifts.data + __pyx_t_19 * __pyx_v_shifts.strides[0]) ) + __pyx_t_18 * __pyx_v_shifts.strides[1]) ))) * (__pyx_v_rij[2])));
 
-                                    /* "potential.pyx":448
+                                    /* "potential.pyx":441
  * 								shifts[shift, 2]*rij[2]
  * 						# avoid underflow
  * 						if k_2>-log(DBL_EPSILON):             # <<<<<<<<<<<<<<
@@ -9590,7 +9605,7 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_recip_drv(struct __py
                                     __pyx_t_24 = ((__pyx_v_k_2 > (-log(DBL_EPSILON))) != 0);
                                     if (__pyx_t_24) {
 
-                                      /* "potential.pyx":449
+                                      /* "potential.pyx":442
  * 						# avoid underflow
  * 						if k_2>-log(DBL_EPSILON):
  * 							term = DBL_EPSILON             # <<<<<<<<<<<<<<
@@ -9599,7 +9614,7 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_recip_drv(struct __py
  */
                                       __pyx_v_term = DBL_EPSILON;
 
-                                      /* "potential.pyx":448
+                                      /* "potential.pyx":441
  * 								shifts[shift, 2]*rij[2]
  * 						# avoid underflow
  * 						if k_2>-log(DBL_EPSILON):             # <<<<<<<<<<<<<<
@@ -9609,7 +9624,7 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_recip_drv(struct __py
                                       goto __pyx_L18;
                                     }
 
-                                    /* "potential.pyx":451
+                                    /* "potential.pyx":444
  * 							term = DBL_EPSILON
  * 						else:
  * 							term = exp(-k_2/(4*alpha**2))             # <<<<<<<<<<<<<<
@@ -9627,25 +9642,25 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_recip_drv(struct __py
                                         #ifdef WITH_THREAD
                                         __Pyx_PyGILState_Release(__pyx_gilstate_save);
                                         #endif
-                                        __PYX_ERR(0, 451, __pyx_L12_error)
+                                        __PYX_ERR(0, 444, __pyx_L12_error)
                                       }
                                       __pyx_v_term = exp((__pyx_t_1 / __pyx_t_25));
                                     }
                                     __pyx_L18:;
 
-                                    /* "potential.pyx":452
+                                    /* "potential.pyx":445
  * 						else:
  * 							term = exp(-k_2/(4*alpha**2))
  * 						drv = - self.charges[ioni]*self.charges[ionj] * \             # <<<<<<<<<<<<<<
  * 										   4*pi*pi*term*sin(krij)/(k_2*pi*volume)
  * 
  */
-                                    if (unlikely(!__pyx_v_self->charges.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 452, __pyx_L12_error)}
+                                    if (unlikely(!__pyx_v_self->charges.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 445, __pyx_L12_error)}
                                     __pyx_t_18 = __pyx_v_ioni;
-                                    if (unlikely(!__pyx_v_self->charges.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 452, __pyx_L12_error)}
+                                    if (unlikely(!__pyx_v_self->charges.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 445, __pyx_L12_error)}
                                     __pyx_t_19 = __pyx_v_ionj;
 
-                                    /* "potential.pyx":453
+                                    /* "potential.pyx":446
  * 							term = exp(-k_2/(4*alpha**2))
  * 						drv = - self.charges[ioni]*self.charges[ionj] * \
  * 										   4*pi*pi*term*sin(krij)/(k_2*pi*volume)             # <<<<<<<<<<<<<<
@@ -9662,11 +9677,11 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_recip_drv(struct __py
                                       #ifdef WITH_THREAD
                                       __Pyx_PyGILState_Release(__pyx_gilstate_save);
                                       #endif
-                                      __PYX_ERR(0, 453, __pyx_L12_error)
+                                      __PYX_ERR(0, 446, __pyx_L12_error)
                                     }
                                     __pyx_v_drv = (__pyx_t_25 / __pyx_t_1);
 
-                                    /* "potential.pyx":456
+                                    /* "potential.pyx":449
  * 
  * 						# partial deriv with respect to ioni
  * 						self.grad[ioni][0] += drv*shifts[shift,0]*14.399645351950543  # Coulomb constant             # <<<<<<<<<<<<<<
@@ -9675,12 +9690,12 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_recip_drv(struct __py
  */
                                     __pyx_t_19 = __pyx_v_shift;
                                     __pyx_t_18 = 0;
-                                    if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 456, __pyx_L12_error)}
+                                    if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 449, __pyx_L12_error)}
                                     __pyx_t_20 = __pyx_v_ioni;
                                     __pyx_t_21 = 0;
                                     *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_self->grad.data + __pyx_t_20 * __pyx_v_self->grad.strides[0]) ) + __pyx_t_21 * __pyx_v_self->grad.strides[1]) )) += ((__pyx_v_drv * (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_shifts.data + __pyx_t_19 * __pyx_v_shifts.strides[0]) ) + __pyx_t_18 * __pyx_v_shifts.strides[1]) )))) * 14.399645351950543);
 
-                                    /* "potential.pyx":457
+                                    /* "potential.pyx":450
  * 						# partial deriv with respect to ioni
  * 						self.grad[ioni][0] += drv*shifts[shift,0]*14.399645351950543  # Coulomb constant
  * 						self.grad[ioni][1] += drv*shifts[shift,1]*14.399645351950543             # <<<<<<<<<<<<<<
@@ -9689,12 +9704,12 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_recip_drv(struct __py
  */
                                     __pyx_t_18 = __pyx_v_shift;
                                     __pyx_t_19 = 1;
-                                    if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 457, __pyx_L12_error)}
+                                    if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 450, __pyx_L12_error)}
                                     __pyx_t_21 = __pyx_v_ioni;
                                     __pyx_t_20 = 1;
                                     *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_self->grad.data + __pyx_t_21 * __pyx_v_self->grad.strides[0]) ) + __pyx_t_20 * __pyx_v_self->grad.strides[1]) )) += ((__pyx_v_drv * (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_shifts.data + __pyx_t_18 * __pyx_v_shifts.strides[0]) ) + __pyx_t_19 * __pyx_v_shifts.strides[1]) )))) * 14.399645351950543);
 
-                                    /* "potential.pyx":458
+                                    /* "potential.pyx":451
  * 						self.grad[ioni][0] += drv*shifts[shift,0]*14.399645351950543  # Coulomb constant
  * 						self.grad[ioni][1] += drv*shifts[shift,1]*14.399645351950543
  * 						self.grad[ioni][2] += drv*shifts[shift,2]*14.399645351950543             # <<<<<<<<<<<<<<
@@ -9703,12 +9718,12 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_recip_drv(struct __py
  */
                                     __pyx_t_19 = __pyx_v_shift;
                                     __pyx_t_18 = 2;
-                                    if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 458, __pyx_L12_error)}
+                                    if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 451, __pyx_L12_error)}
                                     __pyx_t_20 = __pyx_v_ioni;
                                     __pyx_t_21 = 2;
                                     *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_self->grad.data + __pyx_t_20 * __pyx_v_self->grad.strides[0]) ) + __pyx_t_21 * __pyx_v_self->grad.strides[1]) )) += ((__pyx_v_drv * (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_shifts.data + __pyx_t_19 * __pyx_v_shifts.strides[0]) ) + __pyx_t_18 * __pyx_v_shifts.strides[1]) )))) * 14.399645351950543);
 
-                                    /* "potential.pyx":461
+                                    /* "potential.pyx":454
  * 
  * 						# partial deriv with respect to ionj
  * 						self.grad[ionj][0] -= drv*shifts[shift,0]*14.399645351950543             # <<<<<<<<<<<<<<
@@ -9717,12 +9732,12 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_recip_drv(struct __py
  */
                                     __pyx_t_18 = __pyx_v_shift;
                                     __pyx_t_19 = 0;
-                                    if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 461, __pyx_L12_error)}
+                                    if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 454, __pyx_L12_error)}
                                     __pyx_t_21 = __pyx_v_ionj;
                                     __pyx_t_20 = 0;
                                     *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_self->grad.data + __pyx_t_21 * __pyx_v_self->grad.strides[0]) ) + __pyx_t_20 * __pyx_v_self->grad.strides[1]) )) -= ((__pyx_v_drv * (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_shifts.data + __pyx_t_18 * __pyx_v_shifts.strides[0]) ) + __pyx_t_19 * __pyx_v_shifts.strides[1]) )))) * 14.399645351950543);
 
-                                    /* "potential.pyx":462
+                                    /* "potential.pyx":455
  * 						# partial deriv with respect to ionj
  * 						self.grad[ionj][0] -= drv*shifts[shift,0]*14.399645351950543
  * 						self.grad[ionj][1] -= drv*shifts[shift,1]*14.399645351950543             # <<<<<<<<<<<<<<
@@ -9731,12 +9746,12 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_recip_drv(struct __py
  */
                                     __pyx_t_19 = __pyx_v_shift;
                                     __pyx_t_18 = 1;
-                                    if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 462, __pyx_L12_error)}
+                                    if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 455, __pyx_L12_error)}
                                     __pyx_t_20 = __pyx_v_ionj;
                                     __pyx_t_21 = 1;
                                     *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_self->grad.data + __pyx_t_20 * __pyx_v_self->grad.strides[0]) ) + __pyx_t_21 * __pyx_v_self->grad.strides[1]) )) -= ((__pyx_v_drv * (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_shifts.data + __pyx_t_19 * __pyx_v_shifts.strides[0]) ) + __pyx_t_18 * __pyx_v_shifts.strides[1]) )))) * 14.399645351950543);
 
-                                    /* "potential.pyx":463
+                                    /* "potential.pyx":456
  * 						self.grad[ionj][0] -= drv*shifts[shift,0]*14.399645351950543
  * 						self.grad[ionj][1] -= drv*shifts[shift,1]*14.399645351950543
  * 						self.grad[ionj][2] -= drv*shifts[shift,2]*14.399645351950543             # <<<<<<<<<<<<<<
@@ -9745,7 +9760,7 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_recip_drv(struct __py
  */
                                     __pyx_t_18 = __pyx_v_shift;
                                     __pyx_t_19 = 2;
-                                    if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 463, __pyx_L12_error)}
+                                    if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 456, __pyx_L12_error)}
                                     __pyx_t_21 = __pyx_v_ionj;
                                     __pyx_t_20 = 2;
                                     *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_self->grad.data + __pyx_t_21 * __pyx_v_self->grad.strides[0]) ) + __pyx_t_20 * __pyx_v_self->grad.strides[1]) )) -= ((__pyx_v_drv * (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_shifts.data + __pyx_t_18 * __pyx_v_shifts.strides[0]) ) + __pyx_t_19 * __pyx_v_shifts.strides[1]) )))) * 14.399645351950543);
@@ -9821,7 +9836,7 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_recip_drv(struct __py
                     }
                 }
 
-                /* "potential.pyx":464
+                /* "potential.pyx":457
  * 						self.grad[ionj][1] -= drv*shifts[shift,1]*14.399645351950543
  * 						self.grad[ionj][2] -= drv*shifts[shift,2]*14.399645351950543
  * 			free(rij)             # <<<<<<<<<<<<<<
@@ -9896,7 +9911,7 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_recip_drv(struct __py
         #endif
       }
 
-      /* "potential.pyx":429
+      /* "potential.pyx":422
  * 		cdef int no_shifts = shifts.shape[0] # number of unit cell images-1
  * 
  * 		with nogil, parallel():             # <<<<<<<<<<<<<<
@@ -9922,19 +9937,19 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_recip_drv(struct __py
       }
   }
 
-  /* "potential.pyx":465
+  /* "potential.pyx":458
  * 						self.grad[ionj][2] -= drv*shifts[shift,2]*14.399645351950543
  * 			free(rij)
  * 		return self.grad             # <<<<<<<<<<<<<<
  * 
  * 	cpdef double[:,:] calc_drv(self, atoms):
  */
-  if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 465, __pyx_L1_error)}
+  if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 458, __pyx_L1_error)}
   __PYX_INC_MEMVIEW(&__pyx_v_self->grad, 0);
   __pyx_r = __pyx_v_self->grad;
   goto __pyx_L0;
 
-  /* "potential.pyx":413
+  /* "potential.pyx":406
  * 	@cython.boundscheck(False)
  * 	@cython.wraparound(False)
  * 	cdef double[:,:] calc_recip_drv(self, double[:,:] pos, double[:,:] vects, int N):             # <<<<<<<<<<<<<<
@@ -9960,7 +9975,7 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_recip_drv(struct __py
   return __pyx_r;
 }
 
-/* "potential.pyx":467
+/* "potential.pyx":460
  * 		return self.grad
  * 
  * 	cpdef double[:,:] calc_drv(self, atoms):             # <<<<<<<<<<<<<<
@@ -10005,7 +10020,7 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_drv(struct __pyx_obj_
     if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
       PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
       #endif
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_calc_drv); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 467, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_calc_drv); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 460, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_9potential_7Coulomb_9calc_drv)) {
         __Pyx_INCREF(__pyx_t_1);
@@ -10021,10 +10036,10 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_drv(struct __pyx_obj_
         }
         __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, __pyx_v_atoms) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_atoms);
         __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 467, __pyx_L1_error)
+        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 460, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        __pyx_t_5 = __Pyx_PyObject_to_MemoryviewSlice_dsds_double(__pyx_t_2, PyBUF_WRITABLE); if (unlikely(!__pyx_t_5.memview)) __PYX_ERR(0, 467, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_PyObject_to_MemoryviewSlice_dsds_double(__pyx_t_2, PyBUF_WRITABLE); if (unlikely(!__pyx_t_5.memview)) __PYX_ERR(0, 460, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
         __pyx_r = __pyx_t_5;
         __pyx_t_5.memview = NULL;
@@ -10045,34 +10060,34 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_drv(struct __pyx_obj_
     #endif
   }
 
-  /* "potential.pyx":474
+  /* "potential.pyx":467
  * 
  * 		"""
  * 		cdef double[:,:] positions = atoms.positions             # <<<<<<<<<<<<<<
  * 		cdef double[:,:] vects = np.array(atoms.get_cell())
  * 		cdef int ioni, dim, N = len(positions)
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_atoms, __pyx_n_s_positions); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 474, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_atoms, __pyx_n_s_positions); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 467, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_5 = __Pyx_PyObject_to_MemoryviewSlice_dsds_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_5.memview)) __PYX_ERR(0, 474, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_to_MemoryviewSlice_dsds_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_5.memview)) __PYX_ERR(0, 467, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_positions = __pyx_t_5;
   __pyx_t_5.memview = NULL;
   __pyx_t_5.data = NULL;
 
-  /* "potential.pyx":475
+  /* "potential.pyx":468
  * 		"""
  * 		cdef double[:,:] positions = atoms.positions
  * 		cdef double[:,:] vects = np.array(atoms.get_cell())             # <<<<<<<<<<<<<<
  * 		cdef int ioni, dim, N = len(positions)
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 475, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 468, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_array); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 475, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_array); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 468, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_atoms, __pyx_n_s_get_cell); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 475, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_atoms, __pyx_n_s_get_cell); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 468, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_6 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
@@ -10086,7 +10101,7 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_drv(struct __pyx_obj_
   }
   __pyx_t_2 = (__pyx_t_6) ? __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_6) : __Pyx_PyObject_CallNoArg(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 475, __pyx_L1_error)
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 468, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_4 = NULL;
@@ -10102,16 +10117,16 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_drv(struct __pyx_obj_
   __pyx_t_1 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, __pyx_t_2) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2);
   __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 475, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 468, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_5 = __Pyx_PyObject_to_MemoryviewSlice_dsds_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_5.memview)) __PYX_ERR(0, 475, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_to_MemoryviewSlice_dsds_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_5.memview)) __PYX_ERR(0, 468, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_vects = __pyx_t_5;
   __pyx_t_5.memview = NULL;
   __pyx_t_5.data = NULL;
 
-  /* "potential.pyx":476
+  /* "potential.pyx":469
  * 		cdef double[:,:] positions = atoms.positions
  * 		cdef double[:,:] vects = np.array(atoms.get_cell())
  * 		cdef int ioni, dim, N = len(positions)             # <<<<<<<<<<<<<<
@@ -10121,7 +10136,7 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_drv(struct __pyx_obj_
   __pyx_t_7 = __Pyx_MemoryView_Len(__pyx_v_positions); 
   __pyx_v_N = __pyx_t_7;
 
-  /* "potential.pyx":478
+  /* "potential.pyx":471
  * 		cdef int ioni, dim, N = len(positions)
  * 
  * 		if not self.param_flag:             # <<<<<<<<<<<<<<
@@ -10131,20 +10146,20 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_drv(struct __pyx_obj_
   __pyx_t_8 = ((!(__pyx_v_self->param_flag != 0)) != 0);
   if (unlikely(__pyx_t_8)) {
 
-    /* "potential.pyx":479
+    /* "potential.pyx":472
  * 
  * 		if not self.param_flag:
  * 			raise ValueError("Coulomb potential parameters are not set.")             # <<<<<<<<<<<<<<
  * 
  * 		for ioni in range(N):
  */
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 479, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 472, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_Raise(__pyx_t_1, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __PYX_ERR(0, 479, __pyx_L1_error)
+    __PYX_ERR(0, 472, __pyx_L1_error)
 
-    /* "potential.pyx":478
+    /* "potential.pyx":471
  * 		cdef int ioni, dim, N = len(positions)
  * 
  * 		if not self.param_flag:             # <<<<<<<<<<<<<<
@@ -10153,7 +10168,7 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_drv(struct __pyx_obj_
  */
   }
 
-  /* "potential.pyx":481
+  /* "potential.pyx":474
  * 			raise ValueError("Coulomb potential parameters are not set.")
  * 
  * 		for ioni in range(N):             # <<<<<<<<<<<<<<
@@ -10165,7 +10180,7 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_drv(struct __pyx_obj_
   for (__pyx_t_11 = 0; __pyx_t_11 < __pyx_t_10; __pyx_t_11+=1) {
     __pyx_v_ioni = __pyx_t_11;
 
-    /* "potential.pyx":482
+    /* "potential.pyx":475
  * 
  * 		for ioni in range(N):
  * 			for dim in range(3):             # <<<<<<<<<<<<<<
@@ -10175,14 +10190,14 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_drv(struct __pyx_obj_
     for (__pyx_t_12 = 0; __pyx_t_12 < 3; __pyx_t_12+=1) {
       __pyx_v_dim = __pyx_t_12;
 
-      /* "potential.pyx":483
+      /* "potential.pyx":476
  * 		for ioni in range(N):
  * 			for dim in range(3):
  * 				self.grad[ioni][dim] = 0             # <<<<<<<<<<<<<<
  * 
  * 		self.calc_real_drv(positions,vects,N)
  */
-      if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 483, __pyx_L1_error)}
+      if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 476, __pyx_L1_error)}
       __pyx_t_13 = __pyx_v_ioni;
       __pyx_t_14 = __pyx_v_dim;
       __pyx_t_15 = -1;
@@ -10196,49 +10211,49 @@ static __Pyx_memviewslice __pyx_f_9potential_7Coulomb_calc_drv(struct __pyx_obj_
       } else if (unlikely(__pyx_t_14 >= __pyx_v_self->grad.shape[1])) __pyx_t_15 = 1;
       if (unlikely(__pyx_t_15 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_15);
-        __PYX_ERR(0, 483, __pyx_L1_error)
+        __PYX_ERR(0, 476, __pyx_L1_error)
       }
       *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_self->grad.data + __pyx_t_13 * __pyx_v_self->grad.strides[0]) ) + __pyx_t_14 * __pyx_v_self->grad.strides[1]) )) = 0.0;
     }
   }
 
-  /* "potential.pyx":485
+  /* "potential.pyx":478
  * 				self.grad[ioni][dim] = 0
  * 
  * 		self.calc_real_drv(positions,vects,N)             # <<<<<<<<<<<<<<
  * 		self.calc_recip_drv(positions,vects,N)
  * 		return self.grad
  */
-  __pyx_t_5 = ((struct __pyx_vtabstruct_9potential_Coulomb *)__pyx_v_self->__pyx_base.__pyx_vtab)->calc_real_drv(__pyx_v_self, __pyx_v_positions, __pyx_v_vects, __pyx_v_N); if (unlikely(!__pyx_t_5.memview)) __PYX_ERR(0, 485, __pyx_L1_error)
+  __pyx_t_5 = ((struct __pyx_vtabstruct_9potential_Coulomb *)__pyx_v_self->__pyx_base.__pyx_vtab)->calc_real_drv(__pyx_v_self, __pyx_v_positions, __pyx_v_vects, __pyx_v_N); if (unlikely(!__pyx_t_5.memview)) __PYX_ERR(0, 478, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_t_5, 1);
   __pyx_t_5.memview = NULL;
   __pyx_t_5.data = NULL;
 
-  /* "potential.pyx":486
+  /* "potential.pyx":479
  * 
  * 		self.calc_real_drv(positions,vects,N)
  * 		self.calc_recip_drv(positions,vects,N)             # <<<<<<<<<<<<<<
  * 		return self.grad
  * 
  */
-  __pyx_t_5 = ((struct __pyx_vtabstruct_9potential_Coulomb *)__pyx_v_self->__pyx_base.__pyx_vtab)->calc_recip_drv(__pyx_v_self, __pyx_v_positions, __pyx_v_vects, __pyx_v_N); if (unlikely(!__pyx_t_5.memview)) __PYX_ERR(0, 486, __pyx_L1_error)
+  __pyx_t_5 = ((struct __pyx_vtabstruct_9potential_Coulomb *)__pyx_v_self->__pyx_base.__pyx_vtab)->calc_recip_drv(__pyx_v_self, __pyx_v_positions, __pyx_v_vects, __pyx_v_N); if (unlikely(!__pyx_t_5.memview)) __PYX_ERR(0, 479, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_t_5, 1);
   __pyx_t_5.memview = NULL;
   __pyx_t_5.data = NULL;
 
-  /* "potential.pyx":487
+  /* "potential.pyx":480
  * 		self.calc_real_drv(positions,vects,N)
  * 		self.calc_recip_drv(positions,vects,N)
  * 		return self.grad             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 487, __pyx_L1_error)}
+  if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 480, __pyx_L1_error)}
   __PYX_INC_MEMVIEW(&__pyx_v_self->grad, 0);
   __pyx_r = __pyx_v_self->grad;
   goto __pyx_L0;
 
-  /* "potential.pyx":467
+  /* "potential.pyx":460
  * 		return self.grad
  * 
  * 	cpdef double[:,:] calc_drv(self, atoms):             # <<<<<<<<<<<<<<
@@ -10293,8 +10308,8 @@ static PyObject *__pyx_pf_9potential_7Coulomb_8calc_drv(struct __pyx_obj_9potent
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("calc_drv", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_9potential_7Coulomb_calc_drv(__pyx_v_self, __pyx_v_atoms, 1); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(0, 467, __pyx_L1_error)
-  __pyx_t_2 = __pyx_memoryview_fromslice(__pyx_t_1, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 467, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_9potential_7Coulomb_calc_drv(__pyx_v_self, __pyx_v_atoms, 1); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(0, 460, __pyx_L1_error)
+  __pyx_t_2 = __pyx_memoryview_fromslice(__pyx_t_1, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 460, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __PYX_XDEC_MEMVIEW(&__pyx_t_1, 1);
   __pyx_t_1.memview = NULL;
@@ -10676,9 +10691,9 @@ static PyObject *__pyx_pf_9potential_7Coulomb_12__setstate_cython__(struct __pyx
   return __pyx_r;
 }
 
-/* "potential.pyx":501
- * 	# cdef double[:,:] grad
+/* "potential.pyx":489
  * 
+ * 	"""
  * 	def __init__(self):             # <<<<<<<<<<<<<<
  * 		self.chemical_symbols = None
  * 		self.param_flag = False
@@ -10709,8 +10724,8 @@ static int __pyx_pf_9potential_10Buckingham___init__(struct __pyx_obj_9potential
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "potential.pyx":502
- * 
+  /* "potential.pyx":490
+ * 	"""
  * 	def __init__(self):
  * 		self.chemical_symbols = None             # <<<<<<<<<<<<<<
  * 		self.param_flag = False
@@ -10722,7 +10737,7 @@ static int __pyx_pf_9potential_10Buckingham___init__(struct __pyx_obj_9potential
   __Pyx_DECREF(((PyObject *)__pyx_v_self->chemical_symbols));
   __pyx_v_self->chemical_symbols = ((PyArrayObject *)Py_None);
 
-  /* "potential.pyx":503
+  /* "potential.pyx":491
  * 	def __init__(self):
  * 		self.chemical_symbols = None
  * 		self.param_flag = False             # <<<<<<<<<<<<<<
@@ -10731,22 +10746,22 @@ static int __pyx_pf_9potential_10Buckingham___init__(struct __pyx_obj_9potential
  */
   __pyx_v_self->param_flag = 0;
 
-  /* "potential.pyx":504
+  /* "potential.pyx":492
  * 		self.chemical_symbols = None
  * 		self.param_flag = False
  * 		self.grad = None             # <<<<<<<<<<<<<<
  * 
  * 	cpdef void set_parameters(self, str filename,
  */
-  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dsds_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(0, 504, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dsds_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(0, 492, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->grad, 0);
   __pyx_v_self->grad = __pyx_t_1;
   __pyx_t_1.memview = NULL;
   __pyx_t_1.data = NULL;
 
-  /* "potential.pyx":501
- * 	# cdef double[:,:] grad
+  /* "potential.pyx":489
  * 
+ * 	"""
  * 	def __init__(self):             # <<<<<<<<<<<<<<
  * 		self.chemical_symbols = None
  * 		self.param_flag = False
@@ -10764,7 +10779,7 @@ static int __pyx_pf_9potential_10Buckingham___init__(struct __pyx_obj_9potential
   return __pyx_r;
 }
 
-/* "potential.pyx":506
+/* "potential.pyx":494
  * 		self.grad = None
  * 
  * 	cpdef void set_parameters(self, str filename,             # <<<<<<<<<<<<<<
@@ -10812,7 +10827,7 @@ static void __pyx_f_9potential_10Buckingham_set_parameters(struct __pyx_obj_9pot
     if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
       PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
       #endif
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_set_parameters); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 506, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_set_parameters); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 494, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_9potential_10Buckingham_3set_parameters)) {
         __Pyx_INCREF(__pyx_t_1);
@@ -10831,7 +10846,7 @@ static void __pyx_f_9potential_10Buckingham_set_parameters(struct __pyx_obj_9pot
         #if CYTHON_FAST_PYCALL
         if (PyFunction_Check(__pyx_t_3)) {
           PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_v_filename, ((PyObject *)__pyx_v_chemical_symbols)};
-          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 506, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 494, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
           __Pyx_GOTREF(__pyx_t_2);
         } else
@@ -10839,13 +10854,13 @@ static void __pyx_f_9potential_10Buckingham_set_parameters(struct __pyx_obj_9pot
         #if CYTHON_FAST_PYCCALL
         if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
           PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_v_filename, ((PyObject *)__pyx_v_chemical_symbols)};
-          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 506, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 494, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
           __Pyx_GOTREF(__pyx_t_2);
         } else
         #endif
         {
-          __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 506, __pyx_L1_error)
+          __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 494, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_6);
           if (__pyx_t_4) {
             __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
@@ -10856,7 +10871,7 @@ static void __pyx_f_9potential_10Buckingham_set_parameters(struct __pyx_obj_9pot
           __Pyx_INCREF(((PyObject *)__pyx_v_chemical_symbols));
           __Pyx_GIVEREF(((PyObject *)__pyx_v_chemical_symbols));
           PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, ((PyObject *)__pyx_v_chemical_symbols));
-          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 506, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 494, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
         }
@@ -10878,14 +10893,14 @@ static void __pyx_f_9potential_10Buckingham_set_parameters(struct __pyx_obj_9pot
     #endif
   }
 
-  /* "potential.pyx":514
+  /* "potential.pyx":502
  * 
  * 		"""
  * 		self.chemical_symbols = chemical_symbols.copy()             # <<<<<<<<<<<<<<
  * 		self.grad = cvarray(shape=(len(chemical_symbols),3), \
  * 								itemsize=sizeof(double), format="d")
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_chemical_symbols), __pyx_n_s_copy); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 514, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_chemical_symbols), __pyx_n_s_copy); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 502, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -10899,29 +10914,29 @@ static void __pyx_f_9potential_10Buckingham_set_parameters(struct __pyx_obj_9pot
   }
   __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 514, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 502, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 514, __pyx_L1_error)
+  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 502, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v_self->chemical_symbols);
   __Pyx_DECREF(((PyObject *)__pyx_v_self->chemical_symbols));
   __pyx_v_self->chemical_symbols = ((PyArrayObject *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "potential.pyx":515
+  /* "potential.pyx":503
  * 		"""
  * 		self.chemical_symbols = chemical_symbols.copy()
  * 		self.grad = cvarray(shape=(len(chemical_symbols),3), \             # <<<<<<<<<<<<<<
  * 								itemsize=sizeof(double), format="d")
  * 		try:
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 515, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 503, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_7 = PyObject_Length(((PyObject *)__pyx_v_chemical_symbols)); if (unlikely(__pyx_t_7 == ((Py_ssize_t)-1))) __PYX_ERR(0, 515, __pyx_L1_error)
-  __pyx_t_2 = PyInt_FromSsize_t(__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 515, __pyx_L1_error)
+  __pyx_t_7 = PyObject_Length(((PyObject *)__pyx_v_chemical_symbols)); if (unlikely(__pyx_t_7 == ((Py_ssize_t)-1))) __PYX_ERR(0, 503, __pyx_L1_error)
+  __pyx_t_2 = PyInt_FromSsize_t(__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 503, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 515, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 503, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2);
@@ -10929,40 +10944,40 @@ static void __pyx_f_9potential_10Buckingham_set_parameters(struct __pyx_obj_9pot
   __Pyx_GIVEREF(__pyx_int_3);
   PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_int_3);
   __pyx_t_2 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_shape, __pyx_t_3) < 0) __PYX_ERR(0, 515, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_shape, __pyx_t_3) < 0) __PYX_ERR(0, 503, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "potential.pyx":516
+  /* "potential.pyx":504
  * 		self.chemical_symbols = chemical_symbols.copy()
  * 		self.grad = cvarray(shape=(len(chemical_symbols),3), \
  * 								itemsize=sizeof(double), format="d")             # <<<<<<<<<<<<<<
  * 		try:
  * 			with open(filename, "r") as fin:
  */
-  __pyx_t_3 = __Pyx_PyInt_FromSize_t((sizeof(double))); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 516, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_FromSize_t((sizeof(double))); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 504, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_itemsize, __pyx_t_3) < 0) __PYX_ERR(0, 515, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_itemsize, __pyx_t_3) < 0) __PYX_ERR(0, 503, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_format, __pyx_n_u_d) < 0) __PYX_ERR(0, 515, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_format, __pyx_n_u_d) < 0) __PYX_ERR(0, 503, __pyx_L1_error)
 
-  /* "potential.pyx":515
+  /* "potential.pyx":503
  * 		"""
  * 		self.chemical_symbols = chemical_symbols.copy()
  * 		self.grad = cvarray(shape=(len(chemical_symbols),3), \             # <<<<<<<<<<<<<<
  * 								itemsize=sizeof(double), format="d")
  * 		try:
  */
-  __pyx_t_3 = __Pyx_PyObject_Call(((PyObject *)__pyx_array_type), __pyx_empty_tuple, __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 515, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(((PyObject *)__pyx_array_type), __pyx_empty_tuple, __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 503, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_8 = __Pyx_PyObject_to_MemoryviewSlice_dsds_double(__pyx_t_3, PyBUF_WRITABLE); if (unlikely(!__pyx_t_8.memview)) __PYX_ERR(0, 515, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_to_MemoryviewSlice_dsds_double(__pyx_t_3, PyBUF_WRITABLE); if (unlikely(!__pyx_t_8.memview)) __PYX_ERR(0, 503, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->grad, 0);
   __pyx_v_self->grad = __pyx_t_8;
   __pyx_t_8.memview = NULL;
   __pyx_t_8.data = NULL;
 
-  /* "potential.pyx":517
+  /* "potential.pyx":505
  * 		self.grad = cvarray(shape=(len(chemical_symbols),3), \
  * 								itemsize=sizeof(double), format="d")
  * 		try:             # <<<<<<<<<<<<<<
@@ -10978,7 +10993,7 @@ static void __pyx_f_9potential_10Buckingham_set_parameters(struct __pyx_obj_9pot
     __Pyx_XGOTREF(__pyx_t_11);
     /*try:*/ {
 
-      /* "potential.pyx":518
+      /* "potential.pyx":506
  * 								itemsize=sizeof(double), format="d")
  * 		try:
  * 			with open(filename, "r") as fin:             # <<<<<<<<<<<<<<
@@ -10986,7 +11001,7 @@ static void __pyx_f_9potential_10Buckingham_set_parameters(struct __pyx_obj_9pot
  * 					line = line.split()
  */
       /*with:*/ {
-        __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 518, __pyx_L3_error)
+        __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 506, __pyx_L3_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_INCREF(__pyx_v_filename);
         __Pyx_GIVEREF(__pyx_v_filename);
@@ -10994,12 +11009,12 @@ static void __pyx_f_9potential_10Buckingham_set_parameters(struct __pyx_obj_9pot
         __Pyx_INCREF(__pyx_n_u_r);
         __Pyx_GIVEREF(__pyx_n_u_r);
         PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_n_u_r);
-        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_open, __pyx_t_3, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 518, __pyx_L3_error)
+        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_open, __pyx_t_3, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 506, __pyx_L3_error)
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        __pyx_t_12 = __Pyx_PyObject_LookupSpecial(__pyx_t_1, __pyx_n_s_exit); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 518, __pyx_L3_error)
+        __pyx_t_12 = __Pyx_PyObject_LookupSpecial(__pyx_t_1, __pyx_n_s_exit); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 506, __pyx_L3_error)
         __Pyx_GOTREF(__pyx_t_12);
-        __pyx_t_2 = __Pyx_PyObject_LookupSpecial(__pyx_t_1, __pyx_n_s_enter); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 518, __pyx_L9_error)
+        __pyx_t_2 = __Pyx_PyObject_LookupSpecial(__pyx_t_1, __pyx_n_s_enter); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 506, __pyx_L9_error)
         __Pyx_GOTREF(__pyx_t_2);
         __pyx_t_6 = NULL;
         if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -11013,7 +11028,7 @@ static void __pyx_f_9potential_10Buckingham_set_parameters(struct __pyx_obj_9pot
         }
         __pyx_t_3 = (__pyx_t_6) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_6) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
         __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-        if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 518, __pyx_L9_error)
+        if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 506, __pyx_L9_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
         __pyx_t_2 = __pyx_t_3;
@@ -11031,7 +11046,7 @@ static void __pyx_f_9potential_10Buckingham_set_parameters(struct __pyx_obj_9pot
               __pyx_v_fin = __pyx_t_2;
               __pyx_t_2 = 0;
 
-              /* "potential.pyx":519
+              /* "potential.pyx":507
  * 		try:
  * 			with open(filename, "r") as fin:
  * 				for line in fin:             # <<<<<<<<<<<<<<
@@ -11042,26 +11057,26 @@ static void __pyx_f_9potential_10Buckingham_set_parameters(struct __pyx_obj_9pot
                 __pyx_t_2 = __pyx_v_fin; __Pyx_INCREF(__pyx_t_2); __pyx_t_7 = 0;
                 __pyx_t_16 = NULL;
               } else {
-                __pyx_t_7 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_v_fin); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 519, __pyx_L13_error)
+                __pyx_t_7 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_v_fin); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 507, __pyx_L13_error)
                 __Pyx_GOTREF(__pyx_t_2);
-                __pyx_t_16 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 519, __pyx_L13_error)
+                __pyx_t_16 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 507, __pyx_L13_error)
               }
               for (;;) {
                 if (likely(!__pyx_t_16)) {
                   if (likely(PyList_CheckExact(__pyx_t_2))) {
                     if (__pyx_t_7 >= PyList_GET_SIZE(__pyx_t_2)) break;
                     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-                    __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_7); __Pyx_INCREF(__pyx_t_1); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 519, __pyx_L13_error)
+                    __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_7); __Pyx_INCREF(__pyx_t_1); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 507, __pyx_L13_error)
                     #else
-                    __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 519, __pyx_L13_error)
+                    __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 507, __pyx_L13_error)
                     __Pyx_GOTREF(__pyx_t_1);
                     #endif
                   } else {
                     if (__pyx_t_7 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
                     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-                    __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_7); __Pyx_INCREF(__pyx_t_1); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 519, __pyx_L13_error)
+                    __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_7); __Pyx_INCREF(__pyx_t_1); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 507, __pyx_L13_error)
                     #else
-                    __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 519, __pyx_L13_error)
+                    __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 507, __pyx_L13_error)
                     __Pyx_GOTREF(__pyx_t_1);
                     #endif
                   }
@@ -11071,7 +11086,7 @@ static void __pyx_f_9potential_10Buckingham_set_parameters(struct __pyx_obj_9pot
                     PyObject* exc_type = PyErr_Occurred();
                     if (exc_type) {
                       if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-                      else __PYX_ERR(0, 519, __pyx_L13_error)
+                      else __PYX_ERR(0, 507, __pyx_L13_error)
                     }
                     break;
                   }
@@ -11080,14 +11095,14 @@ static void __pyx_f_9potential_10Buckingham_set_parameters(struct __pyx_obj_9pot
                 __Pyx_XDECREF_SET(__pyx_v_line, __pyx_t_1);
                 __pyx_t_1 = 0;
 
-                /* "potential.pyx":520
+                /* "potential.pyx":508
  * 			with open(filename, "r") as fin:
  * 				for line in fin:
  * 					line = line.split()             # <<<<<<<<<<<<<<
  * 					if (len(line) < 4):
  * 						continue
  */
-                __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_line, __pyx_n_s_split); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 520, __pyx_L13_error)
+                __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_line, __pyx_n_s_split); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 508, __pyx_L13_error)
                 __Pyx_GOTREF(__pyx_t_3);
                 __pyx_t_6 = NULL;
                 if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
@@ -11101,24 +11116,24 @@ static void __pyx_f_9potential_10Buckingham_set_parameters(struct __pyx_obj_9pot
                 }
                 __pyx_t_1 = (__pyx_t_6) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_6) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
                 __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-                if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 520, __pyx_L13_error)
+                if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 508, __pyx_L13_error)
                 __Pyx_GOTREF(__pyx_t_1);
                 __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
                 __Pyx_DECREF_SET(__pyx_v_line, __pyx_t_1);
                 __pyx_t_1 = 0;
 
-                /* "potential.pyx":521
+                /* "potential.pyx":509
  * 				for line in fin:
  * 					line = line.split()
  * 					if (len(line) < 4):             # <<<<<<<<<<<<<<
  * 						continue
  * 					pair = (min(line[0], line[2]), max(line[0], line[2]))
  */
-                __pyx_t_17 = PyObject_Length(__pyx_v_line); if (unlikely(__pyx_t_17 == ((Py_ssize_t)-1))) __PYX_ERR(0, 521, __pyx_L13_error)
+                __pyx_t_17 = PyObject_Length(__pyx_v_line); if (unlikely(__pyx_t_17 == ((Py_ssize_t)-1))) __PYX_ERR(0, 509, __pyx_L13_error)
                 __pyx_t_18 = ((__pyx_t_17 < 4) != 0);
                 if (__pyx_t_18) {
 
-                  /* "potential.pyx":522
+                  /* "potential.pyx":510
  * 					line = line.split()
  * 					if (len(line) < 4):
  * 						continue             # <<<<<<<<<<<<<<
@@ -11127,7 +11142,7 @@ static void __pyx_f_9potential_10Buckingham_set_parameters(struct __pyx_obj_9pot
  */
                   goto __pyx_L19_continue;
 
-                  /* "potential.pyx":521
+                  /* "potential.pyx":509
  * 				for line in fin:
  * 					line = line.split()
  * 					if (len(line) < 4):             # <<<<<<<<<<<<<<
@@ -11136,19 +11151,19 @@ static void __pyx_f_9potential_10Buckingham_set_parameters(struct __pyx_obj_9pot
  */
                 }
 
-                /* "potential.pyx":523
+                /* "potential.pyx":511
  * 					if (len(line) < 4):
  * 						continue
  * 					pair = (min(line[0], line[2]), max(line[0], line[2]))             # <<<<<<<<<<<<<<
  * 					buck[pair] = {}
  * 					buck[pair]['par'] = list(map(float, line[4:7]))
  */
-                __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_line, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 523, __pyx_L13_error)
+                __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_line, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 511, __pyx_L13_error)
                 __Pyx_GOTREF(__pyx_t_1);
-                __pyx_t_3 = __Pyx_GetItemInt(__pyx_v_line, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 523, __pyx_L13_error)
+                __pyx_t_3 = __Pyx_GetItemInt(__pyx_v_line, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 511, __pyx_L13_error)
                 __Pyx_GOTREF(__pyx_t_3);
-                __pyx_t_4 = PyObject_RichCompare(__pyx_t_1, __pyx_t_3, Py_LT); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 523, __pyx_L13_error)
-                __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 523, __pyx_L13_error)
+                __pyx_t_4 = PyObject_RichCompare(__pyx_t_1, __pyx_t_3, Py_LT); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 511, __pyx_L13_error)
+                __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 511, __pyx_L13_error)
                 __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
                 if (__pyx_t_18) {
                   __Pyx_INCREF(__pyx_t_1);
@@ -11159,12 +11174,12 @@ static void __pyx_f_9potential_10Buckingham_set_parameters(struct __pyx_obj_9pot
                 }
                 __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
                 __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-                __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_line, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 523, __pyx_L13_error)
+                __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_line, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 511, __pyx_L13_error)
                 __Pyx_GOTREF(__pyx_t_1);
-                __pyx_t_3 = __Pyx_GetItemInt(__pyx_v_line, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 523, __pyx_L13_error)
+                __pyx_t_3 = __Pyx_GetItemInt(__pyx_v_line, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 511, __pyx_L13_error)
                 __Pyx_GOTREF(__pyx_t_3);
-                __pyx_t_19 = PyObject_RichCompare(__pyx_t_1, __pyx_t_3, Py_GT); __Pyx_XGOTREF(__pyx_t_19); if (unlikely(!__pyx_t_19)) __PYX_ERR(0, 523, __pyx_L13_error)
-                __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_19); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 523, __pyx_L13_error)
+                __pyx_t_19 = PyObject_RichCompare(__pyx_t_1, __pyx_t_3, Py_GT); __Pyx_XGOTREF(__pyx_t_19); if (unlikely(!__pyx_t_19)) __PYX_ERR(0, 511, __pyx_L13_error)
+                __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_19); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 511, __pyx_L13_error)
                 __Pyx_DECREF(__pyx_t_19); __pyx_t_19 = 0;
                 if (__pyx_t_18) {
                   __Pyx_INCREF(__pyx_t_1);
@@ -11175,7 +11190,7 @@ static void __pyx_f_9potential_10Buckingham_set_parameters(struct __pyx_obj_9pot
                 }
                 __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
                 __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-                __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 523, __pyx_L13_error)
+                __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 511, __pyx_L13_error)
                 __Pyx_GOTREF(__pyx_t_1);
                 __Pyx_INCREF(__pyx_t_6);
                 __Pyx_GIVEREF(__pyx_t_6);
@@ -11188,31 +11203,31 @@ static void __pyx_f_9potential_10Buckingham_set_parameters(struct __pyx_obj_9pot
                 __Pyx_XDECREF_SET(__pyx_v_pair, ((PyObject*)__pyx_t_1));
                 __pyx_t_1 = 0;
 
-                /* "potential.pyx":524
+                /* "potential.pyx":512
  * 						continue
  * 					pair = (min(line[0], line[2]), max(line[0], line[2]))
  * 					buck[pair] = {}             # <<<<<<<<<<<<<<
  * 					buck[pair]['par'] = list(map(float, line[4:7]))
  * 					buck[pair]['lo'] = float(line[7])
  */
-                __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 524, __pyx_L13_error)
+                __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 512, __pyx_L13_error)
                 __Pyx_GOTREF(__pyx_t_1);
-                __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_buck); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 524, __pyx_L13_error)
+                __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_buck); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 512, __pyx_L13_error)
                 __Pyx_GOTREF(__pyx_t_4);
-                if (unlikely(PyObject_SetItem(__pyx_t_4, __pyx_v_pair, __pyx_t_1) < 0)) __PYX_ERR(0, 524, __pyx_L13_error)
+                if (unlikely(PyObject_SetItem(__pyx_t_4, __pyx_v_pair, __pyx_t_1) < 0)) __PYX_ERR(0, 512, __pyx_L13_error)
                 __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
                 __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-                /* "potential.pyx":525
+                /* "potential.pyx":513
  * 					pair = (min(line[0], line[2]), max(line[0], line[2]))
  * 					buck[pair] = {}
  * 					buck[pair]['par'] = list(map(float, line[4:7]))             # <<<<<<<<<<<<<<
  * 					buck[pair]['lo'] = float(line[7])
  * 					buck[pair]['hi'] = float(line[-1])
  */
-                __pyx_t_1 = __Pyx_PyObject_GetSlice(__pyx_v_line, 4, 7, NULL, NULL, &__pyx_slice__6, 1, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 525, __pyx_L13_error)
+                __pyx_t_1 = __Pyx_PyObject_GetSlice(__pyx_v_line, 4, 7, NULL, NULL, &__pyx_slice__6, 1, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 513, __pyx_L13_error)
                 __Pyx_GOTREF(__pyx_t_1);
-                __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 525, __pyx_L13_error)
+                __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 513, __pyx_L13_error)
                 __Pyx_GOTREF(__pyx_t_4);
                 __Pyx_INCREF(((PyObject *)(&PyFloat_Type)));
                 __Pyx_GIVEREF(((PyObject *)(&PyFloat_Type)));
@@ -11220,64 +11235,64 @@ static void __pyx_f_9potential_10Buckingham_set_parameters(struct __pyx_obj_9pot
                 __Pyx_GIVEREF(__pyx_t_1);
                 PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_t_1);
                 __pyx_t_1 = 0;
-                __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_map, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 525, __pyx_L13_error)
+                __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_map, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 513, __pyx_L13_error)
                 __Pyx_GOTREF(__pyx_t_1);
                 __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-                __pyx_t_4 = PySequence_List(__pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 525, __pyx_L13_error)
+                __pyx_t_4 = PySequence_List(__pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 513, __pyx_L13_error)
                 __Pyx_GOTREF(__pyx_t_4);
                 __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-                __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_buck); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 525, __pyx_L13_error)
+                __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_buck); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 513, __pyx_L13_error)
                 __Pyx_GOTREF(__pyx_t_1);
-                __pyx_t_6 = __Pyx_PyObject_GetItem(__pyx_t_1, __pyx_v_pair); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 525, __pyx_L13_error)
+                __pyx_t_6 = __Pyx_PyObject_GetItem(__pyx_t_1, __pyx_v_pair); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 513, __pyx_L13_error)
                 __Pyx_GOTREF(__pyx_t_6);
                 __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-                if (unlikely(PyObject_SetItem(__pyx_t_6, __pyx_n_u_par, __pyx_t_4) < 0)) __PYX_ERR(0, 525, __pyx_L13_error)
+                if (unlikely(PyObject_SetItem(__pyx_t_6, __pyx_n_u_par, __pyx_t_4) < 0)) __PYX_ERR(0, 513, __pyx_L13_error)
                 __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
                 __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-                /* "potential.pyx":526
+                /* "potential.pyx":514
  * 					buck[pair] = {}
  * 					buck[pair]['par'] = list(map(float, line[4:7]))
  * 					buck[pair]['lo'] = float(line[7])             # <<<<<<<<<<<<<<
  * 					buck[pair]['hi'] = float(line[-1])
  * 		except IOError:
  */
-                __pyx_t_4 = __Pyx_GetItemInt(__pyx_v_line, 7, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 526, __pyx_L13_error)
+                __pyx_t_4 = __Pyx_GetItemInt(__pyx_v_line, 7, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 514, __pyx_L13_error)
                 __Pyx_GOTREF(__pyx_t_4);
-                __pyx_t_6 = __Pyx_PyNumber_Float(__pyx_t_4); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 526, __pyx_L13_error)
+                __pyx_t_6 = __Pyx_PyNumber_Float(__pyx_t_4); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 514, __pyx_L13_error)
                 __Pyx_GOTREF(__pyx_t_6);
                 __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-                __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_buck); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 526, __pyx_L13_error)
+                __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_buck); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 514, __pyx_L13_error)
                 __Pyx_GOTREF(__pyx_t_4);
-                __pyx_t_1 = __Pyx_PyObject_GetItem(__pyx_t_4, __pyx_v_pair); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 526, __pyx_L13_error)
+                __pyx_t_1 = __Pyx_PyObject_GetItem(__pyx_t_4, __pyx_v_pair); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 514, __pyx_L13_error)
                 __Pyx_GOTREF(__pyx_t_1);
                 __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-                if (unlikely(PyObject_SetItem(__pyx_t_1, __pyx_n_u_lo, __pyx_t_6) < 0)) __PYX_ERR(0, 526, __pyx_L13_error)
+                if (unlikely(PyObject_SetItem(__pyx_t_1, __pyx_n_u_lo, __pyx_t_6) < 0)) __PYX_ERR(0, 514, __pyx_L13_error)
                 __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
                 __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-                /* "potential.pyx":527
+                /* "potential.pyx":515
  * 					buck[pair]['par'] = list(map(float, line[4:7]))
  * 					buck[pair]['lo'] = float(line[7])
  * 					buck[pair]['hi'] = float(line[-1])             # <<<<<<<<<<<<<<
  * 		except IOError:
  * 			print("No library file found for Buckingham constants.")
  */
-                __pyx_t_6 = __Pyx_GetItemInt(__pyx_v_line, -1L, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 527, __pyx_L13_error)
+                __pyx_t_6 = __Pyx_GetItemInt(__pyx_v_line, -1L, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 515, __pyx_L13_error)
                 __Pyx_GOTREF(__pyx_t_6);
-                __pyx_t_1 = __Pyx_PyNumber_Float(__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 527, __pyx_L13_error)
+                __pyx_t_1 = __Pyx_PyNumber_Float(__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 515, __pyx_L13_error)
                 __Pyx_GOTREF(__pyx_t_1);
                 __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-                __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_buck); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 527, __pyx_L13_error)
+                __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_buck); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 515, __pyx_L13_error)
                 __Pyx_GOTREF(__pyx_t_6);
-                __pyx_t_4 = __Pyx_PyObject_GetItem(__pyx_t_6, __pyx_v_pair); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 527, __pyx_L13_error)
+                __pyx_t_4 = __Pyx_PyObject_GetItem(__pyx_t_6, __pyx_v_pair); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 515, __pyx_L13_error)
                 __Pyx_GOTREF(__pyx_t_4);
                 __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-                if (unlikely(PyObject_SetItem(__pyx_t_4, __pyx_n_u_hi, __pyx_t_1) < 0)) __PYX_ERR(0, 527, __pyx_L13_error)
+                if (unlikely(PyObject_SetItem(__pyx_t_4, __pyx_n_u_hi, __pyx_t_1) < 0)) __PYX_ERR(0, 515, __pyx_L13_error)
                 __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
                 __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-                /* "potential.pyx":519
+                /* "potential.pyx":507
  * 		try:
  * 			with open(filename, "r") as fin:
  * 				for line in fin:             # <<<<<<<<<<<<<<
@@ -11288,7 +11303,7 @@ static void __pyx_f_9potential_10Buckingham_set_parameters(struct __pyx_obj_9pot
               }
               __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-              /* "potential.pyx":518
+              /* "potential.pyx":506
  * 								itemsize=sizeof(double), format="d")
  * 		try:
  * 			with open(filename, "r") as fin:             # <<<<<<<<<<<<<<
@@ -11310,20 +11325,20 @@ static void __pyx_f_9potential_10Buckingham_set_parameters(struct __pyx_obj_9pot
             __PYX_XDEC_MEMVIEW(&__pyx_t_8, 1);
             /*except:*/ {
               __Pyx_AddTraceback("potential.Buckingham.set_parameters", __pyx_clineno, __pyx_lineno, __pyx_filename);
-              if (__Pyx_GetException(&__pyx_t_2, &__pyx_t_1, &__pyx_t_4) < 0) __PYX_ERR(0, 518, __pyx_L15_except_error)
+              if (__Pyx_GetException(&__pyx_t_2, &__pyx_t_1, &__pyx_t_4) < 0) __PYX_ERR(0, 506, __pyx_L15_except_error)
               __Pyx_GOTREF(__pyx_t_2);
               __Pyx_GOTREF(__pyx_t_1);
               __Pyx_GOTREF(__pyx_t_4);
-              __pyx_t_6 = PyTuple_Pack(3, __pyx_t_2, __pyx_t_1, __pyx_t_4); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 518, __pyx_L15_except_error)
+              __pyx_t_6 = PyTuple_Pack(3, __pyx_t_2, __pyx_t_1, __pyx_t_4); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 506, __pyx_L15_except_error)
               __Pyx_GOTREF(__pyx_t_6);
               __pyx_t_20 = __Pyx_PyObject_Call(__pyx_t_12, __pyx_t_6, NULL);
               __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
               __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-              if (unlikely(!__pyx_t_20)) __PYX_ERR(0, 518, __pyx_L15_except_error)
+              if (unlikely(!__pyx_t_20)) __PYX_ERR(0, 506, __pyx_L15_except_error)
               __Pyx_GOTREF(__pyx_t_20);
               __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_20);
               __Pyx_DECREF(__pyx_t_20); __pyx_t_20 = 0;
-              if (__pyx_t_18 < 0) __PYX_ERR(0, 518, __pyx_L15_except_error)
+              if (__pyx_t_18 < 0) __PYX_ERR(0, 506, __pyx_L15_except_error)
               __pyx_t_21 = ((!(__pyx_t_18 != 0)) != 0);
               if (__pyx_t_21) {
                 __Pyx_GIVEREF(__pyx_t_2);
@@ -11331,7 +11346,7 @@ static void __pyx_f_9potential_10Buckingham_set_parameters(struct __pyx_obj_9pot
                 __Pyx_XGIVEREF(__pyx_t_4);
                 __Pyx_ErrRestoreWithState(__pyx_t_2, __pyx_t_1, __pyx_t_4);
                 __pyx_t_2 = 0; __pyx_t_1 = 0; __pyx_t_4 = 0; 
-                __PYX_ERR(0, 518, __pyx_L15_except_error)
+                __PYX_ERR(0, 506, __pyx_L15_except_error)
               }
               __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
               __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -11357,7 +11372,7 @@ static void __pyx_f_9potential_10Buckingham_set_parameters(struct __pyx_obj_9pot
             if (__pyx_t_12) {
               __pyx_t_15 = __Pyx_PyObject_Call(__pyx_t_12, __pyx_tuple_, NULL);
               __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-              if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 518, __pyx_L3_error)
+              if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 506, __pyx_L3_error)
               __Pyx_GOTREF(__pyx_t_15);
               __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
             }
@@ -11372,7 +11387,7 @@ static void __pyx_f_9potential_10Buckingham_set_parameters(struct __pyx_obj_9pot
         __pyx_L25:;
       }
 
-      /* "potential.pyx":517
+      /* "potential.pyx":505
  * 		self.grad = cvarray(shape=(len(chemical_symbols),3), \
  * 								itemsize=sizeof(double), format="d")
  * 		try:             # <<<<<<<<<<<<<<
@@ -11393,7 +11408,7 @@ static void __pyx_f_9potential_10Buckingham_set_parameters(struct __pyx_obj_9pot
     __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
     __PYX_XDEC_MEMVIEW(&__pyx_t_8, 1);
 
-    /* "potential.pyx":528
+    /* "potential.pyx":516
  * 					buck[pair]['lo'] = float(line[7])
  * 					buck[pair]['hi'] = float(line[-1])
  * 		except IOError:             # <<<<<<<<<<<<<<
@@ -11403,19 +11418,19 @@ static void __pyx_f_9potential_10Buckingham_set_parameters(struct __pyx_obj_9pot
     __pyx_t_5 = __Pyx_PyErr_ExceptionMatches(__pyx_builtin_IOError);
     if (__pyx_t_5) {
       __Pyx_AddTraceback("potential.Buckingham.set_parameters", __pyx_clineno, __pyx_lineno, __pyx_filename);
-      if (__Pyx_GetException(&__pyx_t_4, &__pyx_t_1, &__pyx_t_2) < 0) __PYX_ERR(0, 528, __pyx_L5_except_error)
+      if (__Pyx_GetException(&__pyx_t_4, &__pyx_t_1, &__pyx_t_2) < 0) __PYX_ERR(0, 516, __pyx_L5_except_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_GOTREF(__pyx_t_2);
 
-      /* "potential.pyx":529
+      /* "potential.pyx":517
  * 					buck[pair]['hi'] = float(line[-1])
  * 		except IOError:
  * 			print("No library file found for Buckingham constants.")             # <<<<<<<<<<<<<<
  * 		self.param_flag = True
  * 
  */
-      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 529, __pyx_L5_except_error)
+      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 517, __pyx_L5_except_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -11426,7 +11441,7 @@ static void __pyx_f_9potential_10Buckingham_set_parameters(struct __pyx_obj_9pot
     goto __pyx_L5_except_error;
     __pyx_L5_except_error:;
 
-    /* "potential.pyx":517
+    /* "potential.pyx":505
  * 		self.grad = cvarray(shape=(len(chemical_symbols),3), \
  * 								itemsize=sizeof(double), format="d")
  * 		try:             # <<<<<<<<<<<<<<
@@ -11446,16 +11461,16 @@ static void __pyx_f_9potential_10Buckingham_set_parameters(struct __pyx_obj_9pot
     __pyx_L8_try_end:;
   }
 
-  /* "potential.pyx":530
+  /* "potential.pyx":518
  * 		except IOError:
  * 			print("No library file found for Buckingham constants.")
  * 		self.param_flag = True             # <<<<<<<<<<<<<<
  * 
- * 	cdef int get_cutoff(self, double[:,:] vects, float hi):
+ * 	cpdef int catastrophe_check(self, \
  */
   __pyx_v_self->param_flag = 1;
 
-  /* "potential.pyx":506
+  /* "potential.pyx":494
  * 		self.grad = None
  * 
  * 	cpdef void set_parameters(self, str filename,             # <<<<<<<<<<<<<<
@@ -11516,11 +11531,11 @@ static PyObject *__pyx_pw_9potential_10Buckingham_3set_parameters(PyObject *__py
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_chemical_symbols)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("set_parameters", 1, 2, 2, 1); __PYX_ERR(0, 506, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("set_parameters", 1, 2, 2, 1); __PYX_ERR(0, 494, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "set_parameters") < 0)) __PYX_ERR(0, 506, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "set_parameters") < 0)) __PYX_ERR(0, 494, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -11533,14 +11548,14 @@ static PyObject *__pyx_pw_9potential_10Buckingham_3set_parameters(PyObject *__py
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("set_parameters", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 506, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("set_parameters", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 494, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("potential.Buckingham.set_parameters", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_filename), (&PyUnicode_Type), 1, "filename", 1))) __PYX_ERR(0, 506, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_chemical_symbols), __pyx_ptype_5numpy_ndarray, 1, "chemical_symbols", 0))) __PYX_ERR(0, 507, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_filename), (&PyUnicode_Type), 1, "filename", 1))) __PYX_ERR(0, 494, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_chemical_symbols), __pyx_ptype_5numpy_ndarray, 1, "chemical_symbols", 0))) __PYX_ERR(0, 495, __pyx_L1_error)
   __pyx_r = __pyx_pf_9potential_10Buckingham_2set_parameters(((struct __pyx_obj_9potential_Buckingham *)__pyx_v_self), __pyx_v_filename, __pyx_v_chemical_symbols);
 
   /* function exit code */
@@ -11561,7 +11576,7 @@ static PyObject *__pyx_pf_9potential_10Buckingham_2set_parameters(struct __pyx_o
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("set_parameters", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_void_to_None(__pyx_f_9potential_10Buckingham_set_parameters(__pyx_v_self, __pyx_v_filename, __pyx_v_chemical_symbols, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 506, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_void_to_None(__pyx_f_9potential_10Buckingham_set_parameters(__pyx_v_self, __pyx_v_filename, __pyx_v_chemical_symbols, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 494, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -11578,8 +11593,761 @@ static PyObject *__pyx_pf_9potential_10Buckingham_2set_parameters(struct __pyx_o
   return __pyx_r;
 }
 
-/* "potential.pyx":532
+/* "potential.pyx":520
  * 		self.param_flag = True
+ * 
+ * 	cpdef int catastrophe_check(self, \             # <<<<<<<<<<<<<<
+ * 		double[:,:] pos, double fraction, radius_dict) except -1:
+ * 		"""Check if there are ions in the unit cellthat are too close
+ */
+
+static PyObject *__pyx_pw_9potential_10Buckingham_5catastrophe_check(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static int __pyx_f_9potential_10Buckingham_catastrophe_check(struct __pyx_obj_9potential_Buckingham *__pyx_v_self, __Pyx_memviewslice __pyx_v_pos, double __pyx_v_fraction, PyObject *__pyx_v_radius_dict, int __pyx_skip_dispatch) {
+  int __pyx_v_ioni;
+  int __pyx_v_ionj;
+  int __pyx_v_N;
+  double __pyx_v_dist;
+  double __pyx_v_min_dist;
+  PyObject *__pyx_v_elemi = NULL;
+  PyObject *__pyx_v_elemj = NULL;
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  PyObject *__pyx_t_5 = NULL;
+  PyObject *__pyx_t_6 = NULL;
+  int __pyx_t_7;
+  PyObject *__pyx_t_8 = NULL;
+  size_t __pyx_t_9;
+  int __pyx_t_10;
+  int __pyx_t_11;
+  int __pyx_t_12;
+  int __pyx_t_13;
+  int __pyx_t_14;
+  int __pyx_t_15;
+  Py_ssize_t __pyx_t_16;
+  Py_ssize_t __pyx_t_17;
+  int __pyx_t_18;
+  Py_ssize_t __pyx_t_19;
+  Py_ssize_t __pyx_t_20;
+  Py_ssize_t __pyx_t_21;
+  Py_ssize_t __pyx_t_22;
+  Py_ssize_t __pyx_t_23;
+  Py_ssize_t __pyx_t_24;
+  Py_ssize_t __pyx_t_25;
+  Py_ssize_t __pyx_t_26;
+  Py_ssize_t __pyx_t_27;
+  Py_ssize_t __pyx_t_28;
+  Py_ssize_t __pyx_t_29;
+  Py_ssize_t __pyx_t_30;
+  Py_ssize_t __pyx_t_31;
+  Py_ssize_t __pyx_t_32;
+  Py_ssize_t __pyx_t_33;
+  Py_ssize_t __pyx_t_34;
+  Py_ssize_t __pyx_t_35;
+  Py_ssize_t __pyx_t_36;
+  Py_ssize_t __pyx_t_37;
+  Py_ssize_t __pyx_t_38;
+  Py_ssize_t __pyx_t_39;
+  Py_ssize_t __pyx_t_40;
+  double __pyx_t_41;
+  PyObject *__pyx_t_42 = NULL;
+  PyObject *__pyx_t_43 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("catastrophe_check", 0);
+  /* Check if called by wrapper */
+  if (unlikely(__pyx_skip_dispatch)) ;
+  /* Check if overridden in Python */
+  else if (unlikely((Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0) || (Py_TYPE(((PyObject *)__pyx_v_self))->tp_flags & (Py_TPFLAGS_IS_ABSTRACT | Py_TPFLAGS_HEAPTYPE)))) {
+    #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+    static PY_UINT64_T __pyx_tp_dict_version = __PYX_DICT_VERSION_INIT, __pyx_obj_dict_version = __PYX_DICT_VERSION_INIT;
+    if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
+      PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
+      #endif
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_catastrophe_check); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 520, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_9potential_10Buckingham_5catastrophe_check)) {
+        if (unlikely(!__pyx_v_pos.memview)) { __Pyx_RaiseUnboundLocalError("pos"); __PYX_ERR(0, 520, __pyx_L1_error) }
+        __pyx_t_3 = __pyx_memoryview_fromslice(__pyx_v_pos, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 520, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_3);
+        __pyx_t_4 = PyFloat_FromDouble(__pyx_v_fraction); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 520, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_4);
+        __Pyx_INCREF(__pyx_t_1);
+        __pyx_t_5 = __pyx_t_1; __pyx_t_6 = NULL;
+        __pyx_t_7 = 0;
+        if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_5))) {
+          __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_5);
+          if (likely(__pyx_t_6)) {
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+            __Pyx_INCREF(__pyx_t_6);
+            __Pyx_INCREF(function);
+            __Pyx_DECREF_SET(__pyx_t_5, function);
+            __pyx_t_7 = 1;
+          }
+        }
+        #if CYTHON_FAST_PYCALL
+        if (PyFunction_Check(__pyx_t_5)) {
+          PyObject *__pyx_temp[4] = {__pyx_t_6, __pyx_t_3, __pyx_t_4, __pyx_v_radius_dict};
+          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_7, 3+__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 520, __pyx_L1_error)
+          __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+          __Pyx_GOTREF(__pyx_t_2);
+          __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+          __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+        } else
+        #endif
+        #if CYTHON_FAST_PYCCALL
+        if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
+          PyObject *__pyx_temp[4] = {__pyx_t_6, __pyx_t_3, __pyx_t_4, __pyx_v_radius_dict};
+          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_7, 3+__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 520, __pyx_L1_error)
+          __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+          __Pyx_GOTREF(__pyx_t_2);
+          __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+          __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+        } else
+        #endif
+        {
+          __pyx_t_8 = PyTuple_New(3+__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 520, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_8);
+          if (__pyx_t_6) {
+            __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_6); __pyx_t_6 = NULL;
+          }
+          __Pyx_GIVEREF(__pyx_t_3);
+          PyTuple_SET_ITEM(__pyx_t_8, 0+__pyx_t_7, __pyx_t_3);
+          __Pyx_GIVEREF(__pyx_t_4);
+          PyTuple_SET_ITEM(__pyx_t_8, 1+__pyx_t_7, __pyx_t_4);
+          __Pyx_INCREF(__pyx_v_radius_dict);
+          __Pyx_GIVEREF(__pyx_v_radius_dict);
+          PyTuple_SET_ITEM(__pyx_t_8, 2+__pyx_t_7, __pyx_v_radius_dict);
+          __pyx_t_3 = 0;
+          __pyx_t_4 = 0;
+          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_8, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 520, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_2);
+          __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+        }
+        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+        __pyx_t_7 = __Pyx_PyInt_As_int(__pyx_t_2); if (unlikely((__pyx_t_7 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 520, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+        __pyx_r = __pyx_t_7;
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+        goto __pyx_L0;
+      }
+      #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+      __pyx_tp_dict_version = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
+      __pyx_obj_dict_version = __Pyx_get_object_dict_version(((PyObject *)__pyx_v_self));
+      if (unlikely(__pyx_type_dict_guard != __pyx_tp_dict_version)) {
+        __pyx_tp_dict_version = __pyx_obj_dict_version = __PYX_DICT_VERSION_INIT;
+      }
+      #endif
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+    }
+    #endif
+  }
+
+  /* "potential.pyx":529
+ * 		cdef double dist, min_dist
+ * 
+ * 		N = len(pos)             # <<<<<<<<<<<<<<
+ * 		for ioni in range(N):
+ * 			elemi = self.chemical_symbols[ioni]
+ */
+  __pyx_t_9 = __Pyx_MemoryView_Len(__pyx_v_pos); 
+  __pyx_v_N = __pyx_t_9;
+
+  /* "potential.pyx":530
+ * 
+ * 		N = len(pos)
+ * 		for ioni in range(N):             # <<<<<<<<<<<<<<
+ * 			elemi = self.chemical_symbols[ioni]
+ * 			for ionj in range(N):
+ */
+  __pyx_t_7 = __pyx_v_N;
+  __pyx_t_10 = __pyx_t_7;
+  for (__pyx_t_11 = 0; __pyx_t_11 < __pyx_t_10; __pyx_t_11+=1) {
+    __pyx_v_ioni = __pyx_t_11;
+
+    /* "potential.pyx":531
+ * 		N = len(pos)
+ * 		for ioni in range(N):
+ * 			elemi = self.chemical_symbols[ioni]             # <<<<<<<<<<<<<<
+ * 			for ionj in range(N):
+ * 				if ioni!=ionj:
+ */
+    __pyx_t_1 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->chemical_symbols), __pyx_v_ioni, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 531, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_XDECREF_SET(__pyx_v_elemi, __pyx_t_1);
+    __pyx_t_1 = 0;
+
+    /* "potential.pyx":532
+ * 		for ioni in range(N):
+ * 			elemi = self.chemical_symbols[ioni]
+ * 			for ionj in range(N):             # <<<<<<<<<<<<<<
+ * 				if ioni!=ionj:
+ * 					elemj = self.chemical_symbols[ionj]
+ */
+    __pyx_t_12 = __pyx_v_N;
+    __pyx_t_13 = __pyx_t_12;
+    for (__pyx_t_14 = 0; __pyx_t_14 < __pyx_t_13; __pyx_t_14+=1) {
+      __pyx_v_ionj = __pyx_t_14;
+
+      /* "potential.pyx":533
+ * 			elemi = self.chemical_symbols[ioni]
+ * 			for ionj in range(N):
+ * 				if ioni!=ionj:             # <<<<<<<<<<<<<<
+ * 					elemj = self.chemical_symbols[ionj]
+ * 					dist = sqrt((pos[ioni, 0]-pos[ionj, 0])*(pos[ioni, 0]-pos[ionj, 0])+ \
+ */
+      __pyx_t_15 = ((__pyx_v_ioni != __pyx_v_ionj) != 0);
+      if (__pyx_t_15) {
+
+        /* "potential.pyx":534
+ * 			for ionj in range(N):
+ * 				if ioni!=ionj:
+ * 					elemj = self.chemical_symbols[ionj]             # <<<<<<<<<<<<<<
+ * 					dist = sqrt((pos[ioni, 0]-pos[ionj, 0])*(pos[ioni, 0]-pos[ionj, 0])+ \
+ * 								(pos[ioni, 1]-pos[ionj, 1])*(pos[ioni, 1]-pos[ionj, 1])+ \
+ */
+        __pyx_t_1 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->chemical_symbols), __pyx_v_ionj, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 534, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_1);
+        __Pyx_XDECREF_SET(__pyx_v_elemj, __pyx_t_1);
+        __pyx_t_1 = 0;
+
+        /* "potential.pyx":535
+ * 				if ioni!=ionj:
+ * 					elemj = self.chemical_symbols[ionj]
+ * 					dist = sqrt((pos[ioni, 0]-pos[ionj, 0])*(pos[ioni, 0]-pos[ionj, 0])+ \             # <<<<<<<<<<<<<<
+ * 								(pos[ioni, 1]-pos[ionj, 1])*(pos[ioni, 1]-pos[ionj, 1])+ \
+ * 								(pos[ioni, 2]-pos[ionj, 2])*(pos[ioni, 2]-pos[ionj, 2]))
+ */
+        __pyx_t_16 = __pyx_v_ioni;
+        __pyx_t_17 = 0;
+        __pyx_t_18 = -1;
+        if (__pyx_t_16 < 0) {
+          __pyx_t_16 += __pyx_v_pos.shape[0];
+          if (unlikely(__pyx_t_16 < 0)) __pyx_t_18 = 0;
+        } else if (unlikely(__pyx_t_16 >= __pyx_v_pos.shape[0])) __pyx_t_18 = 0;
+        if (__pyx_t_17 < 0) {
+          __pyx_t_17 += __pyx_v_pos.shape[1];
+          if (unlikely(__pyx_t_17 < 0)) __pyx_t_18 = 1;
+        } else if (unlikely(__pyx_t_17 >= __pyx_v_pos.shape[1])) __pyx_t_18 = 1;
+        if (unlikely(__pyx_t_18 != -1)) {
+          __Pyx_RaiseBufferIndexError(__pyx_t_18);
+          __PYX_ERR(0, 535, __pyx_L1_error)
+        }
+        __pyx_t_19 = __pyx_v_ionj;
+        __pyx_t_20 = 0;
+        __pyx_t_18 = -1;
+        if (__pyx_t_19 < 0) {
+          __pyx_t_19 += __pyx_v_pos.shape[0];
+          if (unlikely(__pyx_t_19 < 0)) __pyx_t_18 = 0;
+        } else if (unlikely(__pyx_t_19 >= __pyx_v_pos.shape[0])) __pyx_t_18 = 0;
+        if (__pyx_t_20 < 0) {
+          __pyx_t_20 += __pyx_v_pos.shape[1];
+          if (unlikely(__pyx_t_20 < 0)) __pyx_t_18 = 1;
+        } else if (unlikely(__pyx_t_20 >= __pyx_v_pos.shape[1])) __pyx_t_18 = 1;
+        if (unlikely(__pyx_t_18 != -1)) {
+          __Pyx_RaiseBufferIndexError(__pyx_t_18);
+          __PYX_ERR(0, 535, __pyx_L1_error)
+        }
+        __pyx_t_21 = __pyx_v_ioni;
+        __pyx_t_22 = 0;
+        __pyx_t_18 = -1;
+        if (__pyx_t_21 < 0) {
+          __pyx_t_21 += __pyx_v_pos.shape[0];
+          if (unlikely(__pyx_t_21 < 0)) __pyx_t_18 = 0;
+        } else if (unlikely(__pyx_t_21 >= __pyx_v_pos.shape[0])) __pyx_t_18 = 0;
+        if (__pyx_t_22 < 0) {
+          __pyx_t_22 += __pyx_v_pos.shape[1];
+          if (unlikely(__pyx_t_22 < 0)) __pyx_t_18 = 1;
+        } else if (unlikely(__pyx_t_22 >= __pyx_v_pos.shape[1])) __pyx_t_18 = 1;
+        if (unlikely(__pyx_t_18 != -1)) {
+          __Pyx_RaiseBufferIndexError(__pyx_t_18);
+          __PYX_ERR(0, 535, __pyx_L1_error)
+        }
+        __pyx_t_23 = __pyx_v_ionj;
+        __pyx_t_24 = 0;
+        __pyx_t_18 = -1;
+        if (__pyx_t_23 < 0) {
+          __pyx_t_23 += __pyx_v_pos.shape[0];
+          if (unlikely(__pyx_t_23 < 0)) __pyx_t_18 = 0;
+        } else if (unlikely(__pyx_t_23 >= __pyx_v_pos.shape[0])) __pyx_t_18 = 0;
+        if (__pyx_t_24 < 0) {
+          __pyx_t_24 += __pyx_v_pos.shape[1];
+          if (unlikely(__pyx_t_24 < 0)) __pyx_t_18 = 1;
+        } else if (unlikely(__pyx_t_24 >= __pyx_v_pos.shape[1])) __pyx_t_18 = 1;
+        if (unlikely(__pyx_t_18 != -1)) {
+          __Pyx_RaiseBufferIndexError(__pyx_t_18);
+          __PYX_ERR(0, 535, __pyx_L1_error)
+        }
+
+        /* "potential.pyx":536
+ * 					elemj = self.chemical_symbols[ionj]
+ * 					dist = sqrt((pos[ioni, 0]-pos[ionj, 0])*(pos[ioni, 0]-pos[ionj, 0])+ \
+ * 								(pos[ioni, 1]-pos[ionj, 1])*(pos[ioni, 1]-pos[ionj, 1])+ \             # <<<<<<<<<<<<<<
+ * 								(pos[ioni, 2]-pos[ionj, 2])*(pos[ioni, 2]-pos[ionj, 2]))
+ * 					min_dist = radius_dict[elemi]+radius_dict[elemj]
+ */
+        __pyx_t_25 = __pyx_v_ioni;
+        __pyx_t_26 = 1;
+        __pyx_t_18 = -1;
+        if (__pyx_t_25 < 0) {
+          __pyx_t_25 += __pyx_v_pos.shape[0];
+          if (unlikely(__pyx_t_25 < 0)) __pyx_t_18 = 0;
+        } else if (unlikely(__pyx_t_25 >= __pyx_v_pos.shape[0])) __pyx_t_18 = 0;
+        if (__pyx_t_26 < 0) {
+          __pyx_t_26 += __pyx_v_pos.shape[1];
+          if (unlikely(__pyx_t_26 < 0)) __pyx_t_18 = 1;
+        } else if (unlikely(__pyx_t_26 >= __pyx_v_pos.shape[1])) __pyx_t_18 = 1;
+        if (unlikely(__pyx_t_18 != -1)) {
+          __Pyx_RaiseBufferIndexError(__pyx_t_18);
+          __PYX_ERR(0, 536, __pyx_L1_error)
+        }
+        __pyx_t_27 = __pyx_v_ionj;
+        __pyx_t_28 = 1;
+        __pyx_t_18 = -1;
+        if (__pyx_t_27 < 0) {
+          __pyx_t_27 += __pyx_v_pos.shape[0];
+          if (unlikely(__pyx_t_27 < 0)) __pyx_t_18 = 0;
+        } else if (unlikely(__pyx_t_27 >= __pyx_v_pos.shape[0])) __pyx_t_18 = 0;
+        if (__pyx_t_28 < 0) {
+          __pyx_t_28 += __pyx_v_pos.shape[1];
+          if (unlikely(__pyx_t_28 < 0)) __pyx_t_18 = 1;
+        } else if (unlikely(__pyx_t_28 >= __pyx_v_pos.shape[1])) __pyx_t_18 = 1;
+        if (unlikely(__pyx_t_18 != -1)) {
+          __Pyx_RaiseBufferIndexError(__pyx_t_18);
+          __PYX_ERR(0, 536, __pyx_L1_error)
+        }
+        __pyx_t_29 = __pyx_v_ioni;
+        __pyx_t_30 = 1;
+        __pyx_t_18 = -1;
+        if (__pyx_t_29 < 0) {
+          __pyx_t_29 += __pyx_v_pos.shape[0];
+          if (unlikely(__pyx_t_29 < 0)) __pyx_t_18 = 0;
+        } else if (unlikely(__pyx_t_29 >= __pyx_v_pos.shape[0])) __pyx_t_18 = 0;
+        if (__pyx_t_30 < 0) {
+          __pyx_t_30 += __pyx_v_pos.shape[1];
+          if (unlikely(__pyx_t_30 < 0)) __pyx_t_18 = 1;
+        } else if (unlikely(__pyx_t_30 >= __pyx_v_pos.shape[1])) __pyx_t_18 = 1;
+        if (unlikely(__pyx_t_18 != -1)) {
+          __Pyx_RaiseBufferIndexError(__pyx_t_18);
+          __PYX_ERR(0, 536, __pyx_L1_error)
+        }
+        __pyx_t_31 = __pyx_v_ionj;
+        __pyx_t_32 = 1;
+        __pyx_t_18 = -1;
+        if (__pyx_t_31 < 0) {
+          __pyx_t_31 += __pyx_v_pos.shape[0];
+          if (unlikely(__pyx_t_31 < 0)) __pyx_t_18 = 0;
+        } else if (unlikely(__pyx_t_31 >= __pyx_v_pos.shape[0])) __pyx_t_18 = 0;
+        if (__pyx_t_32 < 0) {
+          __pyx_t_32 += __pyx_v_pos.shape[1];
+          if (unlikely(__pyx_t_32 < 0)) __pyx_t_18 = 1;
+        } else if (unlikely(__pyx_t_32 >= __pyx_v_pos.shape[1])) __pyx_t_18 = 1;
+        if (unlikely(__pyx_t_18 != -1)) {
+          __Pyx_RaiseBufferIndexError(__pyx_t_18);
+          __PYX_ERR(0, 536, __pyx_L1_error)
+        }
+
+        /* "potential.pyx":537
+ * 					dist = sqrt((pos[ioni, 0]-pos[ionj, 0])*(pos[ioni, 0]-pos[ionj, 0])+ \
+ * 								(pos[ioni, 1]-pos[ionj, 1])*(pos[ioni, 1]-pos[ionj, 1])+ \
+ * 								(pos[ioni, 2]-pos[ionj, 2])*(pos[ioni, 2]-pos[ionj, 2]))             # <<<<<<<<<<<<<<
+ * 					min_dist = radius_dict[elemi]+radius_dict[elemj]
+ * 					if dist < (fraction*min_dist):
+ */
+        __pyx_t_33 = __pyx_v_ioni;
+        __pyx_t_34 = 2;
+        __pyx_t_18 = -1;
+        if (__pyx_t_33 < 0) {
+          __pyx_t_33 += __pyx_v_pos.shape[0];
+          if (unlikely(__pyx_t_33 < 0)) __pyx_t_18 = 0;
+        } else if (unlikely(__pyx_t_33 >= __pyx_v_pos.shape[0])) __pyx_t_18 = 0;
+        if (__pyx_t_34 < 0) {
+          __pyx_t_34 += __pyx_v_pos.shape[1];
+          if (unlikely(__pyx_t_34 < 0)) __pyx_t_18 = 1;
+        } else if (unlikely(__pyx_t_34 >= __pyx_v_pos.shape[1])) __pyx_t_18 = 1;
+        if (unlikely(__pyx_t_18 != -1)) {
+          __Pyx_RaiseBufferIndexError(__pyx_t_18);
+          __PYX_ERR(0, 537, __pyx_L1_error)
+        }
+        __pyx_t_35 = __pyx_v_ionj;
+        __pyx_t_36 = 2;
+        __pyx_t_18 = -1;
+        if (__pyx_t_35 < 0) {
+          __pyx_t_35 += __pyx_v_pos.shape[0];
+          if (unlikely(__pyx_t_35 < 0)) __pyx_t_18 = 0;
+        } else if (unlikely(__pyx_t_35 >= __pyx_v_pos.shape[0])) __pyx_t_18 = 0;
+        if (__pyx_t_36 < 0) {
+          __pyx_t_36 += __pyx_v_pos.shape[1];
+          if (unlikely(__pyx_t_36 < 0)) __pyx_t_18 = 1;
+        } else if (unlikely(__pyx_t_36 >= __pyx_v_pos.shape[1])) __pyx_t_18 = 1;
+        if (unlikely(__pyx_t_18 != -1)) {
+          __Pyx_RaiseBufferIndexError(__pyx_t_18);
+          __PYX_ERR(0, 537, __pyx_L1_error)
+        }
+        __pyx_t_37 = __pyx_v_ioni;
+        __pyx_t_38 = 2;
+        __pyx_t_18 = -1;
+        if (__pyx_t_37 < 0) {
+          __pyx_t_37 += __pyx_v_pos.shape[0];
+          if (unlikely(__pyx_t_37 < 0)) __pyx_t_18 = 0;
+        } else if (unlikely(__pyx_t_37 >= __pyx_v_pos.shape[0])) __pyx_t_18 = 0;
+        if (__pyx_t_38 < 0) {
+          __pyx_t_38 += __pyx_v_pos.shape[1];
+          if (unlikely(__pyx_t_38 < 0)) __pyx_t_18 = 1;
+        } else if (unlikely(__pyx_t_38 >= __pyx_v_pos.shape[1])) __pyx_t_18 = 1;
+        if (unlikely(__pyx_t_18 != -1)) {
+          __Pyx_RaiseBufferIndexError(__pyx_t_18);
+          __PYX_ERR(0, 537, __pyx_L1_error)
+        }
+        __pyx_t_39 = __pyx_v_ionj;
+        __pyx_t_40 = 2;
+        __pyx_t_18 = -1;
+        if (__pyx_t_39 < 0) {
+          __pyx_t_39 += __pyx_v_pos.shape[0];
+          if (unlikely(__pyx_t_39 < 0)) __pyx_t_18 = 0;
+        } else if (unlikely(__pyx_t_39 >= __pyx_v_pos.shape[0])) __pyx_t_18 = 0;
+        if (__pyx_t_40 < 0) {
+          __pyx_t_40 += __pyx_v_pos.shape[1];
+          if (unlikely(__pyx_t_40 < 0)) __pyx_t_18 = 1;
+        } else if (unlikely(__pyx_t_40 >= __pyx_v_pos.shape[1])) __pyx_t_18 = 1;
+        if (unlikely(__pyx_t_18 != -1)) {
+          __Pyx_RaiseBufferIndexError(__pyx_t_18);
+          __PYX_ERR(0, 537, __pyx_L1_error)
+        }
+
+        /* "potential.pyx":535
+ * 				if ioni!=ionj:
+ * 					elemj = self.chemical_symbols[ionj]
+ * 					dist = sqrt((pos[ioni, 0]-pos[ionj, 0])*(pos[ioni, 0]-pos[ionj, 0])+ \             # <<<<<<<<<<<<<<
+ * 								(pos[ioni, 1]-pos[ionj, 1])*(pos[ioni, 1]-pos[ionj, 1])+ \
+ * 								(pos[ioni, 2]-pos[ionj, 2])*(pos[ioni, 2]-pos[ionj, 2]))
+ */
+        __pyx_v_dist = sqrt((((((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_16 * __pyx_v_pos.strides[0]) ) + __pyx_t_17 * __pyx_v_pos.strides[1]) ))) - (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_19 * __pyx_v_pos.strides[0]) ) + __pyx_t_20 * __pyx_v_pos.strides[1]) )))) * ((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_21 * __pyx_v_pos.strides[0]) ) + __pyx_t_22 * __pyx_v_pos.strides[1]) ))) - (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_23 * __pyx_v_pos.strides[0]) ) + __pyx_t_24 * __pyx_v_pos.strides[1]) ))))) + (((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_25 * __pyx_v_pos.strides[0]) ) + __pyx_t_26 * __pyx_v_pos.strides[1]) ))) - (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_27 * __pyx_v_pos.strides[0]) ) + __pyx_t_28 * __pyx_v_pos.strides[1]) )))) * ((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_29 * __pyx_v_pos.strides[0]) ) + __pyx_t_30 * __pyx_v_pos.strides[1]) ))) - (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_31 * __pyx_v_pos.strides[0]) ) + __pyx_t_32 * __pyx_v_pos.strides[1]) )))))) + (((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_33 * __pyx_v_pos.strides[0]) ) + __pyx_t_34 * __pyx_v_pos.strides[1]) ))) - (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_35 * __pyx_v_pos.strides[0]) ) + __pyx_t_36 * __pyx_v_pos.strides[1]) )))) * ((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_37 * __pyx_v_pos.strides[0]) ) + __pyx_t_38 * __pyx_v_pos.strides[1]) ))) - (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_39 * __pyx_v_pos.strides[0]) ) + __pyx_t_40 * __pyx_v_pos.strides[1]) )))))));
+
+        /* "potential.pyx":538
+ * 								(pos[ioni, 1]-pos[ionj, 1])*(pos[ioni, 1]-pos[ionj, 1])+ \
+ * 								(pos[ioni, 2]-pos[ionj, 2])*(pos[ioni, 2]-pos[ionj, 2]))
+ * 					min_dist = radius_dict[elemi]+radius_dict[elemj]             # <<<<<<<<<<<<<<
+ * 					if dist < (fraction*min_dist):
+ * 						warnings.warn(\
+ */
+        __pyx_t_1 = __Pyx_PyObject_GetItem(__pyx_v_radius_dict, __pyx_v_elemi); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 538, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_1);
+        __pyx_t_2 = __Pyx_PyObject_GetItem(__pyx_v_radius_dict, __pyx_v_elemj); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 538, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_2);
+        __pyx_t_5 = PyNumber_Add(__pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 538, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_5);
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+        __pyx_t_41 = __pyx_PyFloat_AsDouble(__pyx_t_5); if (unlikely((__pyx_t_41 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 538, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+        __pyx_v_min_dist = __pyx_t_41;
+
+        /* "potential.pyx":539
+ * 								(pos[ioni, 2]-pos[ionj, 2])*(pos[ioni, 2]-pos[ionj, 2]))
+ * 					min_dist = radius_dict[elemi]+radius_dict[elemj]
+ * 					if dist < (fraction*min_dist):             # <<<<<<<<<<<<<<
+ * 						warnings.warn(\
+ * 							"Found elements {}{}, {}{} closer than {} Angstroms".format(
+ */
+        __pyx_t_15 = ((__pyx_v_dist < (__pyx_v_fraction * __pyx_v_min_dist)) != 0);
+        if (__pyx_t_15) {
+
+          /* "potential.pyx":540
+ * 					min_dist = radius_dict[elemi]+radius_dict[elemj]
+ * 					if dist < (fraction*min_dist):
+ * 						warnings.warn(\             # <<<<<<<<<<<<<<
+ * 							"Found elements {}{}, {}{} closer than {} Angstroms".format(
+ * 							elemi,ioni,elemj,ionj,min_dist))
+ */
+          __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_warnings); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 540, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_2);
+          __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_warn); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 540, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_1);
+          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+          /* "potential.pyx":541
+ * 					if dist < (fraction*min_dist):
+ * 						warnings.warn(\
+ * 							"Found elements {}{}, {}{} closer than {} Angstroms".format(             # <<<<<<<<<<<<<<
+ * 							elemi,ioni,elemj,ionj,min_dist))
+ * 						return 1
+ */
+          __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_Found_elements_closer_than_Angst, __pyx_n_s_format); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 541, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_8);
+
+          /* "potential.pyx":542
+ * 						warnings.warn(\
+ * 							"Found elements {}{}, {}{} closer than {} Angstroms".format(
+ * 							elemi,ioni,elemj,ionj,min_dist))             # <<<<<<<<<<<<<<
+ * 						return 1
+ * 
+ */
+          __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_ioni); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 542, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_4);
+          __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_ionj); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 542, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_3);
+          __pyx_t_6 = PyFloat_FromDouble(__pyx_v_min_dist); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 542, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_6);
+          __pyx_t_42 = NULL;
+          __pyx_t_18 = 0;
+          if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_8))) {
+            __pyx_t_42 = PyMethod_GET_SELF(__pyx_t_8);
+            if (likely(__pyx_t_42)) {
+              PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_8);
+              __Pyx_INCREF(__pyx_t_42);
+              __Pyx_INCREF(function);
+              __Pyx_DECREF_SET(__pyx_t_8, function);
+              __pyx_t_18 = 1;
+            }
+          }
+          #if CYTHON_FAST_PYCALL
+          if (PyFunction_Check(__pyx_t_8)) {
+            PyObject *__pyx_temp[6] = {__pyx_t_42, __pyx_v_elemi, __pyx_t_4, __pyx_v_elemj, __pyx_t_3, __pyx_t_6};
+            __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_8, __pyx_temp+1-__pyx_t_18, 5+__pyx_t_18); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 541, __pyx_L1_error)
+            __Pyx_XDECREF(__pyx_t_42); __pyx_t_42 = 0;
+            __Pyx_GOTREF(__pyx_t_2);
+            __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+            __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+            __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+          } else
+          #endif
+          #if CYTHON_FAST_PYCCALL
+          if (__Pyx_PyFastCFunction_Check(__pyx_t_8)) {
+            PyObject *__pyx_temp[6] = {__pyx_t_42, __pyx_v_elemi, __pyx_t_4, __pyx_v_elemj, __pyx_t_3, __pyx_t_6};
+            __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_8, __pyx_temp+1-__pyx_t_18, 5+__pyx_t_18); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 541, __pyx_L1_error)
+            __Pyx_XDECREF(__pyx_t_42); __pyx_t_42 = 0;
+            __Pyx_GOTREF(__pyx_t_2);
+            __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+            __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+            __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+          } else
+          #endif
+          {
+            __pyx_t_43 = PyTuple_New(5+__pyx_t_18); if (unlikely(!__pyx_t_43)) __PYX_ERR(0, 541, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_43);
+            if (__pyx_t_42) {
+              __Pyx_GIVEREF(__pyx_t_42); PyTuple_SET_ITEM(__pyx_t_43, 0, __pyx_t_42); __pyx_t_42 = NULL;
+            }
+            __Pyx_INCREF(__pyx_v_elemi);
+            __Pyx_GIVEREF(__pyx_v_elemi);
+            PyTuple_SET_ITEM(__pyx_t_43, 0+__pyx_t_18, __pyx_v_elemi);
+            __Pyx_GIVEREF(__pyx_t_4);
+            PyTuple_SET_ITEM(__pyx_t_43, 1+__pyx_t_18, __pyx_t_4);
+            __Pyx_INCREF(__pyx_v_elemj);
+            __Pyx_GIVEREF(__pyx_v_elemj);
+            PyTuple_SET_ITEM(__pyx_t_43, 2+__pyx_t_18, __pyx_v_elemj);
+            __Pyx_GIVEREF(__pyx_t_3);
+            PyTuple_SET_ITEM(__pyx_t_43, 3+__pyx_t_18, __pyx_t_3);
+            __Pyx_GIVEREF(__pyx_t_6);
+            PyTuple_SET_ITEM(__pyx_t_43, 4+__pyx_t_18, __pyx_t_6);
+            __pyx_t_4 = 0;
+            __pyx_t_3 = 0;
+            __pyx_t_6 = 0;
+            __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_43, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 541, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_2);
+            __Pyx_DECREF(__pyx_t_43); __pyx_t_43 = 0;
+          }
+          __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+          __pyx_t_8 = NULL;
+          if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_1))) {
+            __pyx_t_8 = PyMethod_GET_SELF(__pyx_t_1);
+            if (likely(__pyx_t_8)) {
+              PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_1);
+              __Pyx_INCREF(__pyx_t_8);
+              __Pyx_INCREF(function);
+              __Pyx_DECREF_SET(__pyx_t_1, function);
+            }
+          }
+          __pyx_t_5 = (__pyx_t_8) ? __Pyx_PyObject_Call2Args(__pyx_t_1, __pyx_t_8, __pyx_t_2) : __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_2);
+          __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
+          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+          if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 540, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_5);
+          __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+          __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+
+          /* "potential.pyx":543
+ * 							"Found elements {}{}, {}{} closer than {} Angstroms".format(
+ * 							elemi,ioni,elemj,ionj,min_dist))
+ * 						return 1             # <<<<<<<<<<<<<<
+ * 
+ * 		return 0
+ */
+          __pyx_r = 1;
+          goto __pyx_L0;
+
+          /* "potential.pyx":539
+ * 								(pos[ioni, 2]-pos[ionj, 2])*(pos[ioni, 2]-pos[ionj, 2]))
+ * 					min_dist = radius_dict[elemi]+radius_dict[elemj]
+ * 					if dist < (fraction*min_dist):             # <<<<<<<<<<<<<<
+ * 						warnings.warn(\
+ * 							"Found elements {}{}, {}{} closer than {} Angstroms".format(
+ */
+        }
+
+        /* "potential.pyx":533
+ * 			elemi = self.chemical_symbols[ioni]
+ * 			for ionj in range(N):
+ * 				if ioni!=ionj:             # <<<<<<<<<<<<<<
+ * 					elemj = self.chemical_symbols[ionj]
+ * 					dist = sqrt((pos[ioni, 0]-pos[ionj, 0])*(pos[ioni, 0]-pos[ionj, 0])+ \
+ */
+      }
+    }
+  }
+
+  /* "potential.pyx":545
+ * 						return 1
+ * 
+ * 		return 0             # <<<<<<<<<<<<<<
+ * 
+ * 	cdef int get_cutoff(self, double[:,:] vects, float hi):
+ */
+  __pyx_r = 0;
+  goto __pyx_L0;
+
+  /* "potential.pyx":520
+ * 		self.param_flag = True
+ * 
+ * 	cpdef int catastrophe_check(self, \             # <<<<<<<<<<<<<<
+ * 		double[:,:] pos, double fraction, radius_dict) except -1:
+ * 		"""Check if there are ions in the unit cellthat are too close
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_6);
+  __Pyx_XDECREF(__pyx_t_8);
+  __Pyx_XDECREF(__pyx_t_42);
+  __Pyx_XDECREF(__pyx_t_43);
+  __Pyx_AddTraceback("potential.Buckingham.catastrophe_check", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = -1;
+  __pyx_L0:;
+  __Pyx_XDECREF(__pyx_v_elemi);
+  __Pyx_XDECREF(__pyx_v_elemj);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static PyObject *__pyx_pw_9potential_10Buckingham_5catastrophe_check(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_9potential_10Buckingham_4catastrophe_check[] = "Check if there are ions in the unit cellthat are too close \n\t\tcausing Buckingham catastrophe.\n\n\t\t";
+static PyObject *__pyx_pw_9potential_10Buckingham_5catastrophe_check(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  __Pyx_memviewslice __pyx_v_pos = { 0, 0, { 0 }, { 0 }, { 0 } };
+  double __pyx_v_fraction;
+  PyObject *__pyx_v_radius_dict = 0;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("catastrophe_check (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_pos,&__pyx_n_s_fraction,&__pyx_n_s_radius_dict,0};
+    PyObject* values[3] = {0,0,0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+        CYTHON_FALLTHROUGH;
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_pos)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_fraction)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("catastrophe_check", 1, 3, 3, 1); __PYX_ERR(0, 520, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  2:
+        if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_radius_dict)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("catastrophe_check", 1, 3, 3, 2); __PYX_ERR(0, 520, __pyx_L3_error)
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "catastrophe_check") < 0)) __PYX_ERR(0, 520, __pyx_L3_error)
+      }
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+      values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+    }
+    __pyx_v_pos = __Pyx_PyObject_to_MemoryviewSlice_dsds_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_pos.memview)) __PYX_ERR(0, 521, __pyx_L3_error)
+    __pyx_v_fraction = __pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_fraction == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 521, __pyx_L3_error)
+    __pyx_v_radius_dict = values[2];
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("catastrophe_check", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 520, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("potential.Buckingham.catastrophe_check", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_9potential_10Buckingham_4catastrophe_check(((struct __pyx_obj_9potential_Buckingham *)__pyx_v_self), __pyx_v_pos, __pyx_v_fraction, __pyx_v_radius_dict);
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_9potential_10Buckingham_4catastrophe_check(struct __pyx_obj_9potential_Buckingham *__pyx_v_self, __Pyx_memviewslice __pyx_v_pos, double __pyx_v_fraction, PyObject *__pyx_v_radius_dict) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  int __pyx_t_1;
+  PyObject *__pyx_t_2 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("catastrophe_check", 0);
+  __Pyx_XDECREF(__pyx_r);
+  if (unlikely(!__pyx_v_pos.memview)) { __Pyx_RaiseUnboundLocalError("pos"); __PYX_ERR(0, 520, __pyx_L1_error) }
+  __pyx_t_1 = __pyx_f_9potential_10Buckingham_catastrophe_check(__pyx_v_self, __pyx_v_pos, __pyx_v_fraction, __pyx_v_radius_dict, 1); if (unlikely(__pyx_t_1 == ((int)-1))) __PYX_ERR(0, 520, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 520, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_r = __pyx_t_2;
+  __pyx_t_2 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_AddTraceback("potential.Buckingham.catastrophe_check", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __PYX_XDEC_MEMVIEW(&__pyx_v_pos, 1);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "potential.pyx":547
+ * 		return 0
  * 
  * 	cdef int get_cutoff(self, double[:,:] vects, float hi):             # <<<<<<<<<<<<<<
  * 		"""Find how many cells away to check
@@ -11606,7 +12374,7 @@ static int __pyx_f_9potential_10Buckingham_get_cutoff(CYTHON_UNUSED struct __pyx
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get_cutoff", 0);
 
-  /* "potential.pyx":538
+  /* "potential.pyx":553
  * 		"""
  * 		cdef int cutoff
  * 		cdef double min_cell = INT_MAX             # <<<<<<<<<<<<<<
@@ -11615,7 +12383,7 @@ static int __pyx_f_9potential_10Buckingham_get_cutoff(CYTHON_UNUSED struct __pyx
  */
   __pyx_v_min_cell = INT_MAX;
 
-  /* "potential.pyx":539
+  /* "potential.pyx":554
  * 		cdef int cutoff
  * 		cdef double min_cell = INT_MAX
  * 		for x in range(3):             # <<<<<<<<<<<<<<
@@ -11625,7 +12393,7 @@ static int __pyx_f_9potential_10Buckingham_get_cutoff(CYTHON_UNUSED struct __pyx
   for (__pyx_t_1 = 0; __pyx_t_1 < 3; __pyx_t_1+=1) {
     __pyx_v_x = __pyx_t_1;
 
-    /* "potential.pyx":540
+    /* "potential.pyx":555
  * 		cdef double min_cell = INT_MAX
  * 		for x in range(3):
  * 			for y in range(3):             # <<<<<<<<<<<<<<
@@ -11635,7 +12403,7 @@ static int __pyx_f_9potential_10Buckingham_get_cutoff(CYTHON_UNUSED struct __pyx
     for (__pyx_t_2 = 0; __pyx_t_2 < 3; __pyx_t_2+=1) {
       __pyx_v_y = __pyx_t_2;
 
-      /* "potential.pyx":541
+      /* "potential.pyx":556
  * 		for x in range(3):
  * 			for y in range(3):
  * 				if (vects[x,y]<min_cell) & (vects[x,y]!=0):             # <<<<<<<<<<<<<<
@@ -11655,7 +12423,7 @@ static int __pyx_f_9potential_10Buckingham_get_cutoff(CYTHON_UNUSED struct __pyx
       } else if (unlikely(__pyx_t_4 >= __pyx_v_vects.shape[1])) __pyx_t_5 = 1;
       if (unlikely(__pyx_t_5 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_5);
-        __PYX_ERR(0, 541, __pyx_L1_error)
+        __PYX_ERR(0, 556, __pyx_L1_error)
       }
       __pyx_t_6 = __pyx_v_x;
       __pyx_t_7 = __pyx_v_y;
@@ -11670,12 +12438,12 @@ static int __pyx_f_9potential_10Buckingham_get_cutoff(CYTHON_UNUSED struct __pyx
       } else if (unlikely(__pyx_t_7 >= __pyx_v_vects.shape[1])) __pyx_t_5 = 1;
       if (unlikely(__pyx_t_5 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_5);
-        __PYX_ERR(0, 541, __pyx_L1_error)
+        __PYX_ERR(0, 556, __pyx_L1_error)
       }
       __pyx_t_8 = ((((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_vects.data + __pyx_t_3 * __pyx_v_vects.strides[0]) ) + __pyx_t_4 * __pyx_v_vects.strides[1]) ))) < __pyx_v_min_cell) & ((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_vects.data + __pyx_t_6 * __pyx_v_vects.strides[0]) ) + __pyx_t_7 * __pyx_v_vects.strides[1]) ))) != 0.0)) != 0);
       if (__pyx_t_8) {
 
-        /* "potential.pyx":542
+        /* "potential.pyx":557
  * 			for y in range(3):
  * 				if (vects[x,y]<min_cell) & (vects[x,y]!=0):
  * 					min_cell = vects[x,y]             # <<<<<<<<<<<<<<
@@ -11695,11 +12463,11 @@ static int __pyx_f_9potential_10Buckingham_get_cutoff(CYTHON_UNUSED struct __pyx
         } else if (unlikely(__pyx_t_6 >= __pyx_v_vects.shape[1])) __pyx_t_5 = 1;
         if (unlikely(__pyx_t_5 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_5);
-          __PYX_ERR(0, 542, __pyx_L1_error)
+          __PYX_ERR(0, 557, __pyx_L1_error)
         }
         __pyx_v_min_cell = (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_vects.data + __pyx_t_7 * __pyx_v_vects.strides[0]) ) + __pyx_t_6 * __pyx_v_vects.strides[1]) )));
 
-        /* "potential.pyx":541
+        /* "potential.pyx":556
  * 		for x in range(3):
  * 			for y in range(3):
  * 				if (vects[x,y]<min_cell) & (vects[x,y]!=0):             # <<<<<<<<<<<<<<
@@ -11710,7 +12478,7 @@ static int __pyx_f_9potential_10Buckingham_get_cutoff(CYTHON_UNUSED struct __pyx
     }
   }
 
-  /* "potential.pyx":543
+  /* "potential.pyx":558
  * 				if (vects[x,y]<min_cell) & (vects[x,y]!=0):
  * 					min_cell = vects[x,y]
  * 		cutoff = int(ceil(hi/min_cell))             # <<<<<<<<<<<<<<
@@ -11719,11 +12487,11 @@ static int __pyx_f_9potential_10Buckingham_get_cutoff(CYTHON_UNUSED struct __pyx
  */
   if (unlikely(__pyx_v_min_cell == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(0, 543, __pyx_L1_error)
+    __PYX_ERR(0, 558, __pyx_L1_error)
   }
   __pyx_v_cutoff = ((int)ceil((((double)__pyx_v_hi) / __pyx_v_min_cell)));
 
-  /* "potential.pyx":544
+  /* "potential.pyx":559
  * 					min_cell = vects[x,y]
  * 		cutoff = int(ceil(hi/min_cell))
  * 		return cutoff             # <<<<<<<<<<<<<<
@@ -11733,8 +12501,8 @@ static int __pyx_f_9potential_10Buckingham_get_cutoff(CYTHON_UNUSED struct __pyx
   __pyx_r = __pyx_v_cutoff;
   goto __pyx_L0;
 
-  /* "potential.pyx":532
- * 		self.param_flag = True
+  /* "potential.pyx":547
+ * 		return 0
  * 
  * 	cdef int get_cutoff(self, double[:,:] vects, float hi):             # <<<<<<<<<<<<<<
  * 		"""Find how many cells away to check
@@ -11750,7 +12518,7 @@ static int __pyx_f_9potential_10Buckingham_get_cutoff(CYTHON_UNUSED struct __pyx
   return __pyx_r;
 }
 
-/* "potential.pyx":546
+/* "potential.pyx":561
  * 		return cutoff
  * 
  * 	cpdef calc(self, atoms):             # <<<<<<<<<<<<<<
@@ -11758,7 +12526,7 @@ static int __pyx_f_9potential_10Buckingham_get_cutoff(CYTHON_UNUSED struct __pyx
  * 
  */
 
-static PyObject *__pyx_pw_9potential_10Buckingham_5calc(PyObject *__pyx_v_self, PyObject *__pyx_v_atoms); /*proto*/
+static PyObject *__pyx_pw_9potential_10Buckingham_7calc(PyObject *__pyx_v_self, PyObject *__pyx_v_atoms); /*proto*/
 static PyObject *__pyx_f_9potential_10Buckingham_calc(struct __pyx_obj_9potential_Buckingham *__pyx_v_self, PyObject *__pyx_v_atoms, int __pyx_skip_dispatch) {
   PyObject *__pyx_v_pos = NULL;
   Py_ssize_t __pyx_v_N;
@@ -11788,9 +12556,9 @@ static PyObject *__pyx_f_9potential_10Buckingham_calc(struct __pyx_obj_9potentia
     if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
       PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
       #endif
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_calc); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 546, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_calc); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 561, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_9potential_10Buckingham_5calc)) {
+      if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_9potential_10Buckingham_7calc)) {
         __Pyx_XDECREF(__pyx_r);
         __Pyx_INCREF(__pyx_t_1);
         __pyx_t_3 = __pyx_t_1; __pyx_t_4 = NULL;
@@ -11805,7 +12573,7 @@ static PyObject *__pyx_f_9potential_10Buckingham_calc(struct __pyx_obj_9potentia
         }
         __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, __pyx_v_atoms) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_atoms);
         __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 546, __pyx_L1_error)
+        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 561, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         __pyx_r = __pyx_t_2;
@@ -11826,14 +12594,14 @@ static PyObject *__pyx_f_9potential_10Buckingham_calc(struct __pyx_obj_9potentia
     #endif
   }
 
-  /* "potential.pyx":550
+  /* "potential.pyx":565
  * 
  * 		"""
  * 		pos = atoms.get_positions()             # <<<<<<<<<<<<<<
  * 		N = len(atoms.get_positions())
  * 		vects = np.array(atoms.get_cell())
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_atoms, __pyx_n_s_get_positions); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 550, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_atoms, __pyx_n_s_get_positions); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 565, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -11847,20 +12615,20 @@ static PyObject *__pyx_f_9potential_10Buckingham_calc(struct __pyx_obj_9potentia
   }
   __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 550, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 565, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_pos = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "potential.pyx":551
+  /* "potential.pyx":566
  * 		"""
  * 		pos = atoms.get_positions()
  * 		N = len(atoms.get_positions())             # <<<<<<<<<<<<<<
  * 		vects = np.array(atoms.get_cell())
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_atoms, __pyx_n_s_get_positions); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 551, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_atoms, __pyx_n_s_get_positions); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 566, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -11874,26 +12642,26 @@ static PyObject *__pyx_f_9potential_10Buckingham_calc(struct __pyx_obj_9potentia
   }
   __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 551, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 566, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_5 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(0, 551, __pyx_L1_error)
+  __pyx_t_5 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(0, 566, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_N = __pyx_t_5;
 
-  /* "potential.pyx":552
+  /* "potential.pyx":567
  * 		pos = atoms.get_positions()
  * 		N = len(atoms.get_positions())
  * 		vects = np.array(atoms.get_cell())             # <<<<<<<<<<<<<<
  * 
  * 		if not self.param_flag:
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 552, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 567, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_array); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 552, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_array); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 567, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_atoms, __pyx_n_s_get_cell); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 552, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_atoms, __pyx_n_s_get_cell); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 567, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_6 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
@@ -11907,7 +12675,7 @@ static PyObject *__pyx_f_9potential_10Buckingham_calc(struct __pyx_obj_9potentia
   }
   __pyx_t_2 = (__pyx_t_6) ? __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_6) : __Pyx_PyObject_CallNoArg(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 552, __pyx_L1_error)
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 567, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_4 = NULL;
@@ -11923,13 +12691,13 @@ static PyObject *__pyx_f_9potential_10Buckingham_calc(struct __pyx_obj_9potentia
   __pyx_t_1 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, __pyx_t_2) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2);
   __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 552, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 567, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_vects = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "potential.pyx":554
+  /* "potential.pyx":569
  * 		vects = np.array(atoms.get_cell())
  * 
  * 		if not self.param_flag:             # <<<<<<<<<<<<<<
@@ -11939,20 +12707,20 @@ static PyObject *__pyx_f_9potential_10Buckingham_calc(struct __pyx_obj_9potentia
   __pyx_t_7 = ((!(__pyx_v_self->param_flag != 0)) != 0);
   if (unlikely(__pyx_t_7)) {
 
-    /* "potential.pyx":555
+    /* "potential.pyx":570
  * 
  * 		if not self.param_flag:
  * 			raise ValueError("Buckingham potential parameters are not set.")             # <<<<<<<<<<<<<<
  * 
  * 		return self.calc_real(pos, vects, N)
  */
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__8, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 555, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__8, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 570, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_Raise(__pyx_t_1, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __PYX_ERR(0, 555, __pyx_L1_error)
+    __PYX_ERR(0, 570, __pyx_L1_error)
 
-    /* "potential.pyx":554
+    /* "potential.pyx":569
  * 		vects = np.array(atoms.get_cell())
  * 
  * 		if not self.param_flag:             # <<<<<<<<<<<<<<
@@ -11961,7 +12729,7 @@ static PyObject *__pyx_f_9potential_10Buckingham_calc(struct __pyx_obj_9potentia
  */
   }
 
-  /* "potential.pyx":557
+  /* "potential.pyx":572
  * 			raise ValueError("Buckingham potential parameters are not set.")
  * 
  * 		return self.calc_real(pos, vects, N)             # <<<<<<<<<<<<<<
@@ -11969,22 +12737,22 @@ static PyObject *__pyx_f_9potential_10Buckingham_calc(struct __pyx_obj_9potentia
  * 	cdef double calc_real(self, double[:,:] pos, double[:,:] vects, int N) except? -1:
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_8 = __Pyx_PyObject_to_MemoryviewSlice_dsds_double(__pyx_v_pos, PyBUF_WRITABLE); if (unlikely(!__pyx_t_8.memview)) __PYX_ERR(0, 557, __pyx_L1_error)
-  __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_dsds_double(__pyx_v_vects, PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(0, 557, __pyx_L1_error)
-  __pyx_t_10 = ((struct __pyx_vtabstruct_9potential_Buckingham *)__pyx_v_self->__pyx_base.__pyx_vtab)->calc_real(__pyx_v_self, __pyx_t_8, __pyx_t_9, __pyx_v_N); if (unlikely(__pyx_t_10 == ((double)-1.0) && PyErr_Occurred())) __PYX_ERR(0, 557, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_to_MemoryviewSlice_dsds_double(__pyx_v_pos, PyBUF_WRITABLE); if (unlikely(!__pyx_t_8.memview)) __PYX_ERR(0, 572, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_dsds_double(__pyx_v_vects, PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(0, 572, __pyx_L1_error)
+  __pyx_t_10 = ((struct __pyx_vtabstruct_9potential_Buckingham *)__pyx_v_self->__pyx_base.__pyx_vtab)->calc_real(__pyx_v_self, __pyx_t_8, __pyx_t_9, __pyx_v_N); if (unlikely(__pyx_t_10 == ((double)-1.0) && PyErr_Occurred())) __PYX_ERR(0, 572, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_t_8, 1);
   __pyx_t_8.memview = NULL;
   __pyx_t_8.data = NULL;
   __PYX_XDEC_MEMVIEW(&__pyx_t_9, 1);
   __pyx_t_9.memview = NULL;
   __pyx_t_9.data = NULL;
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_t_10); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 557, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_t_10); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 572, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "potential.pyx":546
+  /* "potential.pyx":561
  * 		return cutoff
  * 
  * 	cpdef calc(self, atoms):             # <<<<<<<<<<<<<<
@@ -12012,20 +12780,20 @@ static PyObject *__pyx_f_9potential_10Buckingham_calc(struct __pyx_obj_9potentia
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_9potential_10Buckingham_5calc(PyObject *__pyx_v_self, PyObject *__pyx_v_atoms); /*proto*/
-static char __pyx_doc_9potential_10Buckingham_4calc[] = "Interatomic potential wrapper.\n\t\t\n\t\t";
-static PyObject *__pyx_pw_9potential_10Buckingham_5calc(PyObject *__pyx_v_self, PyObject *__pyx_v_atoms) {
+static PyObject *__pyx_pw_9potential_10Buckingham_7calc(PyObject *__pyx_v_self, PyObject *__pyx_v_atoms); /*proto*/
+static char __pyx_doc_9potential_10Buckingham_6calc[] = "Interatomic potential wrapper.\n\t\t\n\t\t";
+static PyObject *__pyx_pw_9potential_10Buckingham_7calc(PyObject *__pyx_v_self, PyObject *__pyx_v_atoms) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("calc (wrapper)", 0);
-  __pyx_r = __pyx_pf_9potential_10Buckingham_4calc(((struct __pyx_obj_9potential_Buckingham *)__pyx_v_self), ((PyObject *)__pyx_v_atoms));
+  __pyx_r = __pyx_pf_9potential_10Buckingham_6calc(((struct __pyx_obj_9potential_Buckingham *)__pyx_v_self), ((PyObject *)__pyx_v_atoms));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_9potential_10Buckingham_4calc(struct __pyx_obj_9potential_Buckingham *__pyx_v_self, PyObject *__pyx_v_atoms) {
+static PyObject *__pyx_pf_9potential_10Buckingham_6calc(struct __pyx_obj_9potential_Buckingham *__pyx_v_self, PyObject *__pyx_v_atoms) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -12034,7 +12802,7 @@ static PyObject *__pyx_pf_9potential_10Buckingham_4calc(struct __pyx_obj_9potent
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("calc", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_9potential_10Buckingham_calc(__pyx_v_self, __pyx_v_atoms, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 546, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_9potential_10Buckingham_calc(__pyx_v_self, __pyx_v_atoms, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 561, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -12051,7 +12819,7 @@ static PyObject *__pyx_pf_9potential_10Buckingham_4calc(struct __pyx_obj_9potent
   return __pyx_r;
 }
 
-/* "potential.pyx":559
+/* "potential.pyx":574
  * 		return self.calc_real(pos, vects, N)
  * 
  * 	cdef double calc_real(self, double[:,:] pos, double[:,:] vects, int N) except? -1:             # <<<<<<<<<<<<<<
@@ -12124,7 +12892,7 @@ static double __pyx_f_9potential_10Buckingham_calc_real(struct __pyx_obj_9potent
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("calc_real", 0);
 
-  /* "potential.pyx":563
+  /* "potential.pyx":578
  * 
  * 		"""
  * 		cdef double A,rho, C, dist, esum = 0             # <<<<<<<<<<<<<<
@@ -12133,7 +12901,7 @@ static double __pyx_f_9potential_10Buckingham_calc_real(struct __pyx_obj_9potent
  */
   __pyx_v_esum = 0.0;
 
-  /* "potential.pyx":566
+  /* "potential.pyx":581
  * 		cdef int ioni, ionj, no_shifts
  * 
  * 		self.e = 0             # <<<<<<<<<<<<<<
@@ -12142,7 +12910,7 @@ static double __pyx_f_9potential_10Buckingham_calc_real(struct __pyx_obj_9potent
  */
   __pyx_v_self->e = 0.0;
 
-  /* "potential.pyx":568
+  /* "potential.pyx":583
  * 		self.e = 0
  * 
  * 		for ioni in range(N):             # <<<<<<<<<<<<<<
@@ -12154,7 +12922,7 @@ static double __pyx_f_9potential_10Buckingham_calc_real(struct __pyx_obj_9potent
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_ioni = __pyx_t_3;
 
-    /* "potential.pyx":569
+    /* "potential.pyx":584
  * 
  * 		for ioni in range(N):
  * 			for ionj in range(N):             # <<<<<<<<<<<<<<
@@ -12166,19 +12934,19 @@ static double __pyx_f_9potential_10Buckingham_calc_real(struct __pyx_obj_9potent
     for (__pyx_t_6 = 0; __pyx_t_6 < __pyx_t_5; __pyx_t_6+=1) {
       __pyx_v_ionj = __pyx_t_6;
 
-      /* "potential.pyx":571
+      /* "potential.pyx":586
  * 			for ionj in range(N):
  * 				# Find the pair we are examining
  * 				pair = (min(self.chemical_symbols[ioni], self.chemical_symbols[ionj]),             # <<<<<<<<<<<<<<
  * 						max(self.chemical_symbols[ioni], self.chemical_symbols[ionj]))
  * 				if (pair in buck):
  */
-      __pyx_t_7 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->chemical_symbols), __pyx_v_ionj, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 571, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->chemical_symbols), __pyx_v_ionj, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 586, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_8 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->chemical_symbols), __pyx_v_ioni, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 571, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->chemical_symbols), __pyx_v_ioni, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 586, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
-      __pyx_t_10 = PyObject_RichCompare(__pyx_t_7, __pyx_t_8, Py_LT); __Pyx_XGOTREF(__pyx_t_10); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 571, __pyx_L1_error)
-      __pyx_t_11 = __Pyx_PyObject_IsTrue(__pyx_t_10); if (unlikely(__pyx_t_11 < 0)) __PYX_ERR(0, 571, __pyx_L1_error)
+      __pyx_t_10 = PyObject_RichCompare(__pyx_t_7, __pyx_t_8, Py_LT); __Pyx_XGOTREF(__pyx_t_10); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 586, __pyx_L1_error)
+      __pyx_t_11 = __Pyx_PyObject_IsTrue(__pyx_t_10); if (unlikely(__pyx_t_11 < 0)) __PYX_ERR(0, 586, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
       if (__pyx_t_11) {
         __Pyx_INCREF(__pyx_t_7);
@@ -12190,19 +12958,19 @@ static double __pyx_f_9potential_10Buckingham_calc_real(struct __pyx_obj_9potent
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-      /* "potential.pyx":572
+      /* "potential.pyx":587
  * 				# Find the pair we are examining
  * 				pair = (min(self.chemical_symbols[ioni], self.chemical_symbols[ionj]),
  * 						max(self.chemical_symbols[ioni], self.chemical_symbols[ionj]))             # <<<<<<<<<<<<<<
  * 				if (pair in buck):
  * 					# Pair of ions is listed in parameters file
  */
-      __pyx_t_7 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->chemical_symbols), __pyx_v_ionj, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 572, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->chemical_symbols), __pyx_v_ionj, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 587, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_8 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->chemical_symbols), __pyx_v_ioni, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 572, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->chemical_symbols), __pyx_v_ioni, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 587, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
-      __pyx_t_12 = PyObject_RichCompare(__pyx_t_7, __pyx_t_8, Py_GT); __Pyx_XGOTREF(__pyx_t_12); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 572, __pyx_L1_error)
-      __pyx_t_11 = __Pyx_PyObject_IsTrue(__pyx_t_12); if (unlikely(__pyx_t_11 < 0)) __PYX_ERR(0, 572, __pyx_L1_error)
+      __pyx_t_12 = PyObject_RichCompare(__pyx_t_7, __pyx_t_8, Py_GT); __Pyx_XGOTREF(__pyx_t_12); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 587, __pyx_L1_error)
+      __pyx_t_11 = __Pyx_PyObject_IsTrue(__pyx_t_12); if (unlikely(__pyx_t_11 < 0)) __PYX_ERR(0, 587, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
       if (__pyx_t_11) {
         __Pyx_INCREF(__pyx_t_7);
@@ -12214,14 +12982,14 @@ static double __pyx_f_9potential_10Buckingham_calc_real(struct __pyx_obj_9potent
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-      /* "potential.pyx":571
+      /* "potential.pyx":586
  * 			for ionj in range(N):
  * 				# Find the pair we are examining
  * 				pair = (min(self.chemical_symbols[ioni], self.chemical_symbols[ionj]),             # <<<<<<<<<<<<<<
  * 						max(self.chemical_symbols[ioni], self.chemical_symbols[ionj]))
  * 				if (pair in buck):
  */
-      __pyx_t_7 = PyTuple_New(2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 571, __pyx_L1_error)
+      __pyx_t_7 = PyTuple_New(2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 586, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_INCREF(__pyx_t_9);
       __Pyx_GIVEREF(__pyx_t_9);
@@ -12234,87 +13002,87 @@ static double __pyx_f_9potential_10Buckingham_calc_real(struct __pyx_obj_9potent
       __Pyx_XDECREF_SET(__pyx_v_pair, ((PyObject*)__pyx_t_7));
       __pyx_t_7 = 0;
 
-      /* "potential.pyx":573
+      /* "potential.pyx":588
  * 				pair = (min(self.chemical_symbols[ioni], self.chemical_symbols[ionj]),
  * 						max(self.chemical_symbols[ioni], self.chemical_symbols[ionj]))
  * 				if (pair in buck):             # <<<<<<<<<<<<<<
  * 					# Pair of ions is listed in parameters file
  * 					A = buck[pair]['par'][0]
  */
-      __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_buck); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 573, __pyx_L1_error)
+      __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_buck); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 588, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_11 = (__Pyx_PySequence_ContainsTF(__pyx_v_pair, __pyx_t_7, Py_EQ)); if (unlikely(__pyx_t_11 < 0)) __PYX_ERR(0, 573, __pyx_L1_error)
+      __pyx_t_11 = (__Pyx_PySequence_ContainsTF(__pyx_v_pair, __pyx_t_7, Py_EQ)); if (unlikely(__pyx_t_11 < 0)) __PYX_ERR(0, 588, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __pyx_t_13 = (__pyx_t_11 != 0);
       if (__pyx_t_13) {
 
-        /* "potential.pyx":575
+        /* "potential.pyx":590
  * 				if (pair in buck):
  * 					# Pair of ions is listed in parameters file
  * 					A = buck[pair]['par'][0]             # <<<<<<<<<<<<<<
  * 					rho = buck[pair]['par'][1]
  * 					C = buck[pair]['par'][2]
  */
-        __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_buck); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 575, __pyx_L1_error)
+        __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_buck); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 590, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_10 = __Pyx_PyObject_GetItem(__pyx_t_7, __pyx_v_pair); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 575, __pyx_L1_error)
+        __pyx_t_10 = __Pyx_PyObject_GetItem(__pyx_t_7, __pyx_v_pair); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 590, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_10);
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-        __pyx_t_7 = __Pyx_PyObject_Dict_GetItem(__pyx_t_10, __pyx_n_u_par); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 575, __pyx_L1_error)
+        __pyx_t_7 = __Pyx_PyObject_Dict_GetItem(__pyx_t_10, __pyx_n_u_par); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 590, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
         __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-        __pyx_t_10 = __Pyx_GetItemInt(__pyx_t_7, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 575, __pyx_L1_error)
+        __pyx_t_10 = __Pyx_GetItemInt(__pyx_t_7, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 590, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_10);
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-        __pyx_t_14 = __pyx_PyFloat_AsDouble(__pyx_t_10); if (unlikely((__pyx_t_14 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 575, __pyx_L1_error)
+        __pyx_t_14 = __pyx_PyFloat_AsDouble(__pyx_t_10); if (unlikely((__pyx_t_14 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 590, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
         __pyx_v_A = __pyx_t_14;
 
-        /* "potential.pyx":576
+        /* "potential.pyx":591
  * 					# Pair of ions is listed in parameters file
  * 					A = buck[pair]['par'][0]
  * 					rho = buck[pair]['par'][1]             # <<<<<<<<<<<<<<
  * 					C = buck[pair]['par'][2]
  * 
  */
-        __Pyx_GetModuleGlobalName(__pyx_t_10, __pyx_n_s_buck); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 576, __pyx_L1_error)
+        __Pyx_GetModuleGlobalName(__pyx_t_10, __pyx_n_s_buck); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 591, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_10);
-        __pyx_t_7 = __Pyx_PyObject_GetItem(__pyx_t_10, __pyx_v_pair); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 576, __pyx_L1_error)
+        __pyx_t_7 = __Pyx_PyObject_GetItem(__pyx_t_10, __pyx_v_pair); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 591, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
         __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-        __pyx_t_10 = __Pyx_PyObject_Dict_GetItem(__pyx_t_7, __pyx_n_u_par); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 576, __pyx_L1_error)
+        __pyx_t_10 = __Pyx_PyObject_Dict_GetItem(__pyx_t_7, __pyx_n_u_par); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 591, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_10);
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-        __pyx_t_7 = __Pyx_GetItemInt(__pyx_t_10, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 576, __pyx_L1_error)
+        __pyx_t_7 = __Pyx_GetItemInt(__pyx_t_10, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 591, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
         __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-        __pyx_t_14 = __pyx_PyFloat_AsDouble(__pyx_t_7); if (unlikely((__pyx_t_14 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 576, __pyx_L1_error)
+        __pyx_t_14 = __pyx_PyFloat_AsDouble(__pyx_t_7); if (unlikely((__pyx_t_14 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 591, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
         __pyx_v_rho = __pyx_t_14;
 
-        /* "potential.pyx":577
+        /* "potential.pyx":592
  * 					A = buck[pair]['par'][0]
  * 					rho = buck[pair]['par'][1]
  * 					C = buck[pair]['par'][2]             # <<<<<<<<<<<<<<
  * 
  * 					dist = (pos[ioni, 0]-pos[ionj, 0])*(pos[ioni, 0]-pos[ionj, 0])+ \
  */
-        __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_buck); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 577, __pyx_L1_error)
+        __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_buck); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 592, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_10 = __Pyx_PyObject_GetItem(__pyx_t_7, __pyx_v_pair); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 577, __pyx_L1_error)
+        __pyx_t_10 = __Pyx_PyObject_GetItem(__pyx_t_7, __pyx_v_pair); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 592, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_10);
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-        __pyx_t_7 = __Pyx_PyObject_Dict_GetItem(__pyx_t_10, __pyx_n_u_par); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 577, __pyx_L1_error)
+        __pyx_t_7 = __Pyx_PyObject_Dict_GetItem(__pyx_t_10, __pyx_n_u_par); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 592, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
         __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-        __pyx_t_10 = __Pyx_GetItemInt(__pyx_t_7, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 577, __pyx_L1_error)
+        __pyx_t_10 = __Pyx_GetItemInt(__pyx_t_7, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 592, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_10);
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-        __pyx_t_14 = __pyx_PyFloat_AsDouble(__pyx_t_10); if (unlikely((__pyx_t_14 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 577, __pyx_L1_error)
+        __pyx_t_14 = __pyx_PyFloat_AsDouble(__pyx_t_10); if (unlikely((__pyx_t_14 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 592, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
         __pyx_v_C = __pyx_t_14;
 
-        /* "potential.pyx":579
+        /* "potential.pyx":594
  * 					C = buck[pair]['par'][2]
  * 
  * 					dist = (pos[ioni, 0]-pos[ionj, 0])*(pos[ioni, 0]-pos[ionj, 0])+ \             # <<<<<<<<<<<<<<
@@ -12334,7 +13102,7 @@ static double __pyx_f_9potential_10Buckingham_calc_real(struct __pyx_obj_9potent
         } else if (unlikely(__pyx_t_16 >= __pyx_v_pos.shape[1])) __pyx_t_17 = 1;
         if (unlikely(__pyx_t_17 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_17);
-          __PYX_ERR(0, 579, __pyx_L1_error)
+          __PYX_ERR(0, 594, __pyx_L1_error)
         }
         __pyx_t_18 = __pyx_v_ionj;
         __pyx_t_19 = 0;
@@ -12349,7 +13117,7 @@ static double __pyx_f_9potential_10Buckingham_calc_real(struct __pyx_obj_9potent
         } else if (unlikely(__pyx_t_19 >= __pyx_v_pos.shape[1])) __pyx_t_17 = 1;
         if (unlikely(__pyx_t_17 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_17);
-          __PYX_ERR(0, 579, __pyx_L1_error)
+          __PYX_ERR(0, 594, __pyx_L1_error)
         }
         __pyx_t_20 = __pyx_v_ioni;
         __pyx_t_21 = 0;
@@ -12364,7 +13132,7 @@ static double __pyx_f_9potential_10Buckingham_calc_real(struct __pyx_obj_9potent
         } else if (unlikely(__pyx_t_21 >= __pyx_v_pos.shape[1])) __pyx_t_17 = 1;
         if (unlikely(__pyx_t_17 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_17);
-          __PYX_ERR(0, 579, __pyx_L1_error)
+          __PYX_ERR(0, 594, __pyx_L1_error)
         }
         __pyx_t_22 = __pyx_v_ionj;
         __pyx_t_23 = 0;
@@ -12379,10 +13147,10 @@ static double __pyx_f_9potential_10Buckingham_calc_real(struct __pyx_obj_9potent
         } else if (unlikely(__pyx_t_23 >= __pyx_v_pos.shape[1])) __pyx_t_17 = 1;
         if (unlikely(__pyx_t_17 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_17);
-          __PYX_ERR(0, 579, __pyx_L1_error)
+          __PYX_ERR(0, 594, __pyx_L1_error)
         }
 
-        /* "potential.pyx":580
+        /* "potential.pyx":595
  * 
  * 					dist = (pos[ioni, 0]-pos[ionj, 0])*(pos[ioni, 0]-pos[ionj, 0])+ \
  * 							(pos[ioni, 1]-pos[ionj, 1])*(pos[ioni, 1]-pos[ionj, 1])+ \             # <<<<<<<<<<<<<<
@@ -12402,7 +13170,7 @@ static double __pyx_f_9potential_10Buckingham_calc_real(struct __pyx_obj_9potent
         } else if (unlikely(__pyx_t_25 >= __pyx_v_pos.shape[1])) __pyx_t_17 = 1;
         if (unlikely(__pyx_t_17 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_17);
-          __PYX_ERR(0, 580, __pyx_L1_error)
+          __PYX_ERR(0, 595, __pyx_L1_error)
         }
         __pyx_t_26 = __pyx_v_ionj;
         __pyx_t_27 = 1;
@@ -12417,7 +13185,7 @@ static double __pyx_f_9potential_10Buckingham_calc_real(struct __pyx_obj_9potent
         } else if (unlikely(__pyx_t_27 >= __pyx_v_pos.shape[1])) __pyx_t_17 = 1;
         if (unlikely(__pyx_t_17 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_17);
-          __PYX_ERR(0, 580, __pyx_L1_error)
+          __PYX_ERR(0, 595, __pyx_L1_error)
         }
         __pyx_t_28 = __pyx_v_ioni;
         __pyx_t_29 = 1;
@@ -12432,7 +13200,7 @@ static double __pyx_f_9potential_10Buckingham_calc_real(struct __pyx_obj_9potent
         } else if (unlikely(__pyx_t_29 >= __pyx_v_pos.shape[1])) __pyx_t_17 = 1;
         if (unlikely(__pyx_t_17 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_17);
-          __PYX_ERR(0, 580, __pyx_L1_error)
+          __PYX_ERR(0, 595, __pyx_L1_error)
         }
         __pyx_t_30 = __pyx_v_ionj;
         __pyx_t_31 = 1;
@@ -12447,10 +13215,10 @@ static double __pyx_f_9potential_10Buckingham_calc_real(struct __pyx_obj_9potent
         } else if (unlikely(__pyx_t_31 >= __pyx_v_pos.shape[1])) __pyx_t_17 = 1;
         if (unlikely(__pyx_t_17 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_17);
-          __PYX_ERR(0, 580, __pyx_L1_error)
+          __PYX_ERR(0, 595, __pyx_L1_error)
         }
 
-        /* "potential.pyx":581
+        /* "potential.pyx":596
  * 					dist = (pos[ioni, 0]-pos[ionj, 0])*(pos[ioni, 0]-pos[ionj, 0])+ \
  * 							(pos[ioni, 1]-pos[ionj, 1])*(pos[ioni, 1]-pos[ionj, 1])+ \
  * 							(pos[ioni, 2]-pos[ionj, 2])*(pos[ioni, 2]-pos[ionj, 2])             # <<<<<<<<<<<<<<
@@ -12470,7 +13238,7 @@ static double __pyx_f_9potential_10Buckingham_calc_real(struct __pyx_obj_9potent
         } else if (unlikely(__pyx_t_33 >= __pyx_v_pos.shape[1])) __pyx_t_17 = 1;
         if (unlikely(__pyx_t_17 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_17);
-          __PYX_ERR(0, 581, __pyx_L1_error)
+          __PYX_ERR(0, 596, __pyx_L1_error)
         }
         __pyx_t_34 = __pyx_v_ionj;
         __pyx_t_35 = 2;
@@ -12485,7 +13253,7 @@ static double __pyx_f_9potential_10Buckingham_calc_real(struct __pyx_obj_9potent
         } else if (unlikely(__pyx_t_35 >= __pyx_v_pos.shape[1])) __pyx_t_17 = 1;
         if (unlikely(__pyx_t_17 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_17);
-          __PYX_ERR(0, 581, __pyx_L1_error)
+          __PYX_ERR(0, 596, __pyx_L1_error)
         }
         __pyx_t_36 = __pyx_v_ioni;
         __pyx_t_37 = 2;
@@ -12500,7 +13268,7 @@ static double __pyx_f_9potential_10Buckingham_calc_real(struct __pyx_obj_9potent
         } else if (unlikely(__pyx_t_37 >= __pyx_v_pos.shape[1])) __pyx_t_17 = 1;
         if (unlikely(__pyx_t_17 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_17);
-          __PYX_ERR(0, 581, __pyx_L1_error)
+          __PYX_ERR(0, 596, __pyx_L1_error)
         }
         __pyx_t_38 = __pyx_v_ionj;
         __pyx_t_39 = 2;
@@ -12515,10 +13283,10 @@ static double __pyx_f_9potential_10Buckingham_calc_real(struct __pyx_obj_9potent
         } else if (unlikely(__pyx_t_39 >= __pyx_v_pos.shape[1])) __pyx_t_17 = 1;
         if (unlikely(__pyx_t_17 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_17);
-          __PYX_ERR(0, 581, __pyx_L1_error)
+          __PYX_ERR(0, 596, __pyx_L1_error)
         }
 
-        /* "potential.pyx":580
+        /* "potential.pyx":595
  * 
  * 					dist = (pos[ioni, 0]-pos[ionj, 0])*(pos[ioni, 0]-pos[ionj, 0])+ \
  * 							(pos[ioni, 1]-pos[ionj, 1])*(pos[ioni, 1]-pos[ionj, 1])+ \             # <<<<<<<<<<<<<<
@@ -12527,7 +13295,7 @@ static double __pyx_f_9potential_10Buckingham_calc_real(struct __pyx_obj_9potent
  */
         __pyx_v_dist = (((((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_15 * __pyx_v_pos.strides[0]) ) + __pyx_t_16 * __pyx_v_pos.strides[1]) ))) - (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_18 * __pyx_v_pos.strides[0]) ) + __pyx_t_19 * __pyx_v_pos.strides[1]) )))) * ((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_20 * __pyx_v_pos.strides[0]) ) + __pyx_t_21 * __pyx_v_pos.strides[1]) ))) - (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_22 * __pyx_v_pos.strides[0]) ) + __pyx_t_23 * __pyx_v_pos.strides[1]) ))))) + (((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_24 * __pyx_v_pos.strides[0]) ) + __pyx_t_25 * __pyx_v_pos.strides[1]) ))) - (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_26 * __pyx_v_pos.strides[0]) ) + __pyx_t_27 * __pyx_v_pos.strides[1]) )))) * ((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_28 * __pyx_v_pos.strides[0]) ) + __pyx_t_29 * __pyx_v_pos.strides[1]) ))) - (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_30 * __pyx_v_pos.strides[0]) ) + __pyx_t_31 * __pyx_v_pos.strides[1]) )))))) + (((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_32 * __pyx_v_pos.strides[0]) ) + __pyx_t_33 * __pyx_v_pos.strides[1]) ))) - (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_34 * __pyx_v_pos.strides[0]) ) + __pyx_t_35 * __pyx_v_pos.strides[1]) )))) * ((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_36 * __pyx_v_pos.strides[0]) ) + __pyx_t_37 * __pyx_v_pos.strides[1]) ))) - (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_38 * __pyx_v_pos.strides[0]) ) + __pyx_t_39 * __pyx_v_pos.strides[1]) ))))));
 
-        /* "potential.pyx":582
+        /* "potential.pyx":597
  * 							(pos[ioni, 1]-pos[ionj, 1])*(pos[ioni, 1]-pos[ionj, 1])+ \
  * 							(pos[ioni, 2]-pos[ionj, 2])*(pos[ioni, 2]-pos[ionj, 2])
  * 					dist = sqrt(dist)             # <<<<<<<<<<<<<<
@@ -12536,37 +13304,37 @@ static double __pyx_f_9potential_10Buckingham_calc_real(struct __pyx_obj_9potent
  */
         __pyx_v_dist = sqrt(__pyx_v_dist);
 
-        /* "potential.pyx":584
+        /* "potential.pyx":599
  * 					dist = sqrt(dist)
  * 					# Check if distance of ions allows interaction
  * 					if (dist < buck[pair]['hi']) & (ioni != ionj):             # <<<<<<<<<<<<<<
  * 						esum += A*exp(-1.0*dist/rho) - C/dist**6
  * 
  */
-        __pyx_t_10 = PyFloat_FromDouble(__pyx_v_dist); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 584, __pyx_L1_error)
+        __pyx_t_10 = PyFloat_FromDouble(__pyx_v_dist); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 599, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_10);
-        __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_buck); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 584, __pyx_L1_error)
+        __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_buck); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 599, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_9 = __Pyx_PyObject_GetItem(__pyx_t_7, __pyx_v_pair); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 584, __pyx_L1_error)
+        __pyx_t_9 = __Pyx_PyObject_GetItem(__pyx_t_7, __pyx_v_pair); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 599, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_9);
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-        __pyx_t_7 = __Pyx_PyObject_Dict_GetItem(__pyx_t_9, __pyx_n_u_hi); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 584, __pyx_L1_error)
+        __pyx_t_7 = __Pyx_PyObject_Dict_GetItem(__pyx_t_9, __pyx_n_u_hi); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 599, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
         __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-        __pyx_t_9 = PyObject_RichCompare(__pyx_t_10, __pyx_t_7, Py_LT); __Pyx_XGOTREF(__pyx_t_9); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 584, __pyx_L1_error)
+        __pyx_t_9 = PyObject_RichCompare(__pyx_t_10, __pyx_t_7, Py_LT); __Pyx_XGOTREF(__pyx_t_9); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 599, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-        __pyx_t_7 = __Pyx_PyBool_FromLong((__pyx_v_ioni != __pyx_v_ionj)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 584, __pyx_L1_error)
+        __pyx_t_7 = __Pyx_PyBool_FromLong((__pyx_v_ioni != __pyx_v_ionj)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 599, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_10 = PyNumber_And(__pyx_t_9, __pyx_t_7); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 584, __pyx_L1_error)
+        __pyx_t_10 = PyNumber_And(__pyx_t_9, __pyx_t_7); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 599, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_10);
         __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-        __pyx_t_13 = __Pyx_PyObject_IsTrue(__pyx_t_10); if (unlikely(__pyx_t_13 < 0)) __PYX_ERR(0, 584, __pyx_L1_error)
+        __pyx_t_13 = __Pyx_PyObject_IsTrue(__pyx_t_10); if (unlikely(__pyx_t_13 < 0)) __PYX_ERR(0, 599, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
         if (__pyx_t_13) {
 
-          /* "potential.pyx":585
+          /* "potential.pyx":600
  * 					# Check if distance of ions allows interaction
  * 					if (dist < buck[pair]['hi']) & (ioni != ionj):
  * 						esum += A*exp(-1.0*dist/rho) - C/dist**6             # <<<<<<<<<<<<<<
@@ -12576,16 +13344,16 @@ static double __pyx_f_9potential_10Buckingham_calc_real(struct __pyx_obj_9potent
           __pyx_t_14 = (-1.0 * __pyx_v_dist);
           if (unlikely(__pyx_v_rho == 0)) {
             PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-            __PYX_ERR(0, 585, __pyx_L1_error)
+            __PYX_ERR(0, 600, __pyx_L1_error)
           }
           __pyx_t_40 = pow(__pyx_v_dist, 6.0);
           if (unlikely(__pyx_t_40 == 0)) {
             PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-            __PYX_ERR(0, 585, __pyx_L1_error)
+            __PYX_ERR(0, 600, __pyx_L1_error)
           }
           __pyx_v_esum = (__pyx_v_esum + ((__pyx_v_A * exp((__pyx_t_14 / __pyx_v_rho))) - (__pyx_v_C / __pyx_t_40)));
 
-          /* "potential.pyx":584
+          /* "potential.pyx":599
  * 					dist = sqrt(dist)
  * 					# Check if distance of ions allows interaction
  * 					if (dist < buck[pair]['hi']) & (ioni != ionj):             # <<<<<<<<<<<<<<
@@ -12594,34 +13362,34 @@ static double __pyx_f_9potential_10Buckingham_calc_real(struct __pyx_obj_9potent
  */
         }
 
-        /* "potential.pyx":588
+        /* "potential.pyx":603
  * 
  * 					# Check interactions with neighbouring cells
  * 					cutoff = self.get_cutoff(vects, buck[pair]['hi'])             # <<<<<<<<<<<<<<
  * 					shifts = self.get_shifts(cutoff, vects)
  * 					no_shifts = shifts.shape[0] # number of unit cell images-1
  */
-        __Pyx_GetModuleGlobalName(__pyx_t_10, __pyx_n_s_buck); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 588, __pyx_L1_error)
+        __Pyx_GetModuleGlobalName(__pyx_t_10, __pyx_n_s_buck); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 603, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_10);
-        __pyx_t_7 = __Pyx_PyObject_GetItem(__pyx_t_10, __pyx_v_pair); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 588, __pyx_L1_error)
+        __pyx_t_7 = __Pyx_PyObject_GetItem(__pyx_t_10, __pyx_v_pair); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 603, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
         __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-        __pyx_t_10 = __Pyx_PyObject_Dict_GetItem(__pyx_t_7, __pyx_n_u_hi); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 588, __pyx_L1_error)
+        __pyx_t_10 = __Pyx_PyObject_Dict_GetItem(__pyx_t_7, __pyx_n_u_hi); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 603, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_10);
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-        __pyx_t_41 = __pyx_PyFloat_AsFloat(__pyx_t_10); if (unlikely((__pyx_t_41 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 588, __pyx_L1_error)
+        __pyx_t_41 = __pyx_PyFloat_AsFloat(__pyx_t_10); if (unlikely((__pyx_t_41 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 603, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
         __pyx_v_cutoff = ((struct __pyx_vtabstruct_9potential_Buckingham *)__pyx_v_self->__pyx_base.__pyx_vtab)->get_cutoff(__pyx_v_self, __pyx_v_vects, __pyx_t_41);
 
-        /* "potential.pyx":589
+        /* "potential.pyx":604
  * 					# Check interactions with neighbouring cells
  * 					cutoff = self.get_cutoff(vects, buck[pair]['hi'])
  * 					shifts = self.get_shifts(cutoff, vects)             # <<<<<<<<<<<<<<
  * 					no_shifts = shifts.shape[0] # number of unit cell images-1
  * 					for shift in range(no_shifts):
  */
-        __pyx_t_42 = ((struct __pyx_vtabstruct_9potential_Buckingham *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.get_shifts(((struct __pyx_obj_9potential_Potential *)__pyx_v_self), __pyx_v_cutoff, __pyx_v_vects); if (unlikely(!__pyx_t_42.memview)) __PYX_ERR(0, 589, __pyx_L1_error)
-        __pyx_t_10 = __pyx_memoryview_fromslice(__pyx_t_42, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 589, __pyx_L1_error)
+        __pyx_t_42 = ((struct __pyx_vtabstruct_9potential_Buckingham *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.get_shifts(((struct __pyx_obj_9potential_Potential *)__pyx_v_self), __pyx_v_cutoff, __pyx_v_vects); if (unlikely(!__pyx_t_42.memview)) __PYX_ERR(0, 604, __pyx_L1_error)
+        __pyx_t_10 = __pyx_memoryview_fromslice(__pyx_t_42, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 604, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_10);
         __PYX_XDEC_MEMVIEW(&__pyx_t_42, 1);
         __pyx_t_42.memview = NULL;
@@ -12629,23 +13397,23 @@ static double __pyx_f_9potential_10Buckingham_calc_real(struct __pyx_obj_9potent
         __Pyx_XDECREF_SET(__pyx_v_shifts, __pyx_t_10);
         __pyx_t_10 = 0;
 
-        /* "potential.pyx":590
+        /* "potential.pyx":605
  * 					cutoff = self.get_cutoff(vects, buck[pair]['hi'])
  * 					shifts = self.get_shifts(cutoff, vects)
  * 					no_shifts = shifts.shape[0] # number of unit cell images-1             # <<<<<<<<<<<<<<
  * 					for shift in range(no_shifts):
  * 						dist = (pos[ioni, 0]+shifts[shift, 0]-pos[ionj, 0])*(pos[ioni, 0]+shifts[shift, 0]-pos[ionj, 0])+ \
  */
-        __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_v_shifts, __pyx_n_s_shape); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 590, __pyx_L1_error)
+        __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_v_shifts, __pyx_n_s_shape); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 605, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_10);
-        __pyx_t_7 = __Pyx_GetItemInt(__pyx_t_10, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 590, __pyx_L1_error)
+        __pyx_t_7 = __Pyx_GetItemInt(__pyx_t_10, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 605, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
         __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-        __pyx_t_17 = __Pyx_PyInt_As_int(__pyx_t_7); if (unlikely((__pyx_t_17 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 590, __pyx_L1_error)
+        __pyx_t_17 = __Pyx_PyInt_As_int(__pyx_t_7); if (unlikely((__pyx_t_17 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 605, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
         __pyx_v_no_shifts = __pyx_t_17;
 
-        /* "potential.pyx":591
+        /* "potential.pyx":606
  * 					shifts = self.get_shifts(cutoff, vects)
  * 					no_shifts = shifts.shape[0] # number of unit cell images-1
  * 					for shift in range(no_shifts):             # <<<<<<<<<<<<<<
@@ -12657,7 +13425,7 @@ static double __pyx_f_9potential_10Buckingham_calc_real(struct __pyx_obj_9potent
         for (__pyx_t_44 = 0; __pyx_t_44 < __pyx_t_43; __pyx_t_44+=1) {
           __pyx_v_shift = __pyx_t_44;
 
-          /* "potential.pyx":592
+          /* "potential.pyx":607
  * 					no_shifts = shifts.shape[0] # number of unit cell images-1
  * 					for shift in range(no_shifts):
  * 						dist = (pos[ioni, 0]+shifts[shift, 0]-pos[ionj, 0])*(pos[ioni, 0]+shifts[shift, 0]-pos[ionj, 0])+ \             # <<<<<<<<<<<<<<
@@ -12677,13 +13445,13 @@ static double __pyx_f_9potential_10Buckingham_calc_real(struct __pyx_obj_9potent
           } else if (unlikely(__pyx_t_38 >= __pyx_v_pos.shape[1])) __pyx_t_45 = 1;
           if (unlikely(__pyx_t_45 != -1)) {
             __Pyx_RaiseBufferIndexError(__pyx_t_45);
-            __PYX_ERR(0, 592, __pyx_L1_error)
+            __PYX_ERR(0, 607, __pyx_L1_error)
           }
-          __pyx_t_7 = PyFloat_FromDouble((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_39 * __pyx_v_pos.strides[0]) ) + __pyx_t_38 * __pyx_v_pos.strides[1]) )))); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 592, __pyx_L1_error)
+          __pyx_t_7 = PyFloat_FromDouble((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_39 * __pyx_v_pos.strides[0]) ) + __pyx_t_38 * __pyx_v_pos.strides[1]) )))); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 607, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_7);
-          __pyx_t_10 = __Pyx_PyInt_From_int(__pyx_v_shift); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 592, __pyx_L1_error)
+          __pyx_t_10 = __Pyx_PyInt_From_int(__pyx_v_shift); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 607, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_10);
-          __pyx_t_9 = PyTuple_New(2); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 592, __pyx_L1_error)
+          __pyx_t_9 = PyTuple_New(2); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 607, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_9);
           __Pyx_GIVEREF(__pyx_t_10);
           PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_t_10);
@@ -12691,10 +13459,10 @@ static double __pyx_f_9potential_10Buckingham_calc_real(struct __pyx_obj_9potent
           __Pyx_GIVEREF(__pyx_int_0);
           PyTuple_SET_ITEM(__pyx_t_9, 1, __pyx_int_0);
           __pyx_t_10 = 0;
-          __pyx_t_10 = __Pyx_PyObject_GetItem(__pyx_v_shifts, __pyx_t_9); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 592, __pyx_L1_error)
+          __pyx_t_10 = __Pyx_PyObject_GetItem(__pyx_v_shifts, __pyx_t_9); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 607, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_10);
           __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-          __pyx_t_9 = PyNumber_Add(__pyx_t_7, __pyx_t_10); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 592, __pyx_L1_error)
+          __pyx_t_9 = PyNumber_Add(__pyx_t_7, __pyx_t_10); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 607, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_9);
           __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
           __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
@@ -12711,11 +13479,11 @@ static double __pyx_f_9potential_10Buckingham_calc_real(struct __pyx_obj_9potent
           } else if (unlikely(__pyx_t_39 >= __pyx_v_pos.shape[1])) __pyx_t_45 = 1;
           if (unlikely(__pyx_t_45 != -1)) {
             __Pyx_RaiseBufferIndexError(__pyx_t_45);
-            __PYX_ERR(0, 592, __pyx_L1_error)
+            __PYX_ERR(0, 607, __pyx_L1_error)
           }
-          __pyx_t_10 = PyFloat_FromDouble((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_38 * __pyx_v_pos.strides[0]) ) + __pyx_t_39 * __pyx_v_pos.strides[1]) )))); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 592, __pyx_L1_error)
+          __pyx_t_10 = PyFloat_FromDouble((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_38 * __pyx_v_pos.strides[0]) ) + __pyx_t_39 * __pyx_v_pos.strides[1]) )))); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 607, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_10);
-          __pyx_t_7 = PyNumber_Subtract(__pyx_t_9, __pyx_t_10); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 592, __pyx_L1_error)
+          __pyx_t_7 = PyNumber_Subtract(__pyx_t_9, __pyx_t_10); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 607, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_7);
           __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
           __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
@@ -12732,13 +13500,13 @@ static double __pyx_f_9potential_10Buckingham_calc_real(struct __pyx_obj_9potent
           } else if (unlikely(__pyx_t_38 >= __pyx_v_pos.shape[1])) __pyx_t_45 = 1;
           if (unlikely(__pyx_t_45 != -1)) {
             __Pyx_RaiseBufferIndexError(__pyx_t_45);
-            __PYX_ERR(0, 592, __pyx_L1_error)
+            __PYX_ERR(0, 607, __pyx_L1_error)
           }
-          __pyx_t_10 = PyFloat_FromDouble((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_39 * __pyx_v_pos.strides[0]) ) + __pyx_t_38 * __pyx_v_pos.strides[1]) )))); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 592, __pyx_L1_error)
+          __pyx_t_10 = PyFloat_FromDouble((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_39 * __pyx_v_pos.strides[0]) ) + __pyx_t_38 * __pyx_v_pos.strides[1]) )))); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 607, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_10);
-          __pyx_t_9 = __Pyx_PyInt_From_int(__pyx_v_shift); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 592, __pyx_L1_error)
+          __pyx_t_9 = __Pyx_PyInt_From_int(__pyx_v_shift); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 607, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_9);
-          __pyx_t_8 = PyTuple_New(2); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 592, __pyx_L1_error)
+          __pyx_t_8 = PyTuple_New(2); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 607, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_8);
           __Pyx_GIVEREF(__pyx_t_9);
           PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_9);
@@ -12746,10 +13514,10 @@ static double __pyx_f_9potential_10Buckingham_calc_real(struct __pyx_obj_9potent
           __Pyx_GIVEREF(__pyx_int_0);
           PyTuple_SET_ITEM(__pyx_t_8, 1, __pyx_int_0);
           __pyx_t_9 = 0;
-          __pyx_t_9 = __Pyx_PyObject_GetItem(__pyx_v_shifts, __pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 592, __pyx_L1_error)
+          __pyx_t_9 = __Pyx_PyObject_GetItem(__pyx_v_shifts, __pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 607, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_9);
           __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-          __pyx_t_8 = PyNumber_Add(__pyx_t_10, __pyx_t_9); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 592, __pyx_L1_error)
+          __pyx_t_8 = PyNumber_Add(__pyx_t_10, __pyx_t_9); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 607, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_8);
           __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
           __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
@@ -12766,20 +13534,20 @@ static double __pyx_f_9potential_10Buckingham_calc_real(struct __pyx_obj_9potent
           } else if (unlikely(__pyx_t_39 >= __pyx_v_pos.shape[1])) __pyx_t_45 = 1;
           if (unlikely(__pyx_t_45 != -1)) {
             __Pyx_RaiseBufferIndexError(__pyx_t_45);
-            __PYX_ERR(0, 592, __pyx_L1_error)
+            __PYX_ERR(0, 607, __pyx_L1_error)
           }
-          __pyx_t_9 = PyFloat_FromDouble((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_38 * __pyx_v_pos.strides[0]) ) + __pyx_t_39 * __pyx_v_pos.strides[1]) )))); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 592, __pyx_L1_error)
+          __pyx_t_9 = PyFloat_FromDouble((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_38 * __pyx_v_pos.strides[0]) ) + __pyx_t_39 * __pyx_v_pos.strides[1]) )))); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 607, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_9);
-          __pyx_t_10 = PyNumber_Subtract(__pyx_t_8, __pyx_t_9); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 592, __pyx_L1_error)
+          __pyx_t_10 = PyNumber_Subtract(__pyx_t_8, __pyx_t_9); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 607, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_10);
           __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
           __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-          __pyx_t_9 = PyNumber_Multiply(__pyx_t_7, __pyx_t_10); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 592, __pyx_L1_error)
+          __pyx_t_9 = PyNumber_Multiply(__pyx_t_7, __pyx_t_10); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 607, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_9);
           __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
           __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
-          /* "potential.pyx":593
+          /* "potential.pyx":608
  * 					for shift in range(no_shifts):
  * 						dist = (pos[ioni, 0]+shifts[shift, 0]-pos[ionj, 0])*(pos[ioni, 0]+shifts[shift, 0]-pos[ionj, 0])+ \
  * 								(pos[ioni, 1]+shifts[shift, 1]-pos[ionj, 1])*(pos[ioni, 1]+shifts[shift, 1]-pos[ionj, 1])+ \             # <<<<<<<<<<<<<<
@@ -12799,13 +13567,13 @@ static double __pyx_f_9potential_10Buckingham_calc_real(struct __pyx_obj_9potent
           } else if (unlikely(__pyx_t_38 >= __pyx_v_pos.shape[1])) __pyx_t_45 = 1;
           if (unlikely(__pyx_t_45 != -1)) {
             __Pyx_RaiseBufferIndexError(__pyx_t_45);
-            __PYX_ERR(0, 593, __pyx_L1_error)
+            __PYX_ERR(0, 608, __pyx_L1_error)
           }
-          __pyx_t_10 = PyFloat_FromDouble((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_39 * __pyx_v_pos.strides[0]) ) + __pyx_t_38 * __pyx_v_pos.strides[1]) )))); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 593, __pyx_L1_error)
+          __pyx_t_10 = PyFloat_FromDouble((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_39 * __pyx_v_pos.strides[0]) ) + __pyx_t_38 * __pyx_v_pos.strides[1]) )))); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 608, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_10);
-          __pyx_t_7 = __Pyx_PyInt_From_int(__pyx_v_shift); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 593, __pyx_L1_error)
+          __pyx_t_7 = __Pyx_PyInt_From_int(__pyx_v_shift); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 608, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_7);
-          __pyx_t_8 = PyTuple_New(2); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 593, __pyx_L1_error)
+          __pyx_t_8 = PyTuple_New(2); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 608, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_8);
           __Pyx_GIVEREF(__pyx_t_7);
           PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_7);
@@ -12813,10 +13581,10 @@ static double __pyx_f_9potential_10Buckingham_calc_real(struct __pyx_obj_9potent
           __Pyx_GIVEREF(__pyx_int_1);
           PyTuple_SET_ITEM(__pyx_t_8, 1, __pyx_int_1);
           __pyx_t_7 = 0;
-          __pyx_t_7 = __Pyx_PyObject_GetItem(__pyx_v_shifts, __pyx_t_8); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 593, __pyx_L1_error)
+          __pyx_t_7 = __Pyx_PyObject_GetItem(__pyx_v_shifts, __pyx_t_8); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 608, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_7);
           __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-          __pyx_t_8 = PyNumber_Add(__pyx_t_10, __pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 593, __pyx_L1_error)
+          __pyx_t_8 = PyNumber_Add(__pyx_t_10, __pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 608, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_8);
           __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
           __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -12833,11 +13601,11 @@ static double __pyx_f_9potential_10Buckingham_calc_real(struct __pyx_obj_9potent
           } else if (unlikely(__pyx_t_39 >= __pyx_v_pos.shape[1])) __pyx_t_45 = 1;
           if (unlikely(__pyx_t_45 != -1)) {
             __Pyx_RaiseBufferIndexError(__pyx_t_45);
-            __PYX_ERR(0, 593, __pyx_L1_error)
+            __PYX_ERR(0, 608, __pyx_L1_error)
           }
-          __pyx_t_7 = PyFloat_FromDouble((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_38 * __pyx_v_pos.strides[0]) ) + __pyx_t_39 * __pyx_v_pos.strides[1]) )))); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 593, __pyx_L1_error)
+          __pyx_t_7 = PyFloat_FromDouble((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_38 * __pyx_v_pos.strides[0]) ) + __pyx_t_39 * __pyx_v_pos.strides[1]) )))); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 608, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_7);
-          __pyx_t_10 = PyNumber_Subtract(__pyx_t_8, __pyx_t_7); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 593, __pyx_L1_error)
+          __pyx_t_10 = PyNumber_Subtract(__pyx_t_8, __pyx_t_7); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 608, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_10);
           __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
           __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -12854,13 +13622,13 @@ static double __pyx_f_9potential_10Buckingham_calc_real(struct __pyx_obj_9potent
           } else if (unlikely(__pyx_t_38 >= __pyx_v_pos.shape[1])) __pyx_t_45 = 1;
           if (unlikely(__pyx_t_45 != -1)) {
             __Pyx_RaiseBufferIndexError(__pyx_t_45);
-            __PYX_ERR(0, 593, __pyx_L1_error)
+            __PYX_ERR(0, 608, __pyx_L1_error)
           }
-          __pyx_t_7 = PyFloat_FromDouble((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_39 * __pyx_v_pos.strides[0]) ) + __pyx_t_38 * __pyx_v_pos.strides[1]) )))); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 593, __pyx_L1_error)
+          __pyx_t_7 = PyFloat_FromDouble((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_39 * __pyx_v_pos.strides[0]) ) + __pyx_t_38 * __pyx_v_pos.strides[1]) )))); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 608, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_7);
-          __pyx_t_8 = __Pyx_PyInt_From_int(__pyx_v_shift); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 593, __pyx_L1_error)
+          __pyx_t_8 = __Pyx_PyInt_From_int(__pyx_v_shift); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 608, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_8);
-          __pyx_t_12 = PyTuple_New(2); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 593, __pyx_L1_error)
+          __pyx_t_12 = PyTuple_New(2); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 608, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_12);
           __Pyx_GIVEREF(__pyx_t_8);
           PyTuple_SET_ITEM(__pyx_t_12, 0, __pyx_t_8);
@@ -12868,10 +13636,10 @@ static double __pyx_f_9potential_10Buckingham_calc_real(struct __pyx_obj_9potent
           __Pyx_GIVEREF(__pyx_int_1);
           PyTuple_SET_ITEM(__pyx_t_12, 1, __pyx_int_1);
           __pyx_t_8 = 0;
-          __pyx_t_8 = __Pyx_PyObject_GetItem(__pyx_v_shifts, __pyx_t_12); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 593, __pyx_L1_error)
+          __pyx_t_8 = __Pyx_PyObject_GetItem(__pyx_v_shifts, __pyx_t_12); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 608, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_8);
           __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-          __pyx_t_12 = PyNumber_Add(__pyx_t_7, __pyx_t_8); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 593, __pyx_L1_error)
+          __pyx_t_12 = PyNumber_Add(__pyx_t_7, __pyx_t_8); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 608, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_12);
           __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
           __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -12888,32 +13656,32 @@ static double __pyx_f_9potential_10Buckingham_calc_real(struct __pyx_obj_9potent
           } else if (unlikely(__pyx_t_39 >= __pyx_v_pos.shape[1])) __pyx_t_45 = 1;
           if (unlikely(__pyx_t_45 != -1)) {
             __Pyx_RaiseBufferIndexError(__pyx_t_45);
-            __PYX_ERR(0, 593, __pyx_L1_error)
+            __PYX_ERR(0, 608, __pyx_L1_error)
           }
-          __pyx_t_8 = PyFloat_FromDouble((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_38 * __pyx_v_pos.strides[0]) ) + __pyx_t_39 * __pyx_v_pos.strides[1]) )))); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 593, __pyx_L1_error)
+          __pyx_t_8 = PyFloat_FromDouble((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_38 * __pyx_v_pos.strides[0]) ) + __pyx_t_39 * __pyx_v_pos.strides[1]) )))); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 608, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_8);
-          __pyx_t_7 = PyNumber_Subtract(__pyx_t_12, __pyx_t_8); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 593, __pyx_L1_error)
+          __pyx_t_7 = PyNumber_Subtract(__pyx_t_12, __pyx_t_8); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 608, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_7);
           __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
           __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-          __pyx_t_8 = PyNumber_Multiply(__pyx_t_10, __pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 593, __pyx_L1_error)
+          __pyx_t_8 = PyNumber_Multiply(__pyx_t_10, __pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 608, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_8);
           __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
           __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-          /* "potential.pyx":592
+          /* "potential.pyx":607
  * 					no_shifts = shifts.shape[0] # number of unit cell images-1
  * 					for shift in range(no_shifts):
  * 						dist = (pos[ioni, 0]+shifts[shift, 0]-pos[ionj, 0])*(pos[ioni, 0]+shifts[shift, 0]-pos[ionj, 0])+ \             # <<<<<<<<<<<<<<
  * 								(pos[ioni, 1]+shifts[shift, 1]-pos[ionj, 1])*(pos[ioni, 1]+shifts[shift, 1]-pos[ionj, 1])+ \
  * 								(pos[ioni, 2]+shifts[shift, 2]-pos[ionj, 2])*(pos[ioni, 2]+shifts[shift, 2]-pos[ionj, 2])
  */
-          __pyx_t_7 = PyNumber_Add(__pyx_t_9, __pyx_t_8); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 592, __pyx_L1_error)
+          __pyx_t_7 = PyNumber_Add(__pyx_t_9, __pyx_t_8); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 607, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_7);
           __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
           __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-          /* "potential.pyx":594
+          /* "potential.pyx":609
  * 						dist = (pos[ioni, 0]+shifts[shift, 0]-pos[ionj, 0])*(pos[ioni, 0]+shifts[shift, 0]-pos[ionj, 0])+ \
  * 								(pos[ioni, 1]+shifts[shift, 1]-pos[ionj, 1])*(pos[ioni, 1]+shifts[shift, 1]-pos[ionj, 1])+ \
  * 								(pos[ioni, 2]+shifts[shift, 2]-pos[ionj, 2])*(pos[ioni, 2]+shifts[shift, 2]-pos[ionj, 2])             # <<<<<<<<<<<<<<
@@ -12933,13 +13701,13 @@ static double __pyx_f_9potential_10Buckingham_calc_real(struct __pyx_obj_9potent
           } else if (unlikely(__pyx_t_38 >= __pyx_v_pos.shape[1])) __pyx_t_45 = 1;
           if (unlikely(__pyx_t_45 != -1)) {
             __Pyx_RaiseBufferIndexError(__pyx_t_45);
-            __PYX_ERR(0, 594, __pyx_L1_error)
+            __PYX_ERR(0, 609, __pyx_L1_error)
           }
-          __pyx_t_8 = PyFloat_FromDouble((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_39 * __pyx_v_pos.strides[0]) ) + __pyx_t_38 * __pyx_v_pos.strides[1]) )))); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 594, __pyx_L1_error)
+          __pyx_t_8 = PyFloat_FromDouble((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_39 * __pyx_v_pos.strides[0]) ) + __pyx_t_38 * __pyx_v_pos.strides[1]) )))); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 609, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_8);
-          __pyx_t_9 = __Pyx_PyInt_From_int(__pyx_v_shift); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 594, __pyx_L1_error)
+          __pyx_t_9 = __Pyx_PyInt_From_int(__pyx_v_shift); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 609, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_9);
-          __pyx_t_10 = PyTuple_New(2); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 594, __pyx_L1_error)
+          __pyx_t_10 = PyTuple_New(2); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 609, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_10);
           __Pyx_GIVEREF(__pyx_t_9);
           PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_t_9);
@@ -12947,10 +13715,10 @@ static double __pyx_f_9potential_10Buckingham_calc_real(struct __pyx_obj_9potent
           __Pyx_GIVEREF(__pyx_int_2);
           PyTuple_SET_ITEM(__pyx_t_10, 1, __pyx_int_2);
           __pyx_t_9 = 0;
-          __pyx_t_9 = __Pyx_PyObject_GetItem(__pyx_v_shifts, __pyx_t_10); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 594, __pyx_L1_error)
+          __pyx_t_9 = __Pyx_PyObject_GetItem(__pyx_v_shifts, __pyx_t_10); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 609, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_9);
           __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-          __pyx_t_10 = PyNumber_Add(__pyx_t_8, __pyx_t_9); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 594, __pyx_L1_error)
+          __pyx_t_10 = PyNumber_Add(__pyx_t_8, __pyx_t_9); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 609, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_10);
           __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
           __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
@@ -12967,11 +13735,11 @@ static double __pyx_f_9potential_10Buckingham_calc_real(struct __pyx_obj_9potent
           } else if (unlikely(__pyx_t_39 >= __pyx_v_pos.shape[1])) __pyx_t_45 = 1;
           if (unlikely(__pyx_t_45 != -1)) {
             __Pyx_RaiseBufferIndexError(__pyx_t_45);
-            __PYX_ERR(0, 594, __pyx_L1_error)
+            __PYX_ERR(0, 609, __pyx_L1_error)
           }
-          __pyx_t_9 = PyFloat_FromDouble((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_38 * __pyx_v_pos.strides[0]) ) + __pyx_t_39 * __pyx_v_pos.strides[1]) )))); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 594, __pyx_L1_error)
+          __pyx_t_9 = PyFloat_FromDouble((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_38 * __pyx_v_pos.strides[0]) ) + __pyx_t_39 * __pyx_v_pos.strides[1]) )))); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 609, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_9);
-          __pyx_t_8 = PyNumber_Subtract(__pyx_t_10, __pyx_t_9); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 594, __pyx_L1_error)
+          __pyx_t_8 = PyNumber_Subtract(__pyx_t_10, __pyx_t_9); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 609, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_8);
           __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
           __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
@@ -12988,13 +13756,13 @@ static double __pyx_f_9potential_10Buckingham_calc_real(struct __pyx_obj_9potent
           } else if (unlikely(__pyx_t_38 >= __pyx_v_pos.shape[1])) __pyx_t_45 = 1;
           if (unlikely(__pyx_t_45 != -1)) {
             __Pyx_RaiseBufferIndexError(__pyx_t_45);
-            __PYX_ERR(0, 594, __pyx_L1_error)
+            __PYX_ERR(0, 609, __pyx_L1_error)
           }
-          __pyx_t_9 = PyFloat_FromDouble((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_39 * __pyx_v_pos.strides[0]) ) + __pyx_t_38 * __pyx_v_pos.strides[1]) )))); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 594, __pyx_L1_error)
+          __pyx_t_9 = PyFloat_FromDouble((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_39 * __pyx_v_pos.strides[0]) ) + __pyx_t_38 * __pyx_v_pos.strides[1]) )))); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 609, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_9);
-          __pyx_t_10 = __Pyx_PyInt_From_int(__pyx_v_shift); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 594, __pyx_L1_error)
+          __pyx_t_10 = __Pyx_PyInt_From_int(__pyx_v_shift); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 609, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_10);
-          __pyx_t_12 = PyTuple_New(2); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 594, __pyx_L1_error)
+          __pyx_t_12 = PyTuple_New(2); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 609, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_12);
           __Pyx_GIVEREF(__pyx_t_10);
           PyTuple_SET_ITEM(__pyx_t_12, 0, __pyx_t_10);
@@ -13002,10 +13770,10 @@ static double __pyx_f_9potential_10Buckingham_calc_real(struct __pyx_obj_9potent
           __Pyx_GIVEREF(__pyx_int_2);
           PyTuple_SET_ITEM(__pyx_t_12, 1, __pyx_int_2);
           __pyx_t_10 = 0;
-          __pyx_t_10 = __Pyx_PyObject_GetItem(__pyx_v_shifts, __pyx_t_12); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 594, __pyx_L1_error)
+          __pyx_t_10 = __Pyx_PyObject_GetItem(__pyx_v_shifts, __pyx_t_12); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 609, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_10);
           __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-          __pyx_t_12 = PyNumber_Add(__pyx_t_9, __pyx_t_10); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 594, __pyx_L1_error)
+          __pyx_t_12 = PyNumber_Add(__pyx_t_9, __pyx_t_10); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 609, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_12);
           __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
           __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
@@ -13022,35 +13790,35 @@ static double __pyx_f_9potential_10Buckingham_calc_real(struct __pyx_obj_9potent
           } else if (unlikely(__pyx_t_39 >= __pyx_v_pos.shape[1])) __pyx_t_45 = 1;
           if (unlikely(__pyx_t_45 != -1)) {
             __Pyx_RaiseBufferIndexError(__pyx_t_45);
-            __PYX_ERR(0, 594, __pyx_L1_error)
+            __PYX_ERR(0, 609, __pyx_L1_error)
           }
-          __pyx_t_10 = PyFloat_FromDouble((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_38 * __pyx_v_pos.strides[0]) ) + __pyx_t_39 * __pyx_v_pos.strides[1]) )))); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 594, __pyx_L1_error)
+          __pyx_t_10 = PyFloat_FromDouble((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_38 * __pyx_v_pos.strides[0]) ) + __pyx_t_39 * __pyx_v_pos.strides[1]) )))); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 609, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_10);
-          __pyx_t_9 = PyNumber_Subtract(__pyx_t_12, __pyx_t_10); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 594, __pyx_L1_error)
+          __pyx_t_9 = PyNumber_Subtract(__pyx_t_12, __pyx_t_10); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 609, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_9);
           __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
           __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-          __pyx_t_10 = PyNumber_Multiply(__pyx_t_8, __pyx_t_9); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 594, __pyx_L1_error)
+          __pyx_t_10 = PyNumber_Multiply(__pyx_t_8, __pyx_t_9); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 609, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_10);
           __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
           __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
 
-          /* "potential.pyx":593
+          /* "potential.pyx":608
  * 					for shift in range(no_shifts):
  * 						dist = (pos[ioni, 0]+shifts[shift, 0]-pos[ionj, 0])*(pos[ioni, 0]+shifts[shift, 0]-pos[ionj, 0])+ \
  * 								(pos[ioni, 1]+shifts[shift, 1]-pos[ionj, 1])*(pos[ioni, 1]+shifts[shift, 1]-pos[ionj, 1])+ \             # <<<<<<<<<<<<<<
  * 								(pos[ioni, 2]+shifts[shift, 2]-pos[ionj, 2])*(pos[ioni, 2]+shifts[shift, 2]-pos[ionj, 2])
  * 						dist = sqrt(dist)
  */
-          __pyx_t_9 = PyNumber_Add(__pyx_t_7, __pyx_t_10); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 593, __pyx_L1_error)
+          __pyx_t_9 = PyNumber_Add(__pyx_t_7, __pyx_t_10); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 608, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_9);
           __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
           __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-          __pyx_t_40 = __pyx_PyFloat_AsDouble(__pyx_t_9); if (unlikely((__pyx_t_40 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 593, __pyx_L1_error)
+          __pyx_t_40 = __pyx_PyFloat_AsDouble(__pyx_t_9); if (unlikely((__pyx_t_40 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 608, __pyx_L1_error)
           __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
           __pyx_v_dist = __pyx_t_40;
 
-          /* "potential.pyx":595
+          /* "potential.pyx":610
  * 								(pos[ioni, 1]+shifts[shift, 1]-pos[ionj, 1])*(pos[ioni, 1]+shifts[shift, 1]-pos[ionj, 1])+ \
  * 								(pos[ioni, 2]+shifts[shift, 2]-pos[ionj, 2])*(pos[ioni, 2]+shifts[shift, 2]-pos[ionj, 2])
  * 						dist = sqrt(dist)             # <<<<<<<<<<<<<<
@@ -13059,31 +13827,31 @@ static double __pyx_f_9potential_10Buckingham_calc_real(struct __pyx_obj_9potent
  */
           __pyx_v_dist = sqrt(__pyx_v_dist);
 
-          /* "potential.pyx":597
+          /* "potential.pyx":612
  * 						dist = sqrt(dist)
  * 						# Check if distance of ions allows interaction
  * 						if (dist < buck[pair]['hi']):             # <<<<<<<<<<<<<<
  * 							esum += A*exp(-1.0*dist/rho) - C/dist**6
  * 		self.e = esum/2
  */
-          __pyx_t_9 = PyFloat_FromDouble(__pyx_v_dist); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 597, __pyx_L1_error)
+          __pyx_t_9 = PyFloat_FromDouble(__pyx_v_dist); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 612, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_9);
-          __Pyx_GetModuleGlobalName(__pyx_t_10, __pyx_n_s_buck); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 597, __pyx_L1_error)
+          __Pyx_GetModuleGlobalName(__pyx_t_10, __pyx_n_s_buck); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 612, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_10);
-          __pyx_t_7 = __Pyx_PyObject_GetItem(__pyx_t_10, __pyx_v_pair); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 597, __pyx_L1_error)
+          __pyx_t_7 = __Pyx_PyObject_GetItem(__pyx_t_10, __pyx_v_pair); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 612, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_7);
           __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-          __pyx_t_10 = __Pyx_PyObject_Dict_GetItem(__pyx_t_7, __pyx_n_u_hi); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 597, __pyx_L1_error)
+          __pyx_t_10 = __Pyx_PyObject_Dict_GetItem(__pyx_t_7, __pyx_n_u_hi); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 612, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_10);
           __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-          __pyx_t_7 = PyObject_RichCompare(__pyx_t_9, __pyx_t_10, Py_LT); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 597, __pyx_L1_error)
+          __pyx_t_7 = PyObject_RichCompare(__pyx_t_9, __pyx_t_10, Py_LT); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 612, __pyx_L1_error)
           __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
           __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-          __pyx_t_13 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_13 < 0)) __PYX_ERR(0, 597, __pyx_L1_error)
+          __pyx_t_13 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_13 < 0)) __PYX_ERR(0, 612, __pyx_L1_error)
           __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
           if (__pyx_t_13) {
 
-            /* "potential.pyx":598
+            /* "potential.pyx":613
  * 						# Check if distance of ions allows interaction
  * 						if (dist < buck[pair]['hi']):
  * 							esum += A*exp(-1.0*dist/rho) - C/dist**6             # <<<<<<<<<<<<<<
@@ -13093,16 +13861,16 @@ static double __pyx_f_9potential_10Buckingham_calc_real(struct __pyx_obj_9potent
             __pyx_t_40 = (-1.0 * __pyx_v_dist);
             if (unlikely(__pyx_v_rho == 0)) {
               PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-              __PYX_ERR(0, 598, __pyx_L1_error)
+              __PYX_ERR(0, 613, __pyx_L1_error)
             }
             __pyx_t_14 = pow(__pyx_v_dist, 6.0);
             if (unlikely(__pyx_t_14 == 0)) {
               PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-              __PYX_ERR(0, 598, __pyx_L1_error)
+              __PYX_ERR(0, 613, __pyx_L1_error)
             }
             __pyx_v_esum = (__pyx_v_esum + ((__pyx_v_A * exp((__pyx_t_40 / __pyx_v_rho))) - (__pyx_v_C / __pyx_t_14)));
 
-            /* "potential.pyx":597
+            /* "potential.pyx":612
  * 						dist = sqrt(dist)
  * 						# Check if distance of ions allows interaction
  * 						if (dist < buck[pair]['hi']):             # <<<<<<<<<<<<<<
@@ -13112,7 +13880,7 @@ static double __pyx_f_9potential_10Buckingham_calc_real(struct __pyx_obj_9potent
           }
         }
 
-        /* "potential.pyx":573
+        /* "potential.pyx":588
  * 				pair = (min(self.chemical_symbols[ioni], self.chemical_symbols[ionj]),
  * 						max(self.chemical_symbols[ioni], self.chemical_symbols[ionj]))
  * 				if (pair in buck):             # <<<<<<<<<<<<<<
@@ -13123,7 +13891,7 @@ static double __pyx_f_9potential_10Buckingham_calc_real(struct __pyx_obj_9potent
     }
   }
 
-  /* "potential.pyx":599
+  /* "potential.pyx":614
  * 						if (dist < buck[pair]['hi']):
  * 							esum += A*exp(-1.0*dist/rho) - C/dist**6
  * 		self.e = esum/2             # <<<<<<<<<<<<<<
@@ -13132,7 +13900,7 @@ static double __pyx_f_9potential_10Buckingham_calc_real(struct __pyx_obj_9potent
  */
   __pyx_v_self->e = (__pyx_v_esum / 2.0);
 
-  /* "potential.pyx":600
+  /* "potential.pyx":615
  * 							esum += A*exp(-1.0*dist/rho) - C/dist**6
  * 		self.e = esum/2
  * 		return esum/2             # <<<<<<<<<<<<<<
@@ -13142,7 +13910,7 @@ static double __pyx_f_9potential_10Buckingham_calc_real(struct __pyx_obj_9potent
   __pyx_r = (__pyx_v_esum / 2.0);
   goto __pyx_L0;
 
-  /* "potential.pyx":559
+  /* "potential.pyx":574
  * 		return self.calc_real(pos, vects, N)
  * 
  * 	cdef double calc_real(self, double[:,:] pos, double[:,:] vects, int N) except? -1:             # <<<<<<<<<<<<<<
@@ -13167,7 +13935,7 @@ static double __pyx_f_9potential_10Buckingham_calc_real(struct __pyx_obj_9potent
   return __pyx_r;
 }
 
-/* "potential.pyx":602
+/* "potential.pyx":617
  * 		return esum/2
  * 
  * 	cdef double[:,:] calc_drv_(self, double[:,:] pos, double[:,:] vects, int N):             # <<<<<<<<<<<<<<
@@ -13219,7 +13987,7 @@ static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv_(struct __pyx
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("calc_drv_", 0);
 
-  /* "potential.pyx":609
+  /* "potential.pyx":624
  * 
  * 		"""
  * 		if not self.param_flag:             # <<<<<<<<<<<<<<
@@ -13229,20 +13997,20 @@ static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv_(struct __pyx
   __pyx_t_1 = ((!(__pyx_v_self->param_flag != 0)) != 0);
   if (unlikely(__pyx_t_1)) {
 
-    /* "potential.pyx":610
+    /* "potential.pyx":625
  * 		"""
  * 		if not self.param_flag:
  * 			raise ValueError("Coulomb potential parameters are not set.")             # <<<<<<<<<<<<<<
  * 
  * 		cdef double* rij = <double *> malloc(sizeof(double) * 3)
  */
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 610, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 625, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __PYX_ERR(0, 610, __pyx_L1_error)
+    __PYX_ERR(0, 625, __pyx_L1_error)
 
-    /* "potential.pyx":609
+    /* "potential.pyx":624
  * 
  * 		"""
  * 		if not self.param_flag:             # <<<<<<<<<<<<<<
@@ -13251,7 +14019,7 @@ static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv_(struct __pyx
  */
   }
 
-  /* "potential.pyx":612
+  /* "potential.pyx":627
  * 			raise ValueError("Coulomb potential parameters are not set.")
  * 
  * 		cdef double* rij = <double *> malloc(sizeof(double) * 3)             # <<<<<<<<<<<<<<
@@ -13260,7 +14028,7 @@ static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv_(struct __pyx
  */
   __pyx_v_rij = ((double *)malloc(((sizeof(double)) * 3)));
 
-  /* "potential.pyx":613
+  /* "potential.pyx":628
  * 
  * 		cdef double* rij = <double *> malloc(sizeof(double) * 3)
  * 		for ioni in range(N):             # <<<<<<<<<<<<<<
@@ -13272,7 +14040,7 @@ static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv_(struct __pyx
   for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
     __pyx_v_ioni = __pyx_t_5;
 
-    /* "potential.pyx":614
+    /* "potential.pyx":629
  * 		cdef double* rij = <double *> malloc(sizeof(double) * 3)
  * 		for ioni in range(N):
  * 			for ionj in range(ioni, N):             # <<<<<<<<<<<<<<
@@ -13284,19 +14052,19 @@ static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv_(struct __pyx
     for (__pyx_t_8 = __pyx_v_ioni; __pyx_t_8 < __pyx_t_7; __pyx_t_8+=1) {
       __pyx_v_ionj = __pyx_t_8;
 
-      /* "potential.pyx":616
+      /* "potential.pyx":631
  * 			for ionj in range(ioni, N):
  * 				# Find the pair we are examining
  * 				pair = (min(self.chemical_symbols[ioni], self.chemical_symbols[ionj]),             # <<<<<<<<<<<<<<
  * 						max(self.chemical_symbols[ioni], self.chemical_symbols[ionj]))
  * 				if (pair in buck):
  */
-      __pyx_t_2 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->chemical_symbols), __pyx_v_ionj, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 616, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->chemical_symbols), __pyx_v_ionj, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 631, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_9 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->chemical_symbols), __pyx_v_ioni, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 616, __pyx_L1_error)
+      __pyx_t_9 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->chemical_symbols), __pyx_v_ioni, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 631, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_9);
-      __pyx_t_11 = PyObject_RichCompare(__pyx_t_2, __pyx_t_9, Py_LT); __Pyx_XGOTREF(__pyx_t_11); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 616, __pyx_L1_error)
-      __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_t_11); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 616, __pyx_L1_error)
+      __pyx_t_11 = PyObject_RichCompare(__pyx_t_2, __pyx_t_9, Py_LT); __Pyx_XGOTREF(__pyx_t_11); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 631, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_t_11); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 631, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
       if (__pyx_t_1) {
         __Pyx_INCREF(__pyx_t_2);
@@ -13308,19 +14076,19 @@ static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv_(struct __pyx
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-      /* "potential.pyx":617
+      /* "potential.pyx":632
  * 				# Find the pair we are examining
  * 				pair = (min(self.chemical_symbols[ioni], self.chemical_symbols[ionj]),
  * 						max(self.chemical_symbols[ioni], self.chemical_symbols[ionj]))             # <<<<<<<<<<<<<<
  * 				if (pair in buck):
  * 					# Pair of ions is listed in parameters file
  */
-      __pyx_t_2 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->chemical_symbols), __pyx_v_ionj, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 617, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->chemical_symbols), __pyx_v_ionj, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 632, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_9 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->chemical_symbols), __pyx_v_ioni, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 617, __pyx_L1_error)
+      __pyx_t_9 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->chemical_symbols), __pyx_v_ioni, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 632, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_9);
-      __pyx_t_12 = PyObject_RichCompare(__pyx_t_2, __pyx_t_9, Py_GT); __Pyx_XGOTREF(__pyx_t_12); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 617, __pyx_L1_error)
-      __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_t_12); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 617, __pyx_L1_error)
+      __pyx_t_12 = PyObject_RichCompare(__pyx_t_2, __pyx_t_9, Py_GT); __Pyx_XGOTREF(__pyx_t_12); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 632, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_t_12); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 632, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
       if (__pyx_t_1) {
         __Pyx_INCREF(__pyx_t_2);
@@ -13332,14 +14100,14 @@ static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv_(struct __pyx
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-      /* "potential.pyx":616
+      /* "potential.pyx":631
  * 			for ionj in range(ioni, N):
  * 				# Find the pair we are examining
  * 				pair = (min(self.chemical_symbols[ioni], self.chemical_symbols[ionj]),             # <<<<<<<<<<<<<<
  * 						max(self.chemical_symbols[ioni], self.chemical_symbols[ionj]))
  * 				if (pair in buck):
  */
-      __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 616, __pyx_L1_error)
+      __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 631, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_INCREF(__pyx_t_10);
       __Pyx_GIVEREF(__pyx_t_10);
@@ -13352,84 +14120,84 @@ static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv_(struct __pyx
       __Pyx_XDECREF_SET(__pyx_v_pair, ((PyObject*)__pyx_t_2));
       __pyx_t_2 = 0;
 
-      /* "potential.pyx":618
+      /* "potential.pyx":633
  * 				pair = (min(self.chemical_symbols[ioni], self.chemical_symbols[ionj]),
  * 						max(self.chemical_symbols[ioni], self.chemical_symbols[ionj]))
  * 				if (pair in buck):             # <<<<<<<<<<<<<<
  * 					# Pair of ions is listed in parameters file
  * 					A = buck[pair]['par'][0]
  */
-      __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_buck); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 618, __pyx_L1_error)
+      __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_buck); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 633, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_1 = (__Pyx_PySequence_ContainsTF(__pyx_v_pair, __pyx_t_2, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 618, __pyx_L1_error)
+      __pyx_t_1 = (__Pyx_PySequence_ContainsTF(__pyx_v_pair, __pyx_t_2, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 633, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __pyx_t_13 = (__pyx_t_1 != 0);
       if (__pyx_t_13) {
 
-        /* "potential.pyx":620
+        /* "potential.pyx":635
  * 				if (pair in buck):
  * 					# Pair of ions is listed in parameters file
  * 					A = buck[pair]['par'][0]             # <<<<<<<<<<<<<<
  * 					rho = buck[pair]['par'][1]
  * 					C = buck[pair]['par'][2]
  */
-        __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_buck); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 620, __pyx_L1_error)
+        __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_buck); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 635, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
-        __pyx_t_11 = __Pyx_PyObject_GetItem(__pyx_t_2, __pyx_v_pair); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 620, __pyx_L1_error)
+        __pyx_t_11 = __Pyx_PyObject_GetItem(__pyx_t_2, __pyx_v_pair); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 635, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_11);
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-        __pyx_t_2 = __Pyx_PyObject_Dict_GetItem(__pyx_t_11, __pyx_n_u_par); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 620, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_Dict_GetItem(__pyx_t_11, __pyx_n_u_par); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 635, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-        __pyx_t_11 = __Pyx_GetItemInt(__pyx_t_2, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 620, __pyx_L1_error)
+        __pyx_t_11 = __Pyx_GetItemInt(__pyx_t_2, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 635, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_11);
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
         __Pyx_XDECREF_SET(__pyx_v_A, __pyx_t_11);
         __pyx_t_11 = 0;
 
-        /* "potential.pyx":621
+        /* "potential.pyx":636
  * 					# Pair of ions is listed in parameters file
  * 					A = buck[pair]['par'][0]
  * 					rho = buck[pair]['par'][1]             # <<<<<<<<<<<<<<
  * 					C = buck[pair]['par'][2]
  * 
  */
-        __Pyx_GetModuleGlobalName(__pyx_t_11, __pyx_n_s_buck); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 621, __pyx_L1_error)
+        __Pyx_GetModuleGlobalName(__pyx_t_11, __pyx_n_s_buck); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 636, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_11);
-        __pyx_t_2 = __Pyx_PyObject_GetItem(__pyx_t_11, __pyx_v_pair); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 621, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_GetItem(__pyx_t_11, __pyx_v_pair); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 636, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-        __pyx_t_11 = __Pyx_PyObject_Dict_GetItem(__pyx_t_2, __pyx_n_u_par); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 621, __pyx_L1_error)
+        __pyx_t_11 = __Pyx_PyObject_Dict_GetItem(__pyx_t_2, __pyx_n_u_par); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 636, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_11);
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-        __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_11, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 621, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_11, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 636, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
         __Pyx_XDECREF_SET(__pyx_v_rho, __pyx_t_2);
         __pyx_t_2 = 0;
 
-        /* "potential.pyx":622
+        /* "potential.pyx":637
  * 					A = buck[pair]['par'][0]
  * 					rho = buck[pair]['par'][1]
  * 					C = buck[pair]['par'][2]             # <<<<<<<<<<<<<<
  * 
  * 					if ioni != ionj:
  */
-        __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_buck); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 622, __pyx_L1_error)
+        __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_buck); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 637, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
-        __pyx_t_11 = __Pyx_PyObject_GetItem(__pyx_t_2, __pyx_v_pair); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 622, __pyx_L1_error)
+        __pyx_t_11 = __Pyx_PyObject_GetItem(__pyx_t_2, __pyx_v_pair); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 637, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_11);
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-        __pyx_t_2 = __Pyx_PyObject_Dict_GetItem(__pyx_t_11, __pyx_n_u_par); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 622, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_Dict_GetItem(__pyx_t_11, __pyx_n_u_par); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 637, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-        __pyx_t_11 = __Pyx_GetItemInt(__pyx_t_2, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 622, __pyx_L1_error)
+        __pyx_t_11 = __Pyx_GetItemInt(__pyx_t_2, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 637, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_11);
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
         __Pyx_XDECREF_SET(__pyx_v_C, __pyx_t_11);
         __pyx_t_11 = 0;
 
-        /* "potential.pyx":624
+        /* "potential.pyx":639
  * 					C = buck[pair]['par'][2]
  * 
  * 					if ioni != ionj:             # <<<<<<<<<<<<<<
@@ -13439,7 +14207,7 @@ static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv_(struct __pyx
         __pyx_t_13 = ((__pyx_v_ioni != __pyx_v_ionj) != 0);
         if (__pyx_t_13) {
 
-          /* "potential.pyx":625
+          /* "potential.pyx":640
  * 
  * 					if ioni != ionj:
  * 						rij[0] = pos[ioni,0]-pos[ionj,0] # distance vector             # <<<<<<<<<<<<<<
@@ -13459,7 +14227,7 @@ static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv_(struct __pyx
           } else if (unlikely(__pyx_t_15 >= __pyx_v_pos.shape[1])) __pyx_t_16 = 1;
           if (unlikely(__pyx_t_16 != -1)) {
             __Pyx_RaiseBufferIndexError(__pyx_t_16);
-            __PYX_ERR(0, 625, __pyx_L1_error)
+            __PYX_ERR(0, 640, __pyx_L1_error)
           }
           __pyx_t_17 = __pyx_v_ionj;
           __pyx_t_18 = 0;
@@ -13474,11 +14242,11 @@ static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv_(struct __pyx
           } else if (unlikely(__pyx_t_18 >= __pyx_v_pos.shape[1])) __pyx_t_16 = 1;
           if (unlikely(__pyx_t_16 != -1)) {
             __Pyx_RaiseBufferIndexError(__pyx_t_16);
-            __PYX_ERR(0, 625, __pyx_L1_error)
+            __PYX_ERR(0, 640, __pyx_L1_error)
           }
           (__pyx_v_rij[0]) = ((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_14 * __pyx_v_pos.strides[0]) ) + __pyx_t_15 * __pyx_v_pos.strides[1]) ))) - (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_17 * __pyx_v_pos.strides[0]) ) + __pyx_t_18 * __pyx_v_pos.strides[1]) ))));
 
-          /* "potential.pyx":626
+          /* "potential.pyx":641
  * 					if ioni != ionj:
  * 						rij[0] = pos[ioni,0]-pos[ionj,0] # distance vector
  * 						rij[1] = pos[ioni,1]-pos[ionj,1]             # <<<<<<<<<<<<<<
@@ -13498,7 +14266,7 @@ static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv_(struct __pyx
           } else if (unlikely(__pyx_t_17 >= __pyx_v_pos.shape[1])) __pyx_t_16 = 1;
           if (unlikely(__pyx_t_16 != -1)) {
             __Pyx_RaiseBufferIndexError(__pyx_t_16);
-            __PYX_ERR(0, 626, __pyx_L1_error)
+            __PYX_ERR(0, 641, __pyx_L1_error)
           }
           __pyx_t_15 = __pyx_v_ionj;
           __pyx_t_14 = 1;
@@ -13513,11 +14281,11 @@ static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv_(struct __pyx
           } else if (unlikely(__pyx_t_14 >= __pyx_v_pos.shape[1])) __pyx_t_16 = 1;
           if (unlikely(__pyx_t_16 != -1)) {
             __Pyx_RaiseBufferIndexError(__pyx_t_16);
-            __PYX_ERR(0, 626, __pyx_L1_error)
+            __PYX_ERR(0, 641, __pyx_L1_error)
           }
           (__pyx_v_rij[1]) = ((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_18 * __pyx_v_pos.strides[0]) ) + __pyx_t_17 * __pyx_v_pos.strides[1]) ))) - (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_15 * __pyx_v_pos.strides[0]) ) + __pyx_t_14 * __pyx_v_pos.strides[1]) ))));
 
-          /* "potential.pyx":627
+          /* "potential.pyx":642
  * 						rij[0] = pos[ioni,0]-pos[ionj,0] # distance vector
  * 						rij[1] = pos[ioni,1]-pos[ionj,1]
  * 						rij[2] = pos[ioni,2]-pos[ionj,2]             # <<<<<<<<<<<<<<
@@ -13537,7 +14305,7 @@ static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv_(struct __pyx
           } else if (unlikely(__pyx_t_15 >= __pyx_v_pos.shape[1])) __pyx_t_16 = 1;
           if (unlikely(__pyx_t_16 != -1)) {
             __Pyx_RaiseBufferIndexError(__pyx_t_16);
-            __PYX_ERR(0, 627, __pyx_L1_error)
+            __PYX_ERR(0, 642, __pyx_L1_error)
           }
           __pyx_t_17 = __pyx_v_ionj;
           __pyx_t_18 = 2;
@@ -13552,11 +14320,11 @@ static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv_(struct __pyx
           } else if (unlikely(__pyx_t_18 >= __pyx_v_pos.shape[1])) __pyx_t_16 = 1;
           if (unlikely(__pyx_t_16 != -1)) {
             __Pyx_RaiseBufferIndexError(__pyx_t_16);
-            __PYX_ERR(0, 627, __pyx_L1_error)
+            __PYX_ERR(0, 642, __pyx_L1_error)
           }
           (__pyx_v_rij[2]) = ((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_14 * __pyx_v_pos.strides[0]) ) + __pyx_t_15 * __pyx_v_pos.strides[1]) ))) - (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_17 * __pyx_v_pos.strides[0]) ) + __pyx_t_18 * __pyx_v_pos.strides[1]) ))));
 
-          /* "potential.pyx":628
+          /* "potential.pyx":643
  * 						rij[1] = pos[ioni,1]-pos[ionj,1]
  * 						rij[2] = pos[ioni,2]-pos[ionj,2]
  * 						dist = sqrt(rij[0]*rij[0] + rij[1]*rij[1] + rij[2]*rij[2])             # <<<<<<<<<<<<<<
@@ -13565,115 +14333,115 @@ static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv_(struct __pyx
  */
           __pyx_v_dist = sqrt(((((__pyx_v_rij[0]) * (__pyx_v_rij[0])) + ((__pyx_v_rij[1]) * (__pyx_v_rij[1]))) + ((__pyx_v_rij[2]) * (__pyx_v_rij[2]))));
 
-          /* "potential.pyx":630
+          /* "potential.pyx":645
  * 						dist = sqrt(rij[0]*rij[0] + rij[1]*rij[1] + rij[2]*rij[2])
  * 						# Check if distance of ions allows interaction
  * 						if (dist < buck[pair]['hi']):             # <<<<<<<<<<<<<<
  * 							drv = -  (A/rho) * \
  * 								exp(-1.0*dist/rho) + 6*C/dist**7
  */
-          __pyx_t_11 = PyFloat_FromDouble(__pyx_v_dist); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 630, __pyx_L1_error)
+          __pyx_t_11 = PyFloat_FromDouble(__pyx_v_dist); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 645, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_11);
-          __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_buck); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 630, __pyx_L1_error)
+          __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_buck); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 645, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
-          __pyx_t_10 = __Pyx_PyObject_GetItem(__pyx_t_2, __pyx_v_pair); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 630, __pyx_L1_error)
+          __pyx_t_10 = __Pyx_PyObject_GetItem(__pyx_t_2, __pyx_v_pair); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 645, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_10);
           __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-          __pyx_t_2 = __Pyx_PyObject_Dict_GetItem(__pyx_t_10, __pyx_n_u_hi); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 630, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyObject_Dict_GetItem(__pyx_t_10, __pyx_n_u_hi); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 645, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-          __pyx_t_10 = PyObject_RichCompare(__pyx_t_11, __pyx_t_2, Py_LT); __Pyx_XGOTREF(__pyx_t_10); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 630, __pyx_L1_error)
+          __pyx_t_10 = PyObject_RichCompare(__pyx_t_11, __pyx_t_2, Py_LT); __Pyx_XGOTREF(__pyx_t_10); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 645, __pyx_L1_error)
           __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
           __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-          __pyx_t_13 = __Pyx_PyObject_IsTrue(__pyx_t_10); if (unlikely(__pyx_t_13 < 0)) __PYX_ERR(0, 630, __pyx_L1_error)
+          __pyx_t_13 = __Pyx_PyObject_IsTrue(__pyx_t_10); if (unlikely(__pyx_t_13 < 0)) __PYX_ERR(0, 645, __pyx_L1_error)
           __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
           if (__pyx_t_13) {
 
-            /* "potential.pyx":631
+            /* "potential.pyx":646
  * 						# Check if distance of ions allows interaction
  * 						if (dist < buck[pair]['hi']):
  * 							drv = -  (A/rho) * \             # <<<<<<<<<<<<<<
  * 								exp(-1.0*dist/rho) + 6*C/dist**7
  * 
  */
-            __pyx_t_10 = __Pyx_PyNumber_Divide(__pyx_v_A, __pyx_v_rho); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 631, __pyx_L1_error)
+            __pyx_t_10 = __Pyx_PyNumber_Divide(__pyx_v_A, __pyx_v_rho); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 646, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_10);
-            __pyx_t_2 = PyNumber_Negative(__pyx_t_10); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 631, __pyx_L1_error)
+            __pyx_t_2 = PyNumber_Negative(__pyx_t_10); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 646, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_2);
             __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
-            /* "potential.pyx":632
+            /* "potential.pyx":647
  * 						if (dist < buck[pair]['hi']):
  * 							drv = -  (A/rho) * \
  * 								exp(-1.0*dist/rho) + 6*C/dist**7             # <<<<<<<<<<<<<<
  * 
  * 							# partial deriv with respect to ioni
  */
-            __pyx_t_10 = PyFloat_FromDouble((-1.0 * __pyx_v_dist)); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 632, __pyx_L1_error)
+            __pyx_t_10 = PyFloat_FromDouble((-1.0 * __pyx_v_dist)); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 647, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_10);
-            __pyx_t_11 = __Pyx_PyNumber_Divide(__pyx_t_10, __pyx_v_rho); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 632, __pyx_L1_error)
+            __pyx_t_11 = __Pyx_PyNumber_Divide(__pyx_t_10, __pyx_v_rho); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 647, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_11);
             __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-            __pyx_t_19 = __pyx_PyFloat_AsDouble(__pyx_t_11); if (unlikely((__pyx_t_19 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 632, __pyx_L1_error)
+            __pyx_t_19 = __pyx_PyFloat_AsDouble(__pyx_t_11); if (unlikely((__pyx_t_19 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 647, __pyx_L1_error)
             __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-            __pyx_t_11 = PyFloat_FromDouble(exp(__pyx_t_19)); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 632, __pyx_L1_error)
+            __pyx_t_11 = PyFloat_FromDouble(exp(__pyx_t_19)); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 647, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_11);
 
-            /* "potential.pyx":631
+            /* "potential.pyx":646
  * 						# Check if distance of ions allows interaction
  * 						if (dist < buck[pair]['hi']):
  * 							drv = -  (A/rho) * \             # <<<<<<<<<<<<<<
  * 								exp(-1.0*dist/rho) + 6*C/dist**7
  * 
  */
-            __pyx_t_10 = PyNumber_Multiply(__pyx_t_2, __pyx_t_11); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 631, __pyx_L1_error)
+            __pyx_t_10 = PyNumber_Multiply(__pyx_t_2, __pyx_t_11); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 646, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_10);
             __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
             __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
 
-            /* "potential.pyx":632
+            /* "potential.pyx":647
  * 						if (dist < buck[pair]['hi']):
  * 							drv = -  (A/rho) * \
  * 								exp(-1.0*dist/rho) + 6*C/dist**7             # <<<<<<<<<<<<<<
  * 
  * 							# partial deriv with respect to ioni
  */
-            __pyx_t_11 = PyNumber_Multiply(__pyx_int_6, __pyx_v_C); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 632, __pyx_L1_error)
+            __pyx_t_11 = PyNumber_Multiply(__pyx_int_6, __pyx_v_C); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 647, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_11);
-            __pyx_t_2 = PyFloat_FromDouble(pow(__pyx_v_dist, 7.0)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 632, __pyx_L1_error)
+            __pyx_t_2 = PyFloat_FromDouble(pow(__pyx_v_dist, 7.0)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 647, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_2);
-            __pyx_t_9 = __Pyx_PyNumber_Divide(__pyx_t_11, __pyx_t_2); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 632, __pyx_L1_error)
+            __pyx_t_9 = __Pyx_PyNumber_Divide(__pyx_t_11, __pyx_t_2); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 647, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_9);
             __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
             __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-            __pyx_t_2 = PyNumber_Add(__pyx_t_10, __pyx_t_9); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 632, __pyx_L1_error)
+            __pyx_t_2 = PyNumber_Add(__pyx_t_10, __pyx_t_9); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 647, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_2);
             __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
             __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
             __Pyx_XDECREF_SET(__pyx_v_drv, __pyx_t_2);
             __pyx_t_2 = 0;
 
-            /* "potential.pyx":635
+            /* "potential.pyx":650
  * 
  * 							# partial deriv with respect to ioni
  * 							self.grad[ioni][0] += drv*rij[0]/dist             # <<<<<<<<<<<<<<
  * 							self.grad[ioni][1] += drv*rij[1]/dist
  * 							self.grad[ioni][2] += drv*rij[2]/dist
  */
-            __pyx_t_2 = PyFloat_FromDouble((__pyx_v_rij[0])); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 635, __pyx_L1_error)
+            __pyx_t_2 = PyFloat_FromDouble((__pyx_v_rij[0])); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 650, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_2);
-            __pyx_t_9 = PyNumber_Multiply(__pyx_v_drv, __pyx_t_2); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 635, __pyx_L1_error)
+            __pyx_t_9 = PyNumber_Multiply(__pyx_v_drv, __pyx_t_2); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 650, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_9);
             __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-            __pyx_t_2 = PyFloat_FromDouble(__pyx_v_dist); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 635, __pyx_L1_error)
+            __pyx_t_2 = PyFloat_FromDouble(__pyx_v_dist); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 650, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_2);
-            __pyx_t_10 = __Pyx_PyNumber_Divide(__pyx_t_9, __pyx_t_2); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 635, __pyx_L1_error)
+            __pyx_t_10 = __Pyx_PyNumber_Divide(__pyx_t_9, __pyx_t_2); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 650, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_10);
             __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
             __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-            __pyx_t_19 = __pyx_PyFloat_AsDouble(__pyx_t_10); if (unlikely((__pyx_t_19 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 635, __pyx_L1_error)
+            __pyx_t_19 = __pyx_PyFloat_AsDouble(__pyx_t_10); if (unlikely((__pyx_t_19 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 650, __pyx_L1_error)
             __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-            if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 635, __pyx_L1_error)}
+            if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 650, __pyx_L1_error)}
             __pyx_t_18 = __pyx_v_ioni;
             __pyx_t_17 = 0;
             __pyx_t_16 = -1;
@@ -13687,31 +14455,31 @@ static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv_(struct __pyx
             } else if (unlikely(__pyx_t_17 >= __pyx_v_self->grad.shape[1])) __pyx_t_16 = 1;
             if (unlikely(__pyx_t_16 != -1)) {
               __Pyx_RaiseBufferIndexError(__pyx_t_16);
-              __PYX_ERR(0, 635, __pyx_L1_error)
+              __PYX_ERR(0, 650, __pyx_L1_error)
             }
             *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_self->grad.data + __pyx_t_18 * __pyx_v_self->grad.strides[0]) ) + __pyx_t_17 * __pyx_v_self->grad.strides[1]) )) += __pyx_t_19;
 
-            /* "potential.pyx":636
+            /* "potential.pyx":651
  * 							# partial deriv with respect to ioni
  * 							self.grad[ioni][0] += drv*rij[0]/dist
  * 							self.grad[ioni][1] += drv*rij[1]/dist             # <<<<<<<<<<<<<<
  * 							self.grad[ioni][2] += drv*rij[2]/dist
  * 
  */
-            __pyx_t_10 = PyFloat_FromDouble((__pyx_v_rij[1])); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 636, __pyx_L1_error)
+            __pyx_t_10 = PyFloat_FromDouble((__pyx_v_rij[1])); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 651, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_10);
-            __pyx_t_2 = PyNumber_Multiply(__pyx_v_drv, __pyx_t_10); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 636, __pyx_L1_error)
+            __pyx_t_2 = PyNumber_Multiply(__pyx_v_drv, __pyx_t_10); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 651, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_2);
             __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-            __pyx_t_10 = PyFloat_FromDouble(__pyx_v_dist); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 636, __pyx_L1_error)
+            __pyx_t_10 = PyFloat_FromDouble(__pyx_v_dist); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 651, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_10);
-            __pyx_t_9 = __Pyx_PyNumber_Divide(__pyx_t_2, __pyx_t_10); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 636, __pyx_L1_error)
+            __pyx_t_9 = __Pyx_PyNumber_Divide(__pyx_t_2, __pyx_t_10); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 651, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_9);
             __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
             __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-            __pyx_t_19 = __pyx_PyFloat_AsDouble(__pyx_t_9); if (unlikely((__pyx_t_19 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 636, __pyx_L1_error)
+            __pyx_t_19 = __pyx_PyFloat_AsDouble(__pyx_t_9); if (unlikely((__pyx_t_19 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 651, __pyx_L1_error)
             __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-            if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 636, __pyx_L1_error)}
+            if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 651, __pyx_L1_error)}
             __pyx_t_17 = __pyx_v_ioni;
             __pyx_t_18 = 1;
             __pyx_t_16 = -1;
@@ -13725,31 +14493,31 @@ static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv_(struct __pyx
             } else if (unlikely(__pyx_t_18 >= __pyx_v_self->grad.shape[1])) __pyx_t_16 = 1;
             if (unlikely(__pyx_t_16 != -1)) {
               __Pyx_RaiseBufferIndexError(__pyx_t_16);
-              __PYX_ERR(0, 636, __pyx_L1_error)
+              __PYX_ERR(0, 651, __pyx_L1_error)
             }
             *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_self->grad.data + __pyx_t_17 * __pyx_v_self->grad.strides[0]) ) + __pyx_t_18 * __pyx_v_self->grad.strides[1]) )) += __pyx_t_19;
 
-            /* "potential.pyx":637
+            /* "potential.pyx":652
  * 							self.grad[ioni][0] += drv*rij[0]/dist
  * 							self.grad[ioni][1] += drv*rij[1]/dist
  * 							self.grad[ioni][2] += drv*rij[2]/dist             # <<<<<<<<<<<<<<
  * 
  * 							# partial deriv with respect to ionj
  */
-            __pyx_t_9 = PyFloat_FromDouble((__pyx_v_rij[2])); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 637, __pyx_L1_error)
+            __pyx_t_9 = PyFloat_FromDouble((__pyx_v_rij[2])); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 652, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_9);
-            __pyx_t_10 = PyNumber_Multiply(__pyx_v_drv, __pyx_t_9); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 637, __pyx_L1_error)
+            __pyx_t_10 = PyNumber_Multiply(__pyx_v_drv, __pyx_t_9); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 652, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_10);
             __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-            __pyx_t_9 = PyFloat_FromDouble(__pyx_v_dist); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 637, __pyx_L1_error)
+            __pyx_t_9 = PyFloat_FromDouble(__pyx_v_dist); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 652, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_9);
-            __pyx_t_2 = __Pyx_PyNumber_Divide(__pyx_t_10, __pyx_t_9); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 637, __pyx_L1_error)
+            __pyx_t_2 = __Pyx_PyNumber_Divide(__pyx_t_10, __pyx_t_9); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 652, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_2);
             __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
             __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-            __pyx_t_19 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_19 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 637, __pyx_L1_error)
+            __pyx_t_19 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_19 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 652, __pyx_L1_error)
             __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-            if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 637, __pyx_L1_error)}
+            if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 652, __pyx_L1_error)}
             __pyx_t_18 = __pyx_v_ioni;
             __pyx_t_17 = 2;
             __pyx_t_16 = -1;
@@ -13763,31 +14531,31 @@ static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv_(struct __pyx
             } else if (unlikely(__pyx_t_17 >= __pyx_v_self->grad.shape[1])) __pyx_t_16 = 1;
             if (unlikely(__pyx_t_16 != -1)) {
               __Pyx_RaiseBufferIndexError(__pyx_t_16);
-              __PYX_ERR(0, 637, __pyx_L1_error)
+              __PYX_ERR(0, 652, __pyx_L1_error)
             }
             *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_self->grad.data + __pyx_t_18 * __pyx_v_self->grad.strides[0]) ) + __pyx_t_17 * __pyx_v_self->grad.strides[1]) )) += __pyx_t_19;
 
-            /* "potential.pyx":640
+            /* "potential.pyx":655
  * 
  * 							# partial deriv with respect to ionj
  * 							self.grad[ionj][0] -= drv*rij[0]/dist             # <<<<<<<<<<<<<<
  * 							self.grad[ionj][1] -= drv*rij[1]/dist
  * 							self.grad[ionj][2] -= drv*rij[2]/dist
  */
-            __pyx_t_2 = PyFloat_FromDouble((__pyx_v_rij[0])); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 640, __pyx_L1_error)
+            __pyx_t_2 = PyFloat_FromDouble((__pyx_v_rij[0])); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 655, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_2);
-            __pyx_t_9 = PyNumber_Multiply(__pyx_v_drv, __pyx_t_2); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 640, __pyx_L1_error)
+            __pyx_t_9 = PyNumber_Multiply(__pyx_v_drv, __pyx_t_2); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 655, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_9);
             __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-            __pyx_t_2 = PyFloat_FromDouble(__pyx_v_dist); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 640, __pyx_L1_error)
+            __pyx_t_2 = PyFloat_FromDouble(__pyx_v_dist); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 655, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_2);
-            __pyx_t_10 = __Pyx_PyNumber_Divide(__pyx_t_9, __pyx_t_2); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 640, __pyx_L1_error)
+            __pyx_t_10 = __Pyx_PyNumber_Divide(__pyx_t_9, __pyx_t_2); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 655, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_10);
             __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
             __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-            __pyx_t_19 = __pyx_PyFloat_AsDouble(__pyx_t_10); if (unlikely((__pyx_t_19 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 640, __pyx_L1_error)
+            __pyx_t_19 = __pyx_PyFloat_AsDouble(__pyx_t_10); if (unlikely((__pyx_t_19 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 655, __pyx_L1_error)
             __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-            if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 640, __pyx_L1_error)}
+            if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 655, __pyx_L1_error)}
             __pyx_t_17 = __pyx_v_ionj;
             __pyx_t_18 = 0;
             __pyx_t_16 = -1;
@@ -13801,31 +14569,31 @@ static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv_(struct __pyx
             } else if (unlikely(__pyx_t_18 >= __pyx_v_self->grad.shape[1])) __pyx_t_16 = 1;
             if (unlikely(__pyx_t_16 != -1)) {
               __Pyx_RaiseBufferIndexError(__pyx_t_16);
-              __PYX_ERR(0, 640, __pyx_L1_error)
+              __PYX_ERR(0, 655, __pyx_L1_error)
             }
             *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_self->grad.data + __pyx_t_17 * __pyx_v_self->grad.strides[0]) ) + __pyx_t_18 * __pyx_v_self->grad.strides[1]) )) -= __pyx_t_19;
 
-            /* "potential.pyx":641
+            /* "potential.pyx":656
  * 							# partial deriv with respect to ionj
  * 							self.grad[ionj][0] -= drv*rij[0]/dist
  * 							self.grad[ionj][1] -= drv*rij[1]/dist             # <<<<<<<<<<<<<<
  * 							self.grad[ionj][2] -= drv*rij[2]/dist
  * 
  */
-            __pyx_t_10 = PyFloat_FromDouble((__pyx_v_rij[1])); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 641, __pyx_L1_error)
+            __pyx_t_10 = PyFloat_FromDouble((__pyx_v_rij[1])); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 656, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_10);
-            __pyx_t_2 = PyNumber_Multiply(__pyx_v_drv, __pyx_t_10); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 641, __pyx_L1_error)
+            __pyx_t_2 = PyNumber_Multiply(__pyx_v_drv, __pyx_t_10); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 656, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_2);
             __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-            __pyx_t_10 = PyFloat_FromDouble(__pyx_v_dist); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 641, __pyx_L1_error)
+            __pyx_t_10 = PyFloat_FromDouble(__pyx_v_dist); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 656, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_10);
-            __pyx_t_9 = __Pyx_PyNumber_Divide(__pyx_t_2, __pyx_t_10); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 641, __pyx_L1_error)
+            __pyx_t_9 = __Pyx_PyNumber_Divide(__pyx_t_2, __pyx_t_10); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 656, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_9);
             __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
             __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-            __pyx_t_19 = __pyx_PyFloat_AsDouble(__pyx_t_9); if (unlikely((__pyx_t_19 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 641, __pyx_L1_error)
+            __pyx_t_19 = __pyx_PyFloat_AsDouble(__pyx_t_9); if (unlikely((__pyx_t_19 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 656, __pyx_L1_error)
             __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-            if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 641, __pyx_L1_error)}
+            if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 656, __pyx_L1_error)}
             __pyx_t_18 = __pyx_v_ionj;
             __pyx_t_17 = 1;
             __pyx_t_16 = -1;
@@ -13839,31 +14607,31 @@ static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv_(struct __pyx
             } else if (unlikely(__pyx_t_17 >= __pyx_v_self->grad.shape[1])) __pyx_t_16 = 1;
             if (unlikely(__pyx_t_16 != -1)) {
               __Pyx_RaiseBufferIndexError(__pyx_t_16);
-              __PYX_ERR(0, 641, __pyx_L1_error)
+              __PYX_ERR(0, 656, __pyx_L1_error)
             }
             *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_self->grad.data + __pyx_t_18 * __pyx_v_self->grad.strides[0]) ) + __pyx_t_17 * __pyx_v_self->grad.strides[1]) )) -= __pyx_t_19;
 
-            /* "potential.pyx":642
+            /* "potential.pyx":657
  * 							self.grad[ionj][0] -= drv*rij[0]/dist
  * 							self.grad[ionj][1] -= drv*rij[1]/dist
  * 							self.grad[ionj][2] -= drv*rij[2]/dist             # <<<<<<<<<<<<<<
  * 
  * 						# Check interactions with neighbouring cells
  */
-            __pyx_t_9 = PyFloat_FromDouble((__pyx_v_rij[2])); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 642, __pyx_L1_error)
+            __pyx_t_9 = PyFloat_FromDouble((__pyx_v_rij[2])); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 657, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_9);
-            __pyx_t_10 = PyNumber_Multiply(__pyx_v_drv, __pyx_t_9); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 642, __pyx_L1_error)
+            __pyx_t_10 = PyNumber_Multiply(__pyx_v_drv, __pyx_t_9); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 657, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_10);
             __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-            __pyx_t_9 = PyFloat_FromDouble(__pyx_v_dist); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 642, __pyx_L1_error)
+            __pyx_t_9 = PyFloat_FromDouble(__pyx_v_dist); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 657, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_9);
-            __pyx_t_2 = __Pyx_PyNumber_Divide(__pyx_t_10, __pyx_t_9); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 642, __pyx_L1_error)
+            __pyx_t_2 = __Pyx_PyNumber_Divide(__pyx_t_10, __pyx_t_9); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 657, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_2);
             __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
             __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-            __pyx_t_19 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_19 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 642, __pyx_L1_error)
+            __pyx_t_19 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_19 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 657, __pyx_L1_error)
             __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-            if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 642, __pyx_L1_error)}
+            if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 657, __pyx_L1_error)}
             __pyx_t_17 = __pyx_v_ionj;
             __pyx_t_18 = 2;
             __pyx_t_16 = -1;
@@ -13877,11 +14645,11 @@ static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv_(struct __pyx
             } else if (unlikely(__pyx_t_18 >= __pyx_v_self->grad.shape[1])) __pyx_t_16 = 1;
             if (unlikely(__pyx_t_16 != -1)) {
               __Pyx_RaiseBufferIndexError(__pyx_t_16);
-              __PYX_ERR(0, 642, __pyx_L1_error)
+              __PYX_ERR(0, 657, __pyx_L1_error)
             }
             *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_self->grad.data + __pyx_t_17 * __pyx_v_self->grad.strides[0]) ) + __pyx_t_18 * __pyx_v_self->grad.strides[1]) )) -= __pyx_t_19;
 
-            /* "potential.pyx":630
+            /* "potential.pyx":645
  * 						dist = sqrt(rij[0]*rij[0] + rij[1]*rij[1] + rij[2]*rij[2])
  * 						# Check if distance of ions allows interaction
  * 						if (dist < buck[pair]['hi']):             # <<<<<<<<<<<<<<
@@ -13890,34 +14658,34 @@ static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv_(struct __pyx
  */
           }
 
-          /* "potential.pyx":645
+          /* "potential.pyx":660
  * 
  * 						# Check interactions with neighbouring cells
  * 						cutoff = self.get_cutoff(vects, buck[pair]['hi'])             # <<<<<<<<<<<<<<
  * 						shifts = self.get_shifts(cutoff, vects)
  * 						no_shifts = shifts.shape[0] # number of unit cell images-1
  */
-          __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_buck); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 645, __pyx_L1_error)
+          __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_buck); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 660, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
-          __pyx_t_9 = __Pyx_PyObject_GetItem(__pyx_t_2, __pyx_v_pair); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 645, __pyx_L1_error)
+          __pyx_t_9 = __Pyx_PyObject_GetItem(__pyx_t_2, __pyx_v_pair); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 660, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_9);
           __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-          __pyx_t_2 = __Pyx_PyObject_Dict_GetItem(__pyx_t_9, __pyx_n_u_hi); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 645, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyObject_Dict_GetItem(__pyx_t_9, __pyx_n_u_hi); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 660, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-          __pyx_t_20 = __pyx_PyFloat_AsFloat(__pyx_t_2); if (unlikely((__pyx_t_20 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 645, __pyx_L1_error)
+          __pyx_t_20 = __pyx_PyFloat_AsFloat(__pyx_t_2); if (unlikely((__pyx_t_20 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 660, __pyx_L1_error)
           __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
           __pyx_v_cutoff = ((struct __pyx_vtabstruct_9potential_Buckingham *)__pyx_v_self->__pyx_base.__pyx_vtab)->get_cutoff(__pyx_v_self, __pyx_v_vects, __pyx_t_20);
 
-          /* "potential.pyx":646
+          /* "potential.pyx":661
  * 						# Check interactions with neighbouring cells
  * 						cutoff = self.get_cutoff(vects, buck[pair]['hi'])
  * 						shifts = self.get_shifts(cutoff, vects)             # <<<<<<<<<<<<<<
  * 						no_shifts = shifts.shape[0] # number of unit cell images-1
  * 						for shift in range(no_shifts):
  */
-          __pyx_t_21 = ((struct __pyx_vtabstruct_9potential_Buckingham *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.get_shifts(((struct __pyx_obj_9potential_Potential *)__pyx_v_self), __pyx_v_cutoff, __pyx_v_vects); if (unlikely(!__pyx_t_21.memview)) __PYX_ERR(0, 646, __pyx_L1_error)
-          __pyx_t_2 = __pyx_memoryview_fromslice(__pyx_t_21, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 646, __pyx_L1_error)
+          __pyx_t_21 = ((struct __pyx_vtabstruct_9potential_Buckingham *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.get_shifts(((struct __pyx_obj_9potential_Potential *)__pyx_v_self), __pyx_v_cutoff, __pyx_v_vects); if (unlikely(!__pyx_t_21.memview)) __PYX_ERR(0, 661, __pyx_L1_error)
+          __pyx_t_2 = __pyx_memoryview_fromslice(__pyx_t_21, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 661, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
           __PYX_XDEC_MEMVIEW(&__pyx_t_21, 1);
           __pyx_t_21.memview = NULL;
@@ -13925,37 +14693,37 @@ static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv_(struct __pyx
           __Pyx_XDECREF_SET(__pyx_v_shifts, __pyx_t_2);
           __pyx_t_2 = 0;
 
-          /* "potential.pyx":647
+          /* "potential.pyx":662
  * 						cutoff = self.get_cutoff(vects, buck[pair]['hi'])
  * 						shifts = self.get_shifts(cutoff, vects)
  * 						no_shifts = shifts.shape[0] # number of unit cell images-1             # <<<<<<<<<<<<<<
  * 						for shift in range(no_shifts):
  * 							rij[0] = pos[ioni,0]+shifts[shift,0]-pos[ionj,0] # distance vector
  */
-          __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_shifts, __pyx_n_s_shape); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 647, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_shifts, __pyx_n_s_shape); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 662, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
-          __pyx_t_9 = __Pyx_GetItemInt(__pyx_t_2, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 647, __pyx_L1_error)
+          __pyx_t_9 = __Pyx_GetItemInt(__pyx_t_2, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 662, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_9);
           __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
           __Pyx_XDECREF_SET(__pyx_v_no_shifts, __pyx_t_9);
           __pyx_t_9 = 0;
 
-          /* "potential.pyx":648
+          /* "potential.pyx":663
  * 						shifts = self.get_shifts(cutoff, vects)
  * 						no_shifts = shifts.shape[0] # number of unit cell images-1
  * 						for shift in range(no_shifts):             # <<<<<<<<<<<<<<
  * 							rij[0] = pos[ioni,0]+shifts[shift,0]-pos[ionj,0] # distance vector
  * 							rij[1] = pos[ioni,1]+shifts[shift,1]-pos[ionj,1]
  */
-          __pyx_t_9 = __Pyx_PyObject_CallOneArg(__pyx_builtin_range, __pyx_v_no_shifts); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 648, __pyx_L1_error)
+          __pyx_t_9 = __Pyx_PyObject_CallOneArg(__pyx_builtin_range, __pyx_v_no_shifts); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 663, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_9);
           if (likely(PyList_CheckExact(__pyx_t_9)) || PyTuple_CheckExact(__pyx_t_9)) {
             __pyx_t_2 = __pyx_t_9; __Pyx_INCREF(__pyx_t_2); __pyx_t_22 = 0;
             __pyx_t_23 = NULL;
           } else {
-            __pyx_t_22 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_9); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 648, __pyx_L1_error)
+            __pyx_t_22 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_9); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 663, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_2);
-            __pyx_t_23 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_23)) __PYX_ERR(0, 648, __pyx_L1_error)
+            __pyx_t_23 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_23)) __PYX_ERR(0, 663, __pyx_L1_error)
           }
           __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
           for (;;) {
@@ -13963,17 +14731,17 @@ static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv_(struct __pyx
               if (likely(PyList_CheckExact(__pyx_t_2))) {
                 if (__pyx_t_22 >= PyList_GET_SIZE(__pyx_t_2)) break;
                 #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-                __pyx_t_9 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_22); __Pyx_INCREF(__pyx_t_9); __pyx_t_22++; if (unlikely(0 < 0)) __PYX_ERR(0, 648, __pyx_L1_error)
+                __pyx_t_9 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_22); __Pyx_INCREF(__pyx_t_9); __pyx_t_22++; if (unlikely(0 < 0)) __PYX_ERR(0, 663, __pyx_L1_error)
                 #else
-                __pyx_t_9 = PySequence_ITEM(__pyx_t_2, __pyx_t_22); __pyx_t_22++; if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 648, __pyx_L1_error)
+                __pyx_t_9 = PySequence_ITEM(__pyx_t_2, __pyx_t_22); __pyx_t_22++; if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 663, __pyx_L1_error)
                 __Pyx_GOTREF(__pyx_t_9);
                 #endif
               } else {
                 if (__pyx_t_22 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
                 #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-                __pyx_t_9 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_22); __Pyx_INCREF(__pyx_t_9); __pyx_t_22++; if (unlikely(0 < 0)) __PYX_ERR(0, 648, __pyx_L1_error)
+                __pyx_t_9 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_22); __Pyx_INCREF(__pyx_t_9); __pyx_t_22++; if (unlikely(0 < 0)) __PYX_ERR(0, 663, __pyx_L1_error)
                 #else
-                __pyx_t_9 = PySequence_ITEM(__pyx_t_2, __pyx_t_22); __pyx_t_22++; if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 648, __pyx_L1_error)
+                __pyx_t_9 = PySequence_ITEM(__pyx_t_2, __pyx_t_22); __pyx_t_22++; if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 663, __pyx_L1_error)
                 __Pyx_GOTREF(__pyx_t_9);
                 #endif
               }
@@ -13983,7 +14751,7 @@ static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv_(struct __pyx
                 PyObject* exc_type = PyErr_Occurred();
                 if (exc_type) {
                   if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-                  else __PYX_ERR(0, 648, __pyx_L1_error)
+                  else __PYX_ERR(0, 663, __pyx_L1_error)
                 }
                 break;
               }
@@ -13992,7 +14760,7 @@ static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv_(struct __pyx
             __Pyx_XDECREF_SET(__pyx_v_shift, __pyx_t_9);
             __pyx_t_9 = 0;
 
-            /* "potential.pyx":649
+            /* "potential.pyx":664
  * 						no_shifts = shifts.shape[0] # number of unit cell images-1
  * 						for shift in range(no_shifts):
  * 							rij[0] = pos[ioni,0]+shifts[shift,0]-pos[ionj,0] # distance vector             # <<<<<<<<<<<<<<
@@ -14012,11 +14780,11 @@ static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv_(struct __pyx
             } else if (unlikely(__pyx_t_17 >= __pyx_v_pos.shape[1])) __pyx_t_16 = 1;
             if (unlikely(__pyx_t_16 != -1)) {
               __Pyx_RaiseBufferIndexError(__pyx_t_16);
-              __PYX_ERR(0, 649, __pyx_L1_error)
+              __PYX_ERR(0, 664, __pyx_L1_error)
             }
-            __pyx_t_9 = PyFloat_FromDouble((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_18 * __pyx_v_pos.strides[0]) ) + __pyx_t_17 * __pyx_v_pos.strides[1]) )))); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 649, __pyx_L1_error)
+            __pyx_t_9 = PyFloat_FromDouble((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_18 * __pyx_v_pos.strides[0]) ) + __pyx_t_17 * __pyx_v_pos.strides[1]) )))); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 664, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_9);
-            __pyx_t_10 = PyTuple_New(2); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 649, __pyx_L1_error)
+            __pyx_t_10 = PyTuple_New(2); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 664, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_10);
             __Pyx_INCREF(__pyx_v_shift);
             __Pyx_GIVEREF(__pyx_v_shift);
@@ -14024,10 +14792,10 @@ static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv_(struct __pyx
             __Pyx_INCREF(__pyx_int_0);
             __Pyx_GIVEREF(__pyx_int_0);
             PyTuple_SET_ITEM(__pyx_t_10, 1, __pyx_int_0);
-            __pyx_t_11 = __Pyx_PyObject_GetItem(__pyx_v_shifts, __pyx_t_10); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 649, __pyx_L1_error)
+            __pyx_t_11 = __Pyx_PyObject_GetItem(__pyx_v_shifts, __pyx_t_10); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 664, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_11);
             __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-            __pyx_t_10 = PyNumber_Add(__pyx_t_9, __pyx_t_11); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 649, __pyx_L1_error)
+            __pyx_t_10 = PyNumber_Add(__pyx_t_9, __pyx_t_11); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 664, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_10);
             __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
             __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
@@ -14044,19 +14812,19 @@ static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv_(struct __pyx
             } else if (unlikely(__pyx_t_18 >= __pyx_v_pos.shape[1])) __pyx_t_16 = 1;
             if (unlikely(__pyx_t_16 != -1)) {
               __Pyx_RaiseBufferIndexError(__pyx_t_16);
-              __PYX_ERR(0, 649, __pyx_L1_error)
+              __PYX_ERR(0, 664, __pyx_L1_error)
             }
-            __pyx_t_11 = PyFloat_FromDouble((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_17 * __pyx_v_pos.strides[0]) ) + __pyx_t_18 * __pyx_v_pos.strides[1]) )))); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 649, __pyx_L1_error)
+            __pyx_t_11 = PyFloat_FromDouble((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_17 * __pyx_v_pos.strides[0]) ) + __pyx_t_18 * __pyx_v_pos.strides[1]) )))); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 664, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_11);
-            __pyx_t_9 = PyNumber_Subtract(__pyx_t_10, __pyx_t_11); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 649, __pyx_L1_error)
+            __pyx_t_9 = PyNumber_Subtract(__pyx_t_10, __pyx_t_11); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 664, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_9);
             __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
             __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-            __pyx_t_19 = __pyx_PyFloat_AsDouble(__pyx_t_9); if (unlikely((__pyx_t_19 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 649, __pyx_L1_error)
+            __pyx_t_19 = __pyx_PyFloat_AsDouble(__pyx_t_9); if (unlikely((__pyx_t_19 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 664, __pyx_L1_error)
             __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
             (__pyx_v_rij[0]) = __pyx_t_19;
 
-            /* "potential.pyx":650
+            /* "potential.pyx":665
  * 						for shift in range(no_shifts):
  * 							rij[0] = pos[ioni,0]+shifts[shift,0]-pos[ionj,0] # distance vector
  * 							rij[1] = pos[ioni,1]+shifts[shift,1]-pos[ionj,1]             # <<<<<<<<<<<<<<
@@ -14076,11 +14844,11 @@ static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv_(struct __pyx
             } else if (unlikely(__pyx_t_17 >= __pyx_v_pos.shape[1])) __pyx_t_16 = 1;
             if (unlikely(__pyx_t_16 != -1)) {
               __Pyx_RaiseBufferIndexError(__pyx_t_16);
-              __PYX_ERR(0, 650, __pyx_L1_error)
+              __PYX_ERR(0, 665, __pyx_L1_error)
             }
-            __pyx_t_9 = PyFloat_FromDouble((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_18 * __pyx_v_pos.strides[0]) ) + __pyx_t_17 * __pyx_v_pos.strides[1]) )))); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 650, __pyx_L1_error)
+            __pyx_t_9 = PyFloat_FromDouble((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_18 * __pyx_v_pos.strides[0]) ) + __pyx_t_17 * __pyx_v_pos.strides[1]) )))); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 665, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_9);
-            __pyx_t_11 = PyTuple_New(2); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 650, __pyx_L1_error)
+            __pyx_t_11 = PyTuple_New(2); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 665, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_11);
             __Pyx_INCREF(__pyx_v_shift);
             __Pyx_GIVEREF(__pyx_v_shift);
@@ -14088,10 +14856,10 @@ static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv_(struct __pyx
             __Pyx_INCREF(__pyx_int_1);
             __Pyx_GIVEREF(__pyx_int_1);
             PyTuple_SET_ITEM(__pyx_t_11, 1, __pyx_int_1);
-            __pyx_t_10 = __Pyx_PyObject_GetItem(__pyx_v_shifts, __pyx_t_11); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 650, __pyx_L1_error)
+            __pyx_t_10 = __Pyx_PyObject_GetItem(__pyx_v_shifts, __pyx_t_11); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 665, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_10);
             __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-            __pyx_t_11 = PyNumber_Add(__pyx_t_9, __pyx_t_10); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 650, __pyx_L1_error)
+            __pyx_t_11 = PyNumber_Add(__pyx_t_9, __pyx_t_10); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 665, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_11);
             __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
             __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
@@ -14108,19 +14876,19 @@ static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv_(struct __pyx
             } else if (unlikely(__pyx_t_18 >= __pyx_v_pos.shape[1])) __pyx_t_16 = 1;
             if (unlikely(__pyx_t_16 != -1)) {
               __Pyx_RaiseBufferIndexError(__pyx_t_16);
-              __PYX_ERR(0, 650, __pyx_L1_error)
+              __PYX_ERR(0, 665, __pyx_L1_error)
             }
-            __pyx_t_10 = PyFloat_FromDouble((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_17 * __pyx_v_pos.strides[0]) ) + __pyx_t_18 * __pyx_v_pos.strides[1]) )))); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 650, __pyx_L1_error)
+            __pyx_t_10 = PyFloat_FromDouble((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_17 * __pyx_v_pos.strides[0]) ) + __pyx_t_18 * __pyx_v_pos.strides[1]) )))); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 665, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_10);
-            __pyx_t_9 = PyNumber_Subtract(__pyx_t_11, __pyx_t_10); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 650, __pyx_L1_error)
+            __pyx_t_9 = PyNumber_Subtract(__pyx_t_11, __pyx_t_10); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 665, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_9);
             __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
             __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-            __pyx_t_19 = __pyx_PyFloat_AsDouble(__pyx_t_9); if (unlikely((__pyx_t_19 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 650, __pyx_L1_error)
+            __pyx_t_19 = __pyx_PyFloat_AsDouble(__pyx_t_9); if (unlikely((__pyx_t_19 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 665, __pyx_L1_error)
             __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
             (__pyx_v_rij[1]) = __pyx_t_19;
 
-            /* "potential.pyx":651
+            /* "potential.pyx":666
  * 							rij[0] = pos[ioni,0]+shifts[shift,0]-pos[ionj,0] # distance vector
  * 							rij[1] = pos[ioni,1]+shifts[shift,1]-pos[ionj,1]
  * 							rij[2] = pos[ioni,2]+shifts[shift,2]-pos[ionj,2]             # <<<<<<<<<<<<<<
@@ -14140,11 +14908,11 @@ static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv_(struct __pyx
             } else if (unlikely(__pyx_t_17 >= __pyx_v_pos.shape[1])) __pyx_t_16 = 1;
             if (unlikely(__pyx_t_16 != -1)) {
               __Pyx_RaiseBufferIndexError(__pyx_t_16);
-              __PYX_ERR(0, 651, __pyx_L1_error)
+              __PYX_ERR(0, 666, __pyx_L1_error)
             }
-            __pyx_t_9 = PyFloat_FromDouble((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_18 * __pyx_v_pos.strides[0]) ) + __pyx_t_17 * __pyx_v_pos.strides[1]) )))); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 651, __pyx_L1_error)
+            __pyx_t_9 = PyFloat_FromDouble((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_18 * __pyx_v_pos.strides[0]) ) + __pyx_t_17 * __pyx_v_pos.strides[1]) )))); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 666, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_9);
-            __pyx_t_10 = PyTuple_New(2); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 651, __pyx_L1_error)
+            __pyx_t_10 = PyTuple_New(2); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 666, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_10);
             __Pyx_INCREF(__pyx_v_shift);
             __Pyx_GIVEREF(__pyx_v_shift);
@@ -14152,10 +14920,10 @@ static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv_(struct __pyx
             __Pyx_INCREF(__pyx_int_2);
             __Pyx_GIVEREF(__pyx_int_2);
             PyTuple_SET_ITEM(__pyx_t_10, 1, __pyx_int_2);
-            __pyx_t_11 = __Pyx_PyObject_GetItem(__pyx_v_shifts, __pyx_t_10); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 651, __pyx_L1_error)
+            __pyx_t_11 = __Pyx_PyObject_GetItem(__pyx_v_shifts, __pyx_t_10); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 666, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_11);
             __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-            __pyx_t_10 = PyNumber_Add(__pyx_t_9, __pyx_t_11); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 651, __pyx_L1_error)
+            __pyx_t_10 = PyNumber_Add(__pyx_t_9, __pyx_t_11); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 666, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_10);
             __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
             __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
@@ -14172,19 +14940,19 @@ static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv_(struct __pyx
             } else if (unlikely(__pyx_t_18 >= __pyx_v_pos.shape[1])) __pyx_t_16 = 1;
             if (unlikely(__pyx_t_16 != -1)) {
               __Pyx_RaiseBufferIndexError(__pyx_t_16);
-              __PYX_ERR(0, 651, __pyx_L1_error)
+              __PYX_ERR(0, 666, __pyx_L1_error)
             }
-            __pyx_t_11 = PyFloat_FromDouble((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_17 * __pyx_v_pos.strides[0]) ) + __pyx_t_18 * __pyx_v_pos.strides[1]) )))); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 651, __pyx_L1_error)
+            __pyx_t_11 = PyFloat_FromDouble((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_pos.data + __pyx_t_17 * __pyx_v_pos.strides[0]) ) + __pyx_t_18 * __pyx_v_pos.strides[1]) )))); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 666, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_11);
-            __pyx_t_9 = PyNumber_Subtract(__pyx_t_10, __pyx_t_11); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 651, __pyx_L1_error)
+            __pyx_t_9 = PyNumber_Subtract(__pyx_t_10, __pyx_t_11); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 666, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_9);
             __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
             __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-            __pyx_t_19 = __pyx_PyFloat_AsDouble(__pyx_t_9); if (unlikely((__pyx_t_19 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 651, __pyx_L1_error)
+            __pyx_t_19 = __pyx_PyFloat_AsDouble(__pyx_t_9); if (unlikely((__pyx_t_19 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 666, __pyx_L1_error)
             __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
             (__pyx_v_rij[2]) = __pyx_t_19;
 
-            /* "potential.pyx":652
+            /* "potential.pyx":667
  * 							rij[1] = pos[ioni,1]+shifts[shift,1]-pos[ionj,1]
  * 							rij[2] = pos[ioni,2]+shifts[shift,2]-pos[ionj,2]
  * 							dist = sqrt(rij[0]*rij[0] + rij[1]*rij[1] + rij[2]*rij[2])             # <<<<<<<<<<<<<<
@@ -14193,115 +14961,115 @@ static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv_(struct __pyx
  */
             __pyx_v_dist = sqrt(((((__pyx_v_rij[0]) * (__pyx_v_rij[0])) + ((__pyx_v_rij[1]) * (__pyx_v_rij[1]))) + ((__pyx_v_rij[2]) * (__pyx_v_rij[2]))));
 
-            /* "potential.pyx":654
+            /* "potential.pyx":669
  * 							dist = sqrt(rij[0]*rij[0] + rij[1]*rij[1] + rij[2]*rij[2])
  * 							# Check if distance of ions allows interaction
  * 							if (dist < buck[pair]['hi']):             # <<<<<<<<<<<<<<
  * 								drv = - (A/rho) * \
  * 									exp(-1.0*dist/rho) + 6*C/dist**7
  */
-            __pyx_t_9 = PyFloat_FromDouble(__pyx_v_dist); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 654, __pyx_L1_error)
+            __pyx_t_9 = PyFloat_FromDouble(__pyx_v_dist); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 669, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_9);
-            __Pyx_GetModuleGlobalName(__pyx_t_11, __pyx_n_s_buck); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 654, __pyx_L1_error)
+            __Pyx_GetModuleGlobalName(__pyx_t_11, __pyx_n_s_buck); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 669, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_11);
-            __pyx_t_10 = __Pyx_PyObject_GetItem(__pyx_t_11, __pyx_v_pair); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 654, __pyx_L1_error)
+            __pyx_t_10 = __Pyx_PyObject_GetItem(__pyx_t_11, __pyx_v_pair); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 669, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_10);
             __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-            __pyx_t_11 = __Pyx_PyObject_Dict_GetItem(__pyx_t_10, __pyx_n_u_hi); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 654, __pyx_L1_error)
+            __pyx_t_11 = __Pyx_PyObject_Dict_GetItem(__pyx_t_10, __pyx_n_u_hi); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 669, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_11);
             __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-            __pyx_t_10 = PyObject_RichCompare(__pyx_t_9, __pyx_t_11, Py_LT); __Pyx_XGOTREF(__pyx_t_10); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 654, __pyx_L1_error)
+            __pyx_t_10 = PyObject_RichCompare(__pyx_t_9, __pyx_t_11, Py_LT); __Pyx_XGOTREF(__pyx_t_10); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 669, __pyx_L1_error)
             __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
             __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-            __pyx_t_13 = __Pyx_PyObject_IsTrue(__pyx_t_10); if (unlikely(__pyx_t_13 < 0)) __PYX_ERR(0, 654, __pyx_L1_error)
+            __pyx_t_13 = __Pyx_PyObject_IsTrue(__pyx_t_10); if (unlikely(__pyx_t_13 < 0)) __PYX_ERR(0, 669, __pyx_L1_error)
             __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
             if (__pyx_t_13) {
 
-              /* "potential.pyx":655
+              /* "potential.pyx":670
  * 							# Check if distance of ions allows interaction
  * 							if (dist < buck[pair]['hi']):
  * 								drv = - (A/rho) * \             # <<<<<<<<<<<<<<
  * 									exp(-1.0*dist/rho) + 6*C/dist**7
  * 
  */
-              __pyx_t_10 = __Pyx_PyNumber_Divide(__pyx_v_A, __pyx_v_rho); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 655, __pyx_L1_error)
+              __pyx_t_10 = __Pyx_PyNumber_Divide(__pyx_v_A, __pyx_v_rho); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 670, __pyx_L1_error)
               __Pyx_GOTREF(__pyx_t_10);
-              __pyx_t_11 = PyNumber_Negative(__pyx_t_10); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 655, __pyx_L1_error)
+              __pyx_t_11 = PyNumber_Negative(__pyx_t_10); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 670, __pyx_L1_error)
               __Pyx_GOTREF(__pyx_t_11);
               __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
-              /* "potential.pyx":656
+              /* "potential.pyx":671
  * 							if (dist < buck[pair]['hi']):
  * 								drv = - (A/rho) * \
  * 									exp(-1.0*dist/rho) + 6*C/dist**7             # <<<<<<<<<<<<<<
  * 
  * 								# partial deriv with respect to ioni
  */
-              __pyx_t_10 = PyFloat_FromDouble((-1.0 * __pyx_v_dist)); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 656, __pyx_L1_error)
+              __pyx_t_10 = PyFloat_FromDouble((-1.0 * __pyx_v_dist)); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 671, __pyx_L1_error)
               __Pyx_GOTREF(__pyx_t_10);
-              __pyx_t_9 = __Pyx_PyNumber_Divide(__pyx_t_10, __pyx_v_rho); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 656, __pyx_L1_error)
+              __pyx_t_9 = __Pyx_PyNumber_Divide(__pyx_t_10, __pyx_v_rho); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 671, __pyx_L1_error)
               __Pyx_GOTREF(__pyx_t_9);
               __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-              __pyx_t_19 = __pyx_PyFloat_AsDouble(__pyx_t_9); if (unlikely((__pyx_t_19 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 656, __pyx_L1_error)
+              __pyx_t_19 = __pyx_PyFloat_AsDouble(__pyx_t_9); if (unlikely((__pyx_t_19 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 671, __pyx_L1_error)
               __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-              __pyx_t_9 = PyFloat_FromDouble(exp(__pyx_t_19)); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 656, __pyx_L1_error)
+              __pyx_t_9 = PyFloat_FromDouble(exp(__pyx_t_19)); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 671, __pyx_L1_error)
               __Pyx_GOTREF(__pyx_t_9);
 
-              /* "potential.pyx":655
+              /* "potential.pyx":670
  * 							# Check if distance of ions allows interaction
  * 							if (dist < buck[pair]['hi']):
  * 								drv = - (A/rho) * \             # <<<<<<<<<<<<<<
  * 									exp(-1.0*dist/rho) + 6*C/dist**7
  * 
  */
-              __pyx_t_10 = PyNumber_Multiply(__pyx_t_11, __pyx_t_9); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 655, __pyx_L1_error)
+              __pyx_t_10 = PyNumber_Multiply(__pyx_t_11, __pyx_t_9); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 670, __pyx_L1_error)
               __Pyx_GOTREF(__pyx_t_10);
               __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
               __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
 
-              /* "potential.pyx":656
+              /* "potential.pyx":671
  * 							if (dist < buck[pair]['hi']):
  * 								drv = - (A/rho) * \
  * 									exp(-1.0*dist/rho) + 6*C/dist**7             # <<<<<<<<<<<<<<
  * 
  * 								# partial deriv with respect to ioni
  */
-              __pyx_t_9 = PyNumber_Multiply(__pyx_int_6, __pyx_v_C); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 656, __pyx_L1_error)
+              __pyx_t_9 = PyNumber_Multiply(__pyx_int_6, __pyx_v_C); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 671, __pyx_L1_error)
               __Pyx_GOTREF(__pyx_t_9);
-              __pyx_t_11 = PyFloat_FromDouble(pow(__pyx_v_dist, 7.0)); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 656, __pyx_L1_error)
+              __pyx_t_11 = PyFloat_FromDouble(pow(__pyx_v_dist, 7.0)); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 671, __pyx_L1_error)
               __Pyx_GOTREF(__pyx_t_11);
-              __pyx_t_12 = __Pyx_PyNumber_Divide(__pyx_t_9, __pyx_t_11); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 656, __pyx_L1_error)
+              __pyx_t_12 = __Pyx_PyNumber_Divide(__pyx_t_9, __pyx_t_11); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 671, __pyx_L1_error)
               __Pyx_GOTREF(__pyx_t_12);
               __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
               __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-              __pyx_t_11 = PyNumber_Add(__pyx_t_10, __pyx_t_12); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 656, __pyx_L1_error)
+              __pyx_t_11 = PyNumber_Add(__pyx_t_10, __pyx_t_12); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 671, __pyx_L1_error)
               __Pyx_GOTREF(__pyx_t_11);
               __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
               __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
               __Pyx_XDECREF_SET(__pyx_v_drv, __pyx_t_11);
               __pyx_t_11 = 0;
 
-              /* "potential.pyx":659
+              /* "potential.pyx":674
  * 
  * 								# partial deriv with respect to ioni
  * 								self.grad[ioni][0] += drv*rij[0]/dist             # <<<<<<<<<<<<<<
  * 								self.grad[ioni][1] += drv*rij[1]/dist
  * 								self.grad[ioni][2] += drv*rij[2]/dist
  */
-              __pyx_t_11 = PyFloat_FromDouble((__pyx_v_rij[0])); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 659, __pyx_L1_error)
+              __pyx_t_11 = PyFloat_FromDouble((__pyx_v_rij[0])); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 674, __pyx_L1_error)
               __Pyx_GOTREF(__pyx_t_11);
-              __pyx_t_12 = PyNumber_Multiply(__pyx_v_drv, __pyx_t_11); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 659, __pyx_L1_error)
+              __pyx_t_12 = PyNumber_Multiply(__pyx_v_drv, __pyx_t_11); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 674, __pyx_L1_error)
               __Pyx_GOTREF(__pyx_t_12);
               __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-              __pyx_t_11 = PyFloat_FromDouble(__pyx_v_dist); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 659, __pyx_L1_error)
+              __pyx_t_11 = PyFloat_FromDouble(__pyx_v_dist); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 674, __pyx_L1_error)
               __Pyx_GOTREF(__pyx_t_11);
-              __pyx_t_10 = __Pyx_PyNumber_Divide(__pyx_t_12, __pyx_t_11); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 659, __pyx_L1_error)
+              __pyx_t_10 = __Pyx_PyNumber_Divide(__pyx_t_12, __pyx_t_11); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 674, __pyx_L1_error)
               __Pyx_GOTREF(__pyx_t_10);
               __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
               __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-              __pyx_t_19 = __pyx_PyFloat_AsDouble(__pyx_t_10); if (unlikely((__pyx_t_19 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 659, __pyx_L1_error)
+              __pyx_t_19 = __pyx_PyFloat_AsDouble(__pyx_t_10); if (unlikely((__pyx_t_19 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 674, __pyx_L1_error)
               __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-              if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 659, __pyx_L1_error)}
+              if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 674, __pyx_L1_error)}
               __pyx_t_18 = __pyx_v_ioni;
               __pyx_t_17 = 0;
               __pyx_t_16 = -1;
@@ -14315,31 +15083,31 @@ static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv_(struct __pyx
               } else if (unlikely(__pyx_t_17 >= __pyx_v_self->grad.shape[1])) __pyx_t_16 = 1;
               if (unlikely(__pyx_t_16 != -1)) {
                 __Pyx_RaiseBufferIndexError(__pyx_t_16);
-                __PYX_ERR(0, 659, __pyx_L1_error)
+                __PYX_ERR(0, 674, __pyx_L1_error)
               }
               *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_self->grad.data + __pyx_t_18 * __pyx_v_self->grad.strides[0]) ) + __pyx_t_17 * __pyx_v_self->grad.strides[1]) )) += __pyx_t_19;
 
-              /* "potential.pyx":660
+              /* "potential.pyx":675
  * 								# partial deriv with respect to ioni
  * 								self.grad[ioni][0] += drv*rij[0]/dist
  * 								self.grad[ioni][1] += drv*rij[1]/dist             # <<<<<<<<<<<<<<
  * 								self.grad[ioni][2] += drv*rij[2]/dist
  * 
  */
-              __pyx_t_10 = PyFloat_FromDouble((__pyx_v_rij[1])); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 660, __pyx_L1_error)
+              __pyx_t_10 = PyFloat_FromDouble((__pyx_v_rij[1])); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 675, __pyx_L1_error)
               __Pyx_GOTREF(__pyx_t_10);
-              __pyx_t_11 = PyNumber_Multiply(__pyx_v_drv, __pyx_t_10); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 660, __pyx_L1_error)
+              __pyx_t_11 = PyNumber_Multiply(__pyx_v_drv, __pyx_t_10); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 675, __pyx_L1_error)
               __Pyx_GOTREF(__pyx_t_11);
               __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-              __pyx_t_10 = PyFloat_FromDouble(__pyx_v_dist); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 660, __pyx_L1_error)
+              __pyx_t_10 = PyFloat_FromDouble(__pyx_v_dist); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 675, __pyx_L1_error)
               __Pyx_GOTREF(__pyx_t_10);
-              __pyx_t_12 = __Pyx_PyNumber_Divide(__pyx_t_11, __pyx_t_10); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 660, __pyx_L1_error)
+              __pyx_t_12 = __Pyx_PyNumber_Divide(__pyx_t_11, __pyx_t_10); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 675, __pyx_L1_error)
               __Pyx_GOTREF(__pyx_t_12);
               __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
               __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-              __pyx_t_19 = __pyx_PyFloat_AsDouble(__pyx_t_12); if (unlikely((__pyx_t_19 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 660, __pyx_L1_error)
+              __pyx_t_19 = __pyx_PyFloat_AsDouble(__pyx_t_12); if (unlikely((__pyx_t_19 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 675, __pyx_L1_error)
               __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-              if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 660, __pyx_L1_error)}
+              if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 675, __pyx_L1_error)}
               __pyx_t_17 = __pyx_v_ioni;
               __pyx_t_18 = 1;
               __pyx_t_16 = -1;
@@ -14353,31 +15121,31 @@ static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv_(struct __pyx
               } else if (unlikely(__pyx_t_18 >= __pyx_v_self->grad.shape[1])) __pyx_t_16 = 1;
               if (unlikely(__pyx_t_16 != -1)) {
                 __Pyx_RaiseBufferIndexError(__pyx_t_16);
-                __PYX_ERR(0, 660, __pyx_L1_error)
+                __PYX_ERR(0, 675, __pyx_L1_error)
               }
               *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_self->grad.data + __pyx_t_17 * __pyx_v_self->grad.strides[0]) ) + __pyx_t_18 * __pyx_v_self->grad.strides[1]) )) += __pyx_t_19;
 
-              /* "potential.pyx":661
+              /* "potential.pyx":676
  * 								self.grad[ioni][0] += drv*rij[0]/dist
  * 								self.grad[ioni][1] += drv*rij[1]/dist
  * 								self.grad[ioni][2] += drv*rij[2]/dist             # <<<<<<<<<<<<<<
  * 
  * 								# partial deriv with respect to ionj
  */
-              __pyx_t_12 = PyFloat_FromDouble((__pyx_v_rij[2])); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 661, __pyx_L1_error)
+              __pyx_t_12 = PyFloat_FromDouble((__pyx_v_rij[2])); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 676, __pyx_L1_error)
               __Pyx_GOTREF(__pyx_t_12);
-              __pyx_t_10 = PyNumber_Multiply(__pyx_v_drv, __pyx_t_12); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 661, __pyx_L1_error)
+              __pyx_t_10 = PyNumber_Multiply(__pyx_v_drv, __pyx_t_12); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 676, __pyx_L1_error)
               __Pyx_GOTREF(__pyx_t_10);
               __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-              __pyx_t_12 = PyFloat_FromDouble(__pyx_v_dist); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 661, __pyx_L1_error)
+              __pyx_t_12 = PyFloat_FromDouble(__pyx_v_dist); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 676, __pyx_L1_error)
               __Pyx_GOTREF(__pyx_t_12);
-              __pyx_t_11 = __Pyx_PyNumber_Divide(__pyx_t_10, __pyx_t_12); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 661, __pyx_L1_error)
+              __pyx_t_11 = __Pyx_PyNumber_Divide(__pyx_t_10, __pyx_t_12); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 676, __pyx_L1_error)
               __Pyx_GOTREF(__pyx_t_11);
               __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
               __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-              __pyx_t_19 = __pyx_PyFloat_AsDouble(__pyx_t_11); if (unlikely((__pyx_t_19 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 661, __pyx_L1_error)
+              __pyx_t_19 = __pyx_PyFloat_AsDouble(__pyx_t_11); if (unlikely((__pyx_t_19 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 676, __pyx_L1_error)
               __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-              if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 661, __pyx_L1_error)}
+              if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 676, __pyx_L1_error)}
               __pyx_t_18 = __pyx_v_ioni;
               __pyx_t_17 = 2;
               __pyx_t_16 = -1;
@@ -14391,31 +15159,31 @@ static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv_(struct __pyx
               } else if (unlikely(__pyx_t_17 >= __pyx_v_self->grad.shape[1])) __pyx_t_16 = 1;
               if (unlikely(__pyx_t_16 != -1)) {
                 __Pyx_RaiseBufferIndexError(__pyx_t_16);
-                __PYX_ERR(0, 661, __pyx_L1_error)
+                __PYX_ERR(0, 676, __pyx_L1_error)
               }
               *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_self->grad.data + __pyx_t_18 * __pyx_v_self->grad.strides[0]) ) + __pyx_t_17 * __pyx_v_self->grad.strides[1]) )) += __pyx_t_19;
 
-              /* "potential.pyx":664
+              /* "potential.pyx":679
  * 
  * 								# partial deriv with respect to ionj
  * 								self.grad[ionj][0] -= drv*rij[0]/dist             # <<<<<<<<<<<<<<
  * 								self.grad[ionj][1] -= drv*rij[1]/dist
  * 								self.grad[ionj][2] -= drv*rij[2]/dist
  */
-              __pyx_t_11 = PyFloat_FromDouble((__pyx_v_rij[0])); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 664, __pyx_L1_error)
+              __pyx_t_11 = PyFloat_FromDouble((__pyx_v_rij[0])); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 679, __pyx_L1_error)
               __Pyx_GOTREF(__pyx_t_11);
-              __pyx_t_12 = PyNumber_Multiply(__pyx_v_drv, __pyx_t_11); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 664, __pyx_L1_error)
+              __pyx_t_12 = PyNumber_Multiply(__pyx_v_drv, __pyx_t_11); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 679, __pyx_L1_error)
               __Pyx_GOTREF(__pyx_t_12);
               __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-              __pyx_t_11 = PyFloat_FromDouble(__pyx_v_dist); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 664, __pyx_L1_error)
+              __pyx_t_11 = PyFloat_FromDouble(__pyx_v_dist); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 679, __pyx_L1_error)
               __Pyx_GOTREF(__pyx_t_11);
-              __pyx_t_10 = __Pyx_PyNumber_Divide(__pyx_t_12, __pyx_t_11); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 664, __pyx_L1_error)
+              __pyx_t_10 = __Pyx_PyNumber_Divide(__pyx_t_12, __pyx_t_11); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 679, __pyx_L1_error)
               __Pyx_GOTREF(__pyx_t_10);
               __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
               __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-              __pyx_t_19 = __pyx_PyFloat_AsDouble(__pyx_t_10); if (unlikely((__pyx_t_19 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 664, __pyx_L1_error)
+              __pyx_t_19 = __pyx_PyFloat_AsDouble(__pyx_t_10); if (unlikely((__pyx_t_19 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 679, __pyx_L1_error)
               __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-              if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 664, __pyx_L1_error)}
+              if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 679, __pyx_L1_error)}
               __pyx_t_17 = __pyx_v_ionj;
               __pyx_t_18 = 0;
               __pyx_t_16 = -1;
@@ -14429,31 +15197,31 @@ static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv_(struct __pyx
               } else if (unlikely(__pyx_t_18 >= __pyx_v_self->grad.shape[1])) __pyx_t_16 = 1;
               if (unlikely(__pyx_t_16 != -1)) {
                 __Pyx_RaiseBufferIndexError(__pyx_t_16);
-                __PYX_ERR(0, 664, __pyx_L1_error)
+                __PYX_ERR(0, 679, __pyx_L1_error)
               }
               *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_self->grad.data + __pyx_t_17 * __pyx_v_self->grad.strides[0]) ) + __pyx_t_18 * __pyx_v_self->grad.strides[1]) )) -= __pyx_t_19;
 
-              /* "potential.pyx":665
+              /* "potential.pyx":680
  * 								# partial deriv with respect to ionj
  * 								self.grad[ionj][0] -= drv*rij[0]/dist
  * 								self.grad[ionj][1] -= drv*rij[1]/dist             # <<<<<<<<<<<<<<
  * 								self.grad[ionj][2] -= drv*rij[2]/dist
  * 		free(rij)
  */
-              __pyx_t_10 = PyFloat_FromDouble((__pyx_v_rij[1])); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 665, __pyx_L1_error)
+              __pyx_t_10 = PyFloat_FromDouble((__pyx_v_rij[1])); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 680, __pyx_L1_error)
               __Pyx_GOTREF(__pyx_t_10);
-              __pyx_t_11 = PyNumber_Multiply(__pyx_v_drv, __pyx_t_10); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 665, __pyx_L1_error)
+              __pyx_t_11 = PyNumber_Multiply(__pyx_v_drv, __pyx_t_10); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 680, __pyx_L1_error)
               __Pyx_GOTREF(__pyx_t_11);
               __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-              __pyx_t_10 = PyFloat_FromDouble(__pyx_v_dist); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 665, __pyx_L1_error)
+              __pyx_t_10 = PyFloat_FromDouble(__pyx_v_dist); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 680, __pyx_L1_error)
               __Pyx_GOTREF(__pyx_t_10);
-              __pyx_t_12 = __Pyx_PyNumber_Divide(__pyx_t_11, __pyx_t_10); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 665, __pyx_L1_error)
+              __pyx_t_12 = __Pyx_PyNumber_Divide(__pyx_t_11, __pyx_t_10); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 680, __pyx_L1_error)
               __Pyx_GOTREF(__pyx_t_12);
               __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
               __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-              __pyx_t_19 = __pyx_PyFloat_AsDouble(__pyx_t_12); if (unlikely((__pyx_t_19 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 665, __pyx_L1_error)
+              __pyx_t_19 = __pyx_PyFloat_AsDouble(__pyx_t_12); if (unlikely((__pyx_t_19 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 680, __pyx_L1_error)
               __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-              if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 665, __pyx_L1_error)}
+              if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 680, __pyx_L1_error)}
               __pyx_t_18 = __pyx_v_ionj;
               __pyx_t_17 = 1;
               __pyx_t_16 = -1;
@@ -14467,31 +15235,31 @@ static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv_(struct __pyx
               } else if (unlikely(__pyx_t_17 >= __pyx_v_self->grad.shape[1])) __pyx_t_16 = 1;
               if (unlikely(__pyx_t_16 != -1)) {
                 __Pyx_RaiseBufferIndexError(__pyx_t_16);
-                __PYX_ERR(0, 665, __pyx_L1_error)
+                __PYX_ERR(0, 680, __pyx_L1_error)
               }
               *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_self->grad.data + __pyx_t_18 * __pyx_v_self->grad.strides[0]) ) + __pyx_t_17 * __pyx_v_self->grad.strides[1]) )) -= __pyx_t_19;
 
-              /* "potential.pyx":666
+              /* "potential.pyx":681
  * 								self.grad[ionj][0] -= drv*rij[0]/dist
  * 								self.grad[ionj][1] -= drv*rij[1]/dist
  * 								self.grad[ionj][2] -= drv*rij[2]/dist             # <<<<<<<<<<<<<<
  * 		free(rij)
  * 		return self.grad
  */
-              __pyx_t_12 = PyFloat_FromDouble((__pyx_v_rij[2])); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 666, __pyx_L1_error)
+              __pyx_t_12 = PyFloat_FromDouble((__pyx_v_rij[2])); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 681, __pyx_L1_error)
               __Pyx_GOTREF(__pyx_t_12);
-              __pyx_t_10 = PyNumber_Multiply(__pyx_v_drv, __pyx_t_12); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 666, __pyx_L1_error)
+              __pyx_t_10 = PyNumber_Multiply(__pyx_v_drv, __pyx_t_12); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 681, __pyx_L1_error)
               __Pyx_GOTREF(__pyx_t_10);
               __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-              __pyx_t_12 = PyFloat_FromDouble(__pyx_v_dist); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 666, __pyx_L1_error)
+              __pyx_t_12 = PyFloat_FromDouble(__pyx_v_dist); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 681, __pyx_L1_error)
               __Pyx_GOTREF(__pyx_t_12);
-              __pyx_t_11 = __Pyx_PyNumber_Divide(__pyx_t_10, __pyx_t_12); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 666, __pyx_L1_error)
+              __pyx_t_11 = __Pyx_PyNumber_Divide(__pyx_t_10, __pyx_t_12); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 681, __pyx_L1_error)
               __Pyx_GOTREF(__pyx_t_11);
               __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
               __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-              __pyx_t_19 = __pyx_PyFloat_AsDouble(__pyx_t_11); if (unlikely((__pyx_t_19 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 666, __pyx_L1_error)
+              __pyx_t_19 = __pyx_PyFloat_AsDouble(__pyx_t_11); if (unlikely((__pyx_t_19 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 681, __pyx_L1_error)
               __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-              if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 666, __pyx_L1_error)}
+              if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 681, __pyx_L1_error)}
               __pyx_t_17 = __pyx_v_ionj;
               __pyx_t_18 = 2;
               __pyx_t_16 = -1;
@@ -14505,11 +15273,11 @@ static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv_(struct __pyx
               } else if (unlikely(__pyx_t_18 >= __pyx_v_self->grad.shape[1])) __pyx_t_16 = 1;
               if (unlikely(__pyx_t_16 != -1)) {
                 __Pyx_RaiseBufferIndexError(__pyx_t_16);
-                __PYX_ERR(0, 666, __pyx_L1_error)
+                __PYX_ERR(0, 681, __pyx_L1_error)
               }
               *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_self->grad.data + __pyx_t_17 * __pyx_v_self->grad.strides[0]) ) + __pyx_t_18 * __pyx_v_self->grad.strides[1]) )) -= __pyx_t_19;
 
-              /* "potential.pyx":654
+              /* "potential.pyx":669
  * 							dist = sqrt(rij[0]*rij[0] + rij[1]*rij[1] + rij[2]*rij[2])
  * 							# Check if distance of ions allows interaction
  * 							if (dist < buck[pair]['hi']):             # <<<<<<<<<<<<<<
@@ -14518,7 +15286,7 @@ static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv_(struct __pyx
  */
             }
 
-            /* "potential.pyx":648
+            /* "potential.pyx":663
  * 						shifts = self.get_shifts(cutoff, vects)
  * 						no_shifts = shifts.shape[0] # number of unit cell images-1
  * 						for shift in range(no_shifts):             # <<<<<<<<<<<<<<
@@ -14528,7 +15296,7 @@ static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv_(struct __pyx
           }
           __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-          /* "potential.pyx":624
+          /* "potential.pyx":639
  * 					C = buck[pair]['par'][2]
  * 
  * 					if ioni != ionj:             # <<<<<<<<<<<<<<
@@ -14537,7 +15305,7 @@ static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv_(struct __pyx
  */
         }
 
-        /* "potential.pyx":618
+        /* "potential.pyx":633
  * 				pair = (min(self.chemical_symbols[ioni], self.chemical_symbols[ionj]),
  * 						max(self.chemical_symbols[ioni], self.chemical_symbols[ionj]))
  * 				if (pair in buck):             # <<<<<<<<<<<<<<
@@ -14548,7 +15316,7 @@ static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv_(struct __pyx
     }
   }
 
-  /* "potential.pyx":667
+  /* "potential.pyx":682
  * 								self.grad[ionj][1] -= drv*rij[1]/dist
  * 								self.grad[ionj][2] -= drv*rij[2]/dist
  * 		free(rij)             # <<<<<<<<<<<<<<
@@ -14557,19 +15325,19 @@ static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv_(struct __pyx
  */
   free(__pyx_v_rij);
 
-  /* "potential.pyx":668
+  /* "potential.pyx":683
  * 								self.grad[ionj][2] -= drv*rij[2]/dist
  * 		free(rij)
  * 		return self.grad             # <<<<<<<<<<<<<<
  * 
  * 	cpdef double[:,:] calc_drv(self, atoms):
  */
-  if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 668, __pyx_L1_error)}
+  if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 683, __pyx_L1_error)}
   __PYX_INC_MEMVIEW(&__pyx_v_self->grad, 0);
   __pyx_r = __pyx_v_self->grad;
   goto __pyx_L0;
 
-  /* "potential.pyx":602
+  /* "potential.pyx":617
  * 		return esum/2
  * 
  * 	cdef double[:,:] calc_drv_(self, double[:,:] pos, double[:,:] vects, int N):             # <<<<<<<<<<<<<<
@@ -14606,7 +15374,7 @@ static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv_(struct __pyx
   return __pyx_r;
 }
 
-/* "potential.pyx":670
+/* "potential.pyx":685
  * 		return self.grad
  * 
  * 	cpdef double[:,:] calc_drv(self, atoms):             # <<<<<<<<<<<<<<
@@ -14614,7 +15382,7 @@ static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv_(struct __pyx
  * 		call the function that calculates the gradient.
  */
 
-static PyObject *__pyx_pw_9potential_10Buckingham_7calc_drv(PyObject *__pyx_v_self, PyObject *__pyx_v_atoms); /*proto*/
+static PyObject *__pyx_pw_9potential_10Buckingham_9calc_drv(PyObject *__pyx_v_self, PyObject *__pyx_v_atoms); /*proto*/
 static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv(struct __pyx_obj_9potential_Buckingham *__pyx_v_self, PyObject *__pyx_v_atoms, int __pyx_skip_dispatch) {
   __Pyx_memviewslice __pyx_v_positions = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_memviewslice __pyx_v_vects = { 0, 0, { 0 }, { 0 }, { 0 } };
@@ -14651,9 +15419,9 @@ static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv(struct __pyx_
     if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
       PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
       #endif
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_calc_drv); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 670, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_calc_drv); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 685, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_9potential_10Buckingham_7calc_drv)) {
+      if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_9potential_10Buckingham_9calc_drv)) {
         __Pyx_INCREF(__pyx_t_1);
         __pyx_t_3 = __pyx_t_1; __pyx_t_4 = NULL;
         if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
@@ -14667,10 +15435,10 @@ static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv(struct __pyx_
         }
         __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, __pyx_v_atoms) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_atoms);
         __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 670, __pyx_L1_error)
+        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 685, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        __pyx_t_5 = __Pyx_PyObject_to_MemoryviewSlice_dsds_double(__pyx_t_2, PyBUF_WRITABLE); if (unlikely(!__pyx_t_5.memview)) __PYX_ERR(0, 670, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_PyObject_to_MemoryviewSlice_dsds_double(__pyx_t_2, PyBUF_WRITABLE); if (unlikely(!__pyx_t_5.memview)) __PYX_ERR(0, 685, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
         __pyx_r = __pyx_t_5;
         __pyx_t_5.memview = NULL;
@@ -14691,34 +15459,34 @@ static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv(struct __pyx_
     #endif
   }
 
-  /* "potential.pyx":675
+  /* "potential.pyx":690
  * 
  * 		"""
  * 		cdef double[:,:] positions = atoms.positions             # <<<<<<<<<<<<<<
  * 		cdef double[:,:] vects = np.array(atoms.get_cell())
  * 		cdef int ioni, dim, N = len(positions)
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_atoms, __pyx_n_s_positions); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 675, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_atoms, __pyx_n_s_positions); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 690, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_5 = __Pyx_PyObject_to_MemoryviewSlice_dsds_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_5.memview)) __PYX_ERR(0, 675, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_to_MemoryviewSlice_dsds_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_5.memview)) __PYX_ERR(0, 690, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_positions = __pyx_t_5;
   __pyx_t_5.memview = NULL;
   __pyx_t_5.data = NULL;
 
-  /* "potential.pyx":676
+  /* "potential.pyx":691
  * 		"""
  * 		cdef double[:,:] positions = atoms.positions
  * 		cdef double[:,:] vects = np.array(atoms.get_cell())             # <<<<<<<<<<<<<<
  * 		cdef int ioni, dim, N = len(positions)
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 676, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 691, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_array); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 676, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_array); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 691, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_atoms, __pyx_n_s_get_cell); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 676, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_atoms, __pyx_n_s_get_cell); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 691, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_6 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
@@ -14732,7 +15500,7 @@ static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv(struct __pyx_
   }
   __pyx_t_2 = (__pyx_t_6) ? __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_6) : __Pyx_PyObject_CallNoArg(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 676, __pyx_L1_error)
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 691, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_4 = NULL;
@@ -14748,16 +15516,16 @@ static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv(struct __pyx_
   __pyx_t_1 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, __pyx_t_2) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2);
   __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 676, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 691, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_5 = __Pyx_PyObject_to_MemoryviewSlice_dsds_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_5.memview)) __PYX_ERR(0, 676, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_to_MemoryviewSlice_dsds_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_5.memview)) __PYX_ERR(0, 691, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_vects = __pyx_t_5;
   __pyx_t_5.memview = NULL;
   __pyx_t_5.data = NULL;
 
-  /* "potential.pyx":677
+  /* "potential.pyx":692
  * 		cdef double[:,:] positions = atoms.positions
  * 		cdef double[:,:] vects = np.array(atoms.get_cell())
  * 		cdef int ioni, dim, N = len(positions)             # <<<<<<<<<<<<<<
@@ -14767,7 +15535,7 @@ static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv(struct __pyx_
   __pyx_t_7 = __Pyx_MemoryView_Len(__pyx_v_positions); 
   __pyx_v_N = __pyx_t_7;
 
-  /* "potential.pyx":679
+  /* "potential.pyx":694
  * 		cdef int ioni, dim, N = len(positions)
  * 
  * 		if not self.param_flag:             # <<<<<<<<<<<<<<
@@ -14777,20 +15545,20 @@ static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv(struct __pyx_
   __pyx_t_8 = ((!(__pyx_v_self->param_flag != 0)) != 0);
   if (unlikely(__pyx_t_8)) {
 
-    /* "potential.pyx":680
+    /* "potential.pyx":695
  * 
  * 		if not self.param_flag:
  * 			raise ValueError("Coulomb potential parameters are not set.")             # <<<<<<<<<<<<<<
  * 
  * 		for ioni in range(N):
  */
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 680, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 695, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_Raise(__pyx_t_1, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __PYX_ERR(0, 680, __pyx_L1_error)
+    __PYX_ERR(0, 695, __pyx_L1_error)
 
-    /* "potential.pyx":679
+    /* "potential.pyx":694
  * 		cdef int ioni, dim, N = len(positions)
  * 
  * 		if not self.param_flag:             # <<<<<<<<<<<<<<
@@ -14799,7 +15567,7 @@ static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv(struct __pyx_
  */
   }
 
-  /* "potential.pyx":682
+  /* "potential.pyx":697
  * 			raise ValueError("Coulomb potential parameters are not set.")
  * 
  * 		for ioni in range(N):             # <<<<<<<<<<<<<<
@@ -14811,7 +15579,7 @@ static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv(struct __pyx_
   for (__pyx_t_11 = 0; __pyx_t_11 < __pyx_t_10; __pyx_t_11+=1) {
     __pyx_v_ioni = __pyx_t_11;
 
-    /* "potential.pyx":683
+    /* "potential.pyx":698
  * 
  * 		for ioni in range(N):
  * 			for dim in range(3):             # <<<<<<<<<<<<<<
@@ -14821,14 +15589,14 @@ static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv(struct __pyx_
     for (__pyx_t_12 = 0; __pyx_t_12 < 3; __pyx_t_12+=1) {
       __pyx_v_dim = __pyx_t_12;
 
-      /* "potential.pyx":684
+      /* "potential.pyx":699
  * 		for ioni in range(N):
  * 			for dim in range(3):
  * 				self.grad[ioni][dim] = 0             # <<<<<<<<<<<<<<
  * 
  * 		self.calc_drv_(positions,vects,N)
  */
-      if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 684, __pyx_L1_error)}
+      if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 699, __pyx_L1_error)}
       __pyx_t_13 = __pyx_v_ioni;
       __pyx_t_14 = __pyx_v_dim;
       __pyx_t_15 = -1;
@@ -14842,34 +15610,34 @@ static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv(struct __pyx_
       } else if (unlikely(__pyx_t_14 >= __pyx_v_self->grad.shape[1])) __pyx_t_15 = 1;
       if (unlikely(__pyx_t_15 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_15);
-        __PYX_ERR(0, 684, __pyx_L1_error)
+        __PYX_ERR(0, 699, __pyx_L1_error)
       }
       *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_self->grad.data + __pyx_t_13 * __pyx_v_self->grad.strides[0]) ) + __pyx_t_14 * __pyx_v_self->grad.strides[1]) )) = 0.0;
     }
   }
 
-  /* "potential.pyx":686
+  /* "potential.pyx":701
  * 				self.grad[ioni][dim] = 0
  * 
  * 		self.calc_drv_(positions,vects,N)             # <<<<<<<<<<<<<<
  * 		return self.grad
  */
-  __pyx_t_5 = ((struct __pyx_vtabstruct_9potential_Buckingham *)__pyx_v_self->__pyx_base.__pyx_vtab)->calc_drv_(__pyx_v_self, __pyx_v_positions, __pyx_v_vects, __pyx_v_N); if (unlikely(!__pyx_t_5.memview)) __PYX_ERR(0, 686, __pyx_L1_error)
+  __pyx_t_5 = ((struct __pyx_vtabstruct_9potential_Buckingham *)__pyx_v_self->__pyx_base.__pyx_vtab)->calc_drv_(__pyx_v_self, __pyx_v_positions, __pyx_v_vects, __pyx_v_N); if (unlikely(!__pyx_t_5.memview)) __PYX_ERR(0, 701, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_t_5, 1);
   __pyx_t_5.memview = NULL;
   __pyx_t_5.data = NULL;
 
-  /* "potential.pyx":687
+  /* "potential.pyx":702
  * 
  * 		self.calc_drv_(positions,vects,N)
  * 		return self.grad             # <<<<<<<<<<<<<<
  */
-  if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 687, __pyx_L1_error)}
+  if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 702, __pyx_L1_error)}
   __PYX_INC_MEMVIEW(&__pyx_v_self->grad, 0);
   __pyx_r = __pyx_v_self->grad;
   goto __pyx_L0;
 
-  /* "potential.pyx":670
+  /* "potential.pyx":685
  * 		return self.grad
  * 
  * 	cpdef double[:,:] calc_drv(self, atoms):             # <<<<<<<<<<<<<<
@@ -14901,20 +15669,20 @@ static __Pyx_memviewslice __pyx_f_9potential_10Buckingham_calc_drv(struct __pyx_
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_9potential_10Buckingham_7calc_drv(PyObject *__pyx_v_self, PyObject *__pyx_v_atoms); /*proto*/
-static char __pyx_doc_9potential_10Buckingham_6calc_drv[] = "Wrapper function to initialise gradient vector and\n\t\tcall the function that calculates the gradient.\n\n\t\t";
-static PyObject *__pyx_pw_9potential_10Buckingham_7calc_drv(PyObject *__pyx_v_self, PyObject *__pyx_v_atoms) {
+static PyObject *__pyx_pw_9potential_10Buckingham_9calc_drv(PyObject *__pyx_v_self, PyObject *__pyx_v_atoms); /*proto*/
+static char __pyx_doc_9potential_10Buckingham_8calc_drv[] = "Wrapper function to initialise gradient vector and\n\t\tcall the function that calculates the gradient.\n\n\t\t";
+static PyObject *__pyx_pw_9potential_10Buckingham_9calc_drv(PyObject *__pyx_v_self, PyObject *__pyx_v_atoms) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("calc_drv (wrapper)", 0);
-  __pyx_r = __pyx_pf_9potential_10Buckingham_6calc_drv(((struct __pyx_obj_9potential_Buckingham *)__pyx_v_self), ((PyObject *)__pyx_v_atoms));
+  __pyx_r = __pyx_pf_9potential_10Buckingham_8calc_drv(((struct __pyx_obj_9potential_Buckingham *)__pyx_v_self), ((PyObject *)__pyx_v_atoms));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_9potential_10Buckingham_6calc_drv(struct __pyx_obj_9potential_Buckingham *__pyx_v_self, PyObject *__pyx_v_atoms) {
+static PyObject *__pyx_pf_9potential_10Buckingham_8calc_drv(struct __pyx_obj_9potential_Buckingham *__pyx_v_self, PyObject *__pyx_v_atoms) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   __Pyx_memviewslice __pyx_t_1 = { 0, 0, { 0 }, { 0 }, { 0 } };
@@ -14924,8 +15692,8 @@ static PyObject *__pyx_pf_9potential_10Buckingham_6calc_drv(struct __pyx_obj_9po
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("calc_drv", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_9potential_10Buckingham_calc_drv(__pyx_v_self, __pyx_v_atoms, 1); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(0, 670, __pyx_L1_error)
-  __pyx_t_2 = __pyx_memoryview_fromslice(__pyx_t_1, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 670, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_9potential_10Buckingham_calc_drv(__pyx_v_self, __pyx_v_atoms, 1); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(0, 685, __pyx_L1_error)
+  __pyx_t_2 = __pyx_memoryview_fromslice(__pyx_t_1, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 685, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __PYX_XDEC_MEMVIEW(&__pyx_t_1, 1);
   __pyx_t_1.memview = NULL;
@@ -14953,19 +15721,19 @@ static PyObject *__pyx_pf_9potential_10Buckingham_6calc_drv(struct __pyx_obj_9po
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_9potential_10Buckingham_9__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_9potential_10Buckingham_9__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_9potential_10Buckingham_11__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_9potential_10Buckingham_11__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__reduce_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_9potential_10Buckingham_8__reduce_cython__(((struct __pyx_obj_9potential_Buckingham *)__pyx_v_self));
+  __pyx_r = __pyx_pf_9potential_10Buckingham_10__reduce_cython__(((struct __pyx_obj_9potential_Buckingham *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_9potential_10Buckingham_8__reduce_cython__(struct __pyx_obj_9potential_Buckingham *__pyx_v_self) {
+static PyObject *__pyx_pf_9potential_10Buckingham_10__reduce_cython__(struct __pyx_obj_9potential_Buckingham *__pyx_v_self) {
   PyObject *__pyx_v_state = 0;
   PyObject *__pyx_v__dict = 0;
   int __pyx_v_use_setstate;
@@ -15206,19 +15974,19 @@ static PyObject *__pyx_pf_9potential_10Buckingham_8__reduce_cython__(struct __py
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_9potential_10Buckingham_11__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
-static PyObject *__pyx_pw_9potential_10Buckingham_11__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pw_9potential_10Buckingham_13__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
+static PyObject *__pyx_pw_9potential_10Buckingham_13__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__setstate_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_9potential_10Buckingham_10__setstate_cython__(((struct __pyx_obj_9potential_Buckingham *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
+  __pyx_r = __pyx_pf_9potential_10Buckingham_12__setstate_cython__(((struct __pyx_obj_9potential_Buckingham *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_9potential_10Buckingham_10__setstate_cython__(struct __pyx_obj_9potential_Buckingham *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_9potential_10Buckingham_12__setstate_cython__(struct __pyx_obj_9potential_Buckingham *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -32315,10 +33083,11 @@ static int __pyx_tp_clear_9potential_Buckingham(PyObject *o) {
 
 static PyMethodDef __pyx_methods_9potential_Buckingham[] = {
   {"set_parameters", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_9potential_10Buckingham_3set_parameters, METH_VARARGS|METH_KEYWORDS, __pyx_doc_9potential_10Buckingham_2set_parameters},
-  {"calc", (PyCFunction)__pyx_pw_9potential_10Buckingham_5calc, METH_O, __pyx_doc_9potential_10Buckingham_4calc},
-  {"calc_drv", (PyCFunction)__pyx_pw_9potential_10Buckingham_7calc_drv, METH_O, __pyx_doc_9potential_10Buckingham_6calc_drv},
-  {"__reduce_cython__", (PyCFunction)__pyx_pw_9potential_10Buckingham_9__reduce_cython__, METH_NOARGS, 0},
-  {"__setstate_cython__", (PyCFunction)__pyx_pw_9potential_10Buckingham_11__setstate_cython__, METH_O, 0},
+  {"catastrophe_check", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_9potential_10Buckingham_5catastrophe_check, METH_VARARGS|METH_KEYWORDS, __pyx_doc_9potential_10Buckingham_4catastrophe_check},
+  {"calc", (PyCFunction)__pyx_pw_9potential_10Buckingham_7calc, METH_O, __pyx_doc_9potential_10Buckingham_6calc},
+  {"calc_drv", (PyCFunction)__pyx_pw_9potential_10Buckingham_9calc_drv, METH_O, __pyx_doc_9potential_10Buckingham_8calc_drv},
+  {"__reduce_cython__", (PyCFunction)__pyx_pw_9potential_10Buckingham_11__reduce_cython__, METH_NOARGS, 0},
+  {"__setstate_cython__", (PyCFunction)__pyx_pw_9potential_10Buckingham_13__setstate_cython__, METH_O, 0},
   {0, 0, 0, 0}
 };
 
@@ -33167,6 +33936,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_s_Empty_shape_tuple_for_cython_arr, __pyx_k_Empty_shape_tuple_for_cython_arr, sizeof(__pyx_k_Empty_shape_tuple_for_cython_arr), 0, 0, 1, 0},
   {&__pyx_kp_u_Format_string_allocated_too_shor, __pyx_k_Format_string_allocated_too_shor, sizeof(__pyx_k_Format_string_allocated_too_shor), 0, 1, 0, 0},
   {&__pyx_kp_u_Format_string_allocated_too_shor_2, __pyx_k_Format_string_allocated_too_shor_2, sizeof(__pyx_k_Format_string_allocated_too_shor_2), 0, 1, 0, 0},
+  {&__pyx_kp_u_Found_elements_closer_than_Angst, __pyx_k_Found_elements_closer_than_Angst, sizeof(__pyx_k_Found_elements_closer_than_Angst), 0, 1, 0, 0},
   {&__pyx_n_s_IOError, __pyx_k_IOError, sizeof(__pyx_k_IOError), 0, 0, 1, 1},
   {&__pyx_n_s_ImportError, __pyx_k_ImportError, sizeof(__pyx_k_ImportError), 0, 0, 1, 1},
   {&__pyx_kp_s_Incompatible_checksums_s_vs_0xb0, __pyx_k_Incompatible_checksums_s_vs_0xb0, sizeof(__pyx_k_Incompatible_checksums_s_vs_0xb0), 0, 0, 1, 0},
@@ -33207,6 +33977,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_calc, __pyx_k_calc, sizeof(__pyx_k_calc), 0, 0, 1, 1},
   {&__pyx_n_s_calc_drv, __pyx_k_calc_drv, sizeof(__pyx_k_calc_drv), 0, 0, 1, 1},
   {&__pyx_n_s_calc_madelung, __pyx_k_calc_madelung, sizeof(__pyx_k_calc_madelung), 0, 0, 1, 1},
+  {&__pyx_n_s_catastrophe_check, __pyx_k_catastrophe_check, sizeof(__pyx_k_catastrophe_check), 0, 0, 1, 1},
   {&__pyx_n_s_charge_dict, __pyx_k_charge_dict, sizeof(__pyx_k_charge_dict), 0, 0, 1, 1},
   {&__pyx_n_s_chemical_symbols, __pyx_k_chemical_symbols, sizeof(__pyx_k_chemical_symbols), 0, 0, 1, 1},
   {&__pyx_n_s_class, __pyx_k_class, sizeof(__pyx_k_class), 0, 0, 1, 1},
@@ -33229,6 +34000,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_format, __pyx_k_format, sizeof(__pyx_k_format), 0, 0, 1, 1},
   {&__pyx_n_s_fortran, __pyx_k_fortran, sizeof(__pyx_k_fortran), 0, 0, 1, 1},
   {&__pyx_n_u_fortran, __pyx_k_fortran, sizeof(__pyx_k_fortran), 0, 1, 0, 1},
+  {&__pyx_n_s_fraction, __pyx_k_fraction, sizeof(__pyx_k_fraction), 0, 0, 1, 1},
   {&__pyx_n_s_get_cell, __pyx_k_get_cell, sizeof(__pyx_k_get_cell), 0, 0, 1, 1},
   {&__pyx_n_s_get_positions, __pyx_k_get_positions, sizeof(__pyx_k_get_positions), 0, 0, 1, 1},
   {&__pyx_n_s_getstate, __pyx_k_getstate, sizeof(__pyx_k_getstate), 0, 0, 1, 1},
@@ -33276,6 +34048,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_pyx_unpickle_Potential, __pyx_k_pyx_unpickle_Potential, sizeof(__pyx_k_pyx_unpickle_Potential), 0, 0, 1, 1},
   {&__pyx_n_s_pyx_vtable, __pyx_k_pyx_vtable, sizeof(__pyx_k_pyx_vtable), 0, 0, 1, 1},
   {&__pyx_n_u_r, __pyx_k_r, sizeof(__pyx_k_r), 0, 1, 0, 1},
+  {&__pyx_n_s_radius_dict, __pyx_k_radius_dict, sizeof(__pyx_k_radius_dict), 0, 0, 1, 1},
   {&__pyx_n_s_range, __pyx_k_range, sizeof(__pyx_k_range), 0, 0, 1, 1},
   {&__pyx_n_s_real_cut_off, __pyx_k_real_cut_off, sizeof(__pyx_k_real_cut_off), 0, 0, 1, 1},
   {&__pyx_n_s_recip_cut_off, __pyx_k_recip_cut_off, sizeof(__pyx_k_recip_cut_off), 0, 0, 1, 1},
@@ -33302,16 +34075,18 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_u_unknown_dtype_code_in_numpy_pxd, __pyx_k_unknown_dtype_code_in_numpy_pxd, sizeof(__pyx_k_unknown_dtype_code_in_numpy_pxd), 0, 1, 0, 0},
   {&__pyx_n_s_unpack, __pyx_k_unpack, sizeof(__pyx_k_unpack), 0, 0, 1, 1},
   {&__pyx_n_s_update, __pyx_k_update, sizeof(__pyx_k_update), 0, 0, 1, 1},
+  {&__pyx_n_s_warn, __pyx_k_warn, sizeof(__pyx_k_warn), 0, 0, 1, 1},
+  {&__pyx_n_s_warnings, __pyx_k_warnings, sizeof(__pyx_k_warnings), 0, 0, 1, 1},
   {0, 0, 0, 0, 0, 0, 0}
 };
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 42, __pyx_L1_error)
-  __pyx_builtin_open = __Pyx_GetBuiltinName(__pyx_n_s_open); if (!__pyx_builtin_open) __PYX_ERR(0, 126, __pyx_L1_error)
-  __pyx_builtin_IOError = __Pyx_GetBuiltinName(__pyx_n_s_IOError); if (!__pyx_builtin_IOError) __PYX_ERR(0, 136, __pyx_L1_error)
-  __pyx_builtin_print = __Pyx_GetBuiltinName(__pyx_n_s_print); if (!__pyx_builtin_print) __PYX_ERR(0, 137, __pyx_L1_error)
-  __pyx_builtin_IndexError = __Pyx_GetBuiltinName(__pyx_n_s_IndexError); if (!__pyx_builtin_IndexError) __PYX_ERR(0, 179, __pyx_L1_error)
-  __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(0, 326, __pyx_L1_error)
-  __pyx_builtin_map = __Pyx_GetBuiltinName(__pyx_n_s_map); if (!__pyx_builtin_map) __PYX_ERR(0, 525, __pyx_L1_error)
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 43, __pyx_L1_error)
+  __pyx_builtin_open = __Pyx_GetBuiltinName(__pyx_n_s_open); if (!__pyx_builtin_open) __PYX_ERR(0, 119, __pyx_L1_error)
+  __pyx_builtin_IOError = __Pyx_GetBuiltinName(__pyx_n_s_IOError); if (!__pyx_builtin_IOError) __PYX_ERR(0, 129, __pyx_L1_error)
+  __pyx_builtin_print = __Pyx_GetBuiltinName(__pyx_n_s_print); if (!__pyx_builtin_print) __PYX_ERR(0, 130, __pyx_L1_error)
+  __pyx_builtin_IndexError = __Pyx_GetBuiltinName(__pyx_n_s_IndexError); if (!__pyx_builtin_IndexError) __PYX_ERR(0, 172, __pyx_L1_error)
+  __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(0, 319, __pyx_L1_error)
+  __pyx_builtin_map = __Pyx_GetBuiltinName(__pyx_n_s_map); if (!__pyx_builtin_map) __PYX_ERR(0, 513, __pyx_L1_error)
   __pyx_builtin_RuntimeError = __Pyx_GetBuiltinName(__pyx_n_s_RuntimeError); if (!__pyx_builtin_RuntimeError) __PYX_ERR(2, 855, __pyx_L1_error)
   __pyx_builtin_ImportError = __Pyx_GetBuiltinName(__pyx_n_s_ImportError); if (!__pyx_builtin_ImportError) __PYX_ERR(2, 1037, __pyx_L1_error)
   __pyx_builtin_MemoryError = __Pyx_GetBuiltinName(__pyx_n_s_MemoryError); if (!__pyx_builtin_MemoryError) __PYX_ERR(1, 148, __pyx_L1_error)
@@ -33328,91 +34103,91 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "potential.pyx":126
+  /* "potential.pyx":119
  * 		if filename:
  * 			try:
  * 				with open(filename,"r") as fin:             # <<<<<<<<<<<<<<
  * 					for line in fin:
  * 						line = line.split()
  */
-  __pyx_tuple_ = PyTuple_Pack(3, Py_None, Py_None, Py_None); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 126, __pyx_L1_error)
+  __pyx_tuple_ = PyTuple_Pack(3, Py_None, Py_None, Py_None); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 119, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
 
-  /* "potential.pyx":137
+  /* "potential.pyx":130
  * 								self.made_const = float(line.shape[0]-2)
  * 			except IOError:
  * 				print("No Madelung library file found.")             # <<<<<<<<<<<<<<
  * 		self.param_flag = True
  * 
  */
-  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_u_No_Madelung_library_file_found); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 137, __pyx_L1_error)
+  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_u_No_Madelung_library_file_found); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 130, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__2);
   __Pyx_GIVEREF(__pyx_tuple__2);
 
-  /* "potential.pyx":147
+  /* "potential.pyx":140
  * 		"""
  * 		cdef int i,a,b
  * 		rvects = cvarray(shape=(3,3), \             # <<<<<<<<<<<<<<
  * 						itemsize=sizeof(double), format="d")
  * 		for i in range(3):
  */
-  __pyx_tuple__3 = PyTuple_Pack(2, __pyx_int_3, __pyx_int_3); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 147, __pyx_L1_error)
+  __pyx_tuple__3 = PyTuple_Pack(2, __pyx_int_3, __pyx_int_3); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 140, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__3);
   __Pyx_GIVEREF(__pyx_tuple__3);
 
-  /* "potential.pyx":179
+  /* "potential.pyx":172
  * 		"""
  * 		if pos.shape[1]!=3 or vects.shape[1]!=3:
  * 			raise IndexError("Points are not 3-dimensional.")             # <<<<<<<<<<<<<<
  * 
  * 		cdef double dist, ereal = 0
  */
-  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_kp_u_Points_are_not_3_dimensional); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 179, __pyx_L1_error)
+  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_kp_u_Points_are_not_3_dimensional); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 172, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__4);
   __Pyx_GIVEREF(__pyx_tuple__4);
 
-  /* "potential.pyx":326
+  /* "potential.pyx":319
  * 
  * 		if not self.param_flag:
  * 			raise ValueError("Coulomb potential parameters are not set.")             # <<<<<<<<<<<<<<
  * 
  * 		self.calc_real(positions,vects,N)
  */
-  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_kp_u_Coulomb_potential_parameters_are); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 326, __pyx_L1_error)
+  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_kp_u_Coulomb_potential_parameters_are); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 319, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__5);
   __Pyx_GIVEREF(__pyx_tuple__5);
 
-  /* "potential.pyx":525
+  /* "potential.pyx":513
  * 					pair = (min(line[0], line[2]), max(line[0], line[2]))
  * 					buck[pair] = {}
  * 					buck[pair]['par'] = list(map(float, line[4:7]))             # <<<<<<<<<<<<<<
  * 					buck[pair]['lo'] = float(line[7])
  * 					buck[pair]['hi'] = float(line[-1])
  */
-  __pyx_slice__6 = PySlice_New(__pyx_int_4, __pyx_int_7, Py_None); if (unlikely(!__pyx_slice__6)) __PYX_ERR(0, 525, __pyx_L1_error)
+  __pyx_slice__6 = PySlice_New(__pyx_int_4, __pyx_int_7, Py_None); if (unlikely(!__pyx_slice__6)) __PYX_ERR(0, 513, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_slice__6);
   __Pyx_GIVEREF(__pyx_slice__6);
 
-  /* "potential.pyx":529
+  /* "potential.pyx":517
  * 					buck[pair]['hi'] = float(line[-1])
  * 		except IOError:
  * 			print("No library file found for Buckingham constants.")             # <<<<<<<<<<<<<<
  * 		self.param_flag = True
  * 
  */
-  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_u_No_library_file_found_for_Buckin); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 529, __pyx_L1_error)
+  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_u_No_library_file_found_for_Buckin); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 517, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__7);
   __Pyx_GIVEREF(__pyx_tuple__7);
 
-  /* "potential.pyx":555
+  /* "potential.pyx":570
  * 
  * 		if not self.param_flag:
  * 			raise ValueError("Buckingham potential parameters are not set.")             # <<<<<<<<<<<<<<
  * 
  * 		return self.calc_real(pos, vects, N)
  */
-  __pyx_tuple__8 = PyTuple_Pack(1, __pyx_kp_u_Buckingham_potential_parameters); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(0, 555, __pyx_L1_error)
+  __pyx_tuple__8 = PyTuple_Pack(1, __pyx_kp_u_Buckingham_potential_parameters); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(0, 570, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__8);
   __Pyx_GIVEREF(__pyx_tuple__8);
 
@@ -33846,16 +34621,16 @@ static int __Pyx_modinit_type_init_code(void) {
   /*--- Type init code ---*/
   __pyx_vtabptr_9potential_Potential = &__pyx_vtable_9potential_Potential;
   __pyx_vtable_9potential_Potential.get_shifts = (__Pyx_memviewslice (*)(struct __pyx_obj_9potential_Potential *, int, __Pyx_memviewslice))__pyx_f_9potential_9Potential_get_shifts;
-  if (PyType_Ready(&__pyx_type_9potential_Potential) < 0) __PYX_ERR(0, 28, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_9potential_Potential) < 0) __PYX_ERR(0, 29, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_9potential_Potential.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_9potential_Potential.tp_dictoffset && __pyx_type_9potential_Potential.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_9potential_Potential.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (__Pyx_SetVtable(__pyx_type_9potential_Potential.tp_dict, __pyx_vtabptr_9potential_Potential) < 0) __PYX_ERR(0, 28, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Potential, (PyObject *)&__pyx_type_9potential_Potential) < 0) __PYX_ERR(0, 28, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_9potential_Potential) < 0) __PYX_ERR(0, 28, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_9potential_Potential.tp_dict, __pyx_vtabptr_9potential_Potential) < 0) __PYX_ERR(0, 29, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Potential, (PyObject *)&__pyx_type_9potential_Potential) < 0) __PYX_ERR(0, 29, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_9potential_Potential) < 0) __PYX_ERR(0, 29, __pyx_L1_error)
   __pyx_ptype_9potential_Potential = &__pyx_type_9potential_Potential;
   __pyx_vtabptr_9potential_Coulomb = &__pyx_vtable_9potential_Coulomb;
   __pyx_vtable_9potential_Coulomb.__pyx_base = *__pyx_vtabptr_9potential_Potential;
@@ -33870,36 +34645,37 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_vtable_9potential_Coulomb.calc_recip_drv = (__Pyx_memviewslice (*)(struct __pyx_obj_9potential_Coulomb *, __Pyx_memviewslice, __Pyx_memviewslice, int))__pyx_f_9potential_7Coulomb_calc_recip_drv;
   __pyx_vtable_9potential_Coulomb.calc_drv = (__Pyx_memviewslice (*)(struct __pyx_obj_9potential_Coulomb *, PyObject *, int __pyx_skip_dispatch))__pyx_f_9potential_7Coulomb_calc_drv;
   __pyx_type_9potential_Coulomb.tp_base = __pyx_ptype_9potential_Potential;
-  if (PyType_Ready(&__pyx_type_9potential_Coulomb) < 0) __PYX_ERR(0, 55, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_9potential_Coulomb) < 0) __PYX_ERR(0, 56, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_9potential_Coulomb.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_9potential_Coulomb.tp_dictoffset && __pyx_type_9potential_Coulomb.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_9potential_Coulomb.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (__Pyx_SetVtable(__pyx_type_9potential_Coulomb.tp_dict, __pyx_vtabptr_9potential_Coulomb) < 0) __PYX_ERR(0, 55, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Coulomb, (PyObject *)&__pyx_type_9potential_Coulomb) < 0) __PYX_ERR(0, 55, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_9potential_Coulomb) < 0) __PYX_ERR(0, 55, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_9potential_Coulomb.tp_dict, __pyx_vtabptr_9potential_Coulomb) < 0) __PYX_ERR(0, 56, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Coulomb, (PyObject *)&__pyx_type_9potential_Coulomb) < 0) __PYX_ERR(0, 56, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_9potential_Coulomb) < 0) __PYX_ERR(0, 56, __pyx_L1_error)
   __pyx_ptype_9potential_Coulomb = &__pyx_type_9potential_Coulomb;
   __pyx_vtabptr_9potential_Buckingham = &__pyx_vtable_9potential_Buckingham;
   __pyx_vtable_9potential_Buckingham.__pyx_base = *__pyx_vtabptr_9potential_Potential;
   __pyx_vtable_9potential_Buckingham.set_parameters = (void (*)(struct __pyx_obj_9potential_Buckingham *, PyObject *, PyArrayObject *, int __pyx_skip_dispatch))__pyx_f_9potential_10Buckingham_set_parameters;
+  __pyx_vtable_9potential_Buckingham.catastrophe_check = (int (*)(struct __pyx_obj_9potential_Buckingham *, __Pyx_memviewslice, double, PyObject *, int __pyx_skip_dispatch))__pyx_f_9potential_10Buckingham_catastrophe_check;
   __pyx_vtable_9potential_Buckingham.get_cutoff = (int (*)(struct __pyx_obj_9potential_Buckingham *, __Pyx_memviewslice, float))__pyx_f_9potential_10Buckingham_get_cutoff;
   __pyx_vtable_9potential_Buckingham.calc = (PyObject *(*)(struct __pyx_obj_9potential_Buckingham *, PyObject *, int __pyx_skip_dispatch))__pyx_f_9potential_10Buckingham_calc;
   __pyx_vtable_9potential_Buckingham.calc_real = (double (*)(struct __pyx_obj_9potential_Buckingham *, __Pyx_memviewslice, __Pyx_memviewslice, int))__pyx_f_9potential_10Buckingham_calc_real;
   __pyx_vtable_9potential_Buckingham.calc_drv_ = (__Pyx_memviewslice (*)(struct __pyx_obj_9potential_Buckingham *, __Pyx_memviewslice, __Pyx_memviewslice, int))__pyx_f_9potential_10Buckingham_calc_drv_;
   __pyx_vtable_9potential_Buckingham.calc_drv = (__Pyx_memviewslice (*)(struct __pyx_obj_9potential_Buckingham *, PyObject *, int __pyx_skip_dispatch))__pyx_f_9potential_10Buckingham_calc_drv;
   __pyx_type_9potential_Buckingham.tp_base = __pyx_ptype_9potential_Potential;
-  if (PyType_Ready(&__pyx_type_9potential_Buckingham) < 0) __PYX_ERR(0, 491, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_9potential_Buckingham) < 0) __PYX_ERR(0, 484, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_9potential_Buckingham.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_9potential_Buckingham.tp_dictoffset && __pyx_type_9potential_Buckingham.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_9potential_Buckingham.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (__Pyx_SetVtable(__pyx_type_9potential_Buckingham.tp_dict, __pyx_vtabptr_9potential_Buckingham) < 0) __PYX_ERR(0, 491, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Buckingham, (PyObject *)&__pyx_type_9potential_Buckingham) < 0) __PYX_ERR(0, 491, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_9potential_Buckingham) < 0) __PYX_ERR(0, 491, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_9potential_Buckingham.tp_dict, __pyx_vtabptr_9potential_Buckingham) < 0) __PYX_ERR(0, 484, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Buckingham, (PyObject *)&__pyx_type_9potential_Buckingham) < 0) __PYX_ERR(0, 484, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_9potential_Buckingham) < 0) __PYX_ERR(0, 484, __pyx_L1_error)
   __pyx_ptype_9potential_Buckingham = &__pyx_type_9potential_Buckingham;
   __pyx_vtabptr_array = &__pyx_vtable_array;
   __pyx_vtable_array.get_memview = (PyObject *(*)(struct __pyx_array_obj *))__pyx_array_get_memview;
@@ -34221,23 +34997,35 @@ if (!__Pyx_RefNanny) {
   /* "potential.pyx":1
  * import numpy as np             # <<<<<<<<<<<<<<
  * cimport numpy as cnp
- * 
+ * import warnings
  */
   __pyx_t_1 = __Pyx_Import(__pyx_n_s_numpy, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_np, __pyx_t_1) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "potential.pyx":490
+  /* "potential.pyx":3
+ * import numpy as np
+ * cimport numpy as cnp
+ * import warnings             # <<<<<<<<<<<<<<
+ * 
+ * from cython.view cimport array as cvarray
+ */
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_warnings, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_warnings, __pyx_t_1) < 0) __PYX_ERR(0, 3, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "potential.pyx":483
  * 
  * 
  * buck = {}             # <<<<<<<<<<<<<<
  * cdef class Buckingham(Potential):
  * 	"""Calculations for the Buckingham energy contribution. It
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 490, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 483, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_buck, __pyx_t_1) < 0) __PYX_ERR(0, 490, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_buck, __pyx_t_1) < 0) __PYX_ERR(0, 483, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "(tree fragment)":1
@@ -34275,7 +35063,7 @@ if (!__Pyx_RefNanny) {
   /* "potential.pyx":1
  * import numpy as np             # <<<<<<<<<<<<<<
  * cimport numpy as cnp
- * 
+ * import warnings
  */
   __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);

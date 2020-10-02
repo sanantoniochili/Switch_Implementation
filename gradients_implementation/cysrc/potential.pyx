@@ -1,5 +1,6 @@
 import numpy as np
 cimport numpy as cnp
+import warnings
 
 from cython.view cimport array as cvarray
 from libc.stdlib cimport malloc, free
@@ -71,14 +72,6 @@ cdef class Coulomb(Potential):
 		chemical_symbols: Ions' chemical symbols in resp. positions 
 
 	"""
-	# cdef double alpha, made_const
-	# cdef double eself, ereal, erecip
-	# cdef double[:,:] grad
-	# cdef cnp.ndarray chemical_symbols
-	# cdef int real_cut_off, recip_cut_off
-	# cdef int[:] charges
-	# cdef bint param_flag
-
 	def __init__(self):
 		self.alpha = 0
 		self.real_cut_off = 0
@@ -493,11 +486,6 @@ cdef class Buckingham(Potential):
 	corresponds to the interatomic forces exercised among entities.
 	
 	"""
-	# cdef cnp.ndarray chemical_symbols
-	# cdef bint param_flag
-	# cdef double e
-	# cdef double[:,:] grad
-
 	def __init__(self):
 		self.chemical_symbols = None
 		self.param_flag = False
@@ -528,6 +516,33 @@ cdef class Buckingham(Potential):
 		except IOError:
 			print("No library file found for Buckingham constants.")
 		self.param_flag = True
+
+	cpdef int catastrophe_check(self, \
+		double[:,:] pos, double fraction, radius_dict) except -1:
+		"""Check if there are ions in the unit cellthat are too close 
+		causing Buckingham catastrophe.
+
+		"""
+		cdef int ioni, ionj, N
+		cdef double dist, min_dist
+
+		N = len(pos)
+		for ioni in range(N):
+			elemi = self.chemical_symbols[ioni]
+			for ionj in range(N):
+				if ioni!=ionj:
+					elemj = self.chemical_symbols[ionj]
+					dist = sqrt((pos[ioni, 0]-pos[ionj, 0])*(pos[ioni, 0]-pos[ionj, 0])+ \
+								(pos[ioni, 1]-pos[ionj, 1])*(pos[ioni, 1]-pos[ionj, 1])+ \
+								(pos[ioni, 2]-pos[ionj, 2])*(pos[ioni, 2]-pos[ionj, 2]))
+					min_dist = radius_dict[elemi]+radius_dict[elemj]
+					if dist < (fraction*min_dist):
+						warnings.warn(\
+							"Found elements {}{}, {}{} closer than {} Angstroms".format(
+							elemi,ioni,elemj,ionj,min_dist))
+						return 1
+				
+		return 0
 
 	cdef int get_cutoff(self, double[:,:] vects, float hi):
 		"""Find how many cells away to check
