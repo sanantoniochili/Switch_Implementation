@@ -23,7 +23,7 @@ cdef class Coulomb(Potential):
 	cdef double calc_real(self, double[:,:] pos, double[:,:] vects, int N) except? -1
 	cdef double calc_recip(self, double[:,:] pos, double[:,:] vects, int N) except? -1
 	cpdef calc_madelung(self, double[:,:] pos, int N)
-	cpdef calc(self, atoms)
+	cpdef calc(self, atoms=*, double[:,:] pos_array=*, double[:,:] vects_array=*, int N_=*)
 	cdef double[:,:] calc_real_drv(self, double[:,:] pos, double[:,:] vects, int N)
 	cdef double[:,:] calc_recip_drv(self, double[:,:] pos, double[:,:] vects, int N)
 	cpdef double[:,:] calc_drv(self, atoms)
@@ -44,7 +44,7 @@ cdef class Buckingham(Potential):
 	cpdef int catastrophe_check(self, double[:,:] pos, \
 											double fraction, radius_dict) except -1
 	cdef int get_cutoff(self, double[:,:] vects, float hi)
-	cpdef calc(self, atoms)
+	cpdef calc(self, atoms=*, double[:,:] pos_array=*, double[:,:] vects_array=*, int N_=*)
 	cdef double calc_real(self, double[:,:] pos, double[:,:] vects, int N) except? -1
 	cdef double[:,:] calc_drv_(self, double[:,:] pos, double[:,:] vects, int N)
 	cpdef double[:,:] calc_drv(self, atoms)

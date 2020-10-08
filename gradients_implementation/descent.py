@@ -24,17 +24,26 @@ class Descent:
 
 		return -grad
 
-	def repeat(self, atoms, potentials, step):
+	def repeat(self, atoms, potentials):
 		x_energy = potentials['Coulomb'].calc(atoms)['Electrostatic'] + \
 							potentials['Buckingham'].calc(atoms)
+		"""Iteration step.
+
+		"""
 		count = 0
 		for x in range(100):
+			# Direction
 			p = self.calculate_direction(atoms, potentials)
 			print("Iter: {} \tEnergy: {} \tDirection: {} \tStep: {}".format(\
 				count,x_energy,np.linalg.norm(p),step),flush=True)
 
-			# Move ions and calculate temporary positions
+			# Step
+			step = 0.5
+
+			# Calculate new point on energy surface
 			pos_temp = np.copy(atoms.positions + step*p)
+
+			# Calculate new energy 
 			vects = atoms.get_cell()
 			N = len(atoms.positions)
 			energy = \

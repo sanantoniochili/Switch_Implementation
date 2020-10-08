@@ -305,15 +305,27 @@ cdef class Coulomb(Potential):
 		esum *= 14.399645351950543 / 2  # Coulomb constant
 		return esum
 
-	cpdef calc(self, atoms):
+	cpdef calc(self, atoms=None, \
+		double[:,:] pos_array=None, double[:,:] vects_array=None, int N_=0):
 		"""This function needs either the whole Atoms object or
 		named arguments for positions (ion positions), vects (unit cell vectors)
 		and N (number of atoms in unit cell)
 
 		"""
-		cdef double[:,:] positions = atoms.positions
-		cdef double[:,:] vects = np.array(atoms.get_cell())
-		cdef int N = len(positions)
+		cdef double[:,:] positions 
+		cdef double[:,:] vects
+		cdef int N
+
+		if atoms:
+			print("Using Atoms object for Coulomb energy calculation.")
+			positions = atoms.positions
+			vects = np.array(atoms.get_cell())
+			N = len(positions)
+		else:
+			print("Using numpy arrays for Coulomb energy calculation.")
+			positions = pos_array
+			vects = vects_array
+			N = N_		
 
 		if not self.param_flag:
 			raise ValueError("Coulomb potential parameters are not set.")
@@ -523,8 +535,13 @@ cdef class Buckingham(Potential):
 		causing Buckingham catastrophe.
 
 		"""
-		cdef int ioni, ionj, N
-		cdef double dist, min_dist
+		cdef int ioni, ionj, N, flag
+		cdef double dist, min_thres, min_dist = np.inf
+		cdef double keep_thres = 0
+
+		flag = 0
+		min_elemi = ''
+		min_elemj = ''
 
 		N = len(pos)
 		for ioni in range(N):
@@ -535,13 +552,19 @@ cdef class Buckingham(Potential):
 					dist = sqrt((pos[ioni, 0]-pos[ionj, 0])*(pos[ioni, 0]-pos[ionj, 0])+ \
 								(pos[ioni, 1]-pos[ionj, 1])*(pos[ioni, 1]-pos[ionj, 1])+ \
 								(pos[ioni, 2]-pos[ionj, 2])*(pos[ioni, 2]-pos[ionj, 2]))
-					min_dist = radius_dict[elemi]+radius_dict[elemj]
-					if dist < (fraction*min_dist):
-						warnings.warn(\
-							"Found elements {}{}, {}{} closer than {} Angstroms".format(
-							elemi,ioni,elemj,ionj,min_dist))
-						return 1
-				
+					min_thres = radius_dict[elemi]+radius_dict[elemj]
+					if dist < (fraction*min_thres):
+						flag = 1
+						if dist < min_dist:
+							min_dist = dist
+							min_elemi = elemi
+							min_elemj = elemj
+							keep_thres = fraction*min_thres
+		if min_dist<np.inf:
+			print(\
+				"Found elements {}, {} closer than {} Angstroms".format(
+					min_elemi,min_elemj,keep_thres))
+			return 1		
 		return 0
 
 	cdef int get_cutoff(self, double[:,:] vects, float hi):
@@ -558,18 +581,30 @@ cdef class Buckingham(Potential):
 		cutoff = int(ceil(hi/min_cell))
 		return cutoff
 
-	cpdef calc(self, atoms):
-		"""Interatomic potential wrapper.
+	cpdef calc(self, atoms=None, \
+		double[:,:] pos_array=None, double[:,:] vects_array=None, int N_=0):
+		"""Interatomic energy potential wrapper.
 		
 		"""
-		pos = atoms.get_positions()
-		N = len(atoms.get_positions())
-		vects = np.array(atoms.get_cell())
+		cdef double[:,:] positions 
+		cdef double[:,:] vects
+		cdef int N
+
+		if atoms:
+			print("Using Atoms object for Buckingham energy calculation.")
+			positions = atoms.positions
+			vects = np.array(atoms.get_cell())
+			N = len(positions)
+		else:
+			print("Using numpy arrays for Buckingham energy calculation.")
+			positions = pos_array
+			vects = vects_array
+			N = N_	
 
 		if not self.param_flag:
 			raise ValueError("Buckingham potential parameters are not set.")
 
-		return self.calc_real(pos, vects, N)
+		return self.calc_real(positions, vects, N)
 
 	cdef double calc_real(self, double[:,:] pos, double[:,:] vects, int N) except? -1:
 		"""Fucnction to calculate the Buckingham potential.

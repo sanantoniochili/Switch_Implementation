@@ -209,16 +209,13 @@ if __name__ == "__main__":
 	libfile = DATAPATH+"Libraries/buck.lib"
 	Bpot = Buckingham()
 	Bpot.set_parameters(libfile, chemical_symbols)
-
-	# Einter = Bpot.calc(atoms)
+	Einter = Bpot.calc(atoms)
+	print(Einter)
 
 	# dict = { **coulomb_energies,
 	# 		'Elect_LAMMPS': elect_LAMMPS, 'E_madelung': Emade, 'Interatomic': Einter,
 	# 		'Inter_LAMMPS': inter_LAMMPS, 'Total_GULP': total_GULP}
 	# print_template(dict)
-
-	radius_dict = {'O':6, 'Sr':9, 'Ti':3}
-	Bpot.catastrophe_check(atoms.positions,0.5,radius_dict)
 
 	# ######################## TIMING #################################
 
