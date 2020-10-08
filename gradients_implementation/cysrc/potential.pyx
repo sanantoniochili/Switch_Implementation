@@ -16,7 +16,7 @@ import cython
 
 
 cdef double det3_3(double[:,:] arr):
-	"""Get the determinant of an 3x3 matrix.
+	"""Returns the determinant of an 3x3 matrix.
 
 	"""
 	cdef double det
@@ -29,7 +29,7 @@ cdef double det3_3(double[:,:] arr):
 cdef class Potential:
 
 	cdef double[:,:] get_shifts(self, int cut_off, double[:,:] vects):
-		"""Get all possible lattice positions:   
+		"""Returns an array of all possible lattice positions:   
 		 (2cut_off+1)^3 - {case of (cut_off,cut_off,cut_off)}
 		 combinations in R^3  
 		
@@ -60,16 +60,16 @@ cdef class Coulomb(Potential):
 	the upper triangular matrix is evaluated and the rest is merely repeated,
 	thanks to the symmetry of the interactions' effect. Class members:
 
-		real_cut_off 	: Images of ions are included up to the 
+		real_cut_off 		: Images of ions are included up to the 
 		larger integer closest this number x real lattice vectors
 		per dimension
-		recip_cut_off	: Same as real space but number x reciprocal
+		recip_cut_off		: Same as real space but number x reciprocal
 		lattice vectors
-		alpha			: Constant in erfc that controls balance 
+		alpha				: Constant in erfc that controls balance 
 		between reciprocal and real space term contribution
-		made_const		: Madelung constant if it is to be used
-		charges 		: List of ions' charges in respective positions
-		chemical_symbols: Ions' chemical symbols in resp. positions 
+		made_const			: Madelung constant if it is to be used
+		charges 			: List of ions' charges in respective positions
+		chemical_symbols 	: Ions' chemical symbols in resp. positions 
 
 	"""
 	def __init__(self):
@@ -133,7 +133,9 @@ cdef class Coulomb(Potential):
 	@cython.boundscheck(False)
 	@cython.wraparound(False)
 	cdef double[:,:] get_reciprocal_vects(self, double[:,:] vects, double volume):
-		"""Calculate reciprocal vectors.
+		"""Calculate reciprocal vectors. 
+		
+		Returns the array of 3D vectors.
 		
 		"""
 		cdef int i,a,b
@@ -149,8 +151,9 @@ cdef class Coulomb(Potential):
 	@cython.boundscheck(False)
 	@cython.wraparound(False)
 	cdef double calc_self(self, int N): 							
-		"""Calculate self interaction term
-		
+		"""Calculate self interaction term.
+		Returns the calculated energy as a float number.
+
 		"""
 		cdef int i
 		cdef double eself = 0
@@ -165,7 +168,9 @@ cdef class Coulomb(Potential):
 	@cython.boundscheck(False)
 	@cython.wraparound(False)	
 	cdef double calc_real(self, double[:,:] pos, double[:,:] vects, int N) except? -1:
-		"""Calculate short range
+		"""Calculate short range energy.
+		
+		Returns the calculated energy as a float number.
 		
 		"""
 		if pos.shape[1]!=3 or vects.shape[1]!=3:
@@ -219,7 +224,9 @@ cdef class Coulomb(Potential):
 	@cython.boundscheck(False)
 	@cython.wraparound(False)
 	cdef double calc_recip(self, double[:,:] pos, double[:,:] vects, int N) except? -1:
-		"""Calculate long range
+		"""Calculate long range energy in reciprocal space.
+		
+		Returns the calculated energy as a float number.
 		
 		"""
 		if pos.shape[1]!=3 or vects.shape[1]!=3:
@@ -288,6 +295,11 @@ cdef class Coulomb(Potential):
 
 	@cython.boundscheck(False)
 	cpdef calc_madelung(self, double[:,:] pos, int N):
+		"""Calculate electrostatic energy using Madelung constant.
+		
+		Returns the calculated energy as a float number.
+
+		"""
 		if not self.made_const:
 			return None
 		cdef double dist, esum = 0
@@ -309,7 +321,9 @@ cdef class Coulomb(Potential):
 		double[:,:] pos_array=None, double[:,:] vects_array=None, int N_=0):
 		"""This function needs either the whole Atoms object or
 		named arguments for positions (ion positions), vects (unit cell vectors)
-		and N (number of atoms in unit cell)
+		and N (number of atoms in unit cell).
+		
+		Returns a dictionary with the 3 electrostatic energy parts and their sum.
 
 		"""
 		cdef double[:,:] positions 
@@ -317,12 +331,10 @@ cdef class Coulomb(Potential):
 		cdef int N
 
 		if atoms:
-			print("Using Atoms object for Coulomb energy calculation.")
 			positions = atoms.positions
 			vects = np.array(atoms.get_cell())
 			N = len(positions)
 		else:
-			print("Using numpy arrays for Coulomb energy calculation.")
 			positions = pos_array
 			vects = vects_array
 			N = N_		
@@ -348,6 +360,8 @@ cdef class Coulomb(Potential):
 		energy function's gradient (forces = -gradient). Instead of 
 		using a double N loop, the derivatives of i and j ions are
 		updated concurrently.
+
+		Returns the real energy gradient vector.
 		
 		"""
 		if pos.shape[1]!=3 or vects.shape[1]!=3:
@@ -420,6 +434,8 @@ cdef class Coulomb(Potential):
 		energy function's gradient (forces = -gradient). Instead of using 
 		a double N loop, the derivatives of i and j ions are 
 		updated concurrently.
+
+		Returns the reciprocal energy gradient vector.
 		
 		"""
 		cdef int ioni, ionj, dim, shift
@@ -469,16 +485,28 @@ cdef class Coulomb(Potential):
 			free(rij)
 		return self.grad
 
-	cpdef double[:,:] calc_drv(self, atoms):
+	cpdef double[:,:] calc_drv(self, atoms=None, \
+		double[:,:] pos_array=None, double[:,:] vects_array=None, int N_=0):
 		"""Wrapper function to initialise gradient vector and
 		call the functions that calculate real and reciprocal parts
 		of the partial derivatives. The self term is constant w.r.t
 		the ion positions and its derivative is zero.
 
+		Returns the electrostatic energy gradient vector.
+
 		"""
-		cdef double[:,:] positions = atoms.positions
-		cdef double[:,:] vects = np.array(atoms.get_cell())
-		cdef int ioni, dim, N = len(positions)
+		cdef double[:,:] positions
+		cdef double[:,:] vects
+		cdef int ioni, dim, N
+
+		if atoms:
+			positions = atoms.positions
+			vects = np.array(atoms.get_cell())
+			N = len(positions)
+		else:
+			positions = pos_array
+			vects = vects_array
+			N = N_
 
 		if not self.param_flag:
 			raise ValueError("Coulomb potential parameters are not set.")
@@ -534,6 +562,9 @@ cdef class Buckingham(Potential):
 		"""Check if there are ions in the unit cellthat are too close 
 		causing Buckingham catastrophe.
 
+		Returns 1 if Buckingham catastrophe was discovered, 
+		0 otherwise.
+
 		"""
 		cdef int ioni, ionj, N, flag
 		cdef double dist, min_thres, min_dist = np.inf
@@ -570,6 +601,8 @@ cdef class Buckingham(Potential):
 	cdef int get_cutoff(self, double[:,:] vects, float hi):
 		"""Find how many cells away to check
 		 using the minimum cell vector value
+
+		 Returns the distance described.
 		
 		"""
 		cdef int cutoff
@@ -584,6 +617,8 @@ cdef class Buckingham(Potential):
 	cpdef calc(self, atoms=None, \
 		double[:,:] pos_array=None, double[:,:] vects_array=None, int N_=0):
 		"""Interatomic energy potential wrapper.
+
+		Returns the interatomic energy as a float number.
 		
 		"""
 		cdef double[:,:] positions 
@@ -591,12 +626,10 @@ cdef class Buckingham(Potential):
 		cdef int N
 
 		if atoms:
-			print("Using Atoms object for Buckingham energy calculation.")
 			positions = atoms.positions
 			vects = np.array(atoms.get_cell())
 			N = len(positions)
 		else:
-			print("Using numpy arrays for Buckingham energy calculation.")
 			positions = pos_array
 			vects = vects_array
 			N = N_	
@@ -608,6 +641,8 @@ cdef class Buckingham(Potential):
 
 	cdef double calc_real(self, double[:,:] pos, double[:,:] vects, int N) except? -1:
 		"""Fucnction to calculate the Buckingham potential.
+
+		Returns the interatomic energy as a float number.
 
 		"""
 		cdef double A,rho, C, dist, esum = 0
@@ -654,6 +689,8 @@ cdef class Buckingham(Potential):
 		energy function's gradient (forces = -gradient). 
 		Instead of using a double N loop,
 		the derivatives of i and j ions are updated concurrently.
+
+		Returns the interatomic energy gradient vector.
 		
 		"""
 		if not self.param_flag:
@@ -717,14 +754,26 @@ cdef class Buckingham(Potential):
 		free(rij)
 		return self.grad
 
-	cpdef double[:,:] calc_drv(self, atoms):
+	cpdef double[:,:] calc_drv(self, atoms=None, \
+		double[:,:] pos_array=None, double[:,:] vects_array=None, int N_=0):
 		"""Wrapper function to initialise gradient vector and
 		call the function that calculates the gradient.
 
+		Returns the interatomic energy gradient vector.
+
 		"""
-		cdef double[:,:] positions = atoms.positions
-		cdef double[:,:] vects = np.array(atoms.get_cell())
-		cdef int ioni, dim, N = len(positions)
+		cdef double[:,:] positions
+		cdef double[:,:] vects
+		cdef int ioni, dim, N
+
+		if atoms:
+			positions = atoms.positions
+			vects = np.array(atoms.get_cell())
+			N = len(positions)
+		else:
+			positions = pos_array
+			vects = vects_array
+			N = N_	
 
 		if not self.param_flag:
 			raise ValueError("Coulomb potential parameters are not set.")

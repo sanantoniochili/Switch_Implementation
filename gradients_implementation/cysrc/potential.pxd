@@ -6,6 +6,10 @@ cdef class Potential:
 
 
 cdef class Coulomb(Potential):
+	"""Calculations for the Coulomb energy contribution. It
+	corresponds to the electrostatic forces exercised among entities.
+	
+	"""
 	cdef double alpha, made_const
 	cdef double eself, ereal, erecip
 	cdef double[:,:] grad
@@ -26,7 +30,7 @@ cdef class Coulomb(Potential):
 	cpdef calc(self, atoms=*, double[:,:] pos_array=*, double[:,:] vects_array=*, int N_=*)
 	cdef double[:,:] calc_real_drv(self, double[:,:] pos, double[:,:] vects, int N)
 	cdef double[:,:] calc_recip_drv(self, double[:,:] pos, double[:,:] vects, int N)
-	cpdef double[:,:] calc_drv(self, atoms)
+	cpdef double[:,:] calc_drv(self, atoms=*, double[:,:] pos_array=*, double[:,:] vects_array=*, int N_=*)
 
 
 cdef class Buckingham(Potential):
@@ -47,4 +51,4 @@ cdef class Buckingham(Potential):
 	cpdef calc(self, atoms=*, double[:,:] pos_array=*, double[:,:] vects_array=*, int N_=*)
 	cdef double calc_real(self, double[:,:] pos, double[:,:] vects, int N) except? -1
 	cdef double[:,:] calc_drv_(self, double[:,:] pos, double[:,:] vects, int N)
-	cpdef double[:,:] calc_drv(self, atoms)
+	cpdef double[:,:] calc_drv(self, atoms=*, double[:,:] pos_array=*, double[:,:] vects_array=*, int N_=*)

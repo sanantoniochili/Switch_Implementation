@@ -5,63 +5,113 @@ import pandas as pd
 from ase.io import read as aread
 from cysrc.potential import *
 
-class Descent:
-	def __init__(self):
-		pass
+def GD(atoms, potentials, grad, **kwargs):
+	"""Gradient Descent updating scheme. Returns
+	the direction vector.
 
-	def calculate_direction(self, atoms, potentials):
-		pos = atoms.positions
-		vects = atoms.get_cell()
-		N = len(pos)
+	"""
+	return -grad/np.linalg.norm(grad)
 
-		dcoul = DCoulomb(potentials['Coulomb'])
-		grad_coul = dcoul.calc_real(pos, vects, N)
-		grad_coul += dcoul.calc_recip(pos , vects, N)
+def CG(atoms, potentials, grad, **kwargs):
+	"""Conjugate Gradient updating scheme. We are
+	using Polak-Ribière updating for beta factor. 
+	Returns the direction vector.
 
-		dbuck = DBuckingham(potentials['Buckingham'])
-		grad_buck = dbuck.calc(pos, vects, N)
-		grad = grad_coul+grad_buck
+	"""
 
-		return -grad
+	residual = -grad
+	beta = np.dot(residual,(residual-kwargs['residual']))/np.dot(residual,residual)
+	return residual+beta*kwargs['direction']
 
-	def repeat(self, atoms, potentials):
-		x_energy = potentials['Coulomb'].calc(atoms)['Electrostatic'] + \
-							potentials['Buckingham'].calc(atoms)
-		"""Iteration step.
 
-		"""
-		count = 0
-		for x in range(100):
-			# Direction
-			p = self.calculate_direction(atoms, potentials)
-			print("Iter: {} \tEnergy: {} \tDirection: {} \tStep: {}".format(\
-				count,x_energy,np.linalg.norm(p),step),flush=True)
+def iter_step(atoms, potentials, step, 
+	ri=None, pi=None, direction_func=GD):
+	"""Updating iteration step. The energy is calculated on
+	new ion positions that are not inflicted to the Atoms
+	object.
 
-			# Step
-			step = 0.5
+	Returns:
+	- Direction 	: The direction vector used for the updating step
+	- Step 			: The value passed to the function unchanged
+	- Positions 	: The updated ions' positions
+	- Gradient 		: The gradient vector w.r.t. the positions before change
+	- Energy 		: The value of energy w.r.t. the updated positions
+	
+	"""
+	pos = np.array(atoms.positions)
+	vects = np.array(atoms.get_cell())
+	N = len(atoms.positions)
 
-			# Calculate new point on energy surface
-			pos_temp = np.copy(atoms.positions + step*p)
+	# Gradient
+	grad_coul = np.array(
+		potentials['Coulomb'].calc_drv(
+		pos_array=pos, vects_array=vects, N_=N))
+	grad_buck = np.array(
+		potentials['Buckingham'].calc_drv(
+		pos_array=pos, vects_array=vects, N_=N))
+	grad = grad_coul+grad_buck
 
-			# Calculate new energy 
-			vects = atoms.get_cell()
-			N = len(atoms.positions)
-			energy = \
-			potentials['Coulomb'].calc(\
-				None, positions=pos_temp, vects=vects, N=N)['Electrostatic'] + \
-							potentials['Buckingham'].calc_real(pos_temp, vects, N)
+	# Direction
+	p = direction_func(atoms, potentials, grad,
+		residual=ri, direction=pi)
 
-			# If new energy is lower, keep it
-			if energy<x_energy:
-				atoms.positions = pos_temp
-				x_energy = energy
-				count += 1
-				continue
+	# Calculate new point on energy surface
+	pos_temp = np.copy(atoms.positions + step*p)
 
-			step = step/4
-			count += 1
-		print("Iter: {} \tEnergy: {} \tDirection: {} \tStep: {}".format(\
-				count,energy,np.linalg.norm(p),step),flush=True)
+	# Calculate new energy 
+	energy = potentials['Coulomb'].calc(
+			pos_array=pos_temp, 
+			vects_array=vects, N_=N)['Electrostatic'] + \
+		potentials['Buckingham'].calc(
+			pos_array=pos_temp, 
+			vects_array=vects, N_=N)
+	return {'Direction':p, 'Gradient':grad, 'Step':step, 
+	'Positions':pos_temp, 'Energy':energy }
+
+
+def repeat(atoms, potentials, direction_func=GD):
+
+	step = 0.1
+
+	pos = np.array(atoms.positions)
+	vects = np.array(atoms.get_cell())
+	N = len(atoms.positions)
+
+	# First iteration
+	# Gradient
+	grad_coul = np.array(
+		potentials['Coulomb'].calc_drv(
+		pos_array=pos, vects_array=vects, N_=N))
+	grad_buck = np.array(
+		potentials['Buckingham'].calc_drv(
+		pos_array=pos, vects_array=vects, N_=N))
+	grad = grad_coul+grad_buck
+
+	p= direction_func(atoms, potentials, grad,
+		residual=-grad, direction=-grad)
+
+	# Calculate new point on energy surface
+	atoms.positions = atoms.positions + step*p
+
+	# Calculate new energy 
+	energy = potentials['Coulomb'].calc(
+			pos_array=pos, 
+			vects_array=vects, N_=N)['Electrostatic'] + \
+		potentials['Buckingham'].calc(
+			pos_array=pos, 
+			vects_array=vects, N_=N)
+
+	iteration = {'Direction':-grad, 'Gradient':grad, 'Step':step, 
+	'Positions':pos, 'Energy':energy}
+
+	# Rest iterations
+	for i in range(10):
+		last_iteration = iteration
+		iteration = iter_step(atoms, potentials, step,
+			-last_iteration['Gradient'], last_iteration['Direction'])
+		atoms.positions = iteration['Positions']
+		print(iteration)
+
 			
 
 
@@ -73,6 +123,3 @@ if __name__ == "__main__":
 		help='.cif file to read')
 	args = parser.parse_args()
 	atoms = aread(args.i)
-
-	descent = Descent(atoms)
-	view(descent.atoms)

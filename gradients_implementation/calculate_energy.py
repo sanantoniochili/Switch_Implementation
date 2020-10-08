@@ -23,7 +23,6 @@ from ase.calculators.lammpslib import LAMMPSlib
 from ase.visualize.plot import plot_atoms
 
 from cysrc.potential import *
-from descent import *
 from finite_differences import *
 
 import timeit
@@ -210,7 +209,6 @@ if __name__ == "__main__":
 	Bpot = Buckingham()
 	Bpot.set_parameters(libfile, chemical_symbols)
 	Einter = Bpot.calc(atoms)
-	print(Einter)
 
 	# dict = { **coulomb_energies,
 	# 		'Elect_LAMMPS': elect_LAMMPS, 'E_madelung': Emade, 'Interatomic': Einter,
@@ -242,5 +240,8 @@ if __name__ == "__main__":
 	# p.sort_stats(SortKey.TIME).print_stats(10)
 
 	######################### RELAXATION #############################
-	# GDescent = Descent()
-	# GDescent.repeat(atoms, potentials, 0.1)
+	from descent import *
+
+	initial_energy = coulomb_energies['Electrostatic']+Einter
+	print(coulomb_energies['Electrostatic'])
+	iteration = repeat(atoms, {'Coulomb':Cpot, 'Buckingham':Bpot})
