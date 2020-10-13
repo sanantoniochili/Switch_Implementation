@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 from ase.visualize import view
 from matplotlib.ticker import (MultipleLocator, FormatStrFormatter,
                                AutoMinorLocator)
-import pysrc.potential as pt
+# import pysrc.potential as pt
 
 def stepsize_energy_change(foldr, filename, atoms):
 	"""Move ion with different stepsize to check 
@@ -69,14 +69,18 @@ def finite_diff_grad(atoms, ions, coords, initial_energy, displacement, **kwargs
 			positions_cp[ioni] += h
 			new_pos = positions_cp[ioni][coord]
 
-			print("\n-- Ion {}{} moved {} in dimension {}".format(\
-				atoms.get_chemical_symbols()[ioni],ioni,displacement,coord))
-			print("-- {} --> {}".format(\
-				init_pos,new_pos))
+			# print("\n-- Ion {}{} moved {} in dimension {}".format(\
+			# 	atoms.get_chemical_symbols()[ioni],ioni,displacement,coord))
+			# print("-- {} --> {}".format(\
+			# 	init_pos,new_pos))
 
+			pos = np.array(positions_cp)
+			vects = np.array(atoms.get_cell())
+			N = len(atoms.positions)
 			# calculate (f(x+h)-f(x))/h
-			grad[ioni][coord] = ( pt.buckingham_coulomb(positions_cp, **kwargs)
-													-initial_energy )/h[coord]
+			grad[ioni][coord] = ( kwargs['Buckingham'].calc(None, pos, vects, N)+\
+				kwargs['Coulomb'].calc(None, pos, vects, N)['Electrostatic']\
+				-initial_energy )/h[coord]
 
 	return grad
 

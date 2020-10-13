@@ -23,7 +23,7 @@ from ase.calculators.lammpslib import LAMMPSlib
 from ase.visualize.plot import plot_atoms
 
 from cysrc.potential import *
-from finite_differences import *
+from finite_differences import finite_diff_grad
 
 import timeit
 
@@ -243,5 +243,4 @@ if __name__ == "__main__":
 	from descent import *
 
 	initial_energy = coulomb_energies['Electrostatic']+Einter
-	print(coulomb_energies['Electrostatic'])
-	iteration = repeat(atoms, {'Coulomb':Cpot, 'Buckingham':Bpot})
+	iteration = repeat(atoms, {'Coulomb':Cpot, 'Buckingham':Bpot}, CG)

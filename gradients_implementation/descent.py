@@ -5,23 +5,32 @@ import pandas as pd
 from ase.io import read as aread
 from cysrc.potential import *
 
-def GD(atoms, potentials, grad, **kwargs):
+def GD(potentials, grad, **kwargs):
 	"""Gradient Descent updating scheme. Returns
 	the direction vector.
 
 	"""
 	return -grad/np.linalg.norm(grad)
 
-def CG(atoms, potentials, grad, **kwargs):
+def CG(potentials, grad, **kwargs):
 	"""Conjugate Gradient updating scheme. We are
-	using Polak-Ribière updating for beta factor. 
+	using Polak-Ribière updating for beta factor. Beta
+	array contains one scalar for each ion coordinate
+	aka each optimised vector in the 2D matrix being 
+	optimised.
 	Returns the direction vector.
 
 	"""
 
 	residual = -grad
-	beta = np.dot(residual,(residual-kwargs['residual']))/np.dot(residual,residual)
-	return residual+beta*kwargs['direction']
+	ndirection = np.ones(grad.shape)
+	beta = np.ones((grad.shape[1],)) # Assuming 2D matrix
+	for i in range(grad.shape[1]):	
+		beta[i] = \
+		residual[:,i].T @ (residual[:,i]-kwargs['residual'][:,i]) / \
+		(residual[:,i].T @ residual[:,i])
+		ndirection[:,i] = residual[:,i] + beta[i]*kwargs['direction'][:,i]
+	return ndirection
 
 
 def iter_step(atoms, potentials, step, 
@@ -52,11 +61,11 @@ def iter_step(atoms, potentials, step,
 	grad = grad_coul+grad_buck
 
 	# Direction
-	p = direction_func(atoms, potentials, grad,
+	pi_1 = direction_func(potentials, grad,
 		residual=ri, direction=pi)
 
 	# Calculate new point on energy surface
-	pos_temp = np.copy(atoms.positions + step*p)
+	pos_temp = np.copy(atoms.positions + step*pi_1)
 
 	# Calculate new energy 
 	energy = potentials['Coulomb'].calc(
@@ -87,9 +96,9 @@ def repeat(atoms, potentials, direction_func=GD):
 		pos_array=pos, vects_array=vects, N_=N))
 	grad = grad_coul+grad_buck
 
-	p= direction_func(atoms, potentials, grad,
+	p= direction_func(potentials, grad,
 		residual=-grad, direction=-grad)
-
+	return
 	# Calculate new point on energy surface
 	atoms.positions = atoms.positions + step*p
 
@@ -101,14 +110,18 @@ def repeat(atoms, potentials, direction_func=GD):
 			pos_array=pos, 
 			vects_array=vects, N_=N)
 
-	iteration = {'Direction':-grad, 'Gradient':grad, 'Step':step, 
-	'Positions':pos, 'Energy':energy}
+	gnorm = np.linalg.norm(grad)
+	iteration = {'Direction':-grad/gnorm, 'Gradient':grad, 'Step':step, 
+	'Positions':atoms.positions, 'Energy':energy}
+
+	print(iteration)
 
 	# Rest iterations
 	for i in range(10):
 		last_iteration = iteration
 		iteration = iter_step(atoms, potentials, step,
-			-last_iteration['Gradient'], last_iteration['Direction'])
+			ri=-last_iteration['Gradient'], pi=last_iteration['Direction'],
+			direction_func=direction_func)
 		atoms.positions = iteration['Positions']
 		print(iteration)
 
