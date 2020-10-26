@@ -107,8 +107,9 @@ class Descent:
 		self.ftol = ftol
 		self.gtol = gtol
 
-	def iter_step(self, atoms, potentials, 
-		step, ri=None, pi=None, direction_func=GD):
+	def iter_step(self, atoms, potentials, step, 
+		last_energy, ri=None, pi=None,
+		step_func=bisection_linmin, direction_func=GD):
 		"""Updating iteration step. The energy is calculated on
 		new ion positions that are not inflicted to the Atoms
 		object.
@@ -138,16 +139,13 @@ class Descent:
 		pi_1 = direction_func(grad,
 			residual=ri, direction=pi)
 
-		# Calculate new point on energy surface
-		pos_temp = np.copy(atoms.positions + step*pi_1)
+		# Calculate step size
+		(step, energy) = step_func(atoms, step, np.copy(atoms.positions), 
+			pi_1, potentials, last_energy)
 
-		# Calculate new energy 
-		energy = potentials['Coulomb'].calc(
-				pos_array=pos_temp, 
-				vects_array=vects, N_=N)['Electrostatic'] + \
-			potentials['Buckingham'].calc(
-				pos_array=pos_temp, 
-				vects_array=vects, N_=N)
+		# Calculate new point on energy surface
+		pos_temp = atoms.positions + step*pi_1
+
 		return {'Direction':pi_1, 'Gradient':grad, 'Step':step, 
 		'Positions':pos_temp, 'Energy':energy }
 
@@ -193,11 +191,9 @@ class Descent:
 		for i in range(self.iterno):
 			last_iteration = iteration
 			iteration = self.iter_step(atoms, potentials, step=step,
+				last_energy=last_iteration['Energy'],
 				ri=-last_iteration['Gradient'], pi=last_iteration['Direction'],
-				direction_func=direction_func)
-			step = step_func(
-				iteration['Step'],
-				iteration['Energy']-last_iteration['Energy'])
+				step_func=step_func, direction_func=direction_func)
 			atoms.positions = iteration['Positions']
 			prettyprint(iteration)
 			input()

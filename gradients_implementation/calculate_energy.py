@@ -249,7 +249,8 @@ if __name__ == "__main__":
 		atoms=atoms, 
 		potentials={'Coulomb':Cpot, 'Buckingham':Bpot}, 
 		direction_func=CG)
-	# iteration = desc.repeat(
-	# 	iteration=first_iter, atoms=atoms, 
-	# 	potentials={'Coulomb':Cpot, 'Buckingham':Bpot}, 
-	# 	direction_func=CG)
+	iteration = desc.repeat(
+		iteration=first_iter, atoms=atoms, 
+		potentials={'Coulomb':Cpot, 'Buckingham':Bpot}, 
+		step=first_iter['Step'],
+		direction_func=CG)
