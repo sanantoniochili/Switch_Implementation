@@ -242,5 +242,14 @@ if __name__ == "__main__":
 	######################### RELAXATION #############################
 	from descent import *
 
+	desc = Descent()
 	initial_energy = coulomb_energies['Electrostatic']+Einter
-	iteration = repeat(atoms, {'Coulomb':Cpot, 'Buckingham':Bpot}, CG)
+	first_iter = desc.first_iteration(
+		init_energy=initial_energy,
+		atoms=atoms, 
+		potentials={'Coulomb':Cpot, 'Buckingham':Bpot}, 
+		direction_func=CG)
+	# iteration = desc.repeat(
+	# 	iteration=first_iter, atoms=atoms, 
+	# 	potentials={'Coulomb':Cpot, 'Buckingham':Bpot}, 
+	# 	direction_func=CG)
