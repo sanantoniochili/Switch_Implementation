@@ -694,7 +694,7 @@ cdef class Buckingham(Potential):
 		
 		"""
 		if not self.param_flag:
-			raise ValueError("Coulomb potential parameters are not set.")
+			raise ValueError("Buckingham potential parameters are not set.")
 
 		cdef double* rij = <double *> malloc(sizeof(double) * 3)     
 		for ioni in range(N):
@@ -784,3 +784,127 @@ cdef class Buckingham(Potential):
 		
 		self.calc_drv_(positions,vects,N)
 		return self.grad
+
+cdef class Lagrangian(Potential):
+	def __init__(self):
+		self.param_flag = False
+		self.grad = None
+
+	cpdef set_parameters(self, double[:,:] llambda, str radius_lib, 
+		cnp.ndarray chemical_symbols):
+		
+		cdef int s
+		self.llambda = llambda
+		self.econstrain = 0
+		self.radii = cvarray(shape=(len(chemical_symbols),), \
+					itemsize=sizeof(double), format="d")
+		radius_dict = {}
+
+		try:
+			with open(radius_lib, "r") as fin:
+				for line in fin:
+					line = line.split()
+					radius_dict[line[0]] = float(line[1])
+		except IOError:
+			print("No library file found for Buckingham constants.")
+
+		for s in range(len(chemical_symbols)):
+			self.radii[s] = radius_dict[chemical_symbols[s]]
+
+		self.grad = cvarray(shape=(len(chemical_symbols),3), \
+								itemsize=sizeof(double), format="d")
+		self.param_flag = True
+			
+	cpdef double calc_constrain(self, double[:,:] pos, int N) except? -1:
+
+		if not self.param_flag:
+			raise ValueError("Constraint parameters are not set.")
+
+		self.econstrain = 0
+		assert(N>1)
+
+		cdef double dist
+		cdef int ioni, ionj
+
+		dim = int(N*(N-1)/2)
+		# create array with sums for each N(N-1)/2 lambda coordinate
+		esum = <double *> malloc(sizeof(double)*dim)
+		for i in range(N):
+			esum[i] = .0
+
+		for ioni in range(N):
+			for ionj in range(ioni+1, N):
+				if ioni != ionj:  # skip in case it's the same ion in original unit cell
+					dist = (pos[ioni, 0]-pos[ionj, 0])*(pos[ioni, 0]-pos[ionj, 0])+ \
+							(pos[ioni, 1]-pos[ionj, 1])*(pos[ioni, 1]-pos[ionj, 1])+ \
+							(pos[ioni, 2]-pos[ionj, 2])*(pos[ioni, 2]-pos[ionj, 2])
+					dist = sqrt(dist)
+					esum[ioni] += self.llambda[ioni][ionj]* \
+						(dist-self.radii[ioni]-self.radii[ionj])
+					# print("Setting constraint ",self.llambda[ioni][ionj]* \
+					# 	(dist-self.radii[ioni]-self.radii[ionj]),
+					# 	" to ions with radii ",self.radii[ioni],self.radii[ionj],
+					# 	" and lambda ",self.llambda[ioni][ionj])
+		
+		# Deallocation
+		for ioni in range(N):
+				self.econstrain += esum[ioni]
+		free(esum)
+		return self.econstrain
+
+	cdef double[:,:] calc_constrain_drv_(self, double[:,:] pos, int N):
+		if not self.param_flag:
+			raise ValueError("Constraint parameters are not set.")
+
+		cdef double dist
+		cdef int ioni, ionj
+		cdef double* rij = <double *> malloc(sizeof(double) * 3)     
+		
+		for ioni in range(N):
+			for ionj in range(ioni+1, N):
+
+				rij[0] = pos[ioni,0]-pos[ionj,0] # distance vector
+				rij[1] = pos[ioni,1]-pos[ionj,1]
+				rij[2] = pos[ioni,2]-pos[ionj,2]
+				dist = sqrt(rij[0]*rij[0] + rij[1]*rij[1] + rij[2]*rij[2])
+
+				# partial deriv with respect to ioni
+				self.grad[ioni][0] -= self.llambda[ioni][ionj]*rij[0]/dist
+				self.grad[ioni][1] -= self.llambda[ioni][ionj]*rij[1]/dist
+				self.grad[ioni][2] -= self.llambda[ioni][ionj]*rij[2]/dist
+
+				# partial deriv with respect to ionj
+				self.grad[ionj][0] += self.llambda[ionj][ioni]*rij[0]/dist
+				self.grad[ionj][1] += self.llambda[ionj][ioni]*rij[1]/dist
+				self.grad[ionj][2] += self.llambda[ionj][ioni]*rij[2]/dist
+		free(rij)
+		return self.grad
+
+	cpdef double[:,:] calc_constrain_drv(self, atoms=None, \
+		double[:,:] pos_array=None, int N_=0):
+		"""Wrapper function to initialise gradient 
+		vector of the added constraints.
+
+		"""
+		cdef double[:,:] positions
+		cdef double[:,:] vects
+		cdef int ioni, dim, N
+
+		if atoms:
+			positions = atoms.positions
+			N = len(positions)
+		else:
+			positions = pos_array
+			N = N_
+
+		if not self.param_flag:
+			raise ValueError("Lagrange potential parameters are not set.")
+		
+		for ioni in range(N):
+			for dim in range(3):
+				self.grad[ioni][dim] = 0
+		
+		self.calc_constrain_drv_(positions,N)
+		return self.grad
+
+

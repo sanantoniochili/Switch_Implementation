@@ -242,15 +242,27 @@ if __name__ == "__main__":
 	######################### RELAXATION #############################
 	from descent import *
 
+	usin = input()
 	desc = Descent()
 	initial_energy = coulomb_energies['Electrostatic']+Einter
-	first_iter = desc.first_iteration(
+	potentials = {'Coulomb':Cpot, 'Buckingham':Bpot}
+
+	print(chemical_symbols)
+
+	if "l" in usin:
+		libfile = DATAPATH+"Libraries/radii.lib"
+		LCpot = Lagrangian()
+		potentials =  {**potentials, 'Lagrangian':LCpot}
+
+		lambdas = np.ones((N,N))
+		LCpot.set_parameters(lambdas, libfile, chemical_symbols)
+		initial_energy += LCpot.calc_constrain(
+			pos=atoms.positions, 
+			N=N)
+	
+	iters = desc.repeat(
 		init_energy=initial_energy,
 		atoms=atoms, 
-		potentials={'Coulomb':Cpot, 'Buckingham':Bpot}, 
+		potentials=potentials, 
 		direction_func=CG)
-	iteration = desc.repeat(
-		iteration=first_iter, atoms=atoms, 
-		potentials={'Coulomb':Cpot, 'Buckingham':Bpot}, 
-		step=first_iter['Step'],
-		direction_func=CG)
+	

@@ -46,9 +46,26 @@ cdef class Buckingham(Potential):
 	cpdef void set_parameters(self, str filename, 
 								cnp.ndarray chemical_symbols)
 	cpdef int catastrophe_check(self, double[:,:] pos, \
-											double fraction, radius_dict) except -1
+								double fraction, radius_dict) except -1
 	cdef int get_cutoff(self, double[:,:] vects, float hi)
 	cpdef calc(self, atoms=*, double[:,:] pos_array=*, double[:,:] vects_array=*, int N_=*)
 	cdef double calc_real(self, double[:,:] pos, double[:,:] vects, int N) except? -1
 	cdef double[:,:] calc_drv_(self, double[:,:] pos, double[:,:] vects, int N)
 	cpdef double[:,:] calc_drv(self, atoms=*, double[:,:] pos_array=*, double[:,:] vects_array=*, int N_=*)
+
+
+cdef class Lagrangian(Potential):
+	"""Calculations for the Coulomb energy contribution. It
+	corresponds to the electrostatic forces exercised among entities.
+	
+	"""
+	cdef double[:,:] llambda, slack
+	cdef double econstrain
+	cdef double[:,:] grad
+	cdef double[:] radii
+	cdef bint param_flag
+
+	cpdef set_parameters(self, double[:,:] llambda, str radius_lib, cnp.ndarray chemical_symbols)			
+	cpdef double calc_constrain(self, double[:,:] pos, int N) except? -1
+	cdef double[:,:] calc_constrain_drv_(self, double[:,:] pos, int N)
+	cpdef double[:,:] calc_constrain_drv(self, atoms=*, double[:,:] pos_array=*, int N_=*)
