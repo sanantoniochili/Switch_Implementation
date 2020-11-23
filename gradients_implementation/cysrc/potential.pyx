@@ -530,9 +530,10 @@ cdef class Buckingham(Potential):
 		self.chemical_symbols = None
 		self.param_flag = False
 		self.grad = None
+		self.radii = None
 
 	cpdef void set_parameters(self, str filename, 
-								cnp.ndarray chemical_symbols):
+								cnp.ndarray chemical_symbols, radius_lib=None):
 		"""Set atom_i-atom_j parameters as read from library file:
 		 - par: [A(eV), rho(Angstrom), C(eVAngstrom^6)]
 		 - lo : min radius (Angstrom)
@@ -555,10 +556,28 @@ cdef class Buckingham(Potential):
 					buck[pair]['hi'] = float(line[-1])
 		except IOError:
 			print("No library file found for Buckingham constants.")
+
+		radius_dict = {}
+
+		if radius_lib:
+			self.radii = cvarray(shape=(len(chemical_symbols),), \
+					itemsize=sizeof(double), format="d")
+			try:
+				with open(radius_lib, "r") as fin:
+					for line in fin:
+						line = line.split()
+						radius_dict[line[0]] = float(line[1])
+			except IOError:
+				print("No library file found for radius values.")
+			for s in range(len(chemical_symbols)):
+				self.radii[s] = radius_dict[chemical_symbols[s]]
+				print("Set {} for {}".format(radius_dict[chemical_symbols[s]],
+					chemical_symbols[s]))
+
 		self.param_flag = True
 
 	cpdef int catastrophe_check(self, \
-		double[:,:] pos, double fraction, radius_dict) except -1:
+		double[:,:] pos, double fraction) except -1:
 		"""Check if there are ions in the unit cellthat are too close 
 		causing Buckingham catastrophe.
 
@@ -566,6 +585,9 @@ cdef class Buckingham(Potential):
 		0 otherwise.
 
 		"""
+		if self.radii == None:
+			raise ValueError("Library file for radii not set.")
+
 		cdef int ioni, ionj, N, flag
 		cdef double dist, min_thres, min_dist = np.inf
 		cdef double keep_thres = 0
@@ -576,20 +598,18 @@ cdef class Buckingham(Potential):
 
 		N = len(pos)
 		for ioni in range(N):
-			elemi = self.chemical_symbols[ioni]
 			for ionj in range(N):
 				if ioni!=ionj:
-					elemj = self.chemical_symbols[ionj]
 					dist = sqrt((pos[ioni, 0]-pos[ionj, 0])*(pos[ioni, 0]-pos[ionj, 0])+ \
 								(pos[ioni, 1]-pos[ionj, 1])*(pos[ioni, 1]-pos[ionj, 1])+ \
 								(pos[ioni, 2]-pos[ionj, 2])*(pos[ioni, 2]-pos[ionj, 2]))
-					min_thres = radius_dict[elemi]+radius_dict[elemj]
+					min_thres = self.radii[ioni]+self.radii[ionj]
 					if dist < (fraction*min_thres):
 						flag = 1
 						if dist < min_dist:
 							min_dist = dist
-							min_elemi = elemi
-							min_elemj = elemj
+							min_elemi = self.chemical_symbols[ioni]
+							min_elemj = self.chemical_symbols[ionj]
 							keep_thres = fraction*min_thres
 		if min_dist<np.inf:
 			print(\
@@ -806,7 +826,7 @@ cdef class Lagrangian(Potential):
 					line = line.split()
 					radius_dict[line[0]] = float(line[1])
 		except IOError:
-			print("No library file found for Buckingham constants.")
+			print("No library file found for radius values.")
 
 		for s in range(len(chemical_symbols)):
 			self.radii[s] = radius_dict[chemical_symbols[s]]

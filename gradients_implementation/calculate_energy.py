@@ -206,8 +206,10 @@ if __name__ == "__main__":
 	coulomb_energies = Cpot.calc(atoms)
 	
 	libfile = DATAPATH+"Libraries/buck.lib"
+	libfile2 = DATAPATH+"Libraries/radii.lib"
 	Bpot = Buckingham()
-	Bpot.set_parameters(libfile, chemical_symbols)
+	Bpot.set_parameters(filename=libfile, 
+		chemical_symbols=chemical_symbols, radius_lib=libfile2)
 	Einter = Bpot.calc(atoms)
 
 	# dict = { **coulomb_energies,

@@ -9,8 +9,12 @@ def prettyprint(dict_):
 	import pprint
 	np.set_printoptions(suppress=True)
 	for key, value in dict_.items():
-		print(key)
-		print(value,"\n")
+		if isinstance(value,int) or isinstance(value,float):
+			print(key, value, end=" \t")
+		else:
+			print("\n", key)
+			print(value)
+	print()
 
 
 def GD(grad, **kwargs):
@@ -39,12 +43,13 @@ def CG(grad, **kwargs):
 
 
 def bisection_linmin(atoms, direction, potentials, grad, 
-	init_iter, c1=0.0001, c2=0.1):
+	init_iter, c1=0, c2=1, min_step=0.001):
 
 	vects = np.array(atoms.get_cell())
 	N = len(atoms.positions)
-	step = 1
+	step = min_step # start with min value
 
+	print("In line search:")
 	while(True):
 		# Check if energy is dropping
 		pos_temp = atoms.positions + step*direction
@@ -61,29 +66,56 @@ def bisection_linmin(atoms, direction, potentials, grad,
 		print("Initial energy: ",init_iter['Energy'],
 			" New energy: ",energy, "Step: ",step)
 
+		# Vectorise matrices
 		vdirection = np.reshape(direction, 
 			(direction.shape[0]*direction.shape[1],1))
 		vgrad = np.reshape(grad, 
 			(grad.shape[0]*grad.shape[1],1))
-
+		
 		# Wolfe conditions
 		# Make sure that the new step is large enough to decrease energy
 		if (energy-init_iter['Energy']) <= step*c1*(vdirection.T @ vgrad):
-			break
+
+			# Calculate next gradient
+			grad_coul = np.array(
+				potentials['Coulomb'].calc_drv(
+				pos_array=pos_temp, vects_array=vects, N_=N))
+			grad_buck = np.array(
+				potentials['Buckingham'].calc_drv(
+				pos_array=pos_temp, vects_array=vects, N_=N))
+			ngrad = grad_coul+grad_buck
+			if "Lagrangian" in potentials:
+				ngrad += np.array(
+				potentials['Lagrangian'].calc_constrain_drv(
+				pos_array=pos_temp, N_=N))
+
+			# Vectorise matrix
+			nvgrad = np.reshape(ngrad, 
+			(ngrad.shape[0]*ngrad.shape[1],1))
+
+			# Curvature condition
+			if abs(vdirection.T @ nvgrad) <= c2*abs(vdirection.T @ vgrad):
+				break
 
 		# Update step size
-		step = step/2
+		if step < 1/2:
+			step = step*2
+		else:
+			step = 1
+			break
+
 		print("New step: ",step)
 	return (step, energy)
 
 
 class Descent:
-	def __init__(self, ftol=0.0001, gtol=0.001, 
+	def __init__(self, ftol=0.00001, gtol=0.001, 
 		tol=0.00000001, iterno=1000):
 		self.iterno = iterno
 		self.ftol = ftol
 		self.gtol = gtol
 		self.tol = tol
+		self.iters = 0
 
 	def iter_step(self, atoms, potentials, last_iter={}, 
 		step_func=bisection_linmin, direction_func=GD):
@@ -126,10 +158,11 @@ class Descent:
 			last_iter, self.ftol)
 
 		# Calculate new point on energy surface
+		self.iters += 1
 		pos_temp = atoms.positions + step*pi_1
 
-		return {'Direction':pi_1, 'Gradient':grad, 'Step':step, 
-		'Positions':pos_temp, 'Energy':energy }
+		return {'Positions':pos_temp, 'Direction':pi_1, 'Gradient':grad, 
+		'Iter':self.iters, 'Step':step, 'Energy':energy}
 
 	def repeat(self, init_energy, atoms, potentials, 
 		step_func=bisection_linmin, direction_func=GD):
@@ -156,28 +189,30 @@ class Descent:
 		p = -grad/gnorm
 		
 		# Calculate step size
-		(step, energy) = step_func(atoms, p, 
-			potentials, grad,
+		(step, energy) = step_func(atoms, p, potentials, grad,
 			{'Energy': init_energy, 
 			'Gradient': grad,
 			'Direction': p}, self.ftol)
 
 		# Calculate new point on energy surface
+		self.iters += 1
 		atoms.positions = atoms.positions + step*p
 
-		iteration = {'Direction':p, 'Gradient':grad, 'Step':step, 
-		'Positions':atoms.positions, 'Energy':energy}
+		iteration = {'Positions':atoms.positions, 'Direction':p, 
+		'Gradient':grad, 'Iter':self.iters, 'Step':step,  'Energy':energy}
 
 		prettyprint(iteration)
 		input()
 
 		de = abs(init_energy-iteration['Energy'])
 		if de < self.ftol:
+			print("Energy:",iteration['Energy'],"Energy difference: ",de,
+					" Tolerance: ",self.ftol)
 			return iteration
 
 		for i in range(self.iterno):
 			last_iteration = iteration
-			iteration = self.iter_step(atoms, potentials,
+			iteration = self.iter_step(atoms, potentials, 
 				last_iter=last_iteration, step_func=step_func, 
 				direction_func=direction_func)
 			
@@ -188,8 +223,8 @@ class Descent:
 
 			de = abs(last_iteration['Energy']-iteration['Energy'])
 			if de < self.ftol:
-				print("Energy:",iteration['Energy'],"Energy difference: ",de,
-					" Tolerance: ",self.ftol)
+				print("Iterations: {} Energy: {} Energy difference: {} Tolerance: {}".format(
+					self.iters,iteration['Energy'],de,self.ftol))
 				break
 
 			prettyprint(iteration)
