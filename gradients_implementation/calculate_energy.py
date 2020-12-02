@@ -249,14 +249,16 @@ if __name__ == "__main__":
 	initial_energy = coulomb_energies['Electrostatic']+Einter
 	potentials = {'Coulomb':Cpot, 'Buckingham':Bpot}
 
-	print(chemical_symbols)
+	# print(chemical_symbols)
+	# Cpot.calc_real_drv2(np.array(atoms.positions), vects, N)
 
 	if "l" in usin:
 		libfile = DATAPATH+"Libraries/radii.lib"
 		LCpot = Lagrangian()
 		potentials =  {**potentials, 'Lagrangian':LCpot}
 
-		lambdas = np.ones((N,N))
+		lambdas = np.random.rand(N,N)
+		print("Using lambda multipliers vector: {}".format(lambdas))
 		LCpot.set_parameters(lambdas, libfile, chemical_symbols)
 		initial_energy += LCpot.calc_constrain(
 			pos=atoms.positions, 
@@ -266,5 +268,6 @@ if __name__ == "__main__":
 		init_energy=initial_energy,
 		atoms=atoms, 
 		potentials=potentials, 
-		direction_func=CG)
+		direction_func=CG,
+		step_func=bisection_linmin)
 	

@@ -12,7 +12,7 @@ cdef class Coulomb(Potential):
 	"""
 	cdef double alpha, made_const
 	cdef double eself, ereal, erecip
-	cdef double[:,:] grad
+	cdef double[:,:] grad, hessian
 	cdef cnp.ndarray chemical_symbols
 	cdef int real_cut_off, recip_cut_off
 	cdef int[:] charges
@@ -29,6 +29,9 @@ cdef class Coulomb(Potential):
 	cpdef calc_madelung(self, double[:,:] pos, int N)
 	cpdef calc(self, atoms=*, double[:,:] pos_array=*, double[:,:] vects_array=*, int N_=*)
 	cdef double[:,:] calc_real_drv(self, double[:,:] pos, double[:,:] vects, int N)
+	
+	cpdef double[:,:] calc_real_drv2(self, double[:,:] pos, double[:,:] vects, int N)
+	
 	cdef double[:,:] calc_recip_drv(self, double[:,:] pos, double[:,:] vects, int N)
 	cpdef double[:,:] calc_drv(self, atoms=*, double[:,:] pos_array=*, double[:,:] vects_array=*, int N_=*)
 

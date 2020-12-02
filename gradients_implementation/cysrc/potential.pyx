@@ -81,6 +81,7 @@ cdef class Coulomb(Potential):
 		self.chemical_symbols = None
 		self.charges = None
 		self.grad = None
+		self.hessian = None
 
 		self.param_flag = False
 
@@ -105,6 +106,8 @@ cdef class Coulomb(Potential):
 		self.ereal = 0
 		self.erecip = 0
 		self.grad = cvarray(shape=(N,3), \
+								itemsize=sizeof(double), format="d")
+		self.hessian = cvarray(shape=(3*N,3*N), \
 								itemsize=sizeof(double), format="d")
 
 		cdef int count = 0
@@ -425,6 +428,103 @@ cdef class Coulomb(Potential):
 							self.grad[ionj][1] -= drv*rij[1]*14.399645351950543
 							self.grad[ionj][2] -= drv*rij[2]*14.399645351950543
 			free(rij)
+		return self.grad
+
+	@cython.boundscheck(False)
+	@cython.wraparound(False)
+	@cython.cdivision(True) # for quick modulo division
+	cpdef double[:,:] calc_real_drv2(self, double[:,:] pos, double[:,:] vects, int N):
+		"""Calculate short range electrostatic forces in form of the
+		energy function's Hessian. 
+
+		Returns the real energy Hessian matrix.
+		
+		"""
+		if pos.shape[1]!=3 or vects.shape[1]!=3:
+			raise IndexError("Points are not 3-dimensional.")
+
+		# cdef double dist, dist_2, a2pi, drv, term, alpha = self.alpha
+		# cdef double* rij
+		cdef int i, j, dim, shift, ionl, ionj
+		# cdef double[:,:] shifts = self.get_shifts(self.real_cut_off, vects)
+		# cdef int no_shifts = shifts.shape[0] # number of unit cell images-1
+
+		# a2pi = 2*alpha/sqrt(pi)	
+
+		i = 1	
+
+		with nogil, parallel():
+			# allocate memory for distance vector
+			rij = <double *> malloc(sizeof(double) * 3)
+			for i in prange(3*N, schedule='static'):
+				for j in range(3*N):
+					# Operations on coords of same ion
+					if <int>floor(i/3)==<int>floor(j/3):
+						ionl = <int>floor(i/3)
+
+						for ionj in range(N):
+							rij[0] = pos[ionl,0]-pos[ionj,0] # distance vector
+							rij[1] = pos[ionl,1]-pos[ionj,1]
+							rij[2] = pos[ionl,2]-pos[ionj,2]
+							dist = sqrt(rij[0]*rij[0] + rij[1]*rij[1] + rij[2]*rij[2])
+
+							self.hessian[i][j] += 
+							self.charges[ionl]*self.charges[ionj]/dist
+
+
+
+						# Operations on same coords
+						if <int>floor(i%3)==<int>floor(j%3):
+							pass
+						else:
+							pass
+					else:
+						pass
+				printf("\n")
+
+
+
+
+		# 			
+		# 				drv = -self.charges[ioni]*self.charges[ionj] * \
+		# 					(
+		# 						a2pi*exp(-alpha*alpha*dist_2) / dist_2 + \
+		# 						erfc(alpha*dist) / (dist_2*dist)
+		# 					) # partial derivative without position vector
+
+		# 				# partial deriv with respect to ioni
+		# 				self.grad[ioni][0] += drv*rij[0]*14.399645351950543  # Coulomb constant
+		# 				self.grad[ioni][1] += drv*rij[1]*14.399645351950543
+		# 				self.grad[ioni][2] += drv*rij[2]*14.399645351950543
+
+		# 				# partial deriv with respect to ionj
+		# 				self.grad[ionj][0] -= drv*rij[0]*14.399645351950543
+		# 				self.grad[ionj][1] -= drv*rij[1]*14.399645351950543
+		# 				self.grad[ionj][2] -= drv*rij[2]*14.399645351950543
+
+		# 				# take care of the rest lattice (+ Ln)
+		# 				for shift in range(no_shifts):
+		# 					rij[0] = pos[ioni,0]+shifts[shift,0]-pos[ionj,0] # distance vector
+		# 					rij[1] = pos[ioni,1]+shifts[shift,1]-pos[ionj,1]
+		# 					rij[2] = pos[ioni,2]+shifts[shift,2]-pos[ionj,2]
+		# 					dist_2 = rij[0]*rij[0] + rij[1]*rij[1] + rij[2]*rij[2]
+		# 					dist = sqrt(dist_2)
+		# 					drv = - self.charges[ioni]*self.charges[ionj] * \
+		# 						(
+		# 							a2pi*exp(-alpha*alpha*dist_2) / dist_2 + \
+		# 							erfc(alpha*dist) / (dist_2*dist)
+		# 						) # partial derivative
+
+		# 					# partial deriv with respect to ioni
+		# 					self.grad[ioni][0] += drv*rij[0]*14.399645351950543  # Coulomb constant
+		# 					self.grad[ioni][1] += drv*rij[1]*14.399645351950543
+		# 					self.grad[ioni][2] += drv*rij[2]*14.399645351950543
+
+		# 					# partial deriv with respect to ionj
+		# 					self.grad[ionj][0] -= drv*rij[0]*14.399645351950543
+		# 					self.grad[ionj][1] -= drv*rij[1]*14.399645351950543
+		# 					self.grad[ionj][2] -= drv*rij[2]*14.399645351950543
+		# 	free(rij)
 		return self.grad
 
 	@cython.boundscheck(False)
