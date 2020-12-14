@@ -12,8 +12,7 @@ from libc.stdio cimport *
 from libc.math cimport *
 from libc.float cimport *
 from libc.limits cimport *
-import cython
-
+import cython, shutil
 
 cdef double det3_3(double[:,:] arr):
 	"""Returns the determinant of an 3x3 matrix.
@@ -211,12 +210,16 @@ cdef class Coulomb(Potential):
 					dist = sqrt(dist)
 					esum[ioni][ionj] += (self.charges[ioni]*self.charges[ionj] *
 												erfc(self.alpha*dist)/(2*dist))
-		# Deallocation
+		
+		# Fill lower triangular matrix with symmetric values
 		for ioni in prange(N, nogil=True, schedule='static'):
 			for ionj in range(0, ioni):
-				esum[ioni][ionj] = esum[ionj][ioni] # complete lower triangular
+				esum[ioni][ionj] = esum[ionj][ioni]
 			for ionj in range(N):
 				ereal += esum[ioni][ionj]
+		
+		# Deallocation
+		for ioni in prange(N, nogil=True, schedule='static'):
 			free(esum[ioni])
 		free(esum)
 
@@ -283,12 +286,15 @@ cdef class Coulomb(Potential):
 						esum[ioni][ionj] += self.charges[ioni]*self.charges[ionj]*frac
 			free(rij)
 
-		# Deallocation
+		# Fill lower triangular matrix with symmetric values
 		for ioni in prange(N, nogil=True, schedule='static'):
 			for ionj in range(0, ioni):
-				esum[ioni][ionj] = esum[ionj][ioni] # complete lower triangular
+				esum[ioni][ionj] = esum[ionj][ioni]
 			for ionj in range(N):
 				erecip += esum[ioni][ionj]
+		
+		# Deallocation
+		for ioni in prange(N, nogil=True, schedule='static'):
 			free(esum[ioni])
 		free(esum)
 
@@ -354,6 +360,7 @@ cdef class Coulomb(Potential):
 		energies['Self'] = self.eself
 		energies['Reciprocal'] = self.erecip
 		energies['Electrostatic'] = self.ereal+self.erecip+self.eself
+
 		return energies
 
 	@cython.boundscheck(False)
@@ -466,10 +473,10 @@ cdef class Coulomb(Potential):
 							rij[0] = pos[ionl,0]-pos[ionj,0] # distance vector
 							rij[1] = pos[ionl,1]-pos[ionj,1]
 							rij[2] = pos[ionl,2]-pos[ionj,2]
-							dist = sqrt(rij[0]*rij[0] + rij[1]*rij[1] + rij[2]*rij[2])
+							# dist = sqrt(rij[0]*rij[0] + rij[1]*rij[1] + rij[2]*rij[2])
 
-							self.hessian[i][j] += 
-							self.charges[ionl]*self.charges[ionj]/dist
+							# self.hessian[i][j] += 
+							# self.charges[ionl]*self.charges[ionj]/dist
 
 
 
@@ -481,50 +488,6 @@ cdef class Coulomb(Potential):
 					else:
 						pass
 				printf("\n")
-
-
-
-
-		# 			
-		# 				drv = -self.charges[ioni]*self.charges[ionj] * \
-		# 					(
-		# 						a2pi*exp(-alpha*alpha*dist_2) / dist_2 + \
-		# 						erfc(alpha*dist) / (dist_2*dist)
-		# 					) # partial derivative without position vector
-
-		# 				# partial deriv with respect to ioni
-		# 				self.grad[ioni][0] += drv*rij[0]*14.399645351950543  # Coulomb constant
-		# 				self.grad[ioni][1] += drv*rij[1]*14.399645351950543
-		# 				self.grad[ioni][2] += drv*rij[2]*14.399645351950543
-
-		# 				# partial deriv with respect to ionj
-		# 				self.grad[ionj][0] -= drv*rij[0]*14.399645351950543
-		# 				self.grad[ionj][1] -= drv*rij[1]*14.399645351950543
-		# 				self.grad[ionj][2] -= drv*rij[2]*14.399645351950543
-
-		# 				# take care of the rest lattice (+ Ln)
-		# 				for shift in range(no_shifts):
-		# 					rij[0] = pos[ioni,0]+shifts[shift,0]-pos[ionj,0] # distance vector
-		# 					rij[1] = pos[ioni,1]+shifts[shift,1]-pos[ionj,1]
-		# 					rij[2] = pos[ioni,2]+shifts[shift,2]-pos[ionj,2]
-		# 					dist_2 = rij[0]*rij[0] + rij[1]*rij[1] + rij[2]*rij[2]
-		# 					dist = sqrt(dist_2)
-		# 					drv = - self.charges[ioni]*self.charges[ionj] * \
-		# 						(
-		# 							a2pi*exp(-alpha*alpha*dist_2) / dist_2 + \
-		# 							erfc(alpha*dist) / (dist_2*dist)
-		# 						) # partial derivative
-
-		# 					# partial deriv with respect to ioni
-		# 					self.grad[ioni][0] += drv*rij[0]*14.399645351950543  # Coulomb constant
-		# 					self.grad[ioni][1] += drv*rij[1]*14.399645351950543
-		# 					self.grad[ioni][2] += drv*rij[2]*14.399645351950543
-
-		# 					# partial deriv with respect to ionj
-		# 					self.grad[ionj][0] -= drv*rij[0]*14.399645351950543
-		# 					self.grad[ionj][1] -= drv*rij[1]*14.399645351950543
-		# 					self.grad[ionj][2] -= drv*rij[2]*14.399645351950543
-		# 	free(rij)
 		return self.grad
 
 	@cython.boundscheck(False)
@@ -671,8 +634,8 @@ cdef class Buckingham(Potential):
 				print("No library file found for radius values.")
 			for s in range(len(chemical_symbols)):
 				self.radii[s] = radius_dict[chemical_symbols[s]]
-				print("Set {} for {}".format(radius_dict[chemical_symbols[s]],
-					chemical_symbols[s]))
+				# print("Set {} for {}".format(radius_dict[chemical_symbols[s]],
+				# 	chemical_symbols[s]))
 
 		self.param_flag = True
 
@@ -688,13 +651,15 @@ cdef class Buckingham(Potential):
 		if self.radii == None:
 			raise ValueError("Library file for radii not set.")
 
-		cdef int ioni, ionj, N, flag
+		cdef int ioni, ionj, N, flag, min_i, min_j
 		cdef double dist, min_thres, min_dist = np.inf
 		cdef double keep_thres = 0
 
 		flag = 0
 		min_elemi = ''
 		min_elemj = ''
+		min_i = 0
+		min_j = 0
 
 		N = len(pos)
 		for ioni in range(N):
@@ -710,11 +675,13 @@ cdef class Buckingham(Potential):
 							min_dist = dist
 							min_elemi = self.chemical_symbols[ioni]
 							min_elemj = self.chemical_symbols[ionj]
-							keep_thres = fraction*min_thres
+							min_i = ioni
+							min_j = ionj
+							keep_thres = min_thres
 		if min_dist<np.inf:
 			print(\
-				"Found elements {}, {} closer than {} Angstroms".format(
-					min_elemi,min_elemj,keep_thres))
+				"Found elements {}{}, {}{} closer than {}*{} Angstroms".format(
+					min_elemi,min_i,min_elemj,min_j,fraction,keep_thres))
 			return 1		
 		return 0
 
@@ -912,8 +879,14 @@ cdef class Lagrangian(Potential):
 
 	cpdef set_parameters(self, double[:,:] llambda, str radius_lib, 
 		cnp.ndarray chemical_symbols):
+
+		cdef int s, ioni, ionj
 		
-		cdef int s
+		# Make sure lambda is a symmetric matrix
+		for ioni in range(llambda.shape[0]):
+			for ionj in range(ioni, llambda.shape[0]):
+				assert(llambda[ioni][ionj]==llambda[ionj][ioni])
+
 		self.llambda = llambda
 		self.econstrain = 0
 		self.radii = cvarray(shape=(len(chemical_symbols),), \
@@ -941,35 +914,34 @@ cdef class Lagrangian(Potential):
 			raise ValueError("Constraint parameters are not set.")
 
 		self.econstrain = 0
-		assert(N>1)
 
-		cdef double dist
+		cdef double dist, ctemp
 		cdef int ioni, ionj
-
-		dim = int(N*(N-1)/2)
-		# create array with sums for each N(N-1)/2 lambda coordinate
-		esum = <double *> malloc(sizeof(double)*dim)
-		for i in range(N):
-			esum[i] = .0
 
 		for ioni in range(N):
 			for ionj in range(ioni+1, N):
-				if ioni != ionj:  # skip in case it's the same ion in original unit cell
-					dist = (pos[ioni, 0]-pos[ionj, 0])*(pos[ioni, 0]-pos[ionj, 0])+ \
-							(pos[ioni, 1]-pos[ionj, 1])*(pos[ioni, 1]-pos[ionj, 1])+ \
-							(pos[ioni, 2]-pos[ionj, 2])*(pos[ioni, 2]-pos[ionj, 2])
-					dist = sqrt(dist)
-					esum[ioni] += self.llambda[ioni][ionj]* \
-						(dist-self.radii[ioni]-self.radii[ionj])
-					# print("Setting constraint ",self.llambda[ioni][ionj]* \
-					# 	(dist-self.radii[ioni]-self.radii[ionj]),
-					# 	" to ions with radii ",self.radii[ioni],self.radii[ionj],
-					# 	" and lambda ",self.llambda[ioni][ionj])
-		
-		# Deallocation
-		for ioni in range(N):
-				self.econstrain += esum[ioni]
-		free(esum)
+				dist = (pos[ioni, 0]-pos[ionj, 0])*(pos[ioni, 0]-pos[ionj, 0])+ \
+						(pos[ioni, 1]-pos[ionj, 1])*(pos[ioni, 1]-pos[ionj, 1])+ \
+						(pos[ioni, 2]-pos[ionj, 2])*(pos[ioni, 2]-pos[ionj, 2])
+				dist = sqrt(dist)
+
+
+				# Add calculated constraint to final energy
+				# When radii sum is greater it adds cost to minimisation
+				ctemp = self.llambda[ioni][ionj]* \
+					(self.radii[ioni]+self.radii[ionj]-dist)
+				self.econstrain += ctemp
+
+				# # Print deed
+				# print("Constraint: \t{} Ions: {},{} \
+				# 	\t Distance: {} \t Radii: {},{} ".format(
+				# 		ctemp, ioni, ionj, dist, 
+				# 		self.radii[iona], self.radii[ionb]))
+				# columns = shutil.get_terminal_size().columns
+				# for c in range(columns):
+				# 	print("-", end="")
+				# print()
+
 		return self.econstrain
 
 	cdef double[:,:] calc_constrain_drv_(self, double[:,:] pos, int N):
@@ -994,9 +966,9 @@ cdef class Lagrangian(Potential):
 				self.grad[ioni][2] -= self.llambda[ioni][ionj]*rij[2]/dist
 
 				# partial deriv with respect to ionj
-				self.grad[ionj][0] += self.llambda[ionj][ioni]*rij[0]/dist
-				self.grad[ionj][1] += self.llambda[ionj][ioni]*rij[1]/dist
-				self.grad[ionj][2] += self.llambda[ionj][ioni]*rij[2]/dist
+				self.grad[ionj][0] += self.llambda[ioni][ionj]*rij[0]/dist
+				self.grad[ionj][1] += self.llambda[ioni][ionj]*rij[1]/dist
+				self.grad[ionj][2] += self.llambda[ioni][ionj]*rij[2]/dist
 		free(rij)
 		return self.grad
 

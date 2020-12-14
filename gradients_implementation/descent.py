@@ -5,6 +5,9 @@ import pandas as pd
 from ase.io import read as aread
 from cysrc.potential import *
 
+import shutil
+COLUMNS = shutil.get_terminal_size().columns
+
 def prettyprint(dict_):
 	import pprint
 	np.set_printoptions(suppress=True)
@@ -136,14 +139,17 @@ def interpolation_linmin(atoms, direction, potentials, grad,
 
 
 def bisection_linmin(atoms, direction, potentials, grad, 
-	init_iter, c1=0, min_step=-1):
+	init_iter, c1=0, min_step=0.0000000001):
 
 	vects = np.array(atoms.get_cell())
 	N = len(atoms.positions)
+	max_step = 1/min_step
+
+	energy = init_iter['Energy']
 	step = 1
 
 	print("In line search:")
-	while(True):
+	while(step<=max_step):
 		# Check if energy is dropping
 		pos_temp = atoms.positions + step*direction
 		energy = potentials['Coulomb'].calc(
@@ -216,6 +222,15 @@ class Descent:
 		self.iters = 0
 		self.methods = []
 		self.CG_iterno = 0
+		self.cattol = 0.7
+
+	def check_completion(self, init_energy, energy, init_gnorn=None, gnorm=None):
+		de = abs(init_energy-energy)
+		if de < self.ftol:
+			print("Iterations: {} Energy: {} Final Energy difference: {} Tolerance: {}".format(
+					self.iters,energy,de,self.ftol))
+			return True
+		return False
 
 	def iter_step(self, atoms, potentials, last_iter={}, 
 		step_func=bisection_linmin, direction_func=GD):
@@ -308,6 +323,10 @@ class Descent:
 		# Calculate new point on energy surface
 		self.iters += 1
 		atoms.positions = atoms.positions + step*p
+		# Catastrophe check
+		if potentials['Buckingham'].catastrophe_check(\
+			atoms.positions, self.cattol)==1:
+			print("!! Detected ions too close !!".center(COLUMNS))
 
 		iteration = {'Positions':atoms.positions, 'Direction':p, 
 		'Gradient':grad, 'Iter':self.iters, 'Step':step,  'Energy':energy}
@@ -315,10 +334,7 @@ class Descent:
 		prettyprint(iteration)
 		input()
 
-		de = abs(init_energy-iteration['Energy'])
-		if de < self.ftol:
-			print("Energy:",iteration['Energy'],"Final Energy difference: ",de,
-					" Tolerance: ",self.ftol)
+		if self.check_completion(init_energy, iteration['Energy']):
 			return iteration
 
 		# Rest of iterations ##########################################
@@ -332,15 +348,18 @@ class Descent:
 			self.emin = iteration['Energy']
 			# Change point on PES and try a whole step
 			atoms.positions = iteration['Positions']
+			# Catastrophe check
+			if potentials['Buckingham'].catastrophe_check(\
+				atoms.positions, self.cattol)==1:
+				print("!! Detected ions too close !!".center(COLUMNS))
 
-			de = abs(last_iteration['Energy']-iteration['Energy'])
-			if de < self.ftol:
-				print("Iterations: {} Energy: {} Final Energy difference: {} Tolerance: {}".format(
-					self.iters,iteration['Energy'],de,self.ftol))
+			if self.check_completion(last_iteration['Energy'], iteration['Energy']):
 				break
 
 			prettyprint(iteration)
 			input()
+
+			break
 
 		return iteration
 

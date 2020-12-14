@@ -5,8 +5,6 @@ import fileinput
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from matplotlib.ticker import (MultipleLocator, FormatStrFormatter,
-							   AutoMinorLocator)
 
 from cmath import pi
 from cmath import exp
@@ -51,35 +49,126 @@ atom_types = {
 
 
 def print_template(dict):
+	import shutil
+	columns = shutil.get_terminal_size().columns
 	print("\n")
-	print("==========================COULOMB==========================".center(columns))
-	print("--------------------------CUSTOM IMPLEMENTATION---------------------------------".center(columns))
+
+	# Coulomb
+	lines = columns/2 - len("COULOMB")
+	for c in range(lines):
+		print("=", end="")
+	print("COULOMB", end="")
+	for c in range(lines):
+		print("=", end="")
+	print()
+
+	lines = columns/2 - len("CUSTOM IMPLEMENTATION")
+	for c in range(lines):
+		print("-", end="")
+	print("CUSTOM IMPLEMENTATION", end="")
+	for c in range(lines):
+		print("-", end="")
+	print()
+
 	print("Real:\t\t"+str(dict['Real']))
 	print("Self:\t\t"+str(dict['Self']))
 	print("Recip:\t\t"+str(dict['Reciprocal']))
 	print("Electrostatic:\t"+str(dict['Electrostatic']))
-	print("----------------------------------LAMMPS----------------------------------------".center(columns))
+
+	lines = columns/2 - len("LAMMPS")
+	for c in range(lines):
+		print("-", end="")
+	print("LAMMPS", end="")
+	for c in range(lines):
+		print("-", end="")
+	print()
+
 	print("Electrostatic:\t"+str(dict['Elect_LAMMPS']))
-	print("---------------------------------MADELUNG---------------------------------------".center(columns))
+
+	lines = columns/2 - len("MADELUNG")
+	for c in range(lines):
+		print("-", end="")
+	print("MADELUNG", end="")
+	for c in range(lines):
+		print("-", end="")
+	print()
+
 	if dict['E_madelung'] == None:
 		print("No Madelung constant for this structure.")
 	else:
 		print("Electrostatic:\t"+str(dict['E_madelung']))
-	print("--------------------------------------------------------------------------------".center(columns))
+
+	for c in range(columns):
+		print("-", end="")
+	print()
 	print("\n")
-	print("==========================BUCKINGHAM==========================".center(columns))
-	print("--------------------------CUSTOM IMPLEMENTATION---------------------------------".center(columns))
+	
+	# Buckingham
+	lines = columns/2 - len("BUCKINGHAM")
+	for c in range(lines):
+		print("=", end="")
+	print("BUCKINGHAM", end="")
+	for c in range(lines):
+		print("=", end="")
+	print()
+
+	lines = columns/2 - len("CUSTOM IMPLEMENTATION")
+	for c in range(lines):
+		print("-", end="")
+	print("CUSTOM IMPLEMENTATION", end="")
+	for c in range(lines):
+		print("-", end="")
+	print()
+
 	print("Interatomic:\t"+str(dict['Interatomic']))
-	print("----------------------------------LAMMPS----------------------------------------".center(columns))
+
+	lines = columns/2 - len("LAMMPS")
+	for c in range(lines):
+		print("-", end="")
+	print("LAMMPS", end="")
+	for c in range(lines):
+		print("-", end="")
+	print()
+
 	print("Interatomic:\t"+str(dict['Inter_LAMMPS']))
-	print("--------------------------------------------------------------------------------".center(columns))
+	
+	for c in range(columns):
+		print("-", end="")
+	print()
 	print("\n")
-	print("==========================TOTAL==========================".center(columns))
-	print("--------------------------CUSTOM IMPLEMENTATION---------------------------------".center(columns))
+
+	# Total
+	lines = columns/2 - len("TOTAL")
+	for c in range(lines):
+		print("=", end="")
+	print("TOTAL", end="")
+	for c in range(lines):
+		print("=", end="")
+	print()
+
+	lines = columns/2 - len("CUSTOM IMPLEMENTATION")
+	for c in range(lines):
+		print("-", end="")
+	print("CUSTOM IMPLEMENTATION", end="")
+	for c in range(lines):
+		print("-", end="")
+	print()
+
 	print("Total lattice:\t"+str(dict['Electrostatic'] + dict['Interatomic']))
-	print("-------------------------------------GULP---------------------------------------".center(columns))
+	
+	lines = columns/2 - len("GULP")
+	for c in range(lines):
+		print("-", end="")
+	print("GULP", end="")
+	for c in range(lines):
+		print("-", end="")
+	print()
+	
 	print("Total lattice:\t"+str(dict['Total_GULP']))
-	print("--------------------------------------------------------------------------------".center(columns))
+	
+	for c in range(columns):
+		print("-", end="")
+	print()
 
 
 def lammps_energy(atoms):
@@ -150,21 +239,25 @@ def get_input(filename=None):
 				  positions=[[0, 0, 0],
 							 [2, 2, 2],
 							 [0, 2, 2],
-							 [2, 0, 2],
+							 #[2, 0, 2],
+							 [1.5, .5, 2], # put Os too close
 							 [2, 2, 0]],
 				  pbc=True)
 		# atoms = atoms.repeat((3, 1, 1))
 		print("Using custom Atoms object as input.")
+		# view(atoms)
 	return (folder,structure,atoms)
 
 
 if __name__ == "__main__":
-	columns = shutil.get_terminal_size().columns
 	parser = argparse.ArgumentParser(
 		description='Define input')
 	parser.add_argument(
 		'-i', metavar='--input', type=str,
 		help='.cif file to read')
+	parser.add_argument(
+		'-l', '--lagrangian', action='store_true',
+		help='Use Lagrangian relaxation')
 	args = parser.parse_args()
 	(folder, structure, atoms) = get_input(args.i)
 
@@ -244,20 +337,41 @@ if __name__ == "__main__":
 	######################### RELAXATION #############################
 	from descent import *
 
-	usin = input()
 	desc = Descent()
 	initial_energy = coulomb_energies['Electrostatic']+Einter
 	potentials = {'Coulomb':Cpot, 'Buckingham':Bpot}
 
-	# print(chemical_symbols)
+	print(atoms.positions)
+	print(chemical_symbols)
 	# Cpot.calc_real_drv2(np.array(atoms.positions), vects, N)
 
-	if "l" in usin:
+	if args.lagrangian:
 		libfile = DATAPATH+"Libraries/radii.lib"
 		LCpot = Lagrangian()
 		potentials =  {**potentials, 'Lagrangian':LCpot}
 
-		lambdas = np.random.rand(N,N)
+		vlambdas = np.random.rand(int(N*(N-1)/2))
+		assert(np.all(vlambdas>0))
+		lambdas = np.zeros((N,N))
+		count = vlambdas.shape[0]
+
+		# Populate lambda matrix with a value for
+		# each pairwise distance
+		print("Printing lamnda vector..")
+		for ioni in range(N):
+			print()
+			for ionj in range(ioni+1, N):
+				lambdas[ioni][ionj] = vlambdas[count-1]
+				lambdas[ionj][ioni] = vlambdas[count-1]
+				print("Ion {}, Ion {} : {}".format(\
+					ioni, ionj, lambdas[ioni][ionj]), end="  ")
+				count -= 1
+		print()
+
+		# Set high lambda for oxygens in 2,3, 
+		lambdas[2][3], lambdas[3][2] = 5,5
+		lambdas[0][4], lambdas[4][0] = .25,.25
+
 		print("Using lambda multipliers vector: {}".format(lambdas))
 		LCpot.set_parameters(lambdas, libfile, chemical_symbols)
 		initial_energy += LCpot.calc_constrain(
@@ -270,4 +384,5 @@ if __name__ == "__main__":
 		potentials=potentials, 
 		direction_func=CG,
 		step_func=bisection_linmin)
+
 	
