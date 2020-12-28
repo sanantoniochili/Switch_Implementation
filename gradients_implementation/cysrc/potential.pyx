@@ -1,6 +1,7 @@
 import numpy as np
 cimport numpy as cnp
 import warnings
+import heapq
 
 from cython.view cimport array as cvarray
 from libc.stdlib cimport malloc, free
@@ -639,9 +640,8 @@ cdef class Buckingham(Potential):
 
 		self.param_flag = True
 
-	cpdef int catastrophe_check(self, \
-		double[:,:] pos, double fraction) except -1:
-		"""Check if there are ions in the unit cellthat are too close 
+	cpdef int[:] catastrophe_check(self, double[:,:] pos, double fraction):
+		"""Check if there are ions in the unit cell that are too close 
 		causing Buckingham catastrophe.
 
 		Returns 1 if Buckingham catastrophe was discovered, 
@@ -651,39 +651,48 @@ cdef class Buckingham(Potential):
 		if self.radii == None:
 			raise ValueError("Library file for radii not set.")
 
-		cdef int ioni, ionj, N, flag, min_i, min_j
+		cdef int ioni, ionj, N, count, count_true
 		cdef double dist, min_thres, min_dist = np.inf
 		cdef double keep_thres = 0
+		cdef int[:] pairs
 
-		flag = 0
-		min_elemi = ''
-		min_elemj = ''
-		min_i = 0
-		min_j = 0
+		heap = []
+		count = 0
+		count_true = 0
+		symbols = [self.chemical_symbols[x]+str(x) for x in range(len(pos))]
 
 		N = len(pos)
 		for ioni in range(N):
-			for ionj in range(N):
+			for ionj in range(ioni, N):
 				if ioni!=ionj:
 					dist = sqrt((pos[ioni, 0]-pos[ionj, 0])*(pos[ioni, 0]-pos[ionj, 0])+ \
 								(pos[ioni, 1]-pos[ionj, 1])*(pos[ioni, 1]-pos[ionj, 1])+ \
 								(pos[ioni, 2]-pos[ionj, 2])*(pos[ioni, 2]-pos[ionj, 2]))
+					elemi = symbols[ioni]
+					elemj = symbols[ionj]
 					min_thres = self.radii[ioni]+self.radii[ionj]
 					if dist < (fraction*min_thres):
-						flag = 1
-						if dist < min_dist:
-							min_dist = dist
-							min_elemi = self.chemical_symbols[ioni]
-							min_elemj = self.chemical_symbols[ionj]
-							min_i = ioni
-							min_j = ionj
-							keep_thres = min_thres
-		if min_dist<np.inf:
-			print(\
-				"Found elements {}{}, {}{} closer than {}*{} Angstroms".format(
-					min_elemi,min_i,min_elemj,min_j,fraction,keep_thres))
-			return 1		
-		return 0
+						heapq.heappush(heap, [dist, count, ioni, ionj, True])
+						print("Detected {},{} too close".format(elemi,elemj))
+						count_true += 1
+					else:
+						heapq.heappush(heap, [dist, count, ioni, ionj, False])
+				count += 1
+
+		# Return catastrophe pairs
+		if count_true == 0:
+			return None
+		count = 0
+		pairs = cvarray(shape=(2*count_true,),
+					itemsize=sizeof(int), format="i")
+		while heap:
+			heap_elem = heapq.heappop(heap)
+			if heap_elem[4]:
+				pairs[count] = heap_elem[2]
+				pairs[count+1] = heap_elem[3]
+				count += 2
+		return pairs
+
 
 	cdef int get_cutoff(self, double[:,:] vects, float hi):
 		"""Find how many cells away to check

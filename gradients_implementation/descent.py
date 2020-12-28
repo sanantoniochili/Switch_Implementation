@@ -4,6 +4,7 @@ import pandas as pd
 
 from ase.io import read as aread
 from cysrc.potential import *
+from ase.geometry import get_distances
 
 import shutil
 COLUMNS = shutil.get_terminal_size().columns
@@ -11,13 +12,14 @@ COLUMNS = shutil.get_terminal_size().columns
 def prettyprint(dict_):
 	import pprint
 	np.set_printoptions(suppress=True)
+	words = ""
 	for key, value in dict_.items():
 		if isinstance(value,int) or isinstance(value,float):
-			print(key, value, end=" \t")
+			words += key+" "+str(value)+" "
 		else:
 			print("\n", key)
 			print(value)
-	print()
+	print(words.center(COLUMNS,"-"))
 
 
 def GD(grad, **kwargs):
@@ -139,7 +141,7 @@ def interpolation_linmin(atoms, direction, potentials, grad,
 
 
 def bisection_linmin(atoms, direction, potentials, grad, 
-	init_iter, c1=0, min_step=0.0000000001):
+	init_iter, c1=0, min_step=0.000000001):
 
 	vects = np.array(atoms.get_cell())
 	N = len(atoms.positions)
@@ -180,7 +182,7 @@ def bisection_linmin(atoms, direction, potentials, grad,
 		step = step*2
 		print("New step: ",step)
 	
-	while(step >= min_step):
+	while(step>=min_step):
 		# Decrease step size until accepted
 		step = step/2
 		print("New step: ",step)
@@ -222,7 +224,7 @@ class Descent:
 		self.iters = 0
 		self.methods = []
 		self.CG_iterno = 0
-		self.cattol = 0.7
+		self.cattol = 0.5
 
 	def check_completion(self, init_energy, energy, init_gnorn=None, gnorm=None):
 		de = abs(init_energy-energy)
@@ -325,7 +327,7 @@ class Descent:
 		atoms.positions = atoms.positions + step*p
 		# Catastrophe check
 		if potentials['Buckingham'].catastrophe_check(\
-			atoms.positions, self.cattol)==1:
+			atoms.positions, self.cattol) is not None:
 			print("!! Detected ions too close !!".center(COLUMNS))
 
 		iteration = {'Positions':atoms.positions, 'Direction':p, 
@@ -350,7 +352,7 @@ class Descent:
 			atoms.positions = iteration['Positions']
 			# Catastrophe check
 			if potentials['Buckingham'].catastrophe_check(\
-				atoms.positions, self.cattol)==1:
+				atoms.positions, self.cattol) is not None:
 				print("!! Detected ions too close !!".center(COLUMNS))
 
 			if self.check_completion(last_iteration['Energy'], iteration['Energy']):
@@ -358,8 +360,6 @@ class Descent:
 
 			prettyprint(iteration)
 			input()
-
-			break
 
 		return iteration
 

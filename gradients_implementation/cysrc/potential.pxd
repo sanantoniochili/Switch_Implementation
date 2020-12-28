@@ -49,7 +49,7 @@ cdef class Buckingham(Potential):
 
 	cpdef void set_parameters(self, str filename, 
 								cnp.ndarray chemical_symbols, radius_lib=*)
-	cpdef int catastrophe_check(self, double[:,:] pos, double fraction) except -1
+	cpdef int[:] catastrophe_check(self, double[:,:] pos, double fraction)
 	cdef int get_cutoff(self, double[:,:] vects, float hi)
 	cpdef calc(self, atoms=*, double[:,:] pos_array=*, double[:,:] vects_array=*, int N_=*)
 	cdef double calc_real(self, double[:,:] pos, double[:,:] vects, int N) except? -1
