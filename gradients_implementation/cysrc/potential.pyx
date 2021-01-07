@@ -2,13 +2,13 @@ import numpy as np
 cimport numpy as cnp
 import warnings
 import heapq
+import csv
 
 from cython.view cimport array as cvarray
 from libc.stdlib cimport malloc, free
 from cython.parallel import prange,parallel
 
 from libc cimport bool
-from libc.math cimport ceil
 from libc.stdio cimport *                                                                
 from libc.math cimport *
 from libc.float cimport *
@@ -181,9 +181,10 @@ cdef class Coulomb(Potential):
 
 		cdef double dist, ereal = 0
 		cdef double** esum
-		cdef int ioni, ionj, shift
+		cdef int ioni, ionj, shift, set_excepts
 		cdef double[:,:] shifts = self.get_shifts(self.real_cut_off, vects)
-		cdef int no_shifts = shifts.shape[0] # number of unit cell images-1		
+		cdef int no_shifts = shifts.shape[0] # number of unit cell images-1
+		cdef int value_flag = 0 	
 
 		self.ereal = 0
 
@@ -201,6 +202,9 @@ cdef class Coulomb(Potential):
 							(pos[ioni, 1]-pos[ionj, 1])*(pos[ioni, 1]-pos[ionj, 1])+ \
 							(pos[ioni, 2]-pos[ionj, 2])*(pos[ioni, 2]-pos[ionj, 2])
 					dist = sqrt(dist)
+					# Avoid division by zero
+					if dist == 0:
+						dist = DBL_EPSILON
 					esum[ioni][ionj] += (self.charges[ioni]*self.charges[ionj] *
 											erfc(self.alpha*dist)/(2*dist))
 				# take care of the rest lattice (+ Ln)
@@ -209,6 +213,9 @@ cdef class Coulomb(Potential):
 							(pos[ioni, 1]+shifts[shift, 1]-pos[ionj, 1])*(pos[ioni, 1]+shifts[shift, 1]-pos[ionj, 1])+ \
 							(pos[ioni, 2]+shifts[shift, 2]-pos[ionj, 2])*(pos[ioni, 2]+shifts[shift, 2]-pos[ionj, 2])
 					dist = sqrt(dist)
+					# Avoid division by zero
+					if dist == 0:
+						dist = DBL_EPSILON
 					esum[ioni][ionj] += (self.charges[ioni]*self.charges[ionj] *
 												erfc(self.alpha*dist)/(2*dist))
 		
@@ -225,7 +232,6 @@ cdef class Coulomb(Potential):
 		free(esum)
 
 		ereal = ereal*14.399645351950543  # electrostatic constant
-		self.ereal = ereal
 		return ereal
 
 	@cython.boundscheck(False)
@@ -277,11 +283,12 @@ cdef class Coulomb(Potential):
 								shifts[shift, 1]*rij[1]+ \
 								shifts[shift, 2]*rij[2]
 
-						# avoid underflow
-						if k_2>-log(DBL_EPSILON):
-							term = DBL_EPSILON
-						else:
-							term = exp(-k_2/(4*alpha**2))
+						# # avoid underflow
+						# if k_2>-log(DBL_EPSILON):
+						# 	# term = DBL_EPSILON
+						# 	term = 0
+						# else:
+						term = exp(-k_2/(4*alpha**2))
 						# actual calculation
 						frac = 4*(pi**2)*term*cos(krij) / (k_2*2*pi*volume)
 						esum[ioni][ionj] += self.charges[ioni]*self.charges[ionj]*frac
@@ -300,7 +307,6 @@ cdef class Coulomb(Potential):
 		free(esum)
 
 		erecip = erecip*14.399645351950543  # electrostatic constant
-		self.erecip = erecip
 		return erecip
 
 	@cython.boundscheck(False)
@@ -397,9 +403,15 @@ cdef class Coulomb(Potential):
 						rij[2] = pos[ioni,2]-pos[ionj,2]
 						dist_2 = rij[0]*rij[0] + rij[1]*rij[1] + rij[2]*rij[2]
 						dist = sqrt(dist_2)
+						# # Avoid underflow
+						# if alpha*alpha*dist_2>-log(DBL_EPSILON):
+						# 	term = DBL_EPSILON
+						# 	# term = 0
+						# else:
+						term = exp(-alpha*alpha*dist_2)
 						drv = -self.charges[ioni]*self.charges[ionj] * \
 							(
-								a2pi*exp(-alpha*alpha*dist_2) / dist_2 + \
+								a2pi*term / dist_2 + \
 								erfc(alpha*dist) / (dist_2*dist)
 							) # partial derivative without position vector
 
@@ -420,9 +432,15 @@ cdef class Coulomb(Potential):
 							rij[2] = pos[ioni,2]+shifts[shift,2]-pos[ionj,2]
 							dist_2 = rij[0]*rij[0] + rij[1]*rij[1] + rij[2]*rij[2]
 							dist = sqrt(dist_2)
+							# # Avoid underflow
+							# if alpha*alpha*dist_2>-log(DBL_EPSILON):
+							# 	term = DBL_EPSILON
+							# 	# term = 0
+							# else:
+							term = exp(-alpha*alpha*dist_2)
 							drv = - self.charges[ioni]*self.charges[ionj] * \
 								(
-									a2pi*exp(-alpha*alpha*dist_2) / dist_2 + \
+									a2pi*term / dist_2 + \
 									erfc(alpha*dist) / (dist_2*dist)
 								) # partial derivative
 
@@ -530,10 +548,11 @@ cdef class Coulomb(Potential):
 								shifts[shift, 1]*rij[1]+ \
 								shifts[shift, 2]*rij[2]
 						# avoid underflow
-						if k_2>-log(DBL_EPSILON):
-							term = DBL_EPSILON
-						else:
-							term = exp(-k_2/(4*alpha**2))
+						# if k_2>-log(DBL_EPSILON):
+						# 	term = DBL_EPSILON
+						# 	# term = 0
+						# else:
+						term = exp(-k_2/(4*alpha**2))
 						drv = - self.charges[ioni]*self.charges[ionj] * \
 										   4*pi*pi*term*sin(krij)/(k_2*pi*volume)
 						
@@ -640,12 +659,12 @@ cdef class Buckingham(Potential):
 
 		self.param_flag = True
 
-	cpdef int[:] catastrophe_check(self, double[:,:] pos, double fraction):
+	cpdef int[:] catastrophe_check(self, double[:,:] pos, double fraction, int print_flag=0):
 		"""Check if there are ions in the unit cell that are too close 
 		causing Buckingham catastrophe.
 
-		Returns 1 if Buckingham catastrophe was discovered, 
-		0 otherwise.
+		Returns array of pairs if Buckingham catastrophe was discovered, 
+		None otherwise.
 
 		"""
 		if self.radii == None:
@@ -680,13 +699,19 @@ cdef class Buckingham(Potential):
 				count += 1
 
 		# Return catastrophe pairs
-		if count_true == 0:
-			return None
 		count = 0
-		pairs = cvarray(shape=(2*count_true,),
+		if count_true == 0:
+			pairs = None
+		else:
+			pairs = cvarray(shape=(2*count_true,),
 					itemsize=sizeof(int), format="i")
+		if print_flag==1:
+			f = open("dists_temp.csv", 'w')
 		while heap:
 			heap_elem = heapq.heappop(heap)
+			if print_flag==1:
+				wr = csv.writer(f, quoting=csv.QUOTE_ALL)
+				wr.writerow(heap_elem)
 			if heap_elem[4]:
 				pairs[count] = heap_elem[2]
 				pairs[count+1] = heap_elem[3]

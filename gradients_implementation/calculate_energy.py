@@ -239,13 +239,13 @@ def get_input(filename=None):
 				  positions=[[0, 0, 0],
 							 [2, 2, 2],
 							 [0, 2, 2],
-							 [2, 0, 2],
-							 # [1.5, .5, 2], # put Os too close
+							 # [2, 0, 2],
+							 [1.5, .5, 2], # put Os too close
 							 [2, 2, 0]],
 				  pbc=True)
 		# atoms = atoms.repeat((3, 1, 1))
 		print("Using custom Atoms object as input.")
-		view(atoms)
+		# view(atoms)
 	return (folder,structure,atoms)
 
 
@@ -345,49 +345,51 @@ if __name__ == "__main__":
 	potentials = {'Coulomb':Cpot, 'Buckingham':Bpot}
 
 	# print(atoms.positions)
-	# print(chemical_symbols)
+	print(chemical_symbols)
 	# Cpot.calc_real_drv2(np.array(atoms.positions), vects, N)
 
 	# print("ALL DISTS:")
 	# print(atoms.get_distances())
-	Bpot.catastrophe_check(atoms.positions, 0.5)
+	if Bpot.catastrophe_check(atoms.positions, 0.5, 1) is not None:
+		print("!! Detected ions too close !!".center(COLUMNS))
 
-	if args.relax:
-		if args.lagrangian:
-			libfile = DATAPATH+"Libraries/radii.lib"
-			LCpot = Lagrangian()
-			potentials =  {**potentials, 'Lagrangian':LCpot}
+	if args.lagrangian:
+		libfile = DATAPATH+"Libraries/radii.lib"
+		LCpot = Lagrangian()
+		potentials =  {**potentials, 'Lagrangian':LCpot}
 
-			vlambdas = np.random.rand(int(N*(N-1)/2))
-			assert(np.all(vlambdas>0))
-			lambdas = np.zeros((N,N))
-			count = vlambdas.shape[0]
+		vlambdas = np.random.rand(int(N*(N-1)/2))
+		assert(np.all(vlambdas>0))
+		lambdas = np.zeros((N,N))
+		count = vlambdas.shape[0]
 
-			# Populate lambda matrix with a value for
-			# each pairwise distance
+		# Populate lambda matrix with a value for
+		# each pairwise distance
 
-			lambdas[0][4], lambdas[4][0] = .25,.25
-			lambdas[2][3], lambdas[3][2] = .1,.1
+		lambdas[0][4], lambdas[4][0] = .25,.25
+		lambdas[2][3], lambdas[3][2] = .1,.1
 
-			print("Printing lambda vector..")
-			for ioni in range(N):
-				print()
-				for ionj in range(ioni+1, N):
-					# lambdas[ioni][ionj] = vlambdas[count-1]
-					# lambdas[ionj][ioni] = vlambdas[count-1]
-					print("Ions {},{} : {}".format(\
-						ioni, ionj, lambdas[ioni][ionj]), end="  ")
-					count -= 1
+		print("Printing lambda vector..")
+		for ioni in range(N):
 			print()
+			for ionj in range(ioni+1, N):
+				# lambdas[ioni][ionj] = vlambdas[count-1]
+				# lambdas[ionj][ioni] = vlambdas[count-1]
+				print("Ions {},{} : {}".format(\
+					ioni, ionj, lambdas[ioni][ionj]), end="  ")
+				count -= 1
+		print()
 
-			input()
+		input()
 
-			print("Using lambda multipliers vector: {}".format(lambdas))
-			LCpot.set_parameters(lambdas, libfile, chemical_symbols)
-			initial_energy += LCpot.calc_constrain(
-				pos=atoms.positions, 
-				N=N)
-		
+		print("Using lambda multipliers vector: {}".format(lambdas))
+		LCpot.set_parameters(lambdas, libfile, chemical_symbols)
+		initial_energy += LCpot.calc_constrain(
+			pos=atoms.positions, 
+			N=N)
+	
+	from linmin import bisection_linmin
+	if args.relax or args.lagrangian:
 		iters = desc.repeat(
 			init_energy=initial_energy,
 			atoms=atoms, 
