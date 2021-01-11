@@ -53,6 +53,38 @@ cdef class Potential:
 		shifts_view = np.dot(shifts_view,vects)
 		return shifts_view
 
+	@cython.boundscheck(False)
+	@cython.wraparound(False)
+	cdef double[:,:] get_reciprocal_vects(self, double[:,:] vects, double volume):
+		"""Calculate reciprocal vectors. 
+		
+		Returns the array of 3D vectors.
+		
+		"""
+		cdef int i,a,b
+		rvects = cvarray(shape=(3,3), \
+						itemsize=sizeof(double), format="d")
+		for i in range(3):
+			a = (1+i) % 3
+			b = (2+i) % 3
+			rvects[i, ] = 2*pi*np.cross(vects[a, ],
+										vects[b, ]) / volume
+		return rvects
+
+	# cpdef bint get_bounds(self, double[:,:] vects, double[:,:] pos):
+	# 	"""Checks if given positions of atoms are illegal with 
+	# 	respect to unit cell bounds"""
+
+	# 	if pos==None or (vects.shape[1]!=pos.shape[1]):
+	# 		raise ValueError("Positions array is empty.")
+
+	# 	cdef int N = pos.shape[0]
+	# 	cdef int dims = pos[0].shape[0]
+
+	# 	get_reciprocal_vects(self, double[:,:] vects, double volume):
+
+	# 	return 0
+
 cdef class Coulomb(Potential):
 	"""Calculations for the Coulomb electrostatic energy contribution.
 	The Ewald summation method used for long range. Each sum is calculated
@@ -135,24 +167,6 @@ cdef class Coulomb(Potential):
 				
 	@cython.boundscheck(False)
 	@cython.wraparound(False)
-	cdef double[:,:] get_reciprocal_vects(self, double[:,:] vects, double volume):
-		"""Calculate reciprocal vectors. 
-		
-		Returns the array of 3D vectors.
-		
-		"""
-		cdef int i,a,b
-		rvects = cvarray(shape=(3,3), \
-						itemsize=sizeof(double), format="d")
-		for i in range(3):
-			a = (1+i) % 3
-			b = (2+i) % 3
-			rvects[i, ] = 2*pi*np.cross(vects[a, ],
-										vects[b, ]) / volume
-		return rvects
-
-	@cython.boundscheck(False)
-	@cython.wraparound(False)
 	cdef double calc_self(self, int N): 							
 		"""Calculate self interaction term.
 		Returns the calculated energy as a float number.
@@ -225,13 +239,14 @@ cdef class Coulomb(Potential):
 				esum[ioni][ionj] = esum[ionj][ioni]
 			for ionj in range(N):
 				ereal += esum[ioni][ionj]
-		
+
 		# Deallocation
 		for ioni in prange(N, nogil=True, schedule='static'):
 			free(esum[ioni])
 		free(esum)
 
 		ereal = ereal*14.399645351950543  # electrostatic constant
+		self.ereal = ereal
 		return ereal
 
 	@cython.boundscheck(False)
@@ -307,6 +322,7 @@ cdef class Coulomb(Potential):
 		free(esum)
 
 		erecip = erecip*14.399645351950543  # electrostatic constant
+		self.erecip = erecip
 		return erecip
 
 	@cython.boundscheck(False)
@@ -721,7 +737,7 @@ cdef class Buckingham(Potential):
 
 	cdef int get_cutoff(self, double[:,:] vects, float hi):
 		"""Find how many cells away to check
-		 using the minimum cell vector value
+		 using the minimum cell vector value (CUBOIDS ONLY)
 
 		 Returns the distance described.
 		

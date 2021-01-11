@@ -138,6 +138,9 @@ class Descent:
 		vects = np.array(atoms.get_cell())
 		N = len(atoms.positions)
 
+		prettyprint({'Initial Energy':init_energy})
+		input()
+
 		# First iteration (Steepest Descent) ##########################
 		grad_coul = np.array(
 			potentials['Coulomb'].calc_drv(

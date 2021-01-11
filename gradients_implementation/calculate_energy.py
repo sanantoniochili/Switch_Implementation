@@ -346,6 +346,7 @@ if __name__ == "__main__":
 
 	# print(atoms.positions)
 	print(chemical_symbols)
+	print(coulomb_energies)
 	# Cpot.calc_real_drv2(np.array(atoms.positions), vects, N)
 
 	# print("ALL DISTS:")

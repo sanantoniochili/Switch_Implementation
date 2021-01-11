@@ -3,6 +3,8 @@ cimport numpy as cnp
 
 cdef class Potential:
 	cdef double[:,:] get_shifts(self, int cut_off, double[:,:] vects)
+	cdef double[:,:] get_reciprocal_vects(self, double[:,:] vects, double volume)
+	# cpdef bint get_bounds(self, double[:,:] vects, double[:,:])
 
 
 cdef class Coulomb(Potential):
@@ -22,7 +24,6 @@ cdef class Coulomb(Potential):
 		double real_cut_off, double recip_cut_off, \
 		cnp.ndarray chemical_symbols, int N, 
 		charge_dict, str filename=*)			
-	cdef double[:,:] get_reciprocal_vects(self, double[:,:] vects, double volume)
 	cdef double calc_self(self, int N)
 	cdef double calc_real(self, double[:,:] pos, double[:,:] vects, int N) except? -1
 	cdef double calc_recip(self, double[:,:] pos, double[:,:] vects, int N) except? -1
