@@ -87,8 +87,7 @@ class UnitCellBounds:
 
 		print("coef1",coef1,"coef2",coef2,"I",intersect_point,
 			"plane point",self.plane_points[faceno,],
-			"normal",self.normals[faceno],
-			"normal direction",np.dot(qcrossi,self.normals[faceno]))
+			"normal",self.normals[faceno])
 
 		if ((np.dot(qcrossi,self.normals[faceno])>=0) & \
 			(0 <= si) & (si <= 1) & (0 <= coef1) & \
@@ -98,12 +97,14 @@ class UnitCellBounds:
 		else:
 			return None
 
-	def get_wrap_intersection(self, faceno, vects):
+	def get_wrap_intersection(self, faceno, move_vector, vects):
 		v3 = (faceno//2+2)%3
 		if faceno%2 == 1:
-			return -vects[v3]
+			move_vector = move_vector-vects[v3]
+			return (-vects[v3],move_vector)
 		else:
-			return vects[v3]
+			move_vector = move_vector+vects[v3]
+			return (vects[v3],move_vector)
 
 
 from mpl_toolkits.mplot3d import Axes3D
@@ -154,7 +155,7 @@ if __name__=="__main__":
 
 	vects = atoms.get_cell()
 	points1 = np.array([[0,0,0],
-			[5,5,5]])
+			[9,9,10]])
 	points2 = np.array([[3,0,3],
 			[3,3,3]])
 	points3 = np.array([[1,1,1],
@@ -163,10 +164,10 @@ if __name__=="__main__":
 	ucb = UnitCellBounds()
 	ucb.set_face_normals(atoms.get_cell())
 	
-	move = points2
+	move = points1
 	ion_point = move[0]
 	move_vector = move[1]-move[0]
-	moveno = 2
+	moveno = 1
 
 	while(True):
 		print("\nIon movement {} : {} {}".format(
@@ -176,23 +177,25 @@ if __name__=="__main__":
 		intersect_point = None
 
 		for faceno in range(6):
-			print("FACE {}".format(faceno))
+			print("\nFACE {}".format(faceno))
 			intersect_point_temp = ucb.get_intersection(
 				move_vector, ion_point, faceno, vects)
 			print("Intersection point:",intersect_point_temp)
 			if intersect_point_temp is not None:
 				if intersect_point is None:
 					intersect_point = intersect_point_temp
-				dx += ucb.get_wrap_intersection(faceno, vects)
+				(dx_temp,move_vector) = ucb.get_wrap_intersection(
+											faceno, move_vector, vects)
+				dx += dx_temp
+				print("Moving ion by",dx)
 		if intersect_point is None: 
 			ion_point = ion_point+move_vector
 			break
-		move_vector = move_vector-(intersect_point-ion_point)
 		ion_point = intersect_point+dx
 		print("\nWrapped intersection point:",ion_point)
 		print("Remaining displacement:",move_vector)
 
-	print("\nFINAL POINT:",ion_point)
+	print("\nFINAL POINT:",ion_point,"\nFINAL MOVE:",move_vector)
 
 
 
@@ -211,3 +214,4 @@ if __name__=="__main__":
 
 # first working commit 805d98ce4756973683edd8a2ade9fe2c3ac1dbcc
 # wrap point working commit fdddfdbca77f12d7d6d87bb783e052f799eefef6
+# wrap move working commit 0b1aed3396eada6394784d596518c3dc72f1e18f
