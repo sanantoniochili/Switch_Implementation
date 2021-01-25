@@ -57,7 +57,11 @@ class UnitCellBounds:
 			si = -np.dot(self.normals[faceno],ion_plane_vector) / ndotu
 			intersect_point = ion_plane_vector + si * move_vector + self.plane_points[faceno]
 
-			if (intersect_point==ion_point).all() or (intersect_point==ion_point+move_vector).all():
+			ends_test = intersect_point-ion_point
+			if (ends_test < epsilon).all():
+				return None
+			ends_test = intersect_point-ion_point+move_vector
+			if (ends_test < epsilon).all():
 				return None
 
 		if faceno <= 4 :
@@ -97,14 +101,12 @@ class UnitCellBounds:
 		else:
 			return None
 
-	def get_wrap_intersection(self, faceno, move_vector, vects):
+	def get_wrap_intersection(self, faceno, vects):
 		v3 = (faceno//2+2)%3
 		if faceno%2 == 1:
-			move_vector = move_vector-vects[v3]
-			return (-vects[v3],move_vector)
+			return -vects[v3]
 		else:
-			move_vector = move_vector+vects[v3]
-			return (vects[v3],move_vector)
+			return vects[v3]
 
 
 from mpl_toolkits.mplot3d import Axes3D
@@ -157,17 +159,17 @@ if __name__=="__main__":
 	points1 = np.array([[0,0,0],
 			[9,9,10]])
 	points2 = np.array([[3,0,3],
-			[3,3,3]])
+			[4,9,4]])
 	points3 = np.array([[1,1,1],
 			[-1,-1,3]])
 
 	ucb = UnitCellBounds()
 	ucb.set_face_normals(atoms.get_cell())
 	
-	move = points1
+	move = points3
 	ion_point = move[0]
 	move_vector = move[1]-move[0]
-	moveno = 1
+	moveno = 3
 
 	while(True):
 		print("\nIon movement {} : {} {}".format(
@@ -184,14 +186,16 @@ if __name__=="__main__":
 			if intersect_point_temp is not None:
 				if intersect_point is None:
 					intersect_point = intersect_point_temp
-				(dx_temp,move_vector) = ucb.get_wrap_intersection(
-											faceno, move_vector, vects)
-				dx += dx_temp
+				dx += ucb.get_wrap_intersection(faceno, vects)
 				print("Moving ion by",dx)
+		
 		if intersect_point is None: 
 			ion_point = ion_point+move_vector
 			break
+		
+		move_vector = move_vector-(intersect_point-ion_point)
 		ion_point = intersect_point+dx
+		
 		print("\nWrapped intersection point:",ion_point)
 		print("Remaining displacement:",move_vector)
 
@@ -215,3 +219,4 @@ if __name__=="__main__":
 # first working commit 805d98ce4756973683edd8a2ade9fe2c3ac1dbcc
 # wrap point working commit fdddfdbca77f12d7d6d87bb783e052f799eefef6
 # wrap move working commit 0b1aed3396eada6394784d596518c3dc72f1e18f
+# wrap correct displacement 312a7fb11a1058e4496cd3291061e38bdb49c466
