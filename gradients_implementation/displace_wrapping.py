@@ -12,7 +12,7 @@ from ase import *
 class UnitCellBounds:
 	def __init__(self):
 		self.normals = np.zeros((6,3))
-		self.points = np.zeros((6,3))
+		self.plane_points = np.zeros((6,3))
 		self.areas = np.zeros((6,))
 
 	def set_face_normals(self, vects):
@@ -23,7 +23,7 @@ class UnitCellBounds:
 		"""
 		
 		for i in range(0,6,2):
-			self.points[i+1,] = vects[(i//2+2)%3,]
+			self.plane_points[i+1,] = vects[(i//2+2)%3,]
 			if i <= 4 :
 				v1 = i//2%3
 				v2 = (i//2+1)%3
@@ -37,10 +37,9 @@ class UnitCellBounds:
 			self.areas[i] = np.linalg.norm(self.normals[i,])
 			self.areas[i+1] = -np.linalg.norm(self.normals[i+1,])
 	 
-	def get_intersection(
-		self, plane_p, dis_vector, 
-		ion_p, faceno, vects, epsilon=1e-6):
-		"""Returns the point of intersection between dis_vector and 
+	def get_intersection(self, move_vector, 
+		ion_point, faceno, vects, epsilon=1e-6):
+		"""Returns the point of intersection between move_vector and 
 		a given face of the unit cell parallilepiped. If the intersection
 		point lies outside the face area then it returns None.
 		"""
@@ -48,17 +47,17 @@ class UnitCellBounds:
 		if faceno%2 == 0:
 			opp_flag = 1
 
-		inter_p = ion_p
+		intersect_point = ion_point
 
-		ndotu = np.dot(self.normals[faceno],dis_vector)
+		ndotu = np.dot(self.normals[faceno],move_vector)
 		if abs(ndotu) < epsilon:
 			si = -1
 		else:
-			ion_plane_vector = ion_p - plane_p
+			ion_plane_vector = ion_point - self.plane_points[faceno]
 			si = -np.dot(self.normals[faceno],ion_plane_vector) / ndotu
-			inter_p = ion_plane_vector + si * dis_vector + plane_p
+			intersect_point = ion_plane_vector + si * move_vector + self.plane_points[faceno]
 
-			if (inter_p==ion_p).all() or (inter_p==ion_p+dis_vector).all():
+			if (intersect_point==ion_point).all() or (intersect_point==ion_point+move_vector).all():
 				return None
 
 		if faceno <= 4 :
@@ -66,11 +65,11 @@ class UnitCellBounds:
 			v2 = (faceno//2+1)%3
 
 			qcrossi = -np.cross(
-			inter_p-self.points[faceno,], vects[v1,]) \
+			intersect_point-self.plane_points[faceno,], vects[v1,]) \
 			 / self.areas[faceno]
 			coef1 = np.linalg.norm(qcrossi)
 			icrossr = np.cross(
-				inter_p-self.points[faceno,], vects[v2,]) \
+				intersect_point-self.plane_points[faceno,], vects[v2,]) \
 				 / self.areas[faceno]
 			coef2 = np.linalg.norm(icrossr)
 		else:
@@ -78,16 +77,16 @@ class UnitCellBounds:
 			v1 = (faceno//2+1)%3
 
 			qcrossi = np.cross(
-				inter_p-self.points[faceno,], vects[v1,]) \
+				intersect_point-self.plane_points[faceno,], vects[v1,]) \
 				 / self.areas[faceno]
 			coef1 = np.linalg.norm(qcrossi)
 			icrossr = -np.cross(
-				inter_p-self.points[faceno,], vects[v2,]) \
+				intersect_point-self.plane_points[faceno,], vects[v2,]) \
 				 / self.areas[faceno]
 			coef2 = np.linalg.norm(icrossr)
 
-		print("coef1",coef1,"coef2",coef2,"I",inter_p,
-			"plane point",self.points[faceno,],
+		print("coef1",coef1,"coef2",coef2,"I",intersect_point,
+			"plane point",self.plane_points[faceno,],
 			"normal",self.normals[faceno],
 			"normal direction",np.dot(qcrossi,self.normals[faceno]))
 
@@ -95,11 +94,11 @@ class UnitCellBounds:
 			(0 <= si) & (si <= 1) & (0 <= coef1) & \
 			(coef1 <= 1) & (0 <= coef2) & (coef2 <= 1)): # check if intersection point is inside face borders
 
-			return inter_p
+			return intersect_point
 		else:
 			return None
 
-	def wrap_intersection(self, faceno, vects):
+	def get_wrap_intersection(self, faceno, vects):
 		v3 = (faceno//2+2)%3
 		if faceno%2 == 1:
 			return -vects[v3]
@@ -163,31 +162,39 @@ if __name__=="__main__":
 
 	ucb = UnitCellBounds()
 	ucb.set_face_normals(atoms.get_cell())
+	
+	move = points2
+	ion_point = move[0]
+	move_vector = move[1]-move[0]
+	moveno = 2
 
-	print("\nIon movement 2 :",points2[0],points2[1])
-	dx = np.array([0.,0.,0.])
-	inter_p = None
-	for faceno in range(6):
-		print("FACE {}".format(faceno))
-		inter_p_temp = ucb.get_intersection(
-			ucb.points[faceno], points2[1,]-points2[0,], 
-			points2[0], faceno, vects)
-		print("Intersection point:",inter_p)
-		if inter_p_temp is not None:
-			if inter_p is None:
-				inter_p = inter_p_temp
-			dx += ucb.wrap_intersection(faceno, vects)
-	if inter_p is not None:
-		print("\nWrapped intersection point:",inter_p+dx)
+	while(True):
+		print("\nIon movement {} : {} {}".format(
+			moveno,ion_point,ion_point+move_vector))
 
-	# print("line2",ucb.get_intersection(
-	# 	ucb.points[faceno], points2[1,]-points2[0,], 
-	# 	points2[0], faceno, vects))
-	# print("line3",ucb.get_intersection(
-	# 	ucb.points[faceno], points3[1,]-points3[0,], 
-	# 	points3[0], faceno, vects),"\n")
+		dx = np.array([0.,0.,0.])
+		intersect_point = None
 
-	# print(ucb.points[faceno],ucb.normals[faceno])
+		for faceno in range(6):
+			print("FACE {}".format(faceno))
+			intersect_point_temp = ucb.get_intersection(
+				move_vector, ion_point, faceno, vects)
+			print("Intersection point:",intersect_point_temp)
+			if intersect_point_temp is not None:
+				if intersect_point is None:
+					intersect_point = intersect_point_temp
+				dx += ucb.get_wrap_intersection(faceno, vects)
+		if intersect_point is None: 
+			ion_point = ion_point+move_vector
+			break
+		move_vector = move_vector-(intersect_point-ion_point)
+		ion_point = intersect_point+dx
+		print("\nWrapped intersection point:",ion_point)
+		print("Remaining displacement:",move_vector)
+
+	print("\nFINAL POINT:",ion_point)
+
+
 
 	fig = plt.figure()
 	ax = fig.gca(projection='3d')
@@ -203,3 +210,4 @@ if __name__=="__main__":
 	plt.show()
 
 # first working commit 805d98ce4756973683edd8a2ade9fe2c3ac1dbcc
+# wrap point working commit fdddfdbca77f12d7d6d87bb783e052f799eefef6
