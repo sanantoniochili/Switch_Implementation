@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 
 from ase.io import read as aread
-from cysrc.potential import *
+# from cysrc.potential import *
 from ase.geometry import get_distances
 from math import log
 import sys
@@ -89,9 +89,9 @@ class UnitCellBounds:
 				 / self.areas[faceno]
 			coef2 = np.linalg.norm(icrossr)
 
-		print("coef1",coef1,"coef2",coef2,"I",intersect_point,
-			"plane point",self.plane_points[faceno,],
-			"normal",self.normals[faceno])
+		# print("coef1",coef1,"coef2",coef2,"I",intersect_point,
+		# 	"plane point",self.plane_points[faceno,],
+		# 	"normal",self.normals[faceno])
 
 		if ((np.dot(qcrossi,self.normals[faceno])>=0) & \
 			(0 <= si) & (si <= 1) & (0 <= coef1) & \
@@ -107,6 +107,44 @@ class UnitCellBounds:
 			return -vects[v3]
 		else:
 			return vects[v3]
+
+	def move_ion(self, ion_point, move_vector, vects):
+		while(True):
+			# print("\nIon movement {} : {} {}".format(
+				# moveno,ion_point,ion_point+move_vector))
+
+			dx = np.array([0.,0.,0.])
+			intersect_point = None
+
+			for faceno in range(6):
+				# print("\nFACE {}".format(faceno))
+				intersect_point_temp = self.get_intersection(
+					move_vector, ion_point, faceno, vects)
+				# print("Intersection point:",intersect_point_temp)
+				if intersect_point_temp is not None:
+					if intersect_point is None:
+						intersect_point = intersect_point_temp
+					dx += self.get_wrap_intersection(faceno, vects)
+					# print("Moving ion by",dx)
+			
+			if intersect_point is None: 
+				ion_point = ion_point+move_vector
+				break
+			
+			move_vector = move_vector-(intersect_point-ion_point)
+			ion_point = intersect_point+dx
+			
+			# print("\nWrapped intersection point:",ion_point)
+			# print("Remaining displacement:",move_vector)
+		return ion_point
+
+	def move_ions(self, ion_positions, displacement_vects, vects, N):
+		assert(len(ion_positions)==N)
+		assert(ion_positions.shape==displacement_vects.shape)
+		for ioni in range(N):
+			ion_positions[ioni] = self.move_ion(ion_positions[ioni], 
+									displacement_vects[ioni], vects)
+		return ion_positions
 
 
 from mpl_toolkits.mplot3d import Axes3D
@@ -169,38 +207,20 @@ if __name__=="__main__":
 	move = points3
 	ion_point = move[0]
 	move_vector = move[1]-move[0]
-	moveno = 3
+	
+	# ion_point = ucb.move_ion(ion_point, move_vector)
+	# print("\nFINAL POINT:",ion_point)
 
-	while(True):
-		print("\nIon movement {} : {} {}".format(
-			moveno,ion_point,ion_point+move_vector))
+	move = [[5,5,5],
+			[1,1,1],
+			[0,0,0],
+			[0,0,0],
+			[0,0,0]]
 
-		dx = np.array([0.,0.,0.])
-		intersect_point = None
-
-		for faceno in range(6):
-			print("\nFACE {}".format(faceno))
-			intersect_point_temp = ucb.get_intersection(
-				move_vector, ion_point, faceno, vects)
-			print("Intersection point:",intersect_point_temp)
-			if intersect_point_temp is not None:
-				if intersect_point is None:
-					intersect_point = intersect_point_temp
-				dx += ucb.get_wrap_intersection(faceno, vects)
-				print("Moving ion by",dx)
-		
-		if intersect_point is None: 
-			ion_point = ion_point+move_vector
-			break
-		
-		move_vector = move_vector-(intersect_point-ion_point)
-		ion_point = intersect_point+dx
-		
-		print("\nWrapped intersection point:",ion_point)
-		print("Remaining displacement:",move_vector)
-
-	print("\nFINAL POINT:",ion_point,"\nFINAL MOVE:",move_vector)
-
+	new_positions = ucb.move_ions(np.array(atoms.positions), 
+		np.array(move), len(atoms.positions))
+	print(atoms.positions)
+	print(new_positions)
 
 
 	fig = plt.figure()
@@ -219,4 +239,4 @@ if __name__=="__main__":
 # first working commit 805d98ce4756973683edd8a2ade9fe2c3ac1dbcc
 # wrap point working commit fdddfdbca77f12d7d6d87bb783e052f799eefef6
 # wrap move working commit 0b1aed3396eada6394784d596518c3dc72f1e18f
-# wrap correct displacement 312a7fb11a1058e4496cd3291061e38bdb49c466
+# wrap correct displacement dff817323f747e42e3f7203ef44e5d162fcd5d79

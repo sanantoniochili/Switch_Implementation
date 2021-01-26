@@ -61,19 +61,20 @@ class Descent:
 		self.CG_iterno = 0
 		self.cattol = 0.5
 
-	def check_completion(self, init_energy, energy, grad):
+	def completion_check(self, init_energy, energy, grad):
 		de = abs(init_energy-energy)
 		if de <= self.ftol:
 			print("Iterations: {} Energy: {} Final Energy difference: {} Tolerance: {}".format(
 					self.iters,energy,de,self.ftol))
 			return True
-		if np.linalg.norm(grad) <= self.gtol:
+		gnorm = np.linalg.norm(grad)
+		if gnorm <= self.gtol:
 			print("Iterations: {} Final Gnorm: {} Tolerance: {}".format(
 					self.iters,gnorm,self.gtol))
 			return True
 		return False
 
-	def iter_step(self, atoms, potentials, last_iter={}, 
+	def iter_step(self, atoms, potentials, cell_wrap, last_iter={}, 
 		step_func=bisection_linmin, direction_func=GD):
 		"""Updating iteration step. The energy is calculated on
 		new ion positions that are not inflicted to the Atoms
@@ -122,17 +123,19 @@ class Descent:
 
 		# Calculate step size
 		(step, energy) = step_func(atoms, pi_1, potentials, grad, 
-			last_iter, self.ftol)
+			last_iter, cell_wrap, self.ftol)
 
 		# Calculate new point on energy surface
 		self.iters += 1
-		pos_temp = atoms.positions + step*pi_1
+		# pos_temp = atoms.positions + step*pi_1
+		pos_temp = cell_wrap.move_ions(atoms.positions,
+			step*pi_1, vects, len(atoms.positions))
 
 		return {'Positions':pos_temp, 'Direction':pi_1, 'Gradient':grad, 
 		'Iter':self.iters, 'Step':step, 'Energy':energy}
 
 	def repeat(self, init_energy, atoms, potentials, 
-		step_func=bisection_linmin, direction_func=GD):
+		cell_wrap, step_func=bisection_linmin, direction_func=GD):
 
 		pos = np.array(atoms.positions)
 		vects = np.array(atoms.get_cell())
@@ -162,11 +165,14 @@ class Descent:
 		(step, energy) = step_func(atoms, p, potentials, grad,
 			{'Energy': init_energy, 
 			'Gradient': grad,
-			'Direction': p}, self.ftol)
+			'Direction': p}, cell_wrap, self.ftol)
 
 		# Calculate new point on energy surface
 		self.iters += 1
-		atoms.positions = atoms.positions + step*p
+		# atoms.positions = atoms.positions + step*p
+		atoms.positions = cell_wrap.move_ions(
+			atoms.positions, step*p, vects, len(atoms.positions))
+
 		# Catastrophe check
 		if potentials['Buckingham'].catastrophe_check(\
 			atoms.positions, self.cattol, 1) is not None:
@@ -178,13 +184,14 @@ class Descent:
 		prettyprint(iteration)
 		input()
 
-		if self.check_completion(init_energy, iteration['Energy'], iteration['Gradient']):
+		if self.completion_check(init_energy, iteration['Energy'], iteration['Gradient']):
 			return iteration
 
 		# Rest of iterations ##########################################
 		for i in range(self.iterno):
 			last_iteration = iteration
 			iteration = self.iter_step(atoms, potentials, 
+				cell_wrap=cell_wrap,
 				last_iter=last_iteration, step_func=step_func, 
 				direction_func=direction_func)
 			
@@ -197,7 +204,7 @@ class Descent:
 				atoms.positions, self.cattol, 1) is not None:
 				print("!! Detected ions too close !!".center(COLUMNS))
 
-			if self.check_completion(last_iteration['Energy'], 
+			if self.completion_check(last_iteration['Energy'], 
 				iteration['Energy'], iteration['Gradient']):
 				break
 

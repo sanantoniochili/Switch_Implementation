@@ -10,14 +10,16 @@ import sys
 
 
 def interpolation_linmin(atoms, direction, potentials, grad, 
-	init_iter, c1=0, c2=1):
+	init_iter, cell_wrap, c1=0, c2=1):
 
 	vects = np.array(atoms.get_cell())
 	N = len(atoms.positions)
 	step0 = 1 
 
 	# Check if energy is dropping
-	pos_temp = atoms.positions + step0*direction
+	# pos_temp = atoms.positions + step0*direction
+	pos_temp = cell_wrap.move_ions(atoms.positions,
+			step0*direction, vects, len(atoms.positions))
 	energy = potentials['Coulomb'].calc(
 				pos_array=pos_temp, 
 				vects_array=vects, N_=N)['Electrostatic'] + \
@@ -43,7 +45,9 @@ def interpolation_linmin(atoms, direction, potentials, grad,
 	2 * (energy - init_iter['Energy'] - (vgrad.T @ vdirection)*step0)
 	
 	# Check if energy is dropping
-	pos_temp = atoms.positions + step1*direction
+	# pos_temp = atoms.positions + step1*direction
+	pos_temp = cell_wrap.move_ions(atoms.positions,
+			step1*direction, vects, len(atoms.positions))
 	energy1 = potentials['Coulomb'].calc(
 				pos_array=pos_temp, 
 				vects_array=vects, N_=N)['Electrostatic'] + \
@@ -80,7 +84,9 @@ def interpolation_linmin(atoms, direction, potentials, grad,
 		nstep = (-beta+(beta**2-3*alpha*phi_grad)**(1/2))/(3*alpha)
 
 		# Check if energy is dropping
-		pos_temp = atoms.positions + nstep*direction
+		# pos_temp = atoms.positions + nstep*direction
+		pos_temp = cell_wrap.move_ions(atoms.positions,
+			nstep*direction, vects, len(atoms.positions))
 		nenergy = potentials['Coulomb'].calc(
 					pos_array=pos_temp, 
 					vects_array=vects, N_=N)['Electrostatic'] + \
@@ -103,27 +109,32 @@ def interpolation_linmin(atoms, direction, potentials, grad,
 
 
 def bisection_linmin(atoms, direction, potentials, grad, 
-	init_iter, c1=0, min_step=0.000000001):
+	init_iter, cell_wrap, c1=0, min_step=0.000000001):
 
 	vects = np.array(atoms.get_cell())
 	N = len(atoms.positions)
 	max_step = -log(sys.float_info.max)/100
 
 	energy = init_iter['Energy']
+	temp_energy = energy
+
 	step = 1
+	temp_step = step
 
 	print("In line search:")
-	while(step<=max_step):
+	while(temp_step<=max_step):
 		# Check if energy is dropping
-		pos_temp = atoms.positions + step*direction
-		energy = potentials['Coulomb'].calc(
+		# pos_temp = atoms.positions + step*direction
+		pos_temp = cell_wrap.move_ions(atoms.positions,
+			temp_step*direction, vects, len(atoms.positions))
+		temp_energy = potentials['Coulomb'].calc(
 					pos_array=pos_temp, 
 					vects_array=vects, N_=N)['Electrostatic'] + \
 				potentials['Buckingham'].calc(
 					pos_array=pos_temp, 
 					vects_array=vects, N_=N)
 		if "Lagrangian" in potentials:
-			energy += potentials['Lagrangian'].calc_constrain(
+			temp_energy += potentials['Lagrangian'].calc_constrain(
 				pos=pos_temp, N=N)
 
 		print("Initial energy: ",init_iter['Energy'],
@@ -137,37 +148,41 @@ def bisection_linmin(atoms, direction, potentials, grad,
 		
 		# Wolfe conditions
 		# If new energy is large then try to decrease step size
-		if (energy-init_iter['Energy']) > step*c1*(vdirection.T @ vgrad):
+		if (temp_energy-init_iter['Energy']) > temp_step*c1*(vdirection.T @ vgrad):
 			break
 
+		# Assign tested step size and decreased energy
+		step = temp_step
+		energy = temp_energy
+
 		# Increase step size while acceptable
-		step = step*2
-		print("New step: ",step)
+		temp_step += 1
+		print("New step: ",temp_step)
 	
-	while(step>=min_step):
+	# Begin search with accepted step size
+	temp_step = step
+	
+	while(temp_step>=min_step):
 		# Decrease step size until accepted
-		step = step/2
+		temp_step = temp_step/2
 		print("New step: ",step)
 
 		# Check if energy is dropping
-		pos_temp = atoms.positions + step*direction
-		energy = potentials['Coulomb'].calc(
+		# pos_temp = atoms.positions + step*direction
+		pos_temp = cell_wrap.move_ions(atoms.positions,
+			temp_step*direction, vects, len(atoms.positions))
+		temp_energy = potentials['Coulomb'].calc(
 					pos_array=pos_temp, 
 					vects_array=vects, N_=N)['Electrostatic'] + \
 				potentials['Buckingham'].calc(
 					pos_array=pos_temp, 
 					vects_array=vects, N_=N)
 		if "Lagrangian" in potentials:
-			energy += potentials['Lagrangian'].calc_constrain(
+			temp_energy += potentials['Lagrangian'].calc_constrain(
 				pos=pos_temp, N=N)
 
 		print("Initial energy: ",init_iter['Energy'],
-			" New energy: ",energy, "Step: ",step)
-		# print("Initial energy: ",init_iter['Energy'],
-		# 	" New energy: ",energy, "Step: ",step, "\nDirection: ",end="")
-		# for x in direction:
-		# 	print(x, end="")
-		# print("\n")
+			" New energy: ",temp_energy, "Step: ",temp_step)
 
 		# Vectorise matrices
 		vdirection = np.reshape(direction, 
@@ -175,7 +190,9 @@ def bisection_linmin(atoms, direction, potentials, grad,
 		vgrad = np.reshape(grad, 
 			(grad.shape[0]*grad.shape[1],1))
 
-		if (energy-init_iter['Energy']) <= step*c1*(vdirection.T @ vgrad):
+		if (temp_energy-init_iter['Energy']) <= temp_step*c1*(vdirection.T @ vgrad):
+			step = temp_step
+			energy = temp_energy
 			break
 
 	return (step, energy)

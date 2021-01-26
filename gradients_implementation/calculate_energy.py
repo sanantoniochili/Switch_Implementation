@@ -21,6 +21,7 @@ from ase.calculators.lammpslib import LAMMPSlib
 from ase.visualize.plot import plot_atoms
 
 from cysrc.potential import *
+from pysrc.displace_wrapping import UnitCellBounds
 from finite_differences import finite_diff_grad
 
 import timeit
@@ -36,7 +37,7 @@ charge_dict = {
 	'S' : -2.,
 	'Zn':  2.
 }
-
+1
 atom_types = {
 	'O':  1,
 	'Sr': 2,
@@ -239,8 +240,8 @@ def get_input(filename=None):
 				  positions=[[0, 0, 0],
 							 [2, 2, 2],
 							 [0, 2, 2],
-							 # [2, 0, 2],
-							 [1.5, .5, 2], # put Os too close
+							 [2, 0, 2],
+							 # [1.5, .5, 2], # put Os too close
 							 [2, 2, 0]],
 				  pbc=True)
 		# atoms = atoms.repeat((3, 1, 1))
@@ -343,10 +344,13 @@ if __name__ == "__main__":
 	desc = Descent()
 	initial_energy = coulomb_energies['Electrostatic']+Einter
 	potentials = {'Coulomb':Cpot, 'Buckingham':Bpot}
+	ucb = UnitCellBounds()
+	ucb.set_face_normals(atoms.get_cell())
 
 	# print(atoms.positions)
-	print(chemical_symbols)
-	print(coulomb_energies)
+	# print(vects)
+	# vects = np.array([[4.,1.,2.],[2.,8.,1.],[1.,10.,10.]])
+	# print(Cpot.get_bounds(vects, atoms.positions))
 	# Cpot.calc_real_drv2(np.array(atoms.positions), vects, N)
 
 	# print("ALL DISTS:")
@@ -396,6 +400,5 @@ if __name__ == "__main__":
 			atoms=atoms, 
 			potentials=potentials, 
 			direction_func=CG,
-			step_func=bisection_linmin)
-
-	
+			step_func=bisection_linmin,
+			cell_wrap=ucb)

@@ -4,7 +4,7 @@ cimport numpy as cnp
 cdef class Potential:
 	cdef double[:,:] get_shifts(self, int cut_off, double[:,:] vects)
 	cdef double[:,:] get_reciprocal_vects(self, double[:,:] vects, double volume)
-	# cpdef bint get_bounds(self, double[:,:] vects, double[:,:])
+	cdef int[:,:] map_displacement(self, double[:,:] vects, double[:,:] pos, double[:,:] dx)
 
 
 cdef class Coulomb(Potential):
@@ -20,6 +20,7 @@ cdef class Coulomb(Potential):
 	cdef int[:] charges
 	cdef bint param_flag
 
+	cpdef int[:,:] map_displacement(self, double[:,:] vects, double[:,:] pos, double[:,:] dx)
 	cpdef set_parameters(self, double alpha, \
 		double real_cut_off, double recip_cut_off, \
 		cnp.ndarray chemical_symbols, int N, 

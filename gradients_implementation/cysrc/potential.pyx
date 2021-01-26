@@ -71,19 +71,37 @@ cdef class Potential:
 										vects[b, ]) / volume
 		return rvects
 
-	# cpdef bint get_bounds(self, double[:,:] vects, double[:,:] pos):
-	# 	"""Checks if given positions of atoms are illegal with 
-	# 	respect to unit cell bounds"""
+	@cython.boundscheck(False)
+	cdef int[:,:] map_displacement(self, 
+		double[:,:] vects, double[:,:] pos, double[:,:] dx):
+		"""Checks if given displacements of atoms are illegal with 
+		respect to unit cell bounds."""
 
-	# 	if pos==None or (vects.shape[1]!=pos.shape[1]):
-	# 		raise ValueError("Positions array is empty.")
+		if pos==None or (vects.shape[1]!=pos.shape[1]):
+			raise ValueError("Positions array is empty.")
 
-	# 	cdef int N = pos.shape[0]
-	# 	cdef int dims = pos[0].shape[0]
+		cdef int i, ioni, N = pos.shape[0]
+		cdef int dims = pos[0].shape[0]
+		cdef double[:,:] rvects
+		cdef double* projs
+		cdef double pproj, volume = abs(det3_3(vects))
+		cdef int[:,:] mask 
 
-	# 	get_reciprocal_vects(self, double[:,:] vects, double volume):
+		mask = cvarray(shape=(N,3), \
+						itemsize=sizeof(int), format="i")
 
-	# 	return 0
+		rvects = self.get_reciprocal_vects(vects, 2*pi)
+		with nogil, parallel():
+			for ioni in range(N):
+				for i in range(3):
+					mask[ioni][i] = 1				
+					pproj = rvects[i][0]*pos[ioni][0] + \
+							rvects[i][1]*pos[ioni][1] + \
+							rvects[i][2]*pos[ioni][2]
+					if (pproj<0) or (pproj>volume):
+						mask[ioni][i] = 0
+						printf("Found ion exceeding unit cell bounds\n")
+		return mask
 
 cdef class Coulomb(Potential):
 	"""Calculations for the Coulomb electrostatic energy contribution.
@@ -116,6 +134,10 @@ cdef class Coulomb(Potential):
 		self.hessian = None
 
 		self.param_flag = False
+
+	cpdef int[:,:] map_displacement(self, 
+		double[:,:] vects, double[:,:] pos, double[:,:] dx):
+		return Potential.map_displacement(self, vects, pos, dx)
 
 	@cython.boundscheck(False)
 	@cython.wraparound(False)
