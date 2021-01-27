@@ -4,7 +4,7 @@ import pandas as pd
 
 from ase.io import read as aread
 from cysrc.potential import *
-from ase.geometry import get_distances
+from ase.geometry import wrap_positions, get_distances
 from math import log
 import sys
 
@@ -124,9 +124,8 @@ def bisection_linmin(atoms, direction, potentials, grad,
 	print("In line search:")
 	while(temp_step<=max_step):
 		# Check if energy is dropping
-		# pos_temp = atoms.positions + step*direction
-		pos_temp = cell_wrap.move_ions(atoms.positions,
-			temp_step*direction, vects, len(atoms.positions))
+		pos_temp = wrap_positions(
+			atoms.positions+temp_step*direction, vects)
 		temp_energy = potentials['Coulomb'].calc(
 					pos_array=pos_temp, 
 					vects_array=vects, N_=N)['Electrostatic'] + \
@@ -169,8 +168,8 @@ def bisection_linmin(atoms, direction, potentials, grad,
 
 		# Check if energy is dropping
 		# pos_temp = atoms.positions + step*direction
-		pos_temp = cell_wrap.move_ions(atoms.positions,
-			temp_step*direction, vects, len(atoms.positions))
+		pos_temp = wrap_positions(
+			atoms.positions+temp_step*direction, vects)
 		temp_energy = potentials['Coulomb'].calc(
 					pos_array=pos_temp, 
 					vects_array=vects, N_=N)['Electrostatic'] + \

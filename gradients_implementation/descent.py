@@ -4,7 +4,7 @@ import pandas as pd
 
 from ase.io import read as aread
 from cysrc.potential import *
-from ase.geometry import get_distances
+from ase.geometry import wrap_positions, get_distances
 from linmin import bisection_linmin
 
 import shutil
@@ -128,8 +128,8 @@ class Descent:
 		# Calculate new point on energy surface
 		self.iters += 1
 		# pos_temp = atoms.positions + step*pi_1
-		pos_temp = cell_wrap.move_ions(atoms.positions,
-			step*pi_1, vects, len(atoms.positions))
+		pos_temp = wrap_positions(
+			atoms.positions + step*pi_1, vects)
 
 		return {'Positions':pos_temp, 'Direction':pi_1, 'Gradient':grad, 
 		'Iter':self.iters, 'Step':step, 'Energy':energy}
@@ -170,8 +170,8 @@ class Descent:
 		# Calculate new point on energy surface
 		self.iters += 1
 		# atoms.positions = atoms.positions + step*p
-		atoms.positions = cell_wrap.move_ions(
-			atoms.positions, step*p, vects, len(atoms.positions))
+		atoms.positions = wrap_positions(
+			atoms.positions + step*p, vects)
 
 		# Catastrophe check
 		if potentials['Buckingham'].catastrophe_check(\
