@@ -21,7 +21,7 @@ from ase.calculators.lammpslib import LAMMPSlib
 from ase.visualize.plot import plot_atoms
 
 from cysrc.potential import *
-from pysrc.displace_wrapping import UnitCellBounds
+from pysrc.displace_wrapping import UnitCellWrap
 from finite_differences import finite_diff_grad
 
 import timeit
@@ -344,7 +344,7 @@ if __name__ == "__main__":
 	desc = Descent()
 	initial_energy = coulomb_energies['Electrostatic']+Einter
 	potentials = {'Coulomb':Cpot, 'Buckingham':Bpot}
-	ucb = UnitCellBounds()
+	ucb = UnitCellWrap()
 	ucb.set_face_normals(atoms.get_cell())
 
 	# print(atoms.positions)

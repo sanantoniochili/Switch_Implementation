@@ -1,3 +1,6 @@
+
+################## NEEDS MORE DEBUGGING ############################
+
 import argparse
 import numpy as np
 import pandas as pd
@@ -9,7 +12,7 @@ from math import log
 import sys
 from ase import *
 
-class UnitCellBounds:
+class UnitCellWrap:
 	def __init__(self):
 		self.normals = np.zeros((6,3))
 		self.plane_points = np.zeros((6,3))
@@ -141,10 +144,13 @@ class UnitCellBounds:
 	def move_ions(self, ion_positions, displacement_vects, vects, N):
 		assert(len(ion_positions)==N)
 		assert(ion_positions.shape==displacement_vects.shape)
+		new_positions = np.zeros((N,3))
+
 		for ioni in range(N):
-			ion_positions[ioni] = self.move_ion(ion_positions[ioni], 
+			new_positions[ioni] = self.move_ion(ion_positions[ioni], 
 									displacement_vects[ioni], vects)
-		return ion_positions
+			print("OLD:",ion_positions[ioni],"NEW:",new_positions[ioni])
+		return new_positions
 
 
 from mpl_toolkits.mplot3d import Axes3D
@@ -201,7 +207,7 @@ if __name__=="__main__":
 	points3 = np.array([[1,1,1],
 			[-1,-1,3]])
 
-	ucb = UnitCellBounds()
+	ucb = UnitCellWrap()
 	ucb.set_face_normals(atoms.get_cell())
 	
 	move = points3
